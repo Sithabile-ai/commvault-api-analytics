@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+
+{% block title %}Retention Policies (Aging Policies){% endblock %}
+
+{% block content %}
+<div class="nav-links">
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('infrastructure_dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('view_retention_policies') }}" style="background: #f0f0f0;">Retention Policies</a>
+    <a href="{{ url_for('view_data', data_type='plans') }}">Plans</a>
+</div>
+
+<h2 style="margin-bottom: 20px; color: #333;">📋 Retention Policies (Aging Policies)</h2>
+
+<p style="color: #666; margin-bottom: 30px;">
+    Retention policies define how long backup data is kept before being aged out. These rules are configured at the storage copy level within Plans and Storage Policies.
+</p>
+
+<!-- Summary Statistics -->
+{% if stats %}
+<div class="data-summary" style="margin-bottom: 30px;">
+    <div class="summary-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <h3>{{ stats.total_rules }}</h3>
+        <p>Total Retention Rules</p>
+    </div>
+    <div class="summary-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+        <h3>{{ stats.aging_enabled_count }}</h3>
+        <p>Aging Enabled</p>
+    </div>
+    <div class="summary-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+        <h3>{{ stats.avg_retention_days }}</h3>
+        <p>Avg Retention (Days)</p>
+    </div>
+    <div class="summary-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+        <h3>{{ stats.infinite_retention_count }}</h3>
+        <p>Infinite Retention</p>
+    </div>
+</div>
+{% endif %}
+
+<!-- Group by Parent (Plan or Policy) -->
+{% if grouped_policies %}
+<div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
+    <h3 style="color: #333; margin-bottom: 20px;">Retention Rules by Plan/Policy</h3>
+
+    {% for parent_name, rules in grouped_policies.items() %}
+    <div style="background: white; margin-bottom: 20px; border-radius: 8px; border: 1px solid #dee2e6; overflow: hidden;">
+        <!-- Parent Header -->
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 15px; color: white; cursor: pointer;"
+             onclick="toggleSection('policy-{{ loop.index }}')">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h4 style="margin: 0; font-size: 1.2em;">
+                        {% if rules[0].entityType == 'plan_copy' %}
+                        📦 Plan: {{ parent_name }}
+                        {% else %}
+                        💾 Storage Policy: {{ parent_name }}
+                        {% endif %}
+                    </h4>
+                    <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 0.9em;">
+                        {{ rules|length }} storage {{ 'copies' if rules|length > 1 else 'copy' }}
+                    </p>
+                </div>
+                <span id="toggle-policy-{{ loop.index }}" style="font-size: 1.5em;">▼</span>
+            </div>
+        </div>
+
+        <!-- Copies Details -->
+        <div id="policy-{{ loop.index }}" style="display: block;">
+            <table style="margin: 0;">
+                <thead>
+                    <tr>
+                        <th>Copy Name</th>
+                        <th>Retention (Days)</th>
+                        <th>Retention (Cycles)</th>
+                        <th>Archive Retention</th>
+                        <th>Data Aging</th>
+                        <th>Retention Type</th>
+                        <th>Extended Retention</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rule in rules %}
+                    <tr>
+                        <td><strong>{{ rule.entityName or 'N/A' }}</strong></td>
+                        <td>
+                            {% if rule.retainBackupDataForDays == -1 %}
+                            <span style="color: #dc3545; font-weight: 600;">∞ Infinite</span>
+                            {% elif rule.retainBackupDataForDays is none %}
+                            <span style="color: #6c757d;">N/A</span>
+                            {% else %}
+                            <span style="color: #28a745; font-weight: 600;">{{ rule.retainBackupDataForDays }} days</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if rule.retainBackupDataForCycles == -1 %}
+                            <span style="color: #dc3545; font-weight: 600;">∞ Infinite</span>
+                            {% elif rule.retainBackupDataForCycles is none %}
+                            <span style="color: #6c757d;">N/A</span>
+                            {% else %}
+                            <span style="color: #4facfe; font-weight: 600;">{{ rule.retainBackupDataForCycles }} cycles</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if rule.retainArchiverDataForDays == -1 %}
+                            <span style="color: #dc3545; font-weight: 600;">∞ Infinite</span>
+                            {% elif rule.retainArchiverDataForDays is none or rule.retainArchiverDataForDays == 0 %}
+                            <span style="color: #6c757d;">N/A</span>
+                            {% else %}
+                            <span style="color: #ffc107; font-weight: 600;">{{ rule.retainArchiverDataForDays }} days</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if rule.enableDataAging == 1 %}
+                            <span style="color: #28a745; font-weight: 600;">✓ Enabled</span>
+                            {% else %}
+                            <span style="color: #dc3545; font-weight: 600;">✗ Disabled</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if rule.jobBasedRetention == 1 %}
+                            <span style="background: #e3f2fd; color: #1976d2; padding: 3px 8px; border-radius: 3px; font-size: 0.85em;">Job-based</span>
+                            {% else %}
+                            <span style="background: #f3e5f5; color: #7b1fa2; padding: 3px 8px; border-radius: 3px; font-size: 0.85em;">Time-based</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if rule.firstExtendedRetentionDays or rule.secondExtendedRetentionDays %}
+                            <button onclick="showExtendedRetention('{{ rule.ruleId }}')"
+                                    style="background: #667eea; color: white; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9em;">
+                                View Details
+                            </button>
+                            {% else %}
+                            <span style="color: #6c757d;">None</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('view_retention_policy_details', rule_id=rule.ruleId) }}"
+                               style="color: #667eea; font-weight: 600; text-decoration: none;">
+                                Details →
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div style="background: #fff3cd; padding: 20px; border-radius: 8px; border-left: 4px solid #ffc107; margin-top: 30px;">
+    <h3 style="color: #856404; margin-bottom: 10px;">No Retention Policy Data Available</h3>
+    <p style="color: #856404; line-height: 1.6;">
+        No retention policy data has been retrieved yet. Retention policies (aging policies) are embedded within Plans and Storage Policies.
+    </p>
+    <p style="color: #856404; line-height: 1.6; margin-top: 15px;">
+        <strong>To collect retention policy data:</strong>
+    </p>
+    <ol style="color: #856404; line-height: 1.8; margin-left: 20px;">
+        <li>Go to the <a href="{{ url_for('index') }}" style="color: #667eea; font-weight: 600;">home page</a></li>
+        <li>Enter your Commvault credentials</li>
+        <li>Select <strong>"Plans"</strong> checkbox (Plans contain retention rules)</li>
+        <li>Click "Fetch Data"</li>
+        <li>Return to this page to view retention policies</li>
+    </ol>
+    <p style="color: #856404; line-height: 1.6; margin-top: 15px;">
+        <strong>Note:</strong> Storage Policies also contain retention rules, but currently only basic policy info is collected.
+        To get retention rules from Storage Policies, we need to enhance the Storage Policy collection.
+    </p>
+</div>
+{% endif %}
+
+<!-- Legend -->
+<div style="background: #e9ecef; padding: 20px; border-radius: 8px; margin-top: 30px;">
+    <h4 style="color: #333; margin-bottom: 15px;">📖 Retention Policy Guide</h4>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; color: #495057;">
+        <div>
+            <strong>Retention Days:</strong><br>
+            Number of calendar days to retain backup data. -1 means infinite retention.
+        </div>
+        <div>
+            <strong>Retention Cycles:</strong><br>
+            Number of full backup cycles to keep. A cycle = full backup + dependent incrementals.
+        </div>
+        <div>
+            <strong>Data Aging:</strong><br>
+            When enabled, Commvault automatically deletes data that exceeds both days AND cycles retention.
+        </div>
+        <div>
+            <strong>Effective Retention:</strong><br>
+            The LONGER of: (Days) OR (Cycles × Avg Cycle Duration). Commvault uses AND logic.
+        </div>
+        <div>
+            <strong>Extended Retention:</strong><br>
+            Additional retention periods for long-term compliance (e.g., monthly, yearly backups).
+        </div>
+        <div>
+            <strong>Archive Retention:</strong><br>
+            Separate retention for archived data. Often longer than backup retention.
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    const toggle = document.getElementById('toggle-' + sectionId);
+
+    if (section.style.display === 'none') {
+        section.style.display = 'block';
+        toggle.textContent = '▼';
+    } else {
+        section.style.display = 'none';
+        toggle.textContent = '▶';
+    }
+}
+
+function showExtendedRetention(ruleId) {
+    // This could open a modal or navigate to details page
+    window.location.href = '/retention/details/' + ruleId;
+}
+</script>
+
+<style>
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+table th {
+    background: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #dee2e6;
+    font-size: 0.9em;
+}
+
+table td {
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+    color: #495057;
+}
+
+table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.summary-card h3 {
+    margin: 0;
+    font-size: 2.5em;
+    color: white;
+}
+
+.summary-card p {
+    margin: 10px 0 0 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95em;
+}
+</style>
+{% endblock %}

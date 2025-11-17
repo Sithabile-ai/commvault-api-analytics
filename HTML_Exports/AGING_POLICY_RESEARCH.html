@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGING POLICY RESEARCH</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: AGING_POLICY_RESEARCH.md</div>
+    <h1 id="commvault-data-aging-policy-research">Commvault Data Aging Policy Research</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p><strong>Aging policies in Commvault are NOT standalone entities</strong> - they are embedded as <strong>retention rules</strong> within:
+1. <strong>Storage Policy Copies</strong> - Each copy has its own retention rules
+2. <strong>Plans</strong> - Modern Commvault approach with retention at the copy level</p>
+<p>There is NO separate <code>/AgingPolicy</code> endpoint. Aging data is retrieved as part of Storage Policy and Plan data.</p>
+<hr />
+<h2 id="what-is-data-aging-in-commvault">What is Data Aging in Commvault?</h2>
+<h3 id="overview">Overview</h3>
+<p>Data Aging is Commvault's retention and lifecycle management feature that:
+1. <strong>Marks jobs as aged</strong> when they exceed configured retention periods
+2. <strong>Prunes (deletes) eligible data</strong> from storage when all retention conditions are met
+3. <strong>Runs automatically</strong> (default: daily at 12:00 PM)</p>
+<h3 id="key-concepts">Key Concepts</h3>
+<p><strong>Retention Logic</strong>: Both Days AND Cycles must be met
+- <strong>Days</strong>: Calendar days to retain data
+- <strong>Cycles</strong>: Number of full backup cycles to keep
+- Commvault uses <strong>AND logic</strong> - the longer value determines actual retention</p>
+<p><strong>Retention Cycle Definition</strong>:</p>
+<blockquote>
+<p>A complete full (or synthetic full) backup followed by all subsequent incremental, differential, or transactional log backups that depend on that full backup</p>
+</blockquote>
+<hr />
+<h2 id="how-aging-data-is-stored-in-commvault-api">How Aging Data is Stored in Commvault API</h2>
+<h3 id="location-1-storage-policy-copy-retention-rules">Location 1: Storage Policy Copy Retention Rules</h3>
+<p>Each storage policy copy contains retention rules:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;copy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;StoragePolicyCopy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;copyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1341</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;copyName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;01 - Primary&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;retentionRules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;retainBackupDataForCycles&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;retainBackupDataForDays&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;retainArchiverDataForDays&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;jobs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;retentionFlags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;enableDataAging&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;jobBasedRetention&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="location-2-plan-storage-retention">Location 2: Plan Storage Retention</h3>
+<p>Plans contain similar retention at the copy level:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;plan&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;planId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">28</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;planName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Silver Plan&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;storage&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;copy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;copyName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Primary&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;retentionRules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;retainBackupDataForCycles&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;retainBackupDataForDays&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;retentionFlags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;enableDataAging&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="retention-rules-field-reference">Retention Rules Field Reference</h2>
+<h3 id="core-retention-fields">Core Retention Fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>retainBackupDataForDays</strong></td>
+<td>Integer</td>
+<td>Days to retain backup data</td>
+<td>-1 (infinite), 0+, default: 30</td>
+</tr>
+<tr>
+<td><strong>retainBackupDataForCycles</strong></td>
+<td>Integer</td>
+<td>Number of backup cycles to retain</td>
+<td>-1 (infinite), 0+, default: 1</td>
+</tr>
+<tr>
+<td><strong>retainArchiverDataForDays</strong></td>
+<td>Integer</td>
+<td>Days to retain archived data</td>
+<td>-1 (infinite), 0+</td>
+</tr>
+<tr>
+<td><strong>jobs</strong></td>
+<td>Integer</td>
+<td>Job-based retention count</td>
+<td>Usually 0</td>
+</tr>
+</tbody>
+</table>
+<h3 id="retention-flags">Retention Flags</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>enableDataAging</strong></td>
+<td>Integer (Boolean)</td>
+<td>Whether data aging is enabled</td>
+<td>0 (disabled), 1 (enabled)</td>
+</tr>
+<tr>
+<td><strong>jobBasedRetention</strong></td>
+<td>Integer (Boolean)</td>
+<td>Use job-based retention</td>
+<td>0 (time-based), 1 (job-based)</td>
+</tr>
+<tr>
+<td><strong>enableArchiving</strong></td>
+<td>Integer (Boolean)</td>
+<td>Archive retention enabled</td>
+<td>0/1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="extended-retention-rules">Extended Retention Rules</h3>
+<p>Some policies may have extended retention for specific backup types:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;extendedRetentionRules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;firstExtendedRetentionRule&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;retainBackupDataForDays&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">90</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;retainBackupDataForCycles&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;isInfiniteRetention&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;secondExtendedRetentionRule&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;retainBackupDataForDays&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">365</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;retainBackupDataForCycles&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;isInfiniteRetention&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="api-endpoints-for-aging-data">API Endpoints for Aging Data</h2>
+<h3 id="primary-endpoints">Primary Endpoints</h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Purpose</th>
+<th>Contains Aging Data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/StoragePolicy</code></td>
+<td>GET</td>
+<td>List all policies</td>
+<td>❌ No (IDs only)</td>
+</tr>
+<tr>
+<td><code>/StoragePolicy/{id}</code></td>
+<td>GET</td>
+<td>Get policy details</td>
+<td>✅ Yes (retention rules per copy)</td>
+</tr>
+<tr>
+<td><code>/Plan</code></td>
+<td>GET</td>
+<td>List all plans</td>
+<td>⚠️ Partial (basic info)</td>
+</tr>
+<tr>
+<td><code>/Plan/{id}</code></td>
+<td>GET</td>
+<td>Get plan details</td>
+<td>✅ Yes (full retention rules)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="response-structure">Response Structure</h3>
+<p><strong>GET /StoragePolicy/{id}</strong> response includes:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;storagePolicy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;storagePolicyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;storagePolicyName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Silver Plan&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;copy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;StoragePolicyCopy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;copyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1341</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;copyName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Primary&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;retentionRules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;retainBackupDataForDays&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;retainBackupDataForCycles&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;retentionFlags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;enableDataAging&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;jobBasedRetention&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;extendedRetentionRules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="err">...</span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="calculating-effective-retention">Calculating Effective Retention</h2>
+<h3 id="formula">Formula</h3>
+<div class="codehilite"><pre><span></span><code>Effective Retention = MAX(
+    retainBackupDataForDays,
+    retainBackupDataForCycles * Average_Cycle_Duration
+)
+</code></pre></div>
+
+<h3 id="examples">Examples</h3>
+<p><strong>Example 1</strong>: Days = 30, Cycles = 1, Avg Cycle = 7 days
+- Days retention: 30 days
+- Cycles retention: 1 × 7 = 7 days
+- <strong>Effective</strong>: MAX(30, 7) = <strong>30 days</strong></p>
+<p><strong>Example 2</strong>: Days = 10, Cycles = 5, Avg Cycle = 7 days
+- Days retention: 10 days
+- Cycles retention: 5 × 7 = 35 days
+- <strong>Effective</strong>: MAX(10, 35) = <strong>35 days</strong></p>
+<p><strong>Example 3</strong>: Days = -1 (infinite)
+- <strong>Effective</strong>: <strong>Infinite</strong> (data never ages)</p>
+<hr />
+<h2 id="current-implementation-status">Current Implementation Status</h2>
+<h3 id="storage-pools-fixed">Storage Pools ✅ Fixed</h3>
+<ul>
+<li>Parser corrected to use <code>storagePoolEntity</code></li>
+<li>Data now being saved correctly to database</li>
+</ul>
+<h3 id="storage-policies-basic-only">Storage Policies ⚠️ Basic Only</h3>
+<ul>
+<li><strong>Currently</strong>: Only ID and name saved</li>
+<li><strong>Missing</strong>: Copy retention rules not captured</li>
+<li><strong>Solution</strong>: Implement detailed policy collection</li>
+</ul>
+<h3 id="plans-not-implemented">Plans ❌ Not Implemented</h3>
+<ul>
+<li><strong>Currently</strong>: Not being collected at all</li>
+<li><strong>Contains</strong>: Full retention rules per copy</li>
+<li><strong>Priority</strong>: HIGH - Plans are modern Commvault approach</li>
+</ul>
+<hr />
+<h2 id="implementation-plan">Implementation Plan</h2>
+<h3 id="phase-1-database-schema-for-retention-data">Phase 1: Database Schema for Retention Data</h3>
+<p>Create new table to store retention rules:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">retention_rules</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">ruleId</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="n">AUTOINCREMENT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">entityType</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">              </span><span class="c1">-- &#39;policy_copy&#39; or &#39;plan_copy&#39;</span>
+<span class="w">    </span><span class="n">entityId</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">             </span><span class="c1">-- copyId or planId</span>
+<span class="w">    </span><span class="n">entityName</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">                       </span><span class="c1">-- Copy name or Plan name</span>
+<span class="w">    </span><span class="n">parentId</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">                      </span><span class="c1">-- storagePolicyId or planId</span>
+<span class="w">    </span><span class="n">parentName</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">                       </span><span class="c1">-- Policy name or Plan name</span>
+
+<span class="w">    </span><span class="c1">-- Core retention</span>
+<span class="w">    </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">      </span><span class="c1">-- -1 for infinite</span>
+<span class="w">    </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">    </span><span class="c1">-- -1 for infinite</span>
+<span class="w">    </span><span class="n">retainArchiverDataForDays</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">    </span><span class="c1">-- -1 for infinite, NULL if N/A</span>
+
+<span class="w">    </span><span class="c1">-- Flags</span>
+<span class="w">    </span><span class="n">enableDataAging</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">              </span><span class="c1">-- 0/1</span>
+<span class="w">    </span><span class="n">jobBasedRetention</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">            </span><span class="c1">-- 0/1</span>
+
+<span class="w">    </span><span class="c1">-- Extended retention (optional)</span>
+<span class="w">    </span><span class="n">firstExtendedRetentionDays</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">firstExtendedRetentionCycles</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">secondExtendedRetentionDays</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">secondExtendedRetentionCycles</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">thirdExtendedRetentionDays</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">thirdExtendedRetentionCycles</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1">-- Metadata</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+
+<span class="w">    </span><span class="k">UNIQUE</span><span class="p">(</span><span class="n">entityType</span><span class="p">,</span><span class="w"> </span><span class="n">entityId</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<h3 id="phase-2-data-collection-functions">Phase 2: Data Collection Functions</h3>
+<h4 id="function-1-extract-retention-from-policy-details">Function 1: Extract Retention from Policy Details</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_retention_rules</span><span class="p">(</span><span class="n">copy_data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract retention rules from storage policy copy or plan copy&quot;&quot;&quot;</span>
+    <span class="n">retention_rules</span> <span class="o">=</span> <span class="n">copy_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;retentionRules&quot;</span><span class="p">,</span> <span class="p">{})</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;retainBackupDataForDays&#39;</span><span class="p">:</span> <span class="n">retention_rules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;retainBackupDataForDays&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+        <span class="s1">&#39;retainBackupDataForCycles&#39;</span><span class="p">:</span> <span class="n">retention_rules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;retainBackupDataForCycles&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+        <span class="s1">&#39;retainArchiverDataForDays&#39;</span><span class="p">:</span> <span class="n">retention_rules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;retainArchiverDataForDays&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+        <span class="s1">&#39;enableDataAging&#39;</span><span class="p">:</span> <span class="n">retention_rules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;retentionFlags&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;enableDataAging&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="s1">&#39;jobBasedRetention&#39;</span><span class="p">:</span> <span class="n">retention_rules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;retentionFlags&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;jobBasedRetention&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">}</span>
+</code></pre></div>
+
+<h4 id="function-2-save-retention-rules-to-database">Function 2: Save Retention Rules to Database</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">save_retention_rules_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">entity_type</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">,</span> <span class="n">entity_name</span><span class="p">,</span> <span class="n">parent_id</span><span class="p">,</span> <span class="n">parent_name</span><span class="p">,</span> <span class="n">retention_data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save retention rules to database&quot;&quot;&quot;</span>
+    <span class="n">cur</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">fetch_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        REPLACE INTO retention_rules (</span>
+<span class="s2">            entityType, entityId, entityName, parentId, parentName,</span>
+<span class="s2">            retainBackupDataForDays, retainBackupDataForCycles,</span>
+<span class="s2">            retainArchiverDataForDays, enableDataAging, jobBasedRetention,</span>
+<span class="s2">            lastFetchTime</span>
+<span class="s2">        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span> <span class="p">(</span>
+        <span class="n">entity_type</span><span class="p">,</span> <span class="n">entity_id</span><span class="p">,</span> <span class="n">entity_name</span><span class="p">,</span> <span class="n">parent_id</span><span class="p">,</span> <span class="n">parent_name</span><span class="p">,</span>
+        <span class="n">retention_data</span><span class="p">[</span><span class="s1">&#39;retainBackupDataForDays&#39;</span><span class="p">],</span>
+        <span class="n">retention_data</span><span class="p">[</span><span class="s1">&#39;retainBackupDataForCycles&#39;</span><span class="p">],</span>
+        <span class="n">retention_data</span><span class="p">[</span><span class="s1">&#39;retainArchiverDataForDays&#39;</span><span class="p">],</span>
+        <span class="n">retention_data</span><span class="p">[</span><span class="s1">&#39;enableDataAging&#39;</span><span class="p">],</span>
+        <span class="n">retention_data</span><span class="p">[</span><span class="s1">&#39;jobBasedRetention&#39;</span><span class="p">],</span>
+        <span class="n">fetch_time</span>
+    <span class="p">))</span>
+</code></pre></div>
+
+<h4 id="function-3-fetch-storage-policy-details">Function 3: Fetch Storage Policy Details</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">fetch_and_save_policy_retention</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">policy_id</span><span class="p">,</span> <span class="n">policy_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fetch detailed policy info and extract retention rules&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Get policy details</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/StoragePolicy/</span><span class="si">{</span><span class="n">policy_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="n">policy_data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+        <span class="c1"># Extract copies and their retention rules</span>
+        <span class="n">copies</span> <span class="o">=</span> <span class="n">policy_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;copy&quot;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">copy</span> <span class="ow">in</span> <span class="n">copies</span><span class="p">:</span>
+            <span class="n">copy_info</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;StoragePolicyCopy&quot;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">copy_id</span> <span class="o">=</span> <span class="n">copy_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;copyId&quot;</span><span class="p">)</span>
+            <span class="n">copy_name</span> <span class="o">=</span> <span class="n">copy_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;copyName&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Extract retention rules</span>
+            <span class="n">retention_data</span> <span class="o">=</span> <span class="n">extract_retention_rules</span><span class="p">(</span><span class="n">copy</span><span class="p">)</span>
+
+            <span class="c1"># Save to database</span>
+            <span class="n">save_retention_rules_to_db</span><span class="p">(</span>
+                <span class="n">db</span><span class="p">,</span> <span class="s1">&#39;policy_copy&#39;</span><span class="p">,</span> <span class="n">copy_id</span><span class="p">,</span> <span class="n">copy_name</span><span class="p">,</span>
+                <span class="n">policy_id</span><span class="p">,</span> <span class="n">policy_name</span><span class="p">,</span> <span class="n">retention_data</span>
+            <span class="p">)</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">count</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error fetching policy </span><span class="si">{</span><span class="n">policy_id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">0</span>
+</code></pre></div>
+
+<h3 id="phase-3-ui-display">Phase 3: UI Display</h3>
+<h4 id="aging-policy-summary-view">Aging Policy Summary View</h4>
+<p>Create: <code>templates/retention_summary.html</code></p>
+<p>Features:
+- <strong>Summary Statistics</strong>:
+  - Total policies with aging enabled
+  - Average retention period
+  - Policies with infinite retention
+  - Shortest/longest retention periods</p>
+<ul>
+<li><strong>Retention Rules Table</strong>:</li>
+<li>Policy/Plan name</li>
+<li>Copy name</li>
+<li>Days retention</li>
+<li>Cycles retention</li>
+<li>Effective retention (calculated)</li>
+<li>
+<p>Aging enabled status</p>
+</li>
+<li>
+<p><strong>Visual Elements</strong>:</p>
+</li>
+<li>Color-coded retention periods (green=short, yellow=medium, red=long)</li>
+<li>Infinite retention warning badges</li>
+<li>Aging disabled warnings</li>
+</ul>
+<h4 id="detailed-retention-view">Detailed Retention View</h4>
+<p>Add to existing policy/plan views:
+- Expandable retention details
+- Extended retention rules display
+- Aging job history link</p>
+<hr />
+<h2 id="quick-implementation-minimal-viable-product">Quick Implementation (Minimal Viable Product)</h2>
+<h3 id="step-1-add-retention-column-to-existing-tables">Step 1: Add Retention Column to Existing Tables</h3>
+<p>Instead of new table, add retention summary to existing tables:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Add to storage_policies table</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">storage_policies</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">avgRetentionDays</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">;</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">storage_policies</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">agingEnabled</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">;</span>
+
+<span class="c1">-- Add to plans table (when created)</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">plans</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">avgRetentionDays</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">;</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">plans</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="k">COLUMN</span><span class="w"> </span><span class="n">agingEnabled</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="step-2-quick-display-on-dashboard">Step 2: Quick Display on Dashboard</h3>
+<p>Add aging summary to dashboard:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># In infrastructure_dashboard route</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    SELECT</span>
+<span class="s2">        COUNT(*) as total,</span>
+<span class="s2">        AVG(avgRetentionDays) as avg_retention,</span>
+<span class="s2">        SUM(CASE WHEN agingEnabled = 1 THEN 1 ELSE 0 END) as aging_enabled_count</span>
+<span class="s2">    FROM storage_policies</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="n">aging_stats</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Display:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;summary-card&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>{{ aging_stats.avg_retention }} days<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Average Retention Period<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;summary-card&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>{{ aging_stats.aging_enabled_count }}/{{ aging_stats.total }}<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Policies with Aging Enabled<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<hr />
+<h2 id="recommendations">Recommendations</h2>
+<h3 id="priority-1-critical-fix-storage-pools-done">Priority 1 (CRITICAL): Fix Storage Pools ✅ DONE</h3>
+<ul>
+<li>Parser fixed to use correct JSON path</li>
+<li>Data now saves correctly</li>
+</ul>
+<h3 id="priority-2-high-implement-plan-collection">Priority 2 (HIGH): Implement Plan Collection</h3>
+<ul>
+<li>Plans contain full retention data</li>
+<li>Modern Commvault approach</li>
+<li>Easier to parse than policies</li>
+</ul>
+<h3 id="priority-3-high-add-policy-details-collection">Priority 3 (HIGH): Add Policy Details Collection</h3>
+<ul>
+<li>Fetch <code>/StoragePolicy/{id}</code> for each policy</li>
+<li>Extract retention rules from each copy</li>
+<li>Store in retention_rules table</li>
+</ul>
+<h3 id="priority-4-medium-create-retention-summary-view">Priority 4 (MEDIUM): Create Retention Summary View</h3>
+<ul>
+<li>Dashboard widget showing aging statistics</li>
+<li>Dedicated retention rules page</li>
+<li>Visual retention timeline</li>
+</ul>
+<h3 id="priority-5-low-advanced-features">Priority 5 (LOW): Advanced Features</h3>
+<ul>
+<li>Aging job history tracking</li>
+<li>Retention compliance reports</li>
+<li>Aging predictions based on data growth</li>
+</ul>
+<hr />
+<h2 id="example-usage-scenarios">Example Usage Scenarios</h2>
+<h3 id="scenario-1-compliance-audit">Scenario 1: Compliance Audit</h3>
+<p><strong>Question</strong>: "What is our data retention policy for client X?"</p>
+<p><strong>Answer via UI</strong>:
+1. Navigate to Retention Summary
+2. Filter by client name
+3. View effective retention period
+4. Export compliance report</p>
+<h3 id="scenario-2-storage-optimization">Scenario 2: Storage Optimization</h3>
+<p><strong>Question</strong>: "Which policies are keeping data the longest?"</p>
+<p><strong>Answer via UI</strong>:
+1. Navigate to Retention Summary
+2. Sort by "Effective Retention" descending
+3. Identify policies with infinite retention
+4. Review and optimize retention settings</p>
+<h3 id="scenario-3-data-aging-monitoring">Scenario 3: Data Aging Monitoring</h3>
+<p><strong>Question</strong>: "Is data aging running successfully?"</p>
+<p><strong>Answer via UI</strong>:
+1. Check "Aging Enabled" count on dashboard
+2. View last aging job status
+3. Review aging job history</p>
+<hr />
+<h2 id="api-update-capabilities">API Update Capabilities</h2>
+<h3 id="updating-retention-rules">Updating Retention Rules</h3>
+<p><strong>Endpoint</strong>: <code>PUT /Plan/{planId}/Storage/Modify</code></p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;primaryRetentionInDays&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;secondaryRetentionInDays&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">90</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Endpoint</strong>: <code>POST /StoragePool?Action=copyEdit</code></p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;retentionRules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;retainBackupDataForDays&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;retainBackupDataForCycles&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Note</strong>: API write operations require appropriate permissions and should be implemented with caution.</p>
+<hr />
+<h2 id="conclusion">Conclusion</h2>
+<p>Aging policies in Commvault are <strong>not standalone entities</strong> but are <strong>retention rules embedded in Storage Policies and Plans</strong>.</p>
+<p><strong>Current Status</strong>:
+- ✅ Storage Pools: Fixed and working
+- ⚠️ Storage Policies: Basic data only (needs enhancement)
+- ❌ Plans: Not implemented (high priority)
+- ❌ Retention Rules: Not extracted or displayed</p>
+<p><strong>Next Steps</strong>:
+1. Implement Plan collection (/Plan endpoint)
+2. Enhance Storage Policy collection to fetch details
+3. Extract and store retention rules
+4. Create UI to display aging/retention data
+5. Add dashboard widgets for aging statistics</p>
+<p><strong>Data Location</strong>: Retention rules are found in:
+- <code>/StoragePolicy/{id}</code> response → <code>copy[].retentionRules</code>
+- <code>/Plan/{id}</code> response → <code>storage.copy[].retentionRules</code></p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGING SCHEDULE CONFLICT RESEARCH</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: AGING_SCHEDULE_CONFLICT_RESEARCH.md</div>
+    <h1 id="data-aging-and-job-schedule-conflict-research">Data Aging and Job Schedule Conflict Research</h1>
+<p><strong>Date:</strong> 2025-11-14
+<strong>Objective:</strong> Understand conflicts between job schedules and aging policies that delay storage space reclamation</p>
+<hr />
+<h2 id="problem-statement">Problem Statement</h2>
+<p>Job schedules may conflict with or delay aging policies, preventing storage space from being freed up. This research identifies the root causes and provides analysis methodology.</p>
+<hr />
+<h2 id="how-data-aging-works-in-commvault">How Data Aging Works in Commvault</h2>
+<h3 id="retention-cycle-definition">Retention Cycle Definition</h3>
+<blockquote>
+<p><strong>Retention Cycle:</strong> A complete full (or synthetic full) backup followed by all subsequent incremental, differential, or transactional log backups that depend on that full backup.</p>
+</blockquote>
+<h3 id="aging-eligibility-requirements">Aging Eligibility Requirements</h3>
+<p>Data becomes eligible for aging when <strong>BOTH</strong> conditions are met:
+1. <strong>Days retention exceeded</strong> - Calendar days have passed
+2. <strong>Cycle retention exceeded</strong> - Required number of backup cycles completed</p>
+<p><strong>Formula:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nv">Data</span><span class="w"> </span><span class="nv">Eligible</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">Aging</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">(</span><span class="nv">Current</span><span class="w"> </span><span class="nv">Date</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">Job</span><span class="w"> </span><span class="nv">Date</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nv">Retention</span><span class="w"> </span><span class="nv">Days</span><span class="ss">)</span>
+<span class="w">                          </span><span class="nv">AND</span>
+<span class="w">                          </span><span class="ss">(</span><span class="nv">Completed</span><span class="w"> </span><span class="nv">Cycles</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nv">Retention</span><span class="w"> </span><span class="nv">Cycles</span><span class="ss">)</span>
+</code></pre></div>
+
+<hr />
+<h2 id="common-conflicts-between-schedules-and-aging">Common Conflicts Between Schedules and Aging</h2>
+<h3 id="conflict-1-incomplete-backup-cycles">Conflict #1: Incomplete Backup Cycles</h3>
+<p><strong>Problem:</strong>
+- Retention policy requires 2 cycles + 30 days
+- Full backups scheduled weekly
+- If full backup fails or is disabled, cycle never completes
+- Data remains on storage even after 30 days have passed</p>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code>Week 1: Full Backup ✓
+Week 2: Full Backup ✗ FAILED
+Week 3: Full Backup ✗ FAILED
+Week 4: Full Backup ✗ FAILED
+Result: Only 1 cycle completed, data retention NOT met, aging BLOCKED
+</code></pre></div>
+
+<p><strong>Impact:</strong> Data from Week 1 cannot be aged because cycle count (1) &lt; required cycles (2)</p>
+<h3 id="conflict-2-backup-schedule-too-infrequent">Conflict #2: Backup Schedule Too Infrequent</h3>
+<p><strong>Problem:</strong>
+- Retention: 14 days + 1 cycle
+- Full backup schedule: Monthly
+- Aging cannot occur for 30+ days even though days requirement is 14</p>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code>Day 1: Full Backup
+Day 15: Incremental (14 days passed, but cycle not complete)
+Day 30: Full Backup (NOW cycle 1 completes, aging can begin)
+Result: 30 days to reclaim storage, not 14 days
+</code></pre></div>
+
+<p><strong>Impact:</strong> Storage space held 2x longer than days setting suggests</p>
+<h3 id="conflict-3-disabled-subclients-with-cycle-retention">Conflict #3: Disabled Subclients with Cycle Retention</h3>
+<p><strong>Problem:</strong>
+- Subclient is disabled (no longer backing up)
+- Retention: 30 days + 1 cycle
+- Since no new backups run, cycles never increment
+- Data NEVER ages out</p>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code>Last Full Backup: 90 days ago
+Subclient Status: DISABLED
+Cycles Completed Since: 0
+Result: Data aged based on days? NO - cycle requirement blocks aging
+</code></pre></div>
+
+<p><strong>Impact:</strong> Disabled clients consume storage indefinitely</p>
+<p><strong>Solution:</strong> Commvault setting to "Ignore cycle retention on backup activity disabled subclients"</p>
+<h3 id="conflict-4-failed-full-backups">Conflict #4: Failed Full Backups</h3>
+<p><strong>Problem:</strong>
+- Incremental backups succeed
+- Full backups consistently fail
+- New cycle never starts
+- Old data cannot age because cycle count doesn't increase</p>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nv">Cycle</span><span class="w"> </span><span class="mi">1</span>:<span class="w"> </span><span class="nv">Full</span><span class="w"> </span>✓<span class="w"> </span>→<span class="w"> </span><span class="nv">Inc</span><span class="w"> </span>✓<span class="w"> </span>→<span class="w"> </span><span class="nv">Inc</span><span class="w"> </span>✓<span class="w"> </span>→<span class="w"> </span><span class="nv">Inc</span><span class="w"> </span>✓
+<span class="nv">Cycle</span><span class="w"> </span><span class="mi">2</span>:<span class="w"> </span><span class="nv">Full</span><span class="w"> </span>✗<span class="w"> </span>→<span class="w"> </span><span class="nv">Inc</span><span class="w"> </span>✓<span class="w"> </span>→<span class="w"> </span><span class="nv">Inc</span><span class="w"> </span>✓<span class="w"> </span>→<span class="w"> </span><span class="nv">Inc</span><span class="w"> </span>✗
+<span class="nv">Cycle</span><span class="w"> </span><span class="mi">3</span>:<span class="w"> </span><span class="nv">Full</span><span class="w"> </span>✗<span class="w"> </span>→<span class="w"> </span><span class="nv">Inc</span><span class="w"> </span>✓<span class="w"> </span>→<span class="w"> </span><span class="nv">Inc</span><span class="w"> </span>✗<span class="w"> </span>→<span class="w"> </span><span class="nv">Inc</span><span class="w"> </span>✓
+<span class="nb">Result</span>:<span class="w"> </span><span class="nv">Still</span><span class="w"> </span><span class="nv">on</span><span class="w"> </span><span class="nv">Cycle</span><span class="w"> </span><span class="mi">1</span>,<span class="w"> </span><span class="nv">aging</span><span class="w"> </span><span class="nv">blocked</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">months</span>
+</code></pre></div>
+
+<p><strong>Impact:</strong> Critical storage bloat</p>
+<h3 id="conflict-5-auxiliary-copy-dependencies">Conflict #5: Auxiliary Copy Dependencies</h3>
+<p><strong>Problem:</strong>
+- Primary copy data is eligible for aging
+- Auxiliary copy (cloud/tape) still depends on this data
+- Primary data cannot be pruned until aux copy is independent</p>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nv">Primary</span><span class="w"> </span><span class="nv">Copy</span>:<span class="w"> </span><span class="mi">60</span><span class="w"> </span><span class="nv">days</span><span class="w"> </span><span class="nv">old</span>,<span class="w"> </span><span class="nv">eligible</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">aging</span>
+<span class="nv">Aux</span><span class="w"> </span><span class="nv">Copy</span>:<span class="w"> </span><span class="nv">Created</span><span class="w"> </span><span class="nv">via</span><span class="w"> </span><span class="nv">incremental</span><span class="w"> </span><span class="nv">forever</span>,<span class="w"> </span><span class="nv">depends</span><span class="w"> </span><span class="nv">on</span><span class="w"> </span><span class="mi">60</span><span class="o">-</span><span class="nv">day</span><span class="o">-</span><span class="nv">old</span><span class="w"> </span><span class="nv">data</span>
+<span class="nb">Result</span>:<span class="w"> </span><span class="nv">Primary</span><span class="w"> </span><span class="nv">data</span><span class="w"> </span><span class="nv">CANNOT</span><span class="w"> </span><span class="nv">be</span><span class="w"> </span><span class="nv">aged</span><span class="o">/</span><span class="nv">pruned</span>
+</code></pre></div>
+
+<p><strong>Impact:</strong> Storage space not reclaimed despite meeting retention</p>
+<h3 id="conflict-6-aggressive-backup-schedules">Conflict #6: Aggressive Backup Schedules</h3>
+<p><strong>Problem:</strong>
+- Multiple full backups per day
+- Retention: 30 days + 2 cycles
+- 2 cycles complete in 2 days
+- But 30 days haven't passed
+- Storage full of recent, ineligible data</p>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code>Day 1: Full (Cycle 1) + Full (Cycle 2)
+Day 2: Full (Cycle 3) ← Now have 3 cycles
+Day 3-30: All data still retained (days requirement not met)
+Result: Rapid cycle completion doesn&#39;t help storage
+</code></pre></div>
+
+<p><strong>Impact:</strong> Cannot age data faster than days setting allows</p>
+<h3 id="conflict-7-data-aging-job-schedule-conflicts">Conflict #7: Data Aging Job Schedule Conflicts</h3>
+<p><strong>Problem:</strong>
+- Data aging job runs daily at 12:00 PM
+- Backup jobs running at 12:00 PM
+- DDB verification running at 12:00 PM
+- Resource contention delays aging</p>
+<p><strong>Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="mi">12</span><span class="o">:</span><span class="mi">00</span><span class="w"> </span><span class="n">PM</span><span class="o">:</span><span class="w"> </span><span class="n">Data</span><span class="w"> </span><span class="n">Aging</span><span class="w"> </span><span class="n">job</span><span class="w"> </span><span class="n">starts</span>
+<span class="mi">12</span><span class="o">:</span><span class="mi">05</span><span class="w"> </span><span class="n">PM</span><span class="o">:</span><span class="w"> </span><span class="n">Heavy</span><span class="w"> </span><span class="n">backup</span><span class="w"> </span><span class="n">job</span><span class="w"> </span><span class="n">starts</span>
+<span class="mi">12</span><span class="o">:</span><span class="mi">10</span><span class="w"> </span><span class="n">PM</span><span class="o">:</span><span class="w"> </span><span class="n">DDB</span><span class="w"> </span><span class="n">verification</span><span class="w"> </span><span class="n">starts</span>
+<span class="n">Result</span><span class="o">:</span><span class="w"> </span><span class="n">Aging</span><span class="w"> </span><span class="n">job</span><span class="w"> </span><span class="n">slowed</span><span class="w"> </span><span class="n">down</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">postponed</span>
+</code></pre></div>
+
+<p><strong>Impact:</strong> Aging delayed by hours or skipped entirely</p>
+<p><strong>Solution:</strong> Stagger schedules (aging at 2 AM, backups at 8 PM, verification at 5 AM)</p>
+<hr />
+<h2 id="aging-policy-analysis-methodology">Aging Policy Analysis Methodology</h2>
+<h3 id="step-1-identify-retention-policies">Step 1: Identify Retention Policies</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span>
+<span class="w">    </span><span class="n">parentName</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">PlanName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Days</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Cycles</span><span class="p">,</span>
+<span class="w">    </span><span class="n">enableDataAging</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">retention_rules</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">enableDataAging</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Days</span><span class="p">,</span><span class="w"> </span><span class="n">Cycles</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="step-2-identify-plans-with-short-retention">Step 2: Identify Plans with Short Retention</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Plans that should age quickly (14 days or less)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">parentName</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">PlanName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">entityName</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">CopyName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Days</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Cycles</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">retention_rules</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">14</span>
+<span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Days</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="step-3-calculate-effective-retention">Step 3: Calculate Effective Retention</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Assuming 7-day average cycle duration</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">parentName</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">PlanName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ConfiguredDays</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ConfiguredCycles</span><span class="p">,</span>
+<span class="w">    </span><span class="p">(</span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">CycleDays</span><span class="p">,</span>
+<span class="w">    </span><span class="k">CASE</span>
+<span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span>
+<span class="w">        </span><span class="k">THEN</span><span class="w"> </span><span class="n">retainBackupDataForDays</span>
+<span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="p">(</span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span>
+<span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">EffectiveDays</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">retention_rules</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">enableDataAging</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">EffectiveDays</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="step-4-identify-potential-conflicts">Step 4: Identify Potential Conflicts</h3>
+<p><strong>Long Cycle Retention:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Plans where cycles extend retention significantly beyond days</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">parentName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Days</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Cycles</span><span class="p">,</span>
+<span class="w">    </span><span class="p">(</span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">EstimatedCycleDays</span><span class="p">,</span>
+<span class="w">    </span><span class="p">((</span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">retainBackupDataForDays</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ExtraDaysFromCycles</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">retention_rules</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="p">(</span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">retainBackupDataForDays</span>
+<span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ExtraDaysFromCycles</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+
+<p><strong>Mismatched Retention:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Plans with 1 cycle but many days (vulnerable to backup failures)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">parentName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Days</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Cycles</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">retention_rules</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">30</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">Days</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+
+<hr />
+<h2 id="storage-space-issues-root-causes">Storage Space Issues - Root Causes</h2>
+<h3 id="1-backup-cycle-not-completing">1. <strong>Backup Cycle Not Completing</strong></h3>
+<ul>
+<li><strong>Symptom:</strong> Days exceeded but data not aging</li>
+<li><strong>Cause:</strong> Full backups failing or not running</li>
+<li><strong>Solution:</strong> Fix backup job failures, verify full backup schedule</li>
+</ul>
+<h3 id="2-disabled-clients-holding-space">2. <strong>Disabled Clients Holding Space</strong></h3>
+<ul>
+<li><strong>Symptom:</strong> Old data from inactive clients not aging</li>
+<li><strong>Cause:</strong> Cycle requirement on disabled subclients</li>
+<li><strong>Solution:</strong> Enable "Ignore cycle retention on disabled subclients" setting</li>
+</ul>
+<h3 id="3-retention-cycles-too-high">3. <strong>Retention Cycles Too High</strong></h3>
+<ul>
+<li><strong>Symptom:</strong> Storage fills up quickly despite short days setting</li>
+<li><strong>Cause:</strong> Multiple cycles required = data held for weeks/months</li>
+<li><strong>Solution:</strong> Reduce cycle retention to 1 or 2 for most policies</li>
+</ul>
+<h3 id="4-incremental-forever-strategy">4. <strong>Incremental Forever Strategy</strong></h3>
+<ul>
+<li><strong>Symptom:</strong> Very old data still on primary storage</li>
+<li><strong>Cause:</strong> No synthetic fulls, cycles never close</li>
+<li><strong>Solution:</strong> Schedule synthetic full backups to complete cycles</li>
+</ul>
+<h3 id="5-auxiliary-copy-dependencies">5. <strong>Auxiliary Copy Dependencies</strong></h3>
+<ul>
+<li><strong>Symptom:</strong> Eligible data not pruning from primary</li>
+<li><strong>Cause:</strong> Aux copy hasn't created independent copy</li>
+<li><strong>Solution:</strong> Run aux copy jobs to create independent full backups</li>
+</ul>
+<h3 id="6-job-schedule-overlaps">6. <strong>Job Schedule Overlaps</strong></h3>
+<ul>
+<li><strong>Symptom:</strong> Aging jobs taking very long or skipping</li>
+<li><strong>Cause:</strong> Resource contention with backups/verification</li>
+<li><strong>Solution:</strong> Stagger schedules to avoid conflicts</li>
+</ul>
+<hr />
+<h2 id="recommendations-for-storage-optimization">Recommendations for Storage Optimization</h2>
+<h3 id="immediate-actions">Immediate Actions</h3>
+<ol>
+<li><strong>Review Failed Backup Jobs</strong></li>
+<li>Identify plans with consecutive full backup failures</li>
+<li>
+<p>Fix issues preventing cycle completion</p>
+</li>
+<li>
+<p><strong>Audit Disabled Subclients</strong></p>
+</li>
+<li>Find subclients no longer backing up</li>
+<li>
+<p>Enable days-only aging for disabled clients</p>
+</li>
+<li>
+<p><strong>Reduce Cycle Retention</strong></p>
+</li>
+<li>Change from 2+ cycles to 1 cycle where possible</li>
+<li>
+<p>Rely more on days retention</p>
+</li>
+<li>
+<p><strong>Stagger Job Schedules</strong></p>
+</li>
+<li>Aging: 2:00 AM (low activity time)</li>
+<li>Backups: 8:00 PM - 6:00 AM</li>
+<li>Verification: 5:00 AM</li>
+</ol>
+<h3 id="long-term-improvements">Long-term Improvements</h3>
+<ol>
+<li><strong>Standardize Retention Policies</strong></li>
+<li>Short: 14 days + 1 cycle</li>
+<li>Medium: 30 days + 1 cycle</li>
+<li>
+<p>Long: 365 days + 2 cycles</p>
+</li>
+<li>
+<p><strong>Implement Synthetic Fulls</strong></p>
+</li>
+<li>Schedule weekly synthetic fulls</li>
+<li>
+<p>Ensures cycles complete even if full backup fails</p>
+</li>
+<li>
+<p><strong>Monitor Aging Effectiveness</strong></p>
+</li>
+<li>Track storage space freed per aging job</li>
+<li>
+<p>Alert on aging job failures</p>
+</li>
+<li>
+<p><strong>Review Auxiliary Copy Strategy</strong></p>
+</li>
+<li>Ensure aux copies create independent fulls</li>
+<li>Avoid indefinite dependencies on primary data</li>
+</ol>
+<hr />
+<h2 id="analysis-queries-for-your-environment">Analysis Queries for Your Environment</h2>
+<h3 id="query-1-plans-likely-affected-by-cycle-issues">Query 1: Plans Likely Affected by Cycle Issues</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Plans with high cycle retention that could block aging</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">parentName</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">PlanName</span><span class="p">,</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">CopiesCount</span><span class="p">,</span>
+<span class="w">    </span><span class="k">AVG</span><span class="p">(</span><span class="n">retainBackupDataForCycles</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">AvgCycles</span><span class="p">,</span>
+<span class="w">    </span><span class="k">MAX</span><span class="p">(</span><span class="n">retainBackupDataForCycles</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">MaxCycles</span><span class="p">,</span>
+<span class="w">    </span><span class="k">AVG</span><span class="p">(</span><span class="n">retainBackupDataForDays</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">AvgDays</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">retention_rules</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">enableDataAging</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">parentName</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">AvgCycles</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="n">AvgDays</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="query-2-effective-vs-configured-retention-gap">Query 2: Effective vs Configured Retention Gap</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Show where cycle retention extends data retention</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">parentName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">entityName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ConfigDays</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Cycles</span><span class="p">,</span>
+<span class="w">    </span><span class="p">(</span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">CyclesDays</span><span class="p">,</span>
+<span class="w">    </span><span class="k">MAX</span><span class="p">(</span><span class="n">retainBackupDataForDays</span><span class="p">,</span><span class="w"> </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">EffectiveDays</span><span class="p">,</span>
+<span class="w">    </span><span class="p">(</span><span class="k">MAX</span><span class="p">(</span><span class="n">retainBackupDataForDays</span><span class="p">,</span><span class="w"> </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">retainBackupDataForDays</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ExtraRetention</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">retention_rules</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">enableDataAging</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">ExtraRetention</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="query-3-storage-space-risk-assessment">Query 3: Storage Space Risk Assessment</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Plans with short days but multiple cycles (high bloat risk)</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">parentName</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">PlanName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Days</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Cycles</span><span class="p">,</span>
+<span class="w">    </span><span class="k">CASE</span>
+<span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;HIGH RISK&#39;</span>
+<span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;MEDIUM RISK&#39;</span>
+<span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;LOW RISK&#39;</span>
+<span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">StorageRisk</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">retention_rules</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">enableDataAging</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="k">DESC</span><span class="p">,</span><span class="w"> </span><span class="n">retainBackupDataForDays</span><span class="p">;</span>
+</code></pre></div>
+
+<hr />
+<h2 id="next-steps-for-analysis">Next Steps for Analysis</h2>
+<ol>
+<li>✅ Run queries against retention_rules table</li>
+<li>⏳ Collect job schedule data (need to implement)</li>
+<li>⏳ Identify plans with backup job failures</li>
+<li>⏳ Calculate actual vs expected storage reclamation</li>
+<li>⏳ Generate conflict report with recommendations</li>
+</ol>
+<hr />
+<h2 id="key-metrics-to-track">Key Metrics to Track</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Good</th>
+<th>Warning</th>
+<th>Critical</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Cycle Retention</strong></td>
+<td>1</td>
+<td>2</td>
+<td>3+</td>
+</tr>
+<tr>
+<td><strong>Days Retention</strong></td>
+<td>≤30</td>
+<td>31-90</td>
+<td>&gt;90</td>
+</tr>
+<tr>
+<td><strong>Effective Retention</strong></td>
+<td>≤30 days</td>
+<td>31-60 days</td>
+<td>&gt;60 days</td>
+</tr>
+<tr>
+<td><strong>Extra Days from Cycles</strong></td>
+<td>0-7</td>
+<td>8-21</td>
+<td>&gt;21</td>
+</tr>
+<tr>
+<td><strong>Backup Success Rate</strong></td>
+<td>&gt;95%</td>
+<td>85-95%</td>
+<td>&lt;85%</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="references">References</h2>
+<ul>
+<li>Commvault Documentation: Data Aging Troubleshooting</li>
+<li>Commvault Community: Aging old backup due to full storage</li>
+<li>Commvault Documentation: Schedule Data Aging Jobs</li>
+</ul>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

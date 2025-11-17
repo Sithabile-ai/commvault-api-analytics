@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block title %}Commvault Data Retrieval - Results{% endblock %}
+
+{% block content %}
+<div class="nav-links">
+    <a href="{{ url_for('index') }}">Back to Home</a>
+    <a href="{{ url_for('infrastructure_dashboard') }}">🏗️ Dashboard</a>
+    <a href="{{ url_for('view_data', data_type='clients') }}">Clients</a>
+    <a href="{{ url_for('view_data', data_type='jobs') }}">Jobs</a>
+    <a href="{{ url_for('view_data', data_type='storage_pools') }}">Storage Pools</a>
+</div>
+
+<h2 style="margin-bottom: 20px; color: #333;">Data Retrieval Results</h2>
+
+<div class="data-summary">
+    {% if counts.clients %}
+    <div class="summary-card">
+        <h3>{{ counts.clients }}</h3>
+        <p>Clients Retrieved</p>
+    </div>
+    {% endif %}
+
+    {% if counts.jobs %}
+    <div class="summary-card">
+        <h3>{{ counts.jobs }}</h3>
+        <p>Jobs Retrieved</p>
+    </div>
+    {% endif %}
+
+    {% if counts.plans %}
+    <div class="summary-card">
+        <h3>{{ counts.plans }}</h3>
+        <p>Plans Retrieved</p>
+    </div>
+    {% endif %}
+
+    {% if counts.storage %}
+    <div class="summary-card">
+        <h3>{{ counts.storage }}</h3>
+        <p>Storage Policies Retrieved</p>
+    </div>
+    {% endif %}
+
+    {% if counts.mediaagents %}
+    <div class="summary-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+        <h3>{{ counts.mediaagents }}</h3>
+        <p>MediaAgents Retrieved</p>
+    </div>
+    {% endif %}
+
+    {% if counts.storage_pools %}
+    <div class="summary-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+        <h3>{{ counts.storage_pools }}</h3>
+        <p>Storage Pools Retrieved</p>
+    </div>
+    {% endif %}
+
+    {% if counts.libraries %}
+    <div class="summary-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+        <h3>{{ counts.libraries }}</h3>
+        <p>Libraries Retrieved</p>
+    </div>
+    {% endif %}
+
+    {% if counts.hypervisors %}
+    <div class="summary-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+        <h3>{{ counts.hypervisors }}</h3>
+        <p>Hypervisors Retrieved</p>
+    </div>
+    {% endif %}
+
+    {% if counts.storage_arrays %}
+    <div class="summary-card" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+        <h3>{{ counts.storage_arrays }}</h3>
+        <p>Storage Arrays Retrieved</p>
+    </div>
+    {% endif %}
+</div>
+
+{% if results.clients %}
+<div style="margin-bottom: 40px;">
+    <h3 style="color: #333; margin-bottom: 15px;">Clients Preview (First 10)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Client ID</th>
+                <th>Client Name</th>
+                <th>Hostname</th>
+                <th>GUID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in results.clients.clientProperties[:10] %}
+            <tr>
+                <td>{{ entry.client.clientId }}</td>
+                <td>{{ entry.client.clientName }}</td>
+                <td>{{ entry.client.get('hostName', 'N/A') }}</td>
+                <td>{{ entry.client.get('GUID', 'N/A') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if results.clients.clientProperties|length > 10 %}
+    <p style="margin-top: 10px; color: #666;">
+        Showing 10 of {{ results.clients.clientProperties|length }} clients.
+        <a href="{{ url_for('view_data', data_type='clients') }}" style="color: #667eea; font-weight: 600;">View all clients</a>
+    </p>
+    {% endif %}
+</div>
+{% endif %}
+
+{% if results.jobs %}
+<div style="margin-bottom: 40px;">
+    <h3 style="color: #333; margin-bottom: 15px;">Jobs Preview (First 10)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Job ID</th>
+                <th>Job Type</th>
+                <th>Status</th>
+                <th>Client</th>
+                <th>Start Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in results.jobs.jobs[:10] %}
+            <tr>
+                <td>{{ job.jobSummary.jobId }}</td>
+                <td>{{ job.jobSummary.get('jobType', 'N/A') }}</td>
+                <td>{{ job.jobSummary.get('status', 'N/A') }}</td>
+                <td>{{ job.jobSummary.get('subclient', {}).get('clientName', 'N/A') }}</td>
+                <td>{{ job.jobSummary.get('jobStartTime', 'N/A') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if results.jobs.jobs|length > 10 %}
+    <p style="margin-top: 10px; color: #666;">
+        Showing 10 of {{ results.jobs.jobs|length }} jobs.
+        <a href="{{ url_for('view_data', data_type='jobs') }}" style="color: #667eea; font-weight: 600;">View all jobs</a>
+    </p>
+    {% endif %}
+</div>
+{% endif %}
+
+{% if results.plans %}
+<div style="margin-bottom: 40px;">
+    <h3 style="color: #333; margin-bottom: 15px;">Plans Preview (First 10)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Plan ID</th>
+                <th>Plan Name</th>
+                <th>Plan Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for plan in results.plans.plans[:10] %}
+            <tr>
+                <td>{{ plan.plan.planId }}</td>
+                <td>{{ plan.plan.planName }}</td>
+                <td>{{ plan.get('planType', 'N/A') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if results.plans.plans|length > 10 %}
+    <p style="margin-top: 10px; color: #666;">
+        Showing 10 of {{ results.plans.plans|length }} plans.
+        <a href="{{ url_for('view_data', data_type='plans') }}" style="color: #667eea; font-weight: 600;">View all plans</a>
+    </p>
+    {% endif %}
+</div>
+{% endif %}
+
+{% if results.storage %}
+<div style="margin-bottom: 40px;">
+    <h3 style="color: #333; margin-bottom: 15px;">Storage Policies Preview (First 10)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Storage Policy ID</th>
+                <th>Storage Policy Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for policy in results.storage.policies[:10] %}
+            <tr>
+                <td>{{ policy.storagePolicy.storagePolicyId }}</td>
+                <td>{{ policy.storagePolicy.storagePolicyName }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if results.storage.policies|length > 10 %}
+    <p style="margin-top: 10px; color: #666;">
+        Showing 10 of {{ results.storage.policies|length }} storage policies.
+        <a href="{{ url_for('view_data', data_type='storage') }}" style="color: #667eea; font-weight: 600;">View all storage policies</a>
+    </p>
+    {% endif %}
+</div>
+{% endif %}
+
+{% if not results %}
+<div style="background: #f8d7da; padding: 20px; border-radius: 8px; border-left: 4px solid #dc3545;">
+    <p style="color: #721c24; font-weight: 600;">No data was retrieved. Please check the errors above.</p>
+</div>
+{% endif %}
+
+<div style="background: #d4edda; padding: 20px; border-radius: 8px; border-left: 4px solid #28a745; margin-top: 30px;">
+    <h3 style="color: #155724; margin-bottom: 10px;">Data Saved Successfully!</h3>
+    <p style="color: #155724; line-height: 1.6;">
+        All retrieved data has been stored in the SQLite database at <code>Database/commvault.db</code>.
+        You can view the complete data using the navigation links above or query the database directly.
+    </p>
+</div>
+{% endblock %}

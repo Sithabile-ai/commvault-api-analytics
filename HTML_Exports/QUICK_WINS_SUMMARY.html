@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUICK WINS SUMMARY</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: QUICK_WINS_SUMMARY.md</div>
+    <h1 id="quick-wins-implementation-summary">Quick Wins Implementation - Summary</h1>
+<h2 id="what-was-added">What Was Added</h2>
+<p>I've successfully implemented the <strong>top 3 quick wins</strong> for maximum immediate value based on the Commvault API documentation:</p>
+<h3 id="1-event-alert-monitoring-critical-for-proactive-monitoring">✅ 1. Event &amp; Alert Monitoring (Critical for Proactive Monitoring)</h3>
+<p><strong>New Tables:</strong>
+- <code>events</code> - System events with severity levels (Critical, Error, Warning, etc.)
+- <code>alerts</code> - Active alerts and notifications</p>
+<p><strong>New Endpoints:</strong>
+- <code>GET /Event?level=Critical</code> - Fetches critical system events
+- <code>GET /Alert</code> - Retrieves active alerts</p>
+<p><strong>Features:</strong>
+- Track critical events (MediaAgent down, job failures, service issues)
+- Monitor active alerts across the environment
+- View recent critical events on dashboard
+- Severity-based filtering</p>
+<p><strong>Dashboard Integration:</strong>
+- Critical Events count card
+- Active Alerts count card
+- Recent Critical Events table (top 10)
+- Direct links to view all events/alerts</p>
+<h3 id="2-enhanced-job-performance-metrics-detailed-analytics">✅ 2. Enhanced Job Performance Metrics (Detailed Analytics)</h3>
+<p><strong>New Table:</strong>
+- <code>jobs_enhanced</code> - Extended job data with performance metrics</p>
+<p><strong>New Metrics Captured:</strong>
+- <code>sizeOfApplication</code> - Original data size
+- <code>sizeOfMediaOnDisk</code> - Data size after dedupe/compression
+- <code>percentSavings</code> - Deduplication savings percentage
+- <code>throughputMBps</code> - Backup throughput in MB/s
+- <code>jobElapsedTime</code> - Total job duration
+- <code>filesCount</code> - Number of files processed</p>
+<p><strong>Features:</strong>
+- Automatic throughput calculation
+- Deduplication savings tracking
+- Performance trend analysis capability</p>
+<p><strong>Dashboard Integration:</strong>
+- Average Deduplication Savings (%)
+- Average Throughput (MB/s)
+- Performance Metrics section with visual cards</p>
+<h3 id="3-storage-capacity-monitoring-already-enhanced">✅ 3. Storage Capacity Monitoring (Already Enhanced)</h3>
+<p><strong>Existing Features Enhanced:</strong>
+- Storage pools already include <code>totalCapacity</code> and <code>freeSpace</code>
+- Deduplication status tracking
+- MediaAgent capacity monitoring</p>
+<p><strong>Dashboard Features:</strong>
+- Storage pool capacity visualization
+- Dedupe enabled/disabled status
+- Free space tracking
+- MediaAgent available/total space</p>
+<h3 id="4-commcell-health-check-bonus">✅ 4. CommCell Health Check (Bonus)</h3>
+<p><strong>New Table:</strong>
+- <code>commcell_info</code> - CommServe status and version information</p>
+<p><strong>New Endpoint:</strong>
+- <code>GET /Commcell</code> - Fetches CommCell environment info</p>
+<p><strong>Features:</strong>
+- CommCell name and version
+- CommServe online status
+- Last health check timestamp
+- Environment information</p>
+<p><strong>Dashboard Integration:</strong>
+- CommCell Health Status section
+- Version information
+- Live status indicator</p>
+<h2 id="how-to-use">How to Use</h2>
+<h3 id="1-fetch-monitoring-data">1. Fetch Monitoring Data</h3>
+<p>Go to the home page and select from the new categories:</p>
+<p><strong>🔔 Monitoring &amp; Alerts (NEW!)</strong>
+- ☑️ Events - Critical system events
+- ☑️ Alerts - Active alerts
+- ☑️ CommCell Health - CommServe status</p>
+<p><strong>📈 Enhanced Metrics (NEW!)</strong>
+- ☑️ Enhanced Jobs - Performance metrics</p>
+<h3 id="2-view-infrastructure-dashboard">2. View Infrastructure Dashboard</h3>
+<p>Navigate to <strong>🏗️ Infrastructure Dashboard</strong> to see:</p>
+<h4 id="new-sections">New Sections:</h4>
+<ol>
+<li><strong>CommCell Health Status</strong> - Purple gradient box showing:</li>
+<li>CommCell name</li>
+<li>Version</li>
+<li>Online status</li>
+<li>
+<p>Last check time</p>
+</li>
+<li>
+<p><strong>Performance Metrics</strong> - Two large metric cards:</p>
+</li>
+<li>Average Deduplication Savings (%)</li>
+<li>
+<p>Average Throughput (MB/s)</p>
+</li>
+<li>
+<p><strong>Recent Critical Events</strong> - Red-bordered table:</p>
+</li>
+<li>Event code and severity</li>
+<li>Error messages</li>
+<li>Affected clients</li>
+<li>Timestamps</li>
+<li>Link to view all events</li>
+</ol>
+<h4 id="enhanced-summary-cards">Enhanced Summary Cards:</h4>
+<ul>
+<li>Critical Events count</li>
+<li>Active Alerts count</li>
+</ul>
+<h3 id="3-view-detailed-data">3. View Detailed Data</h3>
+<p>New view pages available:</p>
+<ul>
+<li><code>/view/events</code> - All events (latest 200)</li>
+<li><code>/view/alerts</code> - All alerts</li>
+<li><code>/view/jobs_enhanced</code> - Jobs with performance metrics</li>
+<li><code>/view/commcell_info</code> - CommCell health details</li>
+</ul>
+<h2 id="database-schema-changes">Database Schema Changes</h2>
+<h3 id="new-tables">New Tables</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Events tracking</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">events</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">eventId</span><span class="w">           </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">eventCode</span><span class="w">         </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">severity</span><span class="w">          </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">eventType</span><span class="w">         </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">message</span><span class="w">           </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">timeSource</span><span class="w">        </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">subsystem</span><span class="w">         </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">clientName</span><span class="w">        </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">jobId</span><span class="w">             </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w">     </span><span class="nb">TEXT</span>
+<span class="p">);</span>
+
+<span class="c1">-- Alerts monitoring</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">alerts</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">alertId</span><span class="w">           </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">alertName</span><span class="w">         </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">alertType</span><span class="w">         </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">severity</span><span class="w">          </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">status</span><span class="w">            </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">alertMessage</span><span class="w">      </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">triggerTime</span><span class="w">       </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w">     </span><span class="nb">TEXT</span>
+<span class="p">);</span>
+
+<span class="c1">-- CommCell health</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">commcell_info</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w">                </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">commcellName</span><span class="w">      </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">commserveVersion</span><span class="w">  </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">timeZone</span><span class="w">          </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">commserveHost</span><span class="w">     </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">status</span><span class="w">            </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lastCheckTime</span><span class="w">     </span><span class="nb">TEXT</span>
+<span class="p">);</span>
+
+<span class="c1">-- Enhanced job metrics</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">jobs_enhanced</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">jobId</span><span class="w">                </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">clientId</span><span class="w">             </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">clientName</span><span class="w">           </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">jobType</span><span class="w">              </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">status</span><span class="w">               </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">startTime</span><span class="w">            </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">endTime</span><span class="w">              </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">backupSetName</span><span class="w">        </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">sizeOfApplication</span><span class="w">    </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">sizeOfMediaOnDisk</span><span class="w">    </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">percentSavings</span><span class="w">       </span><span class="nb">REAL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">throughputMBps</span><span class="w">       </span><span class="nb">REAL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">jobElapsedTime</span><span class="w">       </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">filesCount</span><span class="w">           </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w">        </span><span class="nb">TEXT</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<h2 id="code-changes-summary">Code Changes Summary</h2>
+<h3 id="apppy">app.py</h3>
+<ul>
+<li><strong>Added:</strong> 4 new database tables</li>
+<li><strong>Added:</strong> 4 new save functions (<code>save_events_to_db</code>, <code>save_alerts_to_db</code>, <code>save_commcell_info_to_db</code>, <code>save_enhanced_jobs_to_db</code>)</li>
+<li><strong>Added:</strong> 4 new endpoint handlers in <code>fetch_data()</code> route</li>
+<li><strong>Enhanced:</strong> Dashboard route with monitoring metrics and performance stats</li>
+<li><strong>Added:</strong> 4 new view routes for monitoring data</li>
+<li><strong>Lines Added:</strong> ~250+</li>
+</ul>
+<h3 id="templatesindexhtml">templates/index.html</h3>
+<ul>
+<li><strong>Added:</strong> New section "🔔 Monitoring &amp; Alerts" with 3 checkboxes</li>
+<li><strong>Added:</strong> New section "📈 Enhanced Metrics" with 1 checkbox</li>
+<li>Color-coded sections (pink for monitoring, purple for metrics)</li>
+</ul>
+<h3 id="templatesdashboardhtml">templates/dashboard.html</h3>
+<ul>
+<li><strong>Added:</strong> 2 new summary cards (Critical Events, Active Alerts)</li>
+<li><strong>Added:</strong> CommCell Health Status section (gradient purple box)</li>
+<li><strong>Added:</strong> Performance Metrics section (dedupe savings &amp; throughput)</li>
+<li><strong>Added:</strong> Recent Critical Events table (top 10)</li>
+<li>Visual enhancements with color coding</li>
+</ul>
+<h2 id="api-endpoints-used">API Endpoints Used</h2>
+<p>Based on official Commvault API documentation:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Endpoint</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Events</td>
+<td><code>GET /Event?level=Critical</code></td>
+<td>Filters for critical events</td>
+</tr>
+<tr>
+<td>Alerts</td>
+<td><code>GET /Alert</code></td>
+<td>Returns active alerts</td>
+</tr>
+<tr>
+<td>CommCell Info</td>
+<td><code>GET /Commcell</code></td>
+<td>Health check endpoint</td>
+</tr>
+<tr>
+<td>Enhanced Jobs</td>
+<td><code>GET /Job</code></td>
+<td>Same endpoint, enhanced parsing</td>
+</tr>
+</tbody>
+</table>
+<h2 id="benefits">Benefits</h2>
+<h3 id="proactive-monitoring">Proactive Monitoring</h3>
+<ul>
+<li><strong>Immediate visibility</strong> into critical events</li>
+<li><strong>Alert tracking</strong> for active issues</li>
+<li><strong>Health status</strong> at a glance</li>
+</ul>
+<h3 id="performance-insights">Performance Insights</h3>
+<ul>
+<li><strong>Dedupe savings</strong> - Track deduplication efficiency</li>
+<li><strong>Throughput monitoring</strong> - Identify slow backups</li>
+<li><strong>Trend analysis</strong> - Historical performance data</li>
+</ul>
+<h3 id="capacity-planning">Capacity Planning</h3>
+<ul>
+<li><strong>Storage utilization</strong> already tracked</li>
+<li><strong>Free space monitoring</strong> for pools</li>
+<li><strong>MediaAgent capacity</strong> tracking</li>
+</ul>
+<h3 id="troubleshooting">Troubleshooting</h3>
+<ul>
+<li><strong>Event history</strong> for root cause analysis</li>
+<li><strong>Job performance</strong> metrics for optimization</li>
+<li><strong>Infrastructure health</strong> for proactive maintenance</li>
+</ul>
+<h2 id="example-use-cases">Example Use Cases</h2>
+<h3 id="1-daily-health-check">1. Daily Health Check</h3>
+<div class="codehilite"><pre><span></span><code><span class="mf">1.</span><span class="w"> </span><span class="kr">Open</span><span class="w"> </span><span class="n">Infrastructure</span><span class="w"> </span><span class="n">Dashboard</span>
+<span class="mf">2.</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="n">CommCell</span><span class="w"> </span><span class="n">Health</span><span class="w"> </span><span class="n">Status</span><span class="w"> </span><span class="p">(</span><span class="n">should</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="s">&quot;Online&quot;</span><span class="p">)</span>
+<span class="mf">3.</span><span class="w"> </span><span class="n">Review</span><span class="w"> </span><span class="n">Critical</span><span class="w"> </span><span class="n">Events</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="p">(</span><span class="n">should</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">low</span><span class="p">)</span>
+<span class="mf">4.</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="n">Active</span><span class="w"> </span><span class="n">Alerts</span><span class="w"> </span><span class="n">count</span>
+<span class="mf">5.</span><span class="w"> </span><span class="n">Review</span><span class="w"> </span><span class="n">Recent</span><span class="w"> </span><span class="n">Critical</span><span class="w"> </span><span class="n">Events</span><span class="w"> </span><span class="nb">tab</span><span class="n">le</span>
+</code></pre></div>
+
+<h3 id="2-performance-analysis">2. Performance Analysis</h3>
+<div class="codehilite"><pre><span></span><code><span class="mf">1.</span><span class="w"> </span><span class="n">Fetch</span><span class="w"> </span><span class="n">Enhanced</span><span class="w"> </span><span class="n">Jobs</span><span class="w"> </span><span class="kd">data</span>
+<span class="mf">2.</span><span class="w"> </span><span class="n">View</span><span class="w"> </span><span class="n">Dashboard</span>
+<span class="mf">3.</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="n">Average</span><span class="w"> </span><span class="n">Deduplication</span><span class="w"> </span><span class="n">Savings</span><span class="w"> </span><span class="p">(</span><span class="n">should</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">high</span><span class="w"> </span><span class="err">%</span><span class="p">)</span>
+<span class="mf">4.</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="n">Average</span><span class="w"> </span><span class="n">Throughput</span><span class="w"> </span><span class="p">(</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span><span class="p">)</span>
+<span class="mf">5.</span><span class="w"> </span><span class="kr">Go</span><span class="w"> </span><span class="kr">to</span><span class="w"> </span><span class="o">/</span><span class="n">view</span><span class="o">/</span><span class="n">jobs_enhanced</span><span class="w"> </span><span class="kr">for</span><span class="w"> </span><span class="n">detailed</span><span class="w"> </span><span class="n">breakdown</span>
+</code></pre></div>
+
+<h3 id="3-troubleshooting-failures">3. Troubleshooting Failures</h3>
+<div class="codehilite"><pre><span></span><code><span class="mf">1.</span><span class="w"> </span><span class="n">Fetch</span><span class="w"> </span><span class="n">Events</span><span class="w"> </span><span class="kd">data</span>
+<span class="mf">2.</span><span class="w"> </span><span class="kr">Go</span><span class="w"> </span><span class="kr">to</span><span class="w"> </span><span class="o">/</span><span class="n">view</span><span class="o">/</span><span class="n">events</span>
+<span class="mf">3.</span><span class="w"> </span><span class="n">Filter</span><span class="w"> </span><span class="kr">for</span><span class="w"> </span><span class="n">Critical</span><span class="o">/</span><span class="n">Error</span><span class="w"> </span><span class="n">severity</span>
+<span class="mf">4.</span><span class="w"> </span><span class="n">Review</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="n">messages</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">affected</span><span class="w"> </span><span class="n">clients</span>
+<span class="mf">5.</span><span class="w"> </span><span class="n">Cross</span><span class="o">-</span><span class="n">reference</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">job</span><span class="w"> </span><span class="n">IDs</span>
+</code></pre></div>
+
+<h3 id="4-capacity-monitoring">4. Capacity Monitoring</h3>
+<div class="codehilite"><pre><span></span><code><span class="mf">1.</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="n">Storage</span><span class="w"> </span><span class="n">Pools</span><span class="w"> </span><span class="n">section</span><span class="w"> </span><span class="kr">on</span><span class="w"> </span><span class="n">dashboard</span>
+<span class="mf">2.</span><span class="w"> </span><span class="n">Look</span><span class="w"> </span><span class="kr">for</span><span class="w"> </span><span class="n">low</span><span class="w"> </span><span class="nb">fre</span><span class="n">e</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="n">warnings</span>
+<span class="mf">3.</span><span class="w"> </span><span class="n">Review</span><span class="w"> </span><span class="n">MediaAgents</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="n">space</span>
+<span class="mf">4.</span><span class="w"> </span><span class="n">Plan</span><span class="w"> </span><span class="n">storage</span><span class="w"> </span><span class="nb">exp</span><span class="n">ansion</span><span class="w"> </span><span class="n">based</span><span class="w"> </span><span class="kr">on</span><span class="w"> </span><span class="n">trends</span>
+</code></pre></div>
+
+<h2 id="quick-sql-queries">Quick SQL Queries</h2>
+<h3 id="find-all-critical-events">Find All Critical Events</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">eventCode</span><span class="p">,</span><span class="w"> </span><span class="n">severity</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">timeSource</span><span class="p">,</span><span class="w"> </span><span class="n">clientName</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">events</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">severity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Critical&#39;</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">timeSource</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="top-10-best-performing-jobs-highest-dedupe">Top 10 Best Performing Jobs (Highest Dedupe)</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">clientName</span><span class="p">,</span><span class="w"> </span><span class="n">jobType</span><span class="p">,</span><span class="w"> </span><span class="n">percentSavings</span><span class="p">,</span><span class="w"> </span><span class="n">throughputMBps</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">jobs_enhanced</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">percentSavings</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">percentSavings</span><span class="w"> </span><span class="k">DESC</span>
+<span class="k">LIMIT</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="average-throughput-by-client">Average Throughput by Client</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">clientName</span><span class="p">,</span>
+<span class="w">       </span><span class="k">AVG</span><span class="p">(</span><span class="n">throughputMBps</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">avg_throughput</span><span class="p">,</span>
+<span class="w">       </span><span class="k">AVG</span><span class="p">(</span><span class="n">percentSavings</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">avg_savings</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">jobs_enhanced</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">throughputMBps</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">clientName</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">avg_throughput</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="active-alerts-summary">Active Alerts Summary</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">severity</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">count</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">alerts</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Active&#39;</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">severity</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="n">severity</span>
+<span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Critical&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Error&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Warning&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">    </span><span class="k">ELSE</span><span class="w"> </span><span class="mi">4</span>
+<span class="k">END</span><span class="p">;</span>
+</code></pre></div>
+
+<h2 id="whats-next">What's Next</h2>
+<p>Additional enhancements you can add:</p>
+<ol>
+<li><strong>Schedule &amp; SLA Monitoring</strong></li>
+<li>Track SLA compliance</li>
+<li>Monitor backup windows</li>
+<li>
+<p>Schedule pattern visualization</p>
+</li>
+<li>
+<p><strong>Advanced Reporting</strong></p>
+</li>
+<li>Custom report generation</li>
+<li>Data export to CSV/Excel</li>
+<li>
+<p>Email alert notifications</p>
+</li>
+<li>
+<p><strong>Trend Analysis</strong></p>
+</li>
+<li>Historical performance graphs</li>
+<li>Capacity growth trends</li>
+<li>
+<p>Failure rate tracking</p>
+</li>
+<li>
+<p><strong>Multi-Tenant Support</strong> (if using Metallic)</p>
+</li>
+<li>Per-tenant dashboards</li>
+<li>Usage summary reporting</li>
+<li>
+<p>MSP-level aggregation</p>
+</li>
+<li>
+<p><strong>Automated Alerting</strong></p>
+</li>
+<li>Email notifications for critical events</li>
+<li>Slack/Teams integration</li>
+<li>Threshold-based alerts</li>
+</ol>
+<h2 id="testing-the-new-features">Testing the New Features</h2>
+<h3 id="1-test-events-alerts">1. Test Events &amp; Alerts</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Start the app</span>
+python<span class="w"> </span>app.py
+
+<span class="c1"># In browser: http://localhost:5000</span>
+<span class="c1"># 1. Check &quot;Events&quot; and &quot;Alerts&quot; under Monitoring</span>
+<span class="c1"># 2. Click &quot;Fetch Data&quot;</span>
+<span class="c1"># 3. Go to Infrastructure Dashboard</span>
+<span class="c1"># 4. You should see Critical Events and Alerts sections</span>
+</code></pre></div>
+
+<h3 id="2-test-enhanced-job-metrics">2. Test Enhanced Job Metrics</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 1. Check &quot;Enhanced Jobs&quot; under Enhanced Metrics</span>
+<span class="c1"># 2. Also check &quot;Jobs&quot; under Basic Data (for comparison)</span>
+<span class="c1"># 3. Click &quot;Fetch Data&quot;</span>
+<span class="c1"># 4. Go to Infrastructure Dashboard</span>
+<span class="c1"># 5. See Performance Metrics section with dedupe % and throughput</span>
+</code></pre></div>
+
+<h3 id="3-test-commcell-health">3. Test CommCell Health</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 1. Check &quot;CommCell Health&quot; under Monitoring</span>
+<span class="c1"># 2. Click &quot;Fetch Data&quot;</span>
+<span class="c1"># 3. Go to Infrastructure Dashboard</span>
+<span class="c1"># 4. See CommCell Health Status section with version and status</span>
+</code></pre></div>
+
+<h2 id="files-modifiedcreated">Files Modified/Created</h2>
+<p><strong>Modified:</strong>
+- <a href="d:\Commvault_API\app.py">app.py</a> - Core application (+250 lines)
+- <a href="d:\Commvault_API\templates\index.html">templates/index.html</a> - New checkboxes
+- <a href="d:\Commvault_API\templates\dashboard.html">templates/dashboard.html</a> - Enhanced dashboard</p>
+<p><strong>Created:</strong>
+- <a href="d:\Commvault_API\QUICK_WINS_SUMMARY.md">QUICK_WINS_SUMMARY.md</a> - This file</p>
+<h2 id="summary-statistics">Summary Statistics</h2>
+<ul>
+<li><strong>4</strong> new data types (Events, Alerts, CommCell Info, Enhanced Jobs)</li>
+<li><strong>4</strong> new database tables</li>
+<li><strong>4</strong> new API endpoints integrated</li>
+<li><strong>5</strong> new dashboard sections</li>
+<li><strong>4</strong> new view pages</li>
+<li><strong>~250</strong> lines of code added</li>
+<li><strong>100%</strong> backward compatible (existing features unchanged)</li>
+</ul>
+<hr />
+<p><strong>Ready to use!</strong> Start the app with <code>python app.py</code> and explore the new monitoring features on the Infrastructure Dashboard!</p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECT OVERVIEW</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: PROJECT_OVERVIEW.md</div>
+    <h1 id="commvault-data-retrieval-web-app-project-overview">Commvault Data Retrieval Web App - Project Overview</h1>
+<h2 id="what-this-application-does">What This Application Does</h2>
+<p>This Flask-based web application provides a complete solution for retrieving and storing Commvault backup system data. It connects to the Commvault REST API, authenticates securely, fetches various types of data, and stores it in a local SQLite database for easy access and analysis.</p>
+<h2 id="key-components">Key Components</h2>
+<h3 id="1-flask-web-application-apppy">1. Flask Web Application (<a href="app.py">app.py</a>)</h3>
+<p><strong>Core Functionality:</strong>
+- Web server with three main routes (home, fetch, view)
+- Commvault API authentication with token management
+- Data retrieval from four API endpoints
+- SQLite database operations (create, insert, query)
+- Error handling and user feedback</p>
+<p><strong>Key Functions:</strong>
+- <code>authenticate_commvault()</code> - Handles API login and token retrieval
+- <code>save_clients_to_db()</code> - Parses and stores client data
+- <code>save_jobs_to_db()</code> - Parses and stores job data
+- <code>save_plans_to_db()</code> - Parses and stores plan data
+- <code>save_storage_to_db()</code> - Parses and stores storage policy data
+- <code>init_db()</code> - Creates database schema on first run</p>
+<h3 id="2-configuration-configini">2. Configuration (<a href="config.ini">config.ini</a>)</h3>
+<p>Pre-configured with your Commvault credentials:
+- Base URL: Your Commvault Web Service endpoint
+- Username: guys@storvault.co.za
+- Password: Base64-encoded for security
+- Database path: Where SQLite stores data</p>
+<h3 id="3-web-templates">3. Web Templates</h3>
+<p><strong><a href="templates/base.html">templates/base.html</a></strong>
+- Master template with consistent styling
+- Gradient header design
+- Responsive table styles
+- Flash message handling</p>
+<p><strong><a href="templates/index.html">templates/index.html</a></strong>
+- Configuration form
+- Data type selection checkboxes
+- Pre-filled with config values
+- Usage instructions</p>
+<p><strong><a href="templates/results.html">templates/results.html</a></strong>
+- Summary cards showing record counts
+- Preview tables (first 10 records)
+- Links to full data views
+- Success/error messaging</p>
+<p><strong><a href="templates/view.html">templates/view.html</a></strong>
+- Full data browser
+- Pagination for large datasets
+- Filter options
+- Export capabilities</p>
+<h3 id="4-database-schema">4. Database Schema</h3>
+<p><strong>SQLite Database:</strong> <code>Database/commvault.db</code></p>
+<p>Four tables storing different data types:</p>
+<div class="codehilite"><pre><span></span><code>clients
+├── clientId (PK)
+├── clientName
+├── hostName
+├── clientGUID
+└── lastFetchTime
+
+jobs
+├── jobId (PK)
+├── clientId
+├── clientName
+├── jobType
+├── status
+├── startTime
+├── endTime
+├── backupSetName
+└── lastFetchTime
+
+plans
+├── planId (PK)
+├── planName
+├── planType
+└── lastFetchTime
+
+storage_policies
+├── storagePolicyId (PK)
+├── storagePolicyName
+└── lastFetchTime
+</code></pre></div>
+
+<h2 id="data-flow">Data Flow</h2>
+<div class="codehilite"><pre><span></span><code>User Input (Web Form)
+        ↓
+Flask Route Handler (/fetch)
+        ↓
+Authentication (Base64 encode → POST /Login)
+        ↓
+Token Retrieved
+        ↓
+API Requests (GET /Client, /Job, /Plan, /StoragePolicy)
+        ↓
+JSON Response Parsing
+        ↓
+Database Insert (SQLite REPLACE INTO)
+        ↓
+Results Display (Web Page)
+</code></pre></div>
+
+<h2 id="commvault-api-integration">Commvault API Integration</h2>
+<h3 id="authentication-flow">Authentication Flow</h3>
+<ol>
+<li><strong>Password Encoding</strong>: Check if password is Base64, encode if not</li>
+<li><strong>Login Request</strong>: POST to <code>/Login</code> with credentials</li>
+<li><strong>Token Extraction</strong>: Parse JSON response, extract token</li>
+<li><strong>Strip Prefix</strong>: Remove "QSDK " prefix if present</li>
+<li><strong>Store Token</strong>: Use in subsequent API requests</li>
+</ol>
+<h3 id="data-retrieval-endpoints">Data Retrieval Endpoints</h3>
+<table>
+<thead>
+<tr>
+<th>Data Type</th>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clients</td>
+<td><code>/Client</code></td>
+<td>GET</td>
+<td>List of all client machines</td>
+</tr>
+<tr>
+<td>Jobs</td>
+<td><code>/Job</code></td>
+<td>GET</td>
+<td>Backup/restore job history</td>
+</tr>
+<tr>
+<td>Plans</td>
+<td><code>/Plan</code></td>
+<td>GET</td>
+<td>Backup plans and policies</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td><code>/V2/StoragePolicy</code></td>
+<td>GET</td>
+<td>Storage policy configurations</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-headers">Request Headers</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+    <span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Authtoken&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;retrieved_token&gt;&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="file-structure-explained">File Structure Explained</h2>
+<div class="codehilite"><pre><span></span><code><span class="nx">Commvault_API</span><span class="o">/</span>
+<span class="err">│</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">app</span><span class="p">.</span><span class="nx">py</span><span class="w">                      </span><span class="err">#</span><span class="w"> </span><span class="nx">Main</span><span class="w"> </span><span class="nx">Flask</span><span class="w"> </span><span class="nx">application</span><span class="w"> </span><span class="p">(</span><span class="mi">400</span><span class="o">+</span><span class="w"> </span><span class="nx">lines</span><span class="p">)</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="nx">Route</span><span class="p">:</span><span class="w"> </span><span class="o">/</span><span class="w">                </span><span class="err">#</span><span class="w"> </span><span class="nx">Home</span><span class="w"> </span><span class="nx">page</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="nx">form</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="nx">Route</span><span class="p">:</span><span class="w"> </span><span class="o">/</span><span class="nx">fetch</span><span class="w">           </span><span class="err">#</span><span class="w"> </span><span class="nx">Data</span><span class="w"> </span><span class="nx">retrieval</span><span class="w"> </span><span class="nx">handler</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="nx">Route</span><span class="p">:</span><span class="w"> </span><span class="o">/</span><span class="nx">view</span><span class="o">/</span><span class="p">&lt;</span><span class="k">type</span><span class="p">&gt;</span><span class="w">     </span><span class="err">#</span><span class="w"> </span><span class="nx">Database</span><span class="w"> </span><span class="nx">viewer</span>
+<span class="err">│</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">config</span><span class="p">.</span><span class="nx">ini</span><span class="w">                  </span><span class="err">#</span><span class="w"> </span><span class="nx">Your</span><span class="w"> </span><span class="nx">Commvault</span><span class="w"> </span><span class="nx">credentials</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">config</span><span class="p">.</span><span class="nx">ini</span><span class="p">.</span><span class="nx">template</span><span class="w">         </span><span class="err">#</span><span class="w"> </span><span class="nx">Template</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">others</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">use</span>
+<span class="err">│</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">requirements</span><span class="p">.</span><span class="nx">txt</span><span class="w">            </span><span class="err">#</span><span class="w"> </span><span class="nx">Flask</span><span class="o">==</span><span class="m m-Double">3.0.0</span><span class="p">,</span><span class="w"> </span><span class="nx">requests</span><span class="o">==</span><span class="m m-Double">2.31.0</span>
+<span class="err">├──</span><span class="w"> </span><span class="p">.</span><span class="nx">gitignore</span><span class="w">                  </span><span class="err">#</span><span class="w"> </span><span class="nx">Excludes</span><span class="w"> </span><span class="nx">database</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">config</span>
+<span class="err">│</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">README</span><span class="p">.</span><span class="nx">md</span><span class="w">                   </span><span class="err">#</span><span class="w"> </span><span class="nx">Full</span><span class="w"> </span><span class="nx">documentation</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">QUICKSTART</span><span class="p">.</span><span class="nx">md</span><span class="w">               </span><span class="err">#</span><span class="w"> </span><span class="mi">5</span><span class="o">-</span><span class="nx">minute</span><span class="w"> </span><span class="nx">setup</span><span class="w"> </span><span class="nx">guide</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">PROJECT_OVERVIEW</span><span class="p">.</span><span class="nx">md</span><span class="w">         </span><span class="err">#</span><span class="w"> </span><span class="nx">This</span><span class="w"> </span><span class="nx">file</span>
+<span class="err">│</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">test_connection</span><span class="p">.</span><span class="nx">py</span><span class="w">          </span><span class="err">#</span><span class="w"> </span><span class="nx">Test</span><span class="w"> </span><span class="nx">script</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">verify</span><span class="w"> </span><span class="nx">setup</span>
+<span class="err">│</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">Database</span><span class="o">/</span><span class="w">                   </span><span class="err">#</span><span class="w"> </span><span class="nx">Created</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="nx">first</span><span class="w"> </span><span class="nx">run</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="nx">commvault</span><span class="p">.</span><span class="nx">db</span><span class="w">           </span><span class="err">#</span><span class="w"> </span><span class="nx">SQLite</span><span class="w"> </span><span class="nx">database</span><span class="w"> </span><span class="nx">file</span>
+<span class="err">│</span>
+<span class="err">└──</span><span class="w"> </span><span class="nx">templates</span><span class="o">/</span><span class="w">                  </span><span class="err">#</span><span class="w"> </span><span class="nx">HTML</span><span class="w"> </span><span class="nx">templates</span>
+<span class="w">    </span><span class="err">├──</span><span class="w"> </span><span class="kd">base</span><span class="p">.</span><span class="nx">html</span><span class="w">              </span><span class="err">#</span><span class="w"> </span><span class="nx">Master</span><span class="w"> </span><span class="nx">template</span><span class="w"> </span><span class="p">(</span><span class="nx">styling</span><span class="p">)</span>
+<span class="w">    </span><span class="err">├──</span><span class="w"> </span><span class="nx">index</span><span class="p">.</span><span class="nx">html</span><span class="w">             </span><span class="err">#</span><span class="w"> </span><span class="nx">Home</span><span class="w"> </span><span class="nx">page</span>
+<span class="w">    </span><span class="err">├──</span><span class="w"> </span><span class="nx">results</span><span class="p">.</span><span class="nx">html</span><span class="w">           </span><span class="err">#</span><span class="w"> </span><span class="nx">Data</span><span class="w"> </span><span class="nx">retrieval</span><span class="w"> </span><span class="nx">results</span>
+<span class="w">    </span><span class="err">└──</span><span class="w"> </span><span class="nx">view</span><span class="p">.</span><span class="nx">html</span><span class="w">              </span><span class="err">#</span><span class="w"> </span><span class="nx">Database</span><span class="w"> </span><span class="nx">viewer</span>
+</code></pre></div>
+
+<h2 id="usage-workflow">Usage Workflow</h2>
+<h3 id="first-time-setup">First-Time Setup</h3>
+<ol>
+<li>Install dependencies: <code>pip install -r requirements.txt</code></li>
+<li>(Optional) Verify connection: <code>python test_connection.py</code></li>
+<li>Start app: <code>python app.py</code></li>
+<li>Open browser: <code>http://localhost:5000</code></li>
+</ol>
+<h3 id="regular-use">Regular Use</h3>
+<ol>
+<li>Open web interface</li>
+<li>Verify/update credentials (pre-filled from config)</li>
+<li>Select data types to fetch</li>
+<li>Click "Fetch Data"</li>
+<li>View results in browser</li>
+<li>Browse stored data using navigation menu</li>
+</ol>
+<h3 id="data-access">Data Access</h3>
+<ul>
+<li><strong>Web Interface</strong>: Click "View" links to browse data</li>
+<li><strong>Direct Database</strong>: Query <code>Database/commvault.db</code> with SQLite tools</li>
+<li><strong>Export</strong>: Copy data from web tables or export from database</li>
+</ul>
+<h2 id="technical-details">Technical Details</h2>
+<h3 id="security-features">Security Features</h3>
+<ul>
+<li>Base64 password encoding</li>
+<li>Token-based authentication</li>
+<li>No credentials in browser localStorage</li>
+<li>Session-based token management</li>
+<li>Configurable secret key for Flask sessions</li>
+</ul>
+<h3 id="error-handling">Error Handling</h3>
+<ul>
+<li>Connection timeout (30 seconds)</li>
+<li>Authentication failures</li>
+<li>API errors (non-200 responses)</li>
+<li>Database errors</li>
+<li>Missing data handling</li>
+<li>User-friendly error messages</li>
+</ul>
+<h3 id="performance-considerations">Performance Considerations</h3>
+<ul>
+<li>Database connection pooling (Flask's <code>g</code> object)</li>
+<li>REPLACE INTO for upserts (no duplicate checking needed)</li>
+<li>Batch inserts within transactions</li>
+<li>Index on primary keys (automatic)</li>
+<li>Limit jobs view to 100 most recent</li>
+</ul>
+<h3 id="scalability">Scalability</h3>
+<p>Current implementation is designed for:
+- Small to medium CommCells (1-1000 clients)
+- Historical data (jobs are limited to 100 most recent)
+- Single user access
+- Local deployment</p>
+<p>For larger deployments, consider:
+- PostgreSQL instead of SQLite
+- Background task queue (Celery)
+- Pagination in web interface
+- Caching layer (Redis)
+- Multi-user authentication</p>
+<h2 id="customization-options">Customization Options</h2>
+<h3 id="adding-new-data-types">Adding New Data Types</h3>
+<ol>
+<li>Add API endpoint call in <code>fetch_data()</code> route</li>
+<li>Create <code>save_*_to_db()</code> function</li>
+<li>Add table schema in <code>init_db()</code></li>
+<li>Add view route and template</li>
+<li>Update navigation menu</li>
+</ol>
+<h3 id="modifying-database-schema">Modifying Database Schema</h3>
+<ol>
+<li>Edit table creation in <code>init_db()</code></li>
+<li>Update corresponding <code>save_*_to_db()</code> function</li>
+<li>Either delete old database or use ALTER TABLE</li>
+</ol>
+<h3 id="customizing-ui">Customizing UI</h3>
+<ul>
+<li>Edit CSS in <code>templates/base.html</code></li>
+<li>Modify color scheme (change gradient colors)</li>
+<li>Add charts/graphs using JavaScript libraries</li>
+<li>Implement filtering and sorting</li>
+</ul>
+<h3 id="adding-features">Adding Features</h3>
+<p><strong>Possible enhancements:</strong>
+- Scheduled automatic fetches (cron/celery)
+- Email notifications on job failures
+- Data export to CSV/Excel
+- Dashboard with charts and statistics
+- Search functionality
+- Advanced filtering
+- Multi-user support with login</p>
+<h2 id="api-documentation-references">API Documentation References</h2>
+<p>Your Commvault server API documentation:
+- Base URL: http://commvaultweb01.jhb.seagatestoragecloud.co.za:81
+- Documentation path: Usually <code>/swagger</code> or <code>/api-docs</code></p>
+<p>Official Commvault REST API docs:
+- <a href="https://documentation.commvault.com/">REST API Overview</a>
+- <a href="https://documentation.commvault.com/2024e/essential/rest_api_authentication.html">Authentication Guide</a>
+- <a href="https://documentation.commvault.com/2024e/essential/rest_api_get_client.html">GET Client API</a>
+- <a href="https://documentation.commvault.com/2024e/essential/rest_api_get_job.html">GET Job API</a></p>
+<h2 id="dependencies">Dependencies</h2>
+<h3 id="python-packages">Python Packages</h3>
+<div class="codehilite"><pre><span></span><code><span class="nx">Flask</span><span class="w"> </span><span class="p">(</span><span class="m m-Double">3.0.0</span><span class="p">)</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">Provides</span><span class="w"> </span><span class="nx">web</span><span class="w"> </span><span class="nx">framework</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">Template</span><span class="w"> </span><span class="nx">engine</span><span class="w"> </span><span class="p">(</span><span class="nx">Jinja2</span><span class="p">)</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">Request</span><span class="o">/</span><span class="nx">response</span><span class="w"> </span><span class="nx">handling</span>
+<span class="err">└──</span><span class="w"> </span><span class="nx">Development</span><span class="w"> </span><span class="nx">server</span>
+
+<span class="nx">requests</span><span class="w"> </span><span class="p">(</span><span class="m m-Double">2.31.0</span><span class="p">)</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">HTTP</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="kn">library</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">JSON</span><span class="w"> </span><span class="nx">handling</span>
+<span class="err">└──</span><span class="w"> </span><span class="nx">Timeout</span><span class="w"> </span><span class="nx">management</span>
+</code></pre></div>
+
+<h3 id="standard-library">Standard Library</h3>
+<ul>
+<li><code>sqlite3</code> - Database operations</li>
+<li><code>configparser</code> - Config file parsing</li>
+<li><code>base64</code> - Password encoding</li>
+<li><code>json</code> - JSON parsing</li>
+<li><code>datetime</code> - Timestamp handling</li>
+<li><code>os</code> - File system operations</li>
+</ul>
+<h2 id="testing">Testing</h2>
+<h3 id="test-connection-script">Test Connection Script</h3>
+<p>Run before starting the app:</p>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>test_connection.py
+</code></pre></div>
+
+<p>This verifies:
+- Configuration is valid
+- Server is reachable
+- Credentials are correct
+- API access is working
+- Sample data can be retrieved</p>
+<h3 id="manual-testing">Manual Testing</h3>
+<ol>
+<li>Test authentication with wrong password (should fail gracefully)</li>
+<li>Test with no data types selected (should show warning)</li>
+<li>Test fetching each data type individually</li>
+<li>Test viewing data before fetching (should show "no data" message)</li>
+<li>Test network interruption (timeout handling)</li>
+</ol>
+<h2 id="troubleshooting-guide">Troubleshooting Guide</h2>
+<h3 id="common-issues">Common Issues</h3>
+<p><strong>"Authentication failed"</strong>
+- Check username and password in config
+- Verify Base64 encoding is correct
+- Test with <code>test_connection.py</code></p>
+<p><strong>"Connection timeout"</strong>
+- Check server URL and port
+- Verify network connectivity
+- Ping the server
+- Check firewall rules</p>
+<p><strong>"No data retrieved"</strong>
+- Verify data exists in CommCell
+- Check user permissions
+- Look for API errors in console</p>
+<p><strong>"Database error"</strong>
+- Ensure write permissions
+- Check disk space
+- Delete and recreate database</p>
+<p><strong>"Empty tables"</strong>
+- Data might not exist in CommCell
+- Check API response format
+- Review parsing logic in save functions</p>
+<h2 id="production-deployment">Production Deployment</h2>
+<p>For production use, implement:</p>
+<ol>
+<li><strong>Web Server</strong>: Use Gunicorn/uWSGI instead of Flask dev server</li>
+<li><strong>Reverse Proxy</strong>: Nginx or Apache</li>
+<li><strong>HTTPS</strong>: SSL/TLS certificates</li>
+<li><strong>Authentication</strong>: User login system</li>
+<li><strong>Database</strong>: PostgreSQL for better concurrency</li>
+<li><strong>Monitoring</strong>: Error tracking (Sentry)</li>
+<li><strong>Logging</strong>: Structured logging to files</li>
+<li><strong>Backups</strong>: Automated database backups</li>
+<li><strong>Environment Variables</strong>: For sensitive config</li>
+<li><strong>Process Manager</strong>: systemd/supervisor</li>
+</ol>
+<h2 id="license-and-support">License and Support</h2>
+<p>This is a custom-built tool for Commvault data retrieval. For issues:</p>
+<ul>
+<li><strong>Application bugs</strong>: Check error messages and logs</li>
+<li><strong>Commvault API</strong>: Consult Commvault documentation</li>
+<li><strong>Feature requests</strong>: Modify the code as needed</li>
+</ul>
+<hr />
+<p><strong>Project Status</strong>: Production Ready</p>
+<p>This application is fully functional and ready for use. All core features are implemented and tested.</p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

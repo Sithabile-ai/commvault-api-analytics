@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGING POLICY SUMMARY</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: AGING_POLICY_SUMMARY.md</div>
+    <h1 id="aging-policy-analysis-summary">Aging Policy Analysis Summary</h1>
+<p><strong>Generated:</strong> 2025-11-14
+<strong>Database:</strong> Commvault API Data Collection
+<strong>Total Plans Analyzed:</strong> 278 Plans
+<strong>Total Retention Rules:</strong> 518 Rules</p>
+<hr />
+<h2 id="executive-summary">Executive Summary</h2>
+<p>This report provides a comprehensive analysis of aging (retention) policies configured across all Commvault Plans in the system. The analysis focuses on retention days, cycles, and aging enablement status.</p>
+<h3 id="key-findings">Key Findings</h3>
+<ul>
+<li>✅ <strong>All retention rules have aging ENABLED</strong> (518/518 = 100%)</li>
+<li>📊 <strong>Most common retention periods:</strong></li>
+<li>14 days: <strong>141 rules</strong> (27.2%)</li>
+<li>10 days: <strong>91 rules</strong> (17.6%)</li>
+<li>30 days: <strong>76 rules</strong> (14.7%)</li>
+<li>365 days (1 year): <strong>74 rules</strong> (14.3%)</li>
+</ul>
+<hr />
+<h2 id="critical-statistics">Critical Statistics</h2>
+<h3 id="retention-period-counts">Retention Period Counts</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Retention Days</th>
+<th style="text-align: right;">Number of Rules</th>
+<th style="text-align: right;">Percentage</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;"><strong>14 days</strong></td>
+<td style="text-align: right;"><strong>141</strong></td>
+<td style="text-align: right;"><strong>27.2%</strong></td>
+<td style="text-align: left;">Most common short-term retention</td>
+</tr>
+<tr>
+<td style="text-align: right;"><strong>10 days</strong></td>
+<td style="text-align: right;"><strong>91</strong></td>
+<td style="text-align: right;"><strong>17.6%</strong></td>
+<td style="text-align: left;">Second most common</td>
+</tr>
+<tr>
+<td style="text-align: right;"><strong>30 days</strong></td>
+<td style="text-align: right;"><strong>76</strong></td>
+<td style="text-align: right;"><strong>14.7%</strong></td>
+<td style="text-align: left;">Standard monthly retention</td>
+</tr>
+<tr>
+<td style="text-align: right;"><strong>365 days</strong></td>
+<td style="text-align: right;"><strong>74</strong></td>
+<td style="text-align: right;"><strong>14.3%</strong></td>
+<td style="text-align: left;">Annual retention</td>
+</tr>
+<tr>
+<td style="text-align: right;">730 days (2 years)</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">3.1%</td>
+<td style="text-align: left;">Long-term retention</td>
+</tr>
+<tr>
+<td style="text-align: right;">1825 days (5 years)</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1.5%</td>
+<td style="text-align: left;">Compliance/legal retention</td>
+</tr>
+</tbody>
+</table>
+<h3 id="30-day-and-14-day-retention-breakdown">30-Day and 14-Day Retention Breakdown</h3>
+<h4 id="30-day-retention-policies">📦 30-Day Retention Policies</h4>
+<ul>
+<li><strong>Total storage copies with 30-day retention:</strong> 76</li>
+<li><strong>Unique plans with 30-day retention:</strong> 64</li>
+</ul>
+<p><strong>Key Plans with 30-day retention:</strong>
+1. ALS_AD - 1 copy
+2. ALS_FS - 2 copies (Primary + Cloud)
+3. ALS_SQL - 1 copy
+4. ALS_VM - 2 copies (Primary + Cloud)
+5. ASEM Backup Plan - 2 copies
+6. ActiveScale_EXT_Plan - 2 copies
+7. AllBro_Backup Plan - 1 copy
+8. CT Onsite Backup - 2 copies
+9. Cani Rusk Plan - 1 copy
+10. Capri Linux Server Plan - 1 copy
+11. Capri Linux Test - 1 copy
+12. Capri Server Plan - 1 copy
+13. CapriChem Backup Plan - 1 copy
+14. ClockWorks SQL Plan - 1 copy
+15. ClockWorks_FS_Plan - 1 copy
+16. Daikin Backup Plan - 2 copies
+17. Dickon Hall Foods Backup Plan - 1 copy
+18. Edward Backup Plan - 1 copy
+19. Extraordinary Backup Plan - 1 copy
+20. Fasken Backup Plan - 1 copy
+21. Finlar CPT Backup Plan - 1 copy
+22. Formax Endpoint Plan - 1 copy
+23. Formax_AD - 1 copy
+24. Formax_FS - 1 copy
+25. Formax_SQL - 1 copy
+26. Formax_VM - 1 copy
+27. GVSupreme Backup Plan - 2 copies
+28. Gordon Verhoef &amp; Krause Backup Plan - 1 copy
+29. LawExplorer Backup Plan - 1 copy
+30. MIFA Server Plan - 1 copy
+31. MIFA_File_Plan - 1 copy
+32. MKLM_Plan - 1 copy
+33. MMH - Christie House - 1 copy
+34. MMH - MOZ - 1 copy
+35. MMH-BOT - 1 copy
+36. MMH-GHA - 1 copy
+37. MMH-Kingsway - 1 copy
+38. MMH-NAM - 1 copy
+39. MediKredit - Treaco Plan - 2 copies
+40. MediKredit_DR Center - 1 copy
+41. MediKredit_HeadOffice - 1 copy
+42. Medikredit - BI SQL backup - 1 copy
+43. Mentor-Plan - 1 copy
+44. Mentor-Server-Plan - 2 copies
+45. Plumblink_Laptop_Plan - 2 copies
+46. Profica - 1 copy
+47. QASTEST - 1 copy
+48. Rialto Foods Backup Plan - 2 copies
+49. Sasfin Backup Plan - 1 copy
+50. Server Plan Friday Full - 1 copy
+51. Server Plan Saturday Full - 1 copy
+52. Silicone Server Plan - 1 copy
+53. Sithabile Staff - 1 copy
+54. SMD Server Plan - 1 copy
+55. Southern Sun OR Tambo Plan - 1 copy
+56. SouthernSun Local Plan - 1 copy
+57. STS_Exchange - 1 copy
+58. Syntech Backup Plan - 1 copy
+59. Syntech Server Plan - 1 copy
+60. Top Vending Hyper-V - 1 copy
+61. Traficc Backup Plan - 1 copy
+62. UmAfrika Backup Server - 1 copy
+63. Universal Nas Plan - 1 copy
+64. Van Der Vyver Linux Plan - 2 copies</p>
+<h4 id="14-day-retention-policies">📦 14-Day Retention Policies</h4>
+<ul>
+<li><strong>Total storage copies with 14-day retention:</strong> 141</li>
+<li><strong>Unique plans with 14-day retention:</strong> 131</li>
+</ul>
+<p><strong>Key Plans with 14-day retention:</strong>
+1. A.R.B Electrical Backup Plan - Cloud copy
+2. ALS_AD - Cloud copy
+3. ALS_SQL - Cloud copy
+4. AMT Server Plan - Cloud copy
+5. AS2 Server Foundation Plan - Cloud copy
+6. Allan Gray Backup Plan - Cloud copy
+7. Apex Backup Plan - Cloud copy
+8. Apex Plan - 2 copies
+9. BallStraathof_AD - Cloud copy
+10. BallStraathof_FS - Cloud copy
+11. BallStraathof_Oracle - Cloud copy
+12. BallStraathof_SQL - Cloud copy
+13. BallStraathof_VM - Cloud copy
+14. Blue Turtle Plan V1 - Cloud copy
+15. Blue Turtle Plan v2 - Cloud copy
+16. CCIC AD Plan - Cloud copy
+17. CCIC FS Plan - Cloud copy
+18. CCIC SQL Plan - Cloud copy
+19. CCIC VM Plan - Cloud copy
+20. Capri Server Plan - Cloud copy
+21. CapriChem Backup Plan - Cloud copy
+22. Chartered Wealth Solutions Plan - 2 copies
+23. ClifftopLodge Backup Plan - 2 copies
+24. DLM Backup Plan - Cloud copy
+25. Dickon Hall Foods Backup Plan - Cloud copy
+26. ESA Plan - Cloud copy
+27. Empact Group V1 - Cloud copy
+28. Empact Group V2 - Cloud copy
+29. Energy Partners Backup Plan - Cloud copy
+30. Extraordinary Backup Plan - Cloud copy
+31. Filmfinity Backup Plan - Cloud copy
+32. Filmfinity SQL Backup Plan - Cloud copy
+33. Finbond Mutual Bank Backup Plan - Cloud copy
+34. Finlar CPT Backup Plan - Cloud copy
+35. Finlar JHB Backup Plan - Cloud copy
+36. Formax_FS - Cloud copy
+37. Formax_VM - Cloud copy
+38. Front Runner SQL Plan - 2 copies
+39. Front Runner Server Plan - Cloud copy
+40. Henley Server Plan - Cloud copy
+41. IBI Every2Hours - Cloud copy
+42. IBI Everyday Full - Cloud copy
+43. IBI Server Backup - Cloud copy</p>
+<p>... and many more (131 unique plans total)</p>
+<hr />
+<h2 id="retention-distribution-analysis">Retention Distribution Analysis</h2>
+<h3 id="short-term-retention-30-days">Short-Term Retention (&lt; 30 days)</h3>
+<ul>
+<li>1 day: 1 rule</li>
+<li>3 days: 1 rule</li>
+<li>4 days: 1 rule</li>
+<li>5 days: 3 rules</li>
+<li>7 days: 17 rules</li>
+<li><strong>10 days: 91 rules</strong> ⭐ Very common</li>
+<li><strong>14 days: 141 rules</strong> ⭐ Most common</li>
+<li>15 days: 22 rules</li>
+<li>21 days: 4 rules</li>
+<li>29 days: 2 rules</li>
+</ul>
+<p><strong>Total Short-Term:</strong> 283 rules (54.6%)</p>
+<h3 id="medium-term-retention-30-90-days">Medium-Term Retention (30-90 days)</h3>
+<ul>
+<li><strong>30 days: 76 rules</strong> ⭐ Common</li>
+<li>31 days: 1 rule</li>
+<li>60 days: 1 rule</li>
+<li>90 days: 3 rules</li>
+<li>91 days: 1 rule</li>
+<li>93 days: 18 rules</li>
+</ul>
+<p><strong>Total Medium-Term:</strong> 100 rules (19.3%)</p>
+<h3 id="long-term-retention-90-days">Long-Term Retention (&gt; 90 days)</h3>
+<ul>
+<li>182 days (6 months): 5 rules</li>
+<li>183 days: 2 rules</li>
+<li>186 days: 4 rules</li>
+<li>364 days: 4 rules</li>
+<li><strong>365 days (1 year): 74 rules</strong> ⭐ Very common</li>
+<li>730 days (2 years): 16 rules</li>
+<li>1095 days (3 years): 1 rule</li>
+<li>1825 days (5 years): 8 rules</li>
+<li>1826 days: 1 rule</li>
+<li>2555 days (7 years): 1 rule</li>
+</ul>
+<p><strong>Total Long-Term:</strong> 116 rules (22.4%)</p>
+<h3 id="infinite-retention">Infinite Retention</h3>
+<ul>
+<li>Plans with infinite retention detected</li>
+<li>Typically used for cloud/archive copies</li>
+<li>Special retention for Office 365, SharePoint, OneDrive, Teams</li>
+</ul>
+<hr />
+<h2 id="aging-status">Aging Status</h2>
+<h3 id="overall-aging-enablement">Overall Aging Enablement</h3>
+<ul>
+<li>✅ <strong>Aging ENABLED:</strong> 518 rules (100%)</li>
+<li>❌ <strong>Aging DISABLED:</strong> 0 rules (0%)</li>
+</ul>
+<p><strong>Conclusion:</strong> All retention policies have data aging enabled, meaning Commvault will automatically prune data according to the configured retention periods.</p>
+<hr />
+<h2 id="pattern-analysis">Pattern Analysis</h2>
+<h3 id="common-retention-strategy">Common Retention Strategy</h3>
+<p>Most organizations follow a <strong>tiered retention strategy</strong>:</p>
+<ol>
+<li><strong>Primary Copy:</strong> 10-30 days (fast recovery)</li>
+<li>10 days: Quick operational recovery</li>
+<li>14 days: 2-week operational window</li>
+<li>
+<p>30 days: Monthly backup retention</p>
+</li>
+<li>
+<p><strong>Cloud/Secondary Copy:</strong> 14-365 days (disaster recovery)</p>
+</li>
+<li>14 days: Short-term cloud backup</li>
+<li>30 days: Monthly cloud retention</li>
+<li>
+<p>365 days: Annual compliance retention</p>
+</li>
+<li>
+<p><strong>Archive Copy:</strong> 365-1825+ days (long-term compliance)</p>
+</li>
+<li>1 year: Standard compliance</li>
+<li>2 years: Financial records</li>
+<li>5+ years: Legal/regulatory compliance</li>
+</ol>
+<h3 id="cloud-copy-retention">Cloud Copy Retention</h3>
+<p>Most cloud copies have <strong>14-day retention</strong>, which is shorter than primary copies. This suggests:
+- Cloud storage is used for disaster recovery, not long-term retention
+- Cost optimization strategy (shorter retention = lower cloud storage costs)
+- Primary storage kept on-premises for faster recovery</p>
+<hr />
+<h2 id="recommendations">Recommendations</h2>
+<h3 id="current-state-assessment">Current State Assessment</h3>
+<p>✅ <strong>Strengths:</strong>
+- All policies have aging enabled (no orphaned data)
+- Well-distributed retention periods
+- Clear tiered strategy (primary vs cloud)
+- Compliance-focused long-term retention</p>
+<p>⚠️ <strong>Areas for Review:</strong>
+1. <strong>Very short retention (1-5 days):</strong> Only 8 rules
+   - Verify these are intentional (test environments?)
+   - Example: "Irene Test" has 1-day retention</p>
+<ol>
+<li><strong>Inconsistent retention across similar plans:</strong></li>
+<li>Some plans have 10 days, others have 14 days</li>
+<li>
+<p>Consider standardizing to 10, 14, or 30-day tiers</p>
+</li>
+<li>
+<p><strong>Cloud copy strategy:</strong></p>
+</li>
+<li>Most cloud copies have 14-day retention</li>
+<li>Consider if this meets disaster recovery requirements</li>
+</ol>
+<h3 id="optimization-opportunities">Optimization Opportunities</h3>
+<ol>
+<li><strong>Standardize Retention Tiers:</strong></li>
+<li>Tier 1: 14 days (operational recovery)</li>
+<li>Tier 2: 30 days (monthly backups)</li>
+<li>Tier 3: 365 days (annual compliance)</li>
+<li>
+<p>Tier 4: 1825+ days (legal/regulatory)</p>
+</li>
+<li>
+<p><strong>Review Short Retention Plans:</strong></p>
+</li>
+<li>Speedspace: 4 days</li>
+<li>Simera NAS: 3 days</li>
+<li>
+<p>Irene Test: 1 day</p>
+</li>
+<li>
+<p><strong>Cost Optimization:</strong></p>
+</li>
+<li>Cloud copies with 14-day retention: Review if adequate</li>
+<li>Consider extending critical systems to 30 days</li>
+<li>Archive old data to cheaper storage tiers</li>
+</ol>
+<hr />
+<h2 id="detailed-statistics-tables">Detailed Statistics Tables</h2>
+<h3 id="top-20-plans-by-average-retention">Top 20 Plans by Average Retention</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Plan Name</th>
+<th style="text-align: right;">Copies</th>
+<th style="text-align: right;">Min Days</th>
+<th style="text-align: right;">Max Days</th>
+<th style="text-align: right;">Avg Days</th>
+<th style="text-align: right;">Aging Enabled</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Energy Partners Archive Plan</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2555</td>
+<td style="text-align: right;">2555</td>
+<td style="text-align: right;">2555.0</td>
+<td style="text-align: right;">1/1</td>
+</tr>
+<tr>
+<td style="text-align: left;">Amaro Foods Backup Plan</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">93</td>
+<td style="text-align: right;">1826</td>
+<td style="text-align: right;">959.5</td>
+<td style="text-align: right;">2/2</td>
+</tr>
+<tr>
+<td style="text-align: left;">MIFA Plan</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">365</td>
+<td style="text-align: right;">1825</td>
+<td style="text-align: right;">912.5</td>
+<td style="text-align: right;">2/2</td>
+</tr>
+<tr>
+<td style="text-align: left;">MIFA_File_Plan</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">1825</td>
+<td style="text-align: right;">912.5</td>
+<td style="text-align: right;">2/2</td>
+</tr>
+<tr>
+<td style="text-align: left;">MIFA Server Plan</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">1825</td>
+<td style="text-align: right;">912.5</td>
+<td style="text-align: right;">2/2</td>
+</tr>
+<tr>
+<td style="text-align: left;">Bronze Endpoint</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">365</td>
+<td style="text-align: right;">730</td>
+<td style="text-align: right;">547.5</td>
+<td style="text-align: right;">2/2</td>
+</tr>
+<tr>
+<td style="text-align: left;">Accelerate Property Laptop Plan</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">365</td>
+<td style="text-align: right;">730</td>
+<td style="text-align: right;">547.5</td>
+<td style="text-align: right;">2/2</td>
+</tr>
+<tr>
+<td style="text-align: left;">Medikredit - BI SQL backup</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">1095</td>
+<td style="text-align: right;">547.5</td>
+<td style="text-align: right;">2/2</td>
+</tr>
+<tr>
+<td style="text-align: left;">AllBro_Backup Plan</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">364</td>
+<td style="text-align: right;">197.0</td>
+<td style="text-align: right;">2/2</td>
+</tr>
+<tr>
+<td style="text-align: left;">Blue Turtle Plan V1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">364</td>
+<td style="text-align: right;">189.0</td>
+<td style="text-align: right;">2/2</td>
+</tr>
+<tr>
+<td style="text-align: left;">Blue Turtle Plan v2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">364</td>
+<td style="text-align: right;">189.0</td>
+<td style="text-align: right;">2/2</td>
+</tr>
+<tr>
+<td style="text-align: left;">A.R.B Electrical Backup Plan</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">365</td>
+<td style="text-align: right;">189.5</td>
+<td style="text-align: right;">2/2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="plans-with-shortest-retention">Plans with Shortest Retention</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Plan Name</th>
+<th style="text-align: right;">Copies</th>
+<th style="text-align: right;">Retention Days</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Irene Test</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Test environment</td>
+</tr>
+<tr>
+<td style="text-align: left;">Simera NAS Backup Plan</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Short-term NAS backup</td>
+</tr>
+<tr>
+<td style="text-align: left;">Speedspace Backup Plan</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Short operational window</td>
+</tr>
+<tr>
+<td style="text-align: left;">Southern Sun Plans</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Short hotel backup</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="report-files-generated">Report Files Generated</h2>
+<ol>
+<li><strong>aging_policy_report.txt</strong> - Full detailed report with all plans listed</li>
+<li><strong>AGING_POLICY_SUMMARY.md</strong> - This executive summary document</li>
+</ol>
+<hr />
+<h2 id="next-steps">Next Steps</h2>
+<ol>
+<li>✅ Review plans with very short retention (&lt; 7 days)</li>
+<li>✅ Standardize retention tiers across organization</li>
+<li>✅ Verify cloud retention meets DR requirements</li>
+<li>✅ Document retention policy rationale</li>
+<li>✅ Schedule regular retention policy audits</li>
+</ol>
+<hr />
+<p><strong>Report Generated By:</strong> Commvault API Data Collection Tool
+<strong>Analysis Script:</strong> analyze_aging_policies.py
+<strong>Database:</strong> Database/commvault.db</p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+
+{% block title %}Commvault - MediaAgents{% endblock %}
+
+{% block content %}
+<style>
+    .mediaagent-container {
+        display: flex;
+        gap: 20px;
+    }
+
+    .mediaagent-list {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .mediaagent-detail {
+        width: 400px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 20px;
+        height: fit-content;
+    }
+
+    .mediaagent-row {
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .mediaagent-row:hover {
+        background: #e3f2fd !important;
+        transform: translateX(5px);
+    }
+
+    .mediaagent-row.selected {
+        background: #bbdefb !important;
+        border-left: 4px solid #667eea;
+    }
+
+    .detail-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 10px;
+        padding: 25px;
+        color: white;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+
+    .detail-card h3 {
+        margin: 0 0 20px 0;
+        font-size: 1.5em;
+        border-bottom: 2px solid rgba(255,255,255,0.3);
+        padding-bottom: 10px;
+    }
+
+    .detail-item {
+        margin-bottom: 15px;
+        padding: 10px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 5px;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        opacity: 0.9;
+        font-size: 0.9em;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .detail-value {
+        font-size: 1.1em;
+        font-weight: 500;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9em;
+    }
+
+    .status-online {
+        background: #00ff88;
+        color: #000;
+    }
+
+    .status-offline {
+        background: #ff4757;
+        color: #fff;
+    }
+
+    .no-selection {
+        text-align: center;
+        padding: 40px 20px;
+        opacity: 0.7;
+    }
+
+    @media (max-width: 1200px) {
+        .mediaagent-container {
+            flex-direction: column;
+        }
+
+        .mediaagent-detail {
+            width: 100%;
+            position: relative;
+        }
+    }
+</style>
+
+<div class="nav-links">
+    <a href="{{ url_for('index') }}">Back to Home</a>
+    <a href="{{ url_for('infrastructure_dashboard') }}">🏗️ Infrastructure Dashboard</a>
+    <a href="{{ url_for('view_mediaagents') }}" style="background: #f0f0f0;">MediaAgents</a>
+</div>
+
+<h2 style="margin-bottom: 20px; color: #333;">📡 MediaAgents</h2>
+
+{% if data %}
+<div style="background: #e7f3ff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+    <p style="color: #1976D2; font-weight: 600;">
+        Total MediaAgents: {{ data|length }}
+        | Click on any row to view details
+    </p>
+</div>
+
+<div class="mediaagent-container">
+    <!-- MediaAgent List -->
+    <div class="mediaagent-list">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>MediaAgent Name</th>
+                    <th>Host Name</th>
+                    <th>Status</th>
+                    <th>Available Space</th>
+                    <th>Total Space</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ma in data %}
+                <tr class="mediaagent-row" data-ma-id="{{ ma.mediaAgentId }}" onclick="selectMediaAgent(this, {{ ma|tojson }})">
+                    <td><strong>{{ ma.mediaAgentId }}</strong></td>
+                    <td>{{ ma.mediaAgentName }}</td>
+                    <td>{{ ma.hostName if ma.hostName else 'N/A' }}</td>
+                    <td>
+                        {% if ma.status == 'Online' or ma.status == '1' %}
+                        <span style="color: #28a745; font-weight: 600;">● Online</span>
+                        {% else %}
+                        <span style="color: #dc3545; font-weight: 600;">● {{ ma.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ ma.availableSpace }}</td>
+                    <td>{{ ma.totalSpace }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- MediaAgent Detail Panel -->
+    <div class="mediaagent-detail">
+        <div class="detail-card" id="detailCard">
+            <div class="no-selection">
+                <h3 style="border: none;">Select a MediaAgent</h3>
+                <p>Click on any MediaAgent row to view detailed information</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let selectedRow = null;
+
+    function selectMediaAgent(row, data) {
+        // Remove previous selection
+        if (selectedRow) {
+            selectedRow.classList.remove('selected');
+        }
+
+        // Add selection to current row
+        row.classList.add('selected');
+        selectedRow = row;
+
+        // Update detail panel
+        const detailCard = document.getElementById('detailCard');
+
+        const statusClass = (data.status === 'Online' || data.status === '1') ? 'status-online' : 'status-offline';
+        const statusText = (data.status === 'Online' || data.status === '1') ? 'Online' : data.status;
+
+        detailCard.innerHTML = `
+            <h3>📡 ${data.mediaAgentName || 'Unknown'}</h3>
+
+            <div class="detail-item">
+                <span class="detail-label">MediaAgent ID</span>
+                <span class="detail-value">${data.mediaAgentId}</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Status</span>
+                <span class="status-badge ${statusClass}">${statusText}</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Host Name</span>
+                <span class="detail-value">${data.hostName || 'N/A'}</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">OS Type</span>
+                <span class="detail-value">${data.osType || 'N/A'}</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Available Space</span>
+                <span class="detail-value">${data.availableSpace || 'N/A'}</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Total Space</span>
+                <span class="detail-value">${data.totalSpace || 'N/A'}</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="detail-label">Last Fetch Time</span>
+                <span class="detail-value" style="font-size: 0.9em;">${data.lastFetchTime || 'N/A'}</span>
+            </div>
+
+            ${data.description ? `
+            <div class="detail-item">
+                <span class="detail-label">Description</span>
+                <span class="detail-value">${data.description}</span>
+            </div>
+            ` : ''}
+        `;
+
+        // Scroll detail card into view on mobile
+        if (window.innerWidth < 1200) {
+            detailCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }
+</script>
+
+{% else %}
+<div style="background: #fff3cd; padding: 20px; border-radius: 8px; border-left: 4px solid #ffc107;">
+    <h3 style="color: #856404; margin-bottom: 10px;">No MediaAgents Available</h3>
+    <p style="color: #856404; line-height: 1.6;">
+        No MediaAgent data has been retrieved yet. Please go to the
+        <a href="{{ url_for('index') }}" style="color: #667eea; font-weight: 600;">home page</a>
+        to fetch MediaAgent data from Commvault.
+    </p>
+</div>
+{% endif %}
+{% endblock %}

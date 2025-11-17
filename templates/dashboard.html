@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+
+{% block title %}Commvault Infrastructure Dashboard{% endblock %}
+
+{% block content %}
+<div class="nav-links">
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('infrastructure_dashboard') }}" style="background: #f0f0f0;">Dashboard</a>
+    <a href="{{ url_for('storage_estate_dashboard') }}">Storage Estate</a>
+    <a href="{{ url_for('view_retention_policies') }}">Retention Policies</a>
+    <a href="{{ url_for('view_mediaagents') }}">MediaAgents</a>
+    <a href="{{ url_for('view_data', data_type='storage_pools') }}">Storage Pools</a>
+    <a href="{{ url_for('view_data', data_type='libraries') }}">Libraries</a>
+    <a href="{{ url_for('view_data', data_type='hypervisors') }}">Hypervisors</a>
+    <a href="{{ url_for('events_alerts_dashboard') }}">Events & Alerts</a>
+</div>
+
+<h2 style="margin-bottom: 20px; color: #333;">🏗️ Infrastructure Overview Dashboard</h2>
+
+<!-- Summary Cards -->
+<div class="data-summary">
+    <div class="summary-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <h3>{{ stats.mediaagents_count }}</h3>
+        <p>MediaAgents</p>
+    </div>
+    <div class="summary-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+        <h3>{{ stats.pools_count }}</h3>
+        <p>Storage Pools</p>
+    </div>
+    <div class="summary-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+        <h3>{{ stats.libraries_count }}</h3>
+        <p>Libraries</p>
+    </div>
+    <div class="summary-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+        <h3>{{ stats.hypervisors_count }}</h3>
+        <p>Hypervisors</p>
+    </div>
+    <div class="summary-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+        <h3>{{ stats.clients_count }}</h3>
+        <p>Total Clients</p>
+    </div>
+    <div class="summary-card" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+        <h3>{{ stats.jobs_count }}</h3>
+        <p>Total Jobs</p>
+    </div>
+    <div class="summary-card" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);">
+        <h3>{{ stats.critical_events }}</h3>
+        <p>Critical Events</p>
+    </div>
+    <div class="summary-card" style="background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%);">
+        <h3>{{ stats.active_alerts }}</h3>
+        <p>Active Alerts</p>
+    </div>
+</div>
+
+<!-- CommCell Health Status -->
+{% if stats.commcell_info %}
+<div style="margin-top: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px; border-radius: 8px; color: white;">
+    <h3 style="margin-bottom: 15px;">🏥 CommCell Health Status</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+        <div>
+            <strong>CommCell Name:</strong><br>
+            <span style="font-size: 1.2em;">{{ stats.commcell_info[0] }}</span>
+        </div>
+        <div>
+            <strong>Version:</strong><br>
+            <span style="font-size: 1.2em;">{{ stats.commcell_info[1] }}</span>
+        </div>
+        <div>
+            <strong>Status:</strong><br>
+            <span style="font-size: 1.2em; color: #43e97b;">● {{ stats.commcell_info[2] }}</span>
+        </div>
+        <div>
+            <strong>Last Check:</strong><br>
+            <span style="font-size: 1em;">{{ stats.commcell_info[3] }}</span>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Performance Metrics -->
+{% if stats.avg_dedupe_savings > 0 or stats.avg_throughput > 0 %}
+<div style="margin-top: 30px; background: #f8f9fa; padding: 20px; border-radius: 8px;">
+    <h3 style="color: #333; margin-bottom: 15px;">📈 Performance Metrics</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+        <div style="background: white; padding: 20px; border-radius: 5px; border-left: 4px solid #43e97b;">
+            <div style="font-size: 2.5em; font-weight: bold; color: #43e97b;">{{ stats.avg_dedupe_savings }}%</div>
+            <div style="color: #666; margin-top: 5px;">Average Deduplication Savings</div>
+        </div>
+        <div style="background: white; padding: 20px; border-radius: 5px; border-left: 4px solid #4facfe;">
+            <div style="font-size: 2.5em; font-weight: bold; color: #4facfe;">{{ stats.avg_throughput }}</div>
+            <div style="color: #666; margin-top: 5px;">Average Throughput (MB/s)</div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Critical Events Section -->
+{% if stats.recent_critical_events %}
+<div style="margin-top: 30px; background: #fff5f5; padding: 20px; border-radius: 8px; border-left: 4px solid #dc3545;">
+    <h3 style="color: #dc3545; margin-bottom: 15px;">🚨 Recent Critical Events</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Event Code</th>
+                <th>Severity</th>
+                <th>Message</th>
+                <th>Time</th>
+                <th>Client</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in stats.recent_critical_events %}
+            <tr>
+                <td><strong>{{ event[0] }}</strong></td>
+                <td>
+                    {% if event[1] == 'Critical' %}
+                    <span style="color: #dc3545; font-weight: 600;">⚠️ Critical</span>
+                    {% else %}
+                    <span style="color: #ffc107; font-weight: 600;">⚠ {{ event[1] }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ event[2][:100] }}{% if event[2]|length > 100 %}...{% endif %}</td>
+                <td>{{ event[3] }}</td>
+                <td>{{ event[4] if event[4] else 'N/A' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p style="margin-top: 10px; color: #666;">
+        <a href="{{ url_for('view_data', data_type='events') }}" style="color: #dc3545; font-weight: 600;">View all events →</a>
+    </p>
+</div>
+{% endif %}
+
+<!-- MediaAgents Section -->
+{% if stats.mediaagents %}
+<div style="margin-top: 40px; background: #f8f9fa; padding: 20px; border-radius: 8px;">
+    <h3 style="color: #333; margin-bottom: 15px;">📡 MediaAgents Status</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>MediaAgent Name</th>
+                <th>Status</th>
+                <th>Available Space</th>
+                <th>Total Space</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ma in stats.mediaagents %}
+            <tr>
+                <td><strong>{{ ma[0] }}</strong></td>
+                <td>
+                    {% if ma[1] == 'Online' or ma[1] == '1' %}
+                    <span style="color: #28a745; font-weight: 600;">● Online</span>
+                    {% else %}
+                    <span style="color: #dc3545; font-weight: 600;">● {{ ma[1] }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ ma[2] }}</td>
+                <td>{{ ma[3] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<!-- Storage Pools Section -->
+{% if stats.storage_pools %}
+<div style="margin-top: 30px; background: #f8f9fa; padding: 20px; border-radius: 8px;">
+    <h3 style="color: #333; margin-bottom: 15px;">💾 Storage Pools</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Pool Name</th>
+                <th>Type</th>
+                <th>Total Capacity</th>
+                <th>Free Space</th>
+                <th>Dedupe</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pool in stats.storage_pools %}
+            <tr>
+                <td><strong>{{ pool[0] }}</strong></td>
+                <td>{{ pool[1] }}</td>
+                <td>{{ pool[2] }}</td>
+                <td>{{ pool[3] }}</td>
+                <td>
+                    {% if pool[4] == 'Yes' or pool[4] == 'True' or pool[4] == '1' %}
+                    <span style="color: #28a745; font-weight: 600;">✓ Enabled</span>
+                    {% else %}
+                    <span style="color: #6c757d;">✗ Disabled</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<!-- Libraries Section -->
+{% if stats.libraries %}
+<div style="margin-top: 30px; background: #f8f9fa; padding: 20px; border-radius: 8px;">
+    <h3 style="color: #333; margin-bottom: 15px;">📚 Libraries</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Library Name</th>
+                <th>Type</th>
+                <th>MediaAgent</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lib in stats.libraries %}
+            <tr>
+                <td><strong>{{ lib[0] }}</strong></td>
+                <td>{{ lib[1] }}</td>
+                <td>{{ lib[2] }}</td>
+                <td>
+                    {% if lib[3] == 'Online' or lib[3] == '1' %}
+                    <span style="color: #28a745; font-weight: 600;">● Online</span>
+                    {% else %}
+                    <span style="color: #dc3545; font-weight: 600;">● {{ lib[3] }}</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<!-- Hypervisors Section -->
+{% if stats.hypervisors %}
+<div style="margin-top: 30px; background: #f8f9fa; padding: 20px; border-radius: 8px;">
+    <h3 style="color: #333; margin-bottom: 15px;">☁️ Hypervisor Infrastructure</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Instance Name</th>
+                <th>Type</th>
+                <th>Vendor</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hv in stats.hypervisors %}
+            <tr>
+                <td><strong>{{ hv[0] }}</strong></td>
+                <td>{{ hv[1] }}</td>
+                <td>{{ hv[2] }}</td>
+                <td>
+                    {% if hv[3] == 'Active' or hv[3] == 'Online' or hv[3] == '1' %}
+                    <span style="color: #28a745; font-weight: 600;">● Active</span>
+                    {% else %}
+                    <span style="color: #dc3545; font-weight: 600;">● {{ hv[3] }}</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<!-- Jobs Summary -->
+<div style="margin-top: 30px; background: #f8f9fa; padding: 20px; border-radius: 8px;">
+    <h3 style="color: #333; margin-bottom: 15px;">📊 Jobs Summary</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+        <div style="background: white; padding: 20px; border-radius: 5px; border-left: 4px solid #667eea;">
+            <div style="font-size: 2em; font-weight: bold; color: #667eea;">{{ stats.jobs_count }}</div>
+            <div style="color: #666; margin-top: 5px;">Total Jobs</div>
+        </div>
+        <div style="background: white; padding: 20px; border-radius: 5px; border-left: 4px solid #28a745;">
+            <div style="font-size: 2em; font-weight: bold; color: #28a745;">{{ stats.jobs_completed }}</div>
+            <div style="color: #666; margin-top: 5px;">Completed</div>
+        </div>
+        <div style="background: white; padding: 20px; border-radius: 5px; border-left: 4px solid #dc3545;">
+            <div style="font-size: 2em; font-weight: bold; color: #dc3545;">{{ stats.jobs_failed }}</div>
+            <div style="color: #666; margin-top: 5px;">Failed</div>
+        </div>
+        <div style="background: white; padding: 20px; border-radius: 5px; border-left: 4px solid #ffc107;">
+            <div style="font-size: 2em; font-weight: bold; color: #ffc107;">
+                {% if stats.jobs_count > 0 %}
+                {{ "%.1f"|format((stats.jobs_completed / stats.jobs_count * 100)) }}%
+                {% else %}
+                0%
+                {% endif %}
+            </div>
+            <div style="color: #666; margin-top: 5px;">Success Rate</div>
+        </div>
+    </div>
+</div>
+
+{% if not stats.mediaagents and not stats.storage_pools and not stats.libraries and not stats.hypervisors %}
+<div style="background: #fff3cd; padding: 20px; border-radius: 8px; border-left: 4px solid #ffc107; margin-top: 30px;">
+    <h3 style="color: #856404; margin-bottom: 10px;">No Infrastructure Data Available</h3>
+    <p style="color: #856404; line-height: 1.6;">
+        No infrastructure data has been retrieved yet. Please go to the
+        <a href="{{ url_for('index') }}" style="color: #667eea; font-weight: 600;">home page</a>
+        to fetch infrastructure data from Commvault. Make sure to select the Infrastructure & Hardware options.
+    </p>
+</div>
+{% endif %}
+{% endblock %}

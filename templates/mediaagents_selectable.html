@@ -1,0 +1,443 @@
+{% extends "base.html" %}
+
+{% block title %}MediaAgents - Selectable for Monitoring{% endblock %}
+
+{% block content %}
+<style>
+    .selection-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .selection-stats {
+        display: flex;
+        gap: 30px;
+        margin-top: 15px;
+    }
+
+    .selection-stats div {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 10px 20px;
+        border-radius: 5px;
+    }
+
+    .filter-bar {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .filter-bar select,
+    .filter-bar input {
+        padding: 8px 12px;
+        border: 1px solid #cbd5e0;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .filter-bar input {
+        flex: 1;
+        min-width: 250px;
+    }
+
+    .ma-table-container {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .ma-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .ma-table thead {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .ma-table th {
+        padding: 15px 12px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .ma-table tbody tr {
+        border-bottom: 1px solid #e2e8f0;
+        transition: background-color 0.2s;
+    }
+
+    .ma-table tbody tr:hover {
+        background: #f7fafc;
+    }
+
+    .ma-table tbody tr.selected {
+        background: #f0fff4;
+    }
+
+    .ma-table tbody tr.selected:hover {
+        background: #e6f9ed;
+    }
+
+    .ma-table td {
+        padding: 12px;
+        font-size: 14px;
+        color: #2d3748;
+    }
+
+    .selection-badge {
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .selection-badge.selected {
+        background: #48bb78;
+        color: white;
+    }
+
+    .selection-badge.not-selected {
+        background: #e2e8f0;
+        color: #718096;
+    }
+
+    .btn {
+        padding: 6px 14px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-select {
+        background: #48bb78;
+        color: white;
+    }
+
+    .btn-select:hover {
+        background: #38a169;
+    }
+
+    .btn-deselect {
+        background: #fc8181;
+        color: white;
+    }
+
+    .btn-deselect:hover {
+        background: #f56565;
+    }
+
+    .btn-notes {
+        background: #4299e1;
+        color: white;
+        margin-left: 5px;
+    }
+
+    .btn-notes:hover {
+        background: #3182ce;
+    }
+
+    .notes-display {
+        font-size: 12px;
+        color: #718096;
+        font-style: italic;
+        margin-top: 3px;
+    }
+
+    .info-box {
+        background: #bee3f8;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid #4299e1;
+        margin-bottom: 20px;
+    }
+
+    .bulk-actions {
+        background: #fff5f5;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid #fc8181;
+        margin-bottom: 20px;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+        background-color: white;
+        margin: 10% auto;
+        padding: 25px;
+        border-radius: 8px;
+        width: 500px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .modal-header {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #2d3748;
+    }
+
+    .modal textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #cbd5e0;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: inherit;
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .modal-footer {
+        margin-top: 15px;
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+
+    .btn-cancel {
+        background: #cbd5e0;
+        color: #2d3748;
+    }
+
+    .btn-cancel:hover {
+        background: #a0aec0;
+    }
+</style>
+
+<div class="nav-links">
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('infrastructure_dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('view_mediaagents') }}" style="background: #f0f0f0;">MediaAgents</a>
+    <a href="{{ url_for('view_data', data_type='storage_pools') }}">Storage Pools</a>
+</div>
+
+<div class="selection-header">
+    <h2>MediaAgent Selection for Environment Monitoring</h2>
+    <p>Select the MediaAgents that are part of the environment you're assessing</p>
+    <div class="selection-stats">
+        <div>
+            <strong style="font-size: 24px;">{{ selected_count }}</strong>
+            <br>
+            <span style="font-size: 14px;">Selected</span>
+        </div>
+        <div>
+            <strong style="font-size: 24px;">{{ total_count - selected_count }}</strong>
+            <br>
+            <span style="font-size: 14px;">Not Selected</span>
+        </div>
+        <div>
+            <strong style="font-size: 24px;">{{ total_count }}</strong>
+            <br>
+            <span style="font-size: 14px;">Total</span>
+        </div>
+    </div>
+</div>
+
+{% if selected_count > 0 %}
+<div class="info-box">
+    <h4 style="margin: 0 0 10px 0; color: #2c5282;">Monitoring {{ selected_count }} MediaAgent(s)</h4>
+    <p style="margin: 0;">Selected MediaAgents will be included in configuration assessments, pruning log analysis, and capacity monitoring.</p>
+</div>
+{% else %}
+<div class="bulk-actions">
+    <h4>No MediaAgents Selected</h4>
+    <p style="margin: 0;">Select the MediaAgents that are part of your assessment scope to begin monitoring and analysis.</p>
+</div>
+{% endif %}
+
+<div class="filter-bar">
+    <label>
+        <strong>Filter:</strong>
+        <select id="filterSelection" onchange="filterMediaAgents()">
+            <option value="all">All MediaAgents</option>
+            <option value="selected">Selected Only</option>
+            <option value="not-selected">Not Selected Only</option>
+        </select>
+    </label>
+    <label style="flex: 1;">
+        <strong>Search:</strong>
+        <input type="text" id="searchInput" placeholder="Search by name or hostname..." onkeyup="searchMediaAgents()">
+    </label>
+</div>
+
+<div class="ma-table-container">
+    <table class="ma-table">
+        <thead>
+            <tr>
+                <th style="width: 50px;">Status</th>
+                <th>MediaAgent Name</th>
+                <th>Hostname</th>
+                <th>OS</th>
+                <th style="width: 100px;">ID</th>
+                <th style="width: 120px;">Total Space</th>
+                <th style="width: 120px;">Available</th>
+                <th style="width: 200px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody id="maTableBody">
+            {% for ma in data %}
+            <tr class="{% if ma.isSelected %}selected{% endif %}"
+                data-selected="{% if ma.isSelected %}1{% else %}0{% endif %}"
+                data-name="{{ ma.mediaAgentName|lower }}"
+                data-hostname="{{ (ma.hostName or '')|lower }}">
+
+                <td>
+                    <span class="selection-badge {% if ma.isSelected %}selected{% else %}not-selected{% endif %}">
+                        {% if ma.isSelected %}
+                            ✓
+                        {% else %}
+                            &nbsp;
+                        {% endif %}
+                    </span>
+                </td>
+
+                <td>
+                    <strong>{{ ma.mediaAgentName }}</strong>
+                    {% if ma.isSelected and ma.notes and ma.notes != 'Selected for monitoring' %}
+                    <div class="notes-display">{{ ma.notes }}</div>
+                    {% endif %}
+                </td>
+
+                <td>{{ ma.hostName or 'N/A' }}</td>
+
+                <td>{{ ma.osType or 'Unknown' }}</td>
+
+                <td>{{ ma.mediaAgentId }}</td>
+
+                <td>
+                    {% if ma.totalSpace and ma.totalSpace != 'None' %}
+                        {{ "%.2f"|format((ma.totalSpace|int) / (1024**3)) }} GB
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if ma.availableSpace and ma.availableSpace != 'None' %}
+                        {{ "%.2f"|format((ma.availableSpace|int) / (1024**3)) }} GB
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if ma.isSelected %}
+                    <form method="POST" action="{{ url_for('deselect_mediaagent', ma_id=ma.mediaAgentId) }}" style="display: inline;">
+                        <button type="submit" class="btn btn-deselect">Deselect</button>
+                    </form>
+                    <button onclick="showNotesModal({{ ma.mediaAgentId }}, '{{ ma.mediaAgentName }}', '{{ ma.notes or '' }}')" class="btn btn-notes">Notes</button>
+                    {% else %}
+                    <form method="POST" action="{{ url_for('select_mediaagent', ma_id=ma.mediaAgentId) }}" style="display: inline;">
+                        <button type="submit" class="btn btn-select">Select</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Notes Modal -->
+<div id="notesModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">Edit Notes for <span id="modalMAName"></span></div>
+        <form method="POST" id="notesForm">
+            <textarea name="note" id="notesTextarea" placeholder="Add notes about this MediaAgent..."></textarea>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-cancel" onclick="closeNotesModal()">Cancel</button>
+                <button type="submit" class="btn btn-notes">Save Notes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function filterMediaAgents() {
+    const filter = document.getElementById('filterSelection').value;
+    const rows = document.querySelectorAll('#maTableBody tr');
+
+    rows.forEach(row => {
+        const isSelected = row.dataset.selected === '1';
+
+        if (filter === 'all') {
+            row.style.display = '';
+        } else if (filter === 'selected' && isSelected) {
+            row.style.display = '';
+        } else if (filter === 'not-selected' && !isSelected) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+function searchMediaAgents() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const rows = document.querySelectorAll('#maTableBody tr');
+
+    rows.forEach(row => {
+        const name = row.dataset.name;
+        const hostname = row.dataset.hostname;
+
+        if (name.includes(searchTerm) || hostname.includes(searchTerm)) {
+            // Only show if it also passes the filter
+            if (row.style.display !== 'none' || searchTerm) {
+                row.style.display = '';
+                // Re-apply filter
+                filterMediaAgents();
+            }
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+function showNotesModal(maId, maName, currentNotes) {
+    document.getElementById('modalMAName').textContent = maName;
+    document.getElementById('notesTextarea').value = currentNotes === 'Selected for monitoring' ? '' : currentNotes;
+    document.getElementById('notesForm').action = `/mediaagents/update-note/${maId}`;
+    document.getElementById('notesModal').style.display = 'block';
+}
+
+function closeNotesModal() {
+    document.getElementById('notesModal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('notesModal');
+    if (event.target === modal) {
+        closeNotesModal();
+    }
+}
+</script>
+
+{% endblock %}

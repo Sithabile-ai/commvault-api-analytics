@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POLICY AND POOL RESEARCH</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: POLICY_AND_POOL_RESEARCH.md</div>
+    <h1 id="commvault-policy-and-storage-pool-data-research">Commvault Policy and Storage Pool Data Research</h1>
+<h2 id="research-summary">Research Summary</h2>
+<p>This document provides comprehensive research on how to pull and present <strong>Storage Policy data</strong> and <strong>Storage Pool data</strong> from the Commvault REST API.</p>
+<hr />
+<h2 id="part-1-storage-pool-data-currently-being-pulled">Part 1: Storage Pool Data (Currently Being Pulled)</h2>
+<h3 id="current-status-working-data-is-being-pulled-and-presented">Current Status: ✅ <strong>WORKING - Data is being pulled AND presented</strong></h3>
+<h4 id="api-endpoint">API Endpoint</h4>
+<div class="codehilite"><pre><span></span><code>GET /StoragePool
+</code></pre></div>
+
+<h4 id="current-implementation-location">Current Implementation Location</h4>
+<ul>
+<li><strong>Database Function</strong>: <code>save_storage_pools_to_db()</code> - <a href="d:\Commvault_API\app.py#L517">app.py:517</a></li>
+<li><strong>Fetch Route</strong>: <code>/fetch_data</code> when <code>dtype == "storage_pools"</code> - <a href="d:\Commvault_API\app.py#L863">app.py:863</a></li>
+<li><strong>View Route</strong>: <code>/view/storage_pools</code> - <a href="d:\Commvault_API\app.py#L996">app.py:996</a></li>
+<li><strong>Dashboard Display</strong>: <a href="d:\Commvault_API\templates\dashboard.html#L167-L199">dashboard.html:167-199</a></li>
+</ul>
+<h4 id="data-currently-being-saved-to-database">Data Currently Being Saved to Database</h4>
+<p><strong>Table</strong>: <code>storage_pools</code></p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>storagePoolId</td>
+<td>INTEGER (PK)</td>
+<td>Unique identifier for storage pool</td>
+</tr>
+<tr>
+<td>storagePoolName</td>
+<td>TEXT</td>
+<td>Display name of the pool</td>
+</tr>
+<tr>
+<td>storagePoolType</td>
+<td>TEXT</td>
+<td>Type code (1, 4, etc.)</td>
+</tr>
+<tr>
+<td>mediaAgentName</td>
+<td>TEXT</td>
+<td>Associated MediaAgent</td>
+</tr>
+<tr>
+<td>totalCapacity</td>
+<td>TEXT</td>
+<td>Total pool capacity</td>
+</tr>
+<tr>
+<td>freeSpace</td>
+<td>TEXT</td>
+<td>Available free space</td>
+</tr>
+<tr>
+<td>dedupeEnabled</td>
+<td>TEXT</td>
+<td>Deduplication status</td>
+</tr>
+<tr>
+<td>lastFetchTime</td>
+<td>TEXT</td>
+<td>Last data retrieval timestamp</td>
+</tr>
+</tbody>
+</table>
+<h4 id="json-response-structure">JSON Response Structure</h4>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;storagePoolList&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;cloudStorageClassName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Standard/Glacier (Combined Storage Tiers)&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;numberOfNodes&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;poolRetentionPeriodDays&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;sizeOnDisk&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">16691809</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;totalCapacity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;totalFreeSpace&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;wormStoragePoolFlag&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;reserved1&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;cloudStorageClassNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;isArchiveStorage&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;libraryVendorType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;storagePoolType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;storageSubType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;storageType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Online&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;statusCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;libraryList&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;_type_&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;libraryId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">151</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;storagePool&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;_type_&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">28</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;clientGroupId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">481</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;clientGroupName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ActiveScale_EXT&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;storagePolicyEntity&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;_type_&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">17</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;storagePolicyName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ActiveScale_EXT&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;storagePolicyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">481</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;entityInfo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;companyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;companyName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Commcell&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;multiCommcellId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;storagePoolEntity&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;storagePoolName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ActiveScale_EXT&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;_type_&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">160</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;storagePoolId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">481</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="additional-available-fields-not-currently-saved">Additional Available Fields (Not Currently Saved)</h4>
+<p>These fields are available in the API response but not currently being saved:</p>
+<ol>
+<li><strong>sizeOnDisk</strong> - Actual disk space consumed (in MB)</li>
+<li><strong>cloudStorageClassName</strong> - Cloud storage tier/class name</li>
+<li><strong>cloudStorageClassNumber</strong> - Cloud storage tier code</li>
+<li><strong>isArchiveStorage</strong> - Boolean (0/1) indicating if it's archive storage</li>
+<li><strong>libraryVendorType</strong> - Vendor type code</li>
+<li><strong>storageType</strong> - Storage type code (1=disk, 2=cloud, etc.)</li>
+<li><strong>storageSubType</strong> - Sub-type classification</li>
+<li><strong>status</strong> - Pool status ("Online", "Offline", etc.)</li>
+<li><strong>statusCode</strong> - Numeric status code</li>
+<li><strong>wormStoragePoolFlag</strong> - WORM (Write Once Read Many) flag</li>
+<li><strong>poolRetentionPeriodDays</strong> - Retention period in days</li>
+<li><strong>numberOfNodes</strong> - Number of nodes in pool</li>
+<li><strong>libraryList[]</strong> - Array of associated libraries</li>
+<li><strong>storagePolicyEntity</strong> - Associated storage policy information</li>
+<li><strong>dedupeFlags</strong> - Deduplication settings (if present)</li>
+</ol>
+<hr />
+<h2 id="part-2-storage-policy-data">Part 2: Storage Policy Data</h2>
+<h3 id="current-status-partially-implemented-minimal-data-being-saved">Current Status: ⚠️ <strong>PARTIALLY IMPLEMENTED - Minimal data being saved</strong></h3>
+<h4 id="api-endpoint_1">API Endpoint</h4>
+<div class="codehilite"><pre><span></span><code>GET /StoragePolicy
+</code></pre></div>
+
+<h4 id="current-implementation">Current Implementation</h4>
+<ul>
+<li><strong>Database Function</strong>: <code>save_storage_to_db()</code> - <a href="d:\Commvault_API\app.py#L410">app.py:410</a></li>
+<li><strong>Fetch Route</strong>: <code>/fetch_data</code> when <code>dtype == "storage"</code> - <a href="d:\Commvault_API\app.py#L823">app.py:823</a></li>
+<li><strong>View Route</strong>: <code>/view/storage</code> - <a href="d:\Commvault_API\app.py#L988">app.py:988</a></li>
+</ul>
+<h4 id="current-database-schema-minimal">Current Database Schema (MINIMAL)</h4>
+<p><strong>Table</strong>: <code>storage_policies</code></p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>storagePolicyId</td>
+<td>INTEGER (PK)</td>
+<td>Unique identifier</td>
+</tr>
+<tr>
+<td>storagePolicyName</td>
+<td>TEXT</td>
+<td>Policy display name</td>
+</tr>
+<tr>
+<td>lastFetchTime</td>
+<td>TEXT</td>
+<td>Last retrieval timestamp</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Problem</strong>: Only stores ID and name - no operational data!</p>
+<h4 id="json-response-structure_1">JSON Response Structure</h4>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;policies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;numberOfStreams&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;storagePolicy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;storagePolicyName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Silver Plan (Server)&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;storagePolicyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">59</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="available-fields-from-basic-endpoint">Available Fields from Basic Endpoint</h4>
+<p>From <code>GET /StoragePolicy</code>:
+1. <strong>storagePolicyId</strong> - Unique identifier ✅ <em>Currently saved</em>
+2. <strong>storagePolicyName</strong> - Policy name ✅ <em>Currently saved</em>
+3. <strong>numberOfStreams</strong> - Maximum concurrent streams ❌ <em>NOT saved</em></p>
+<hr />
+<h2 id="part-3-enhanced-storage-policy-data-detailed-endpoint">Part 3: Enhanced Storage Policy Data (Detailed Endpoint)</h2>
+<h3 id="api-endpoint-for-detailed-information">API Endpoint for Detailed Information</h3>
+<div class="codehilite"><pre><span></span><code>GET /StoragePolicy/{storagePolicyId}
+</code></pre></div>
+
+<p>According to Commvault documentation, this endpoint provides comprehensive policy details.</p>
+<h3 id="expected-detailed-response-structure">Expected Detailed Response Structure</h3>
+<p>Based on research, the detailed endpoint should return:</p>
+<h4 id="basic-policy-information"><strong>Basic Policy Information</strong></h4>
+<ul>
+<li><strong>storagePolicyId</strong> - Unique identifier</li>
+<li><strong>storagePolicyName</strong> - Display name</li>
+<li><strong>description</strong> - Policy description</li>
+<li><strong>type</strong> - Policy type code</li>
+<li><strong>flags</strong> - Various policy flags</li>
+<li><strong>isDefault</strong> - Boolean indicating if it's the default policy</li>
+</ul>
+<h4 id="copy-configuration"><strong>Copy Configuration</strong></h4>
+<p>Each policy can have multiple copies (Primary, Secondary, Archive, etc.):
+- <strong>copyId</strong> - Copy identifier
+- <strong>copyName</strong> - Copy name (e.g., "Primary Copy")
+- <strong>copyType</strong> - Type code (1=Primary, 2=Secondary, etc.)
+- <strong>copyPrecedence</strong> - Priority order
+- <strong>isDefault</strong> - Boolean for default copy
+- <strong>active</strong> - Boolean indicating if copy is active</p>
+<h4 id="storage-configuration"><strong>Storage Configuration</strong></h4>
+<ul>
+<li><strong>storagePoolId</strong> - Associated storage pool</li>
+<li><strong>storagePoolName</strong> - Pool name</li>
+<li><strong>libraryId</strong> - Associated library</li>
+<li><strong>libraryName</strong> - Library name</li>
+<li><strong>mediaAgentId</strong> - MediaAgent handling this copy</li>
+<li><strong>mediaAgentName</strong> - MediaAgent name</li>
+</ul>
+<h4 id="deduplication-settings"><strong>Deduplication Settings</strong></h4>
+<ul>
+<li><strong>enableDeduplication</strong> - Boolean</li>
+<li><strong>enableClientSideDedup</strong> - Boolean</li>
+<li><strong>enableDASHFull</strong> - Boolean for DASH Full</li>
+<li><strong>useGlobalDedupStore</strong> - Boolean</li>
+</ul>
+<h4 id="retention-rules"><strong>Retention Rules</strong></h4>
+<ul>
+<li><strong>retainBackupDataForDays</strong> - Days to retain backup data</li>
+<li><strong>retainBackupDataForCycles</strong> - Number of cycles to retain</li>
+<li><strong>retainArchiverDataForDays</strong> - Archive retention in days</li>
+<li><strong>enableDataAging</strong> - Boolean for data aging</li>
+<li><strong>jobBasedRetention</strong> - Boolean</li>
+</ul>
+<h4 id="storage-type-information"><strong>Storage Type Information</strong></h4>
+<ul>
+<li><strong>storageType</strong> - Storage type code</li>
+<li>1 = Disk</li>
+<li>2 = Cloud</li>
+<li>3 = Tape</li>
+<li><strong>storagePoolType</strong> - Pool type code</li>
+<li><strong>deviceType</strong> - Device type code</li>
+<li><strong>isArchiveStorage</strong> - Boolean</li>
+</ul>
+<h4 id="advanced-features"><strong>Advanced Features</strong></h4>
+<ul>
+<li><strong>wormStorageFlag</strong> - WORM protection enabled</li>
+<li><strong>isSnapCopy</strong> - Snapshot copy enabled</li>
+<li><strong>isMirrorCopy</strong> - Mirror copy enabled</li>
+<li><strong>encryptionType</strong> - Encryption configuration</li>
+<li><strong>compressionType</strong> - Compression settings</li>
+</ul>
+<hr />
+<h2 id="part-4-plan-data-modern-commvault-approach">Part 4: Plan Data (Modern Commvault Approach)</h2>
+<h3 id="api-endpoint_2">API Endpoint</h3>
+<div class="codehilite"><pre><span></span><code>GET /Plan
+GET /Plan/{planId}
+</code></pre></div>
+
+<h3 id="what-are-plans">What are Plans?</h3>
+<p><strong>Plans</strong> are Commvault's modern, simplified approach to backup configuration that combines:
+- Storage policies
+- Schedule policies
+- Retention rules
+- Security settings
+- Subclient configurations</p>
+<p>Plans are replacing traditional Storage Policies in newer Commvault versions.</p>
+<h3 id="current-status-not-implemented">Current Status: ❌ <strong>NOT IMPLEMENTED</strong></h3>
+<p>Plans are <strong>not currently being pulled or stored</strong> in the database.</p>
+<h3 id="json-response-structure_2">JSON Response Structure</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;plans&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;numCopies&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Silver (Server Plan)&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;numDevices&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;storageTarget&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HSXPOOL&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;subtype&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">33554437</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;isElastic&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;numAssocEntities&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;restrictions&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;numCompanies&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;planStatusFlag&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;rpoInMinutes&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1380</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;numUsers&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;supportedWorkloads&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">      </span><span class="nt">&quot;storage&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;storagePolicy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;storagePolicyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;copy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;copyType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;deviceType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;isArchiveStorage&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;isDefault&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;isSnapCopy&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;isMirrorCopy&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;wormStorageFlag&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;poolRetentionPeriodDays&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;storageClass&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;copyPrecedence&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;storagePoolType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;storageType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;dedupeFlags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;enableDASHFull&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;enableDeduplication&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;enableClientSideDedup&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;retentionRules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;retainBackupDataForCycles&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;jobs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;retainBackupDataForDays&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;retentionFlags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;enableDataAging&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">              </span><span class="p">}</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;StoragePolicyCopy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;copyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1341</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;copyName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;01 - Primary&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;library&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;libraryName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DiskLib_HSXPOOL&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;libraryId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">107</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;plan&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;planId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">28</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;planName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Silver (Packet Hub Server Plan)&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="available-plan-fields">Available Plan Fields</h3>
+<h4 id="plan-summary"><strong>Plan Summary</strong></h4>
+<ul>
+<li><strong>planId</strong> - Unique plan identifier</li>
+<li><strong>planName</strong> - Plan display name</li>
+<li><strong>description</strong> - Plan description</li>
+<li><strong>type</strong> - Plan type (2 = Server Plan, etc.)</li>
+<li><strong>subtype</strong> - Detailed subtype code</li>
+<li><strong>planStatusFlag</strong> - Status flag</li>
+<li><strong>restrictions</strong> - Restriction flags</li>
+</ul>
+<h4 id="operational-metrics"><strong>Operational Metrics</strong></h4>
+<ul>
+<li><strong>numCopies</strong> - Number of backup copies</li>
+<li><strong>numAssocEntities</strong> - Number of entities using this plan</li>
+<li><strong>numUsers</strong> - Number of users assigned</li>
+<li><strong>numDevices</strong> - Number of devices</li>
+<li><strong>numCompanies</strong> - Number of companies using plan</li>
+<li><strong>rpoInMinutes</strong> - Recovery Point Objective in minutes</li>
+<li><strong>slaInMinutes</strong> - Service Level Agreement target</li>
+</ul>
+<h4 id="storage-configuration_1"><strong>Storage Configuration</strong></h4>
+<ul>
+<li><strong>storageTarget</strong> - Primary storage target name</li>
+<li><strong>storagePolicy.storagePolicyId</strong> - Associated policy ID</li>
+<li><strong>storage.copy[]</strong> - Array of copy configurations with full details</li>
+</ul>
+<h4 id="feature-flags"><strong>Feature Flags</strong></h4>
+<ul>
+<li><strong>isElastic</strong> - Elastic plan capability</li>
+<li><strong>supportedWorkloads</strong> - Workload types supported</li>
+</ul>
+<hr />
+<h2 id="part-5-recommendations-for-implementation">Part 5: Recommendations for Implementation</h2>
+<h3 id="priority-1-enhance-storage-pool-data-collection">Priority 1: Enhance Storage Pool Data Collection ⭐⭐⭐</h3>
+<p><strong>Current</strong>: Basic info only (name, type, capacity, free space)
+<strong>Enhancement</strong>: Capture all available fields</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">save_storage_pools_to_db_enhanced</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">pools_json</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enhanced Storage Pools data collection&quot;&quot;&quot;</span>
+    <span class="n">cur</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">fetch_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+
+    <span class="n">pools_list</span> <span class="o">=</span> <span class="n">pools_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePoolList&quot;</span><span class="p">,</span> <span class="p">[])</span>
+
+    <span class="k">for</span> <span class="n">pool_entry</span> <span class="ow">in</span> <span class="n">pools_list</span><span class="p">:</span>
+        <span class="n">pool_info</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePoolEntity&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">pool_id</span> <span class="o">=</span> <span class="n">pool_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePoolId&quot;</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">pool_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePoolName&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Basic info</span>
+        <span class="n">storage_type</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storageType&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">storage_subtype</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storageSubType&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">pool_type</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePoolType&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Capacity info</span>
+        <span class="n">total_cap</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;totalCapacity&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">free_space</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;totalFreeSpace&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">size_on_disk</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sizeOnDisk&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Status</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;Unknown&quot;</span><span class="p">)</span>
+        <span class="n">status_code</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;statusCode&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Features</span>
+        <span class="n">is_archive</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;isArchiveStorage&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">worm_flag</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;wormStoragePoolFlag&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;numberOfNodes&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">retention_days</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;poolRetentionPeriodDays&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Cloud-specific</span>
+        <span class="n">cloud_class_name</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cloudStorageClassName&quot;</span><span class="p">,</span> <span class="s2">&quot;N/A&quot;</span><span class="p">)</span>
+        <span class="n">cloud_class_num</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cloudStorageClassNumber&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">library_vendor</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;libraryVendorType&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Associated policy</span>
+        <span class="n">policy_entity</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePolicyEntity&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">policy_name</span> <span class="o">=</span> <span class="n">policy_entity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePolicyName&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">policy_id</span> <span class="o">=</span> <span class="n">policy_entity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePolicyId&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            REPLACE INTO storage_pools (</span>
+<span class="s2">                storagePoolId, storagePoolName, storageType, storageSubType,</span>
+<span class="s2">                storagePoolType, totalCapacity, freeSpace, sizeOnDisk,</span>
+<span class="s2">                status, statusCode, isArchiveStorage, wormStorageFlag,</span>
+<span class="s2">                numberOfNodes, retentionPeriodDays, cloudStorageClass,</span>
+<span class="s2">                cloudStorageClassNumber, libraryVendorType,</span>
+<span class="s2">                storagePolicyName, storagePolicyId, lastFetchTime</span>
+<span class="s2">            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span> <span class="p">(</span>
+            <span class="n">pool_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">storage_type</span><span class="p">,</span> <span class="n">storage_subtype</span><span class="p">,</span> <span class="n">pool_type</span><span class="p">,</span>
+            <span class="n">total_cap</span><span class="p">,</span> <span class="n">free_space</span><span class="p">,</span> <span class="n">size_on_disk</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">status_code</span><span class="p">,</span>
+            <span class="n">is_archive</span><span class="p">,</span> <span class="n">worm_flag</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">retention_days</span><span class="p">,</span>
+            <span class="n">cloud_class_name</span><span class="p">,</span> <span class="n">cloud_class_num</span><span class="p">,</span> <span class="n">library_vendor</span><span class="p">,</span>
+            <span class="n">policy_name</span><span class="p">,</span> <span class="n">policy_id</span><span class="p">,</span> <span class="n">fetch_time</span>
+        <span class="p">))</span>
+</code></pre></div>
+
+<h3 id="priority-2-implement-storage-policy-details-collection">Priority 2: Implement Storage Policy Details Collection ⭐⭐⭐</h3>
+<p><strong>Current</strong>: Only ID and name
+<strong>New</strong>: Full policy configuration</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">fetch_storage_policy_details</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">policy_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fetch detailed information for a specific storage policy&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/StoragePolicy/</span><span class="si">{</span><span class="n">policy_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error fetching policy </span><span class="si">{</span><span class="n">policy_id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">save_storage_policies_enhanced</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">base_url</span><span class="p">,</span> <span class="n">headers</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enhanced storage policy collection with details&quot;&quot;&quot;</span>
+    <span class="c1"># First, get list of all policies</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/StoragePolicy&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="n">policies_json</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="n">policies_list</span> <span class="o">=</span> <span class="n">policies_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;policies&quot;</span><span class="p">,</span> <span class="p">[])</span>
+
+    <span class="k">for</span> <span class="n">policy_entry</span> <span class="ow">in</span> <span class="n">policies_list</span><span class="p">:</span>
+        <span class="n">storage_policy</span> <span class="o">=</span> <span class="n">policy_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePolicy&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">policy_id</span> <span class="o">=</span> <span class="n">storage_policy</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePolicyId&quot;</span><span class="p">)</span>
+        <span class="n">policy_name</span> <span class="o">=</span> <span class="n">storage_policy</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePolicyName&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">num_streams</span> <span class="o">=</span> <span class="n">policy_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;numberOfStreams&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Fetch detailed information</span>
+        <span class="n">details</span> <span class="o">=</span> <span class="n">fetch_storage_policy_details</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">policy_id</span><span class="p">)</span>
+
+        <span class="c1"># Extract copy information</span>
+        <span class="k">if</span> <span class="n">details</span> <span class="ow">and</span> <span class="s2">&quot;copy&quot;</span> <span class="ow">in</span> <span class="n">details</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">copy</span> <span class="ow">in</span> <span class="n">details</span><span class="p">[</span><span class="s2">&quot;copy&quot;</span><span class="p">]:</span>
+                <span class="c1"># Save each copy configuration</span>
+                <span class="n">save_policy_copy_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">policy_id</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
+
+        <span class="c1"># Save main policy info</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            REPLACE INTO storage_policies (</span>
+<span class="s2">                storagePolicyId, storagePolicyName, numberOfStreams,</span>
+<span class="s2">                description, type, isDefault, lastFetchTime</span>
+<span class="s2">            ) VALUES (?, ?, ?, ?, ?, ?, ?)</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">policy_id</span><span class="p">,</span> <span class="n">policy_name</span><span class="p">,</span> <span class="n">num_streams</span><span class="p">,</span> <span class="o">...</span><span class="p">))</span>
+</code></pre></div>
+
+<h3 id="priority-3-implement-plan-data-collection">Priority 3: Implement Plan Data Collection ⭐⭐</h3>
+<p>Plans are the modern approach and should be collected alongside policies.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">save_plans_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">plans_json</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save Plan data to database&quot;&quot;&quot;</span>
+    <span class="n">cur</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">fetch_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+
+    <span class="n">plans_list</span> <span class="o">=</span> <span class="n">plans_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plans&quot;</span><span class="p">,</span> <span class="p">[])</span>
+
+    <span class="k">for</span> <span class="n">plan_entry</span> <span class="ow">in</span> <span class="n">plans_list</span><span class="p">:</span>
+        <span class="n">plan_info</span> <span class="o">=</span> <span class="n">plan_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">plan_id</span> <span class="o">=</span> <span class="n">plan_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;planId&quot;</span><span class="p">)</span>
+        <span class="n">plan_name</span> <span class="o">=</span> <span class="n">plan_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;planName&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Summary info</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="n">plan_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">plan_type</span> <span class="o">=</span> <span class="n">plan_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">subtype</span> <span class="o">=</span> <span class="n">plan_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;subtype&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">num_copies</span> <span class="o">=</span> <span class="n">plan_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;numCopies&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">num_entities</span> <span class="o">=</span> <span class="n">plan_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;numAssocEntities&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">rpo_minutes</span> <span class="o">=</span> <span class="n">plan_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rpoInMinutes&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">storage_target</span> <span class="o">=</span> <span class="n">plan_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storageTarget&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Flags</span>
+        <span class="n">is_elastic</span> <span class="o">=</span> <span class="n">plan_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;isElastic&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">status_flag</span> <span class="o">=</span> <span class="n">plan_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;planStatusFlag&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Associated storage policy</span>
+        <span class="n">storage</span> <span class="o">=</span> <span class="n">plan_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">storage_policy_info</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePolicy&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">storage_policy_id</span> <span class="o">=</span> <span class="n">storage_policy_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePolicyId&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            REPLACE INTO plans (</span>
+<span class="s2">                planId, planName, description, type, subtype,</span>
+<span class="s2">                numCopies, numAssocEntities, rpoInMinutes,</span>
+<span class="s2">                storageTarget, storagePolicyId, isElastic,</span>
+<span class="s2">                statusFlag, lastFetchTime</span>
+<span class="s2">            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span> <span class="p">(</span>
+            <span class="n">plan_id</span><span class="p">,</span> <span class="n">plan_name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">plan_type</span><span class="p">,</span> <span class="n">subtype</span><span class="p">,</span>
+            <span class="n">num_copies</span><span class="p">,</span> <span class="n">num_entities</span><span class="p">,</span> <span class="n">rpo_minutes</span><span class="p">,</span> <span class="n">storage_target</span><span class="p">,</span>
+            <span class="n">storage_policy_id</span><span class="p">,</span> <span class="n">is_elastic</span><span class="p">,</span> <span class="n">status_flag</span><span class="p">,</span> <span class="n">fetch_time</span>
+        <span class="p">))</span>
+</code></pre></div>
+
+<hr />
+<h2 id="part-6-database-schema-updates-needed">Part 6: Database Schema Updates Needed</h2>
+<h3 id="enhanced-storage-pools-table">Enhanced Storage Pools Table</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">storage_pools</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">storagePoolId</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">storagePoolName</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">storageType</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">              </span><span class="c1">-- NEW: 1=disk, 2=cloud, 3=tape</span>
+<span class="w">    </span><span class="n">storageSubType</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">           </span><span class="c1">-- NEW</span>
+<span class="w">    </span><span class="n">storagePoolType</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">totalCapacity</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">            </span><span class="c1">-- Changed to INTEGER for MB</span>
+<span class="w">    </span><span class="n">freeSpace</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">                </span><span class="c1">-- Changed to INTEGER for MB</span>
+<span class="w">    </span><span class="n">sizeOnDisk</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">               </span><span class="c1">-- NEW: Actual disk usage</span>
+<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">                      </span><span class="c1">-- NEW: Online/Offline</span>
+<span class="w">    </span><span class="n">statusCode</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">               </span><span class="c1">-- NEW</span>
+<span class="w">    </span><span class="n">isArchiveStorage</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">         </span><span class="c1">-- NEW: Boolean 0/1</span>
+<span class="w">    </span><span class="n">wormStorageFlag</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">          </span><span class="c1">-- NEW: WORM enabled 0/1</span>
+<span class="w">    </span><span class="n">numberOfNodes</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">            </span><span class="c1">-- NEW</span>
+<span class="w">    </span><span class="n">retentionPeriodDays</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">      </span><span class="c1">-- NEW</span>
+<span class="w">    </span><span class="n">cloudStorageClass</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">           </span><span class="c1">-- NEW</span>
+<span class="w">    </span><span class="n">cloudStorageClassNumber</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">  </span><span class="c1">-- NEW</span>
+<span class="w">    </span><span class="n">libraryVendorType</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">        </span><span class="c1">-- NEW</span>
+<span class="w">    </span><span class="n">storagePolicyName</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">           </span><span class="c1">-- NEW: Associated policy</span>
+<span class="w">    </span><span class="n">storagePolicyId</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">          </span><span class="c1">-- NEW: Policy ID</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w"> </span><span class="nb">TEXT</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<h3 id="enhanced-storage-policies-table">Enhanced Storage Policies Table</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">storage_policies</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">storagePolicyId</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">storagePolicyName</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">numberOfStreams</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">          </span><span class="c1">-- NEW</span>
+<span class="w">    </span><span class="n">description</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">                 </span><span class="c1">-- NEW</span>
+<span class="w">    </span><span class="k">type</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">                     </span><span class="c1">-- NEW</span>
+<span class="w">    </span><span class="n">isDefault</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">                </span><span class="c1">-- NEW: Boolean 0/1</span>
+<span class="w">    </span><span class="n">numCopies</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">                </span><span class="c1">-- NEW</span>
+<span class="w">    </span><span class="n">flags</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">                    </span><span class="c1">-- NEW</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w"> </span><span class="nb">TEXT</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<h3 id="new-table-storage-policy-copies">New Table: Storage Policy Copies</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">storage_policy_copies</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">copyId</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">storagePolicyId</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">          </span><span class="c1">-- Foreign key</span>
+<span class="w">    </span><span class="n">copyName</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">copyType</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">                 </span><span class="c1">-- 1=Primary, 2=Secondary</span>
+<span class="w">    </span><span class="n">copyPrecedence</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">active</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">                   </span><span class="c1">-- Boolean 0/1</span>
+<span class="w">    </span><span class="n">isDefault</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">                </span><span class="c1">-- Boolean 0/1</span>
+<span class="w">    </span><span class="n">isArchiveStorage</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">         </span><span class="c1">-- Boolean 0/1</span>
+<span class="w">    </span><span class="n">isSnapCopy</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">               </span><span class="c1">-- Boolean 0/1</span>
+<span class="w">    </span><span class="n">isMirrorCopy</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">             </span><span class="c1">-- Boolean 0/1</span>
+<span class="w">    </span><span class="n">wormStorageFlag</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">          </span><span class="c1">-- Boolean 0/1</span>
+<span class="w">    </span><span class="n">storagePoolId</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">storagePoolName</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">libraryId</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">libraryName</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">mediaAgentName</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">enableDeduplication</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">      </span><span class="c1">-- Boolean 0/1</span>
+<span class="w">    </span><span class="n">enableClientSideDedup</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">    </span><span class="c1">-- Boolean 0/1</span>
+<span class="w">    </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">enableDataAging</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">          </span><span class="c1">-- Boolean 0/1</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="p">(</span><span class="n">storagePolicyId</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">storage_policies</span><span class="p">(</span><span class="n">storagePolicyId</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<h3 id="new-table-plans">New Table: Plans</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">plans</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">planId</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">planName</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">description</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="k">type</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">                     </span><span class="c1">-- Plan type code</span>
+<span class="w">    </span><span class="n">subtype</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">                  </span><span class="c1">-- Plan subtype code</span>
+<span class="w">    </span><span class="n">numCopies</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">numAssocEntities</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">         </span><span class="c1">-- Entities using this plan</span>
+<span class="w">    </span><span class="n">numUsers</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">numDevices</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">rpoInMinutes</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">             </span><span class="c1">-- Recovery Point Objective</span>
+<span class="w">    </span><span class="n">slaInMinutes</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">             </span><span class="c1">-- Service Level Agreement</span>
+<span class="w">    </span><span class="n">storageTarget</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">               </span><span class="c1">-- Primary storage target</span>
+<span class="w">    </span><span class="n">storagePolicyId</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">          </span><span class="c1">-- Associated policy</span>
+<span class="w">    </span><span class="n">isElastic</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">                </span><span class="c1">-- Boolean 0/1</span>
+<span class="w">    </span><span class="n">statusFlag</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">restrictions</span><span class="w"> </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="p">(</span><span class="n">storagePolicyId</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">storage_policies</span><span class="p">(</span><span class="n">storagePolicyId</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<hr />
+<h2 id="part-7-ui-presentation-recommendations">Part 7: UI Presentation Recommendations</h2>
+<h3 id="storage-pools-enhanced-view">Storage Pools - Enhanced View</h3>
+<p>Create a dedicated Storage Pools page similar to MediaAgents:</p>
+<p><strong>File</strong>: <code>templates/storagepools.html</code></p>
+<p>Features:
+- <strong>Two-column layout</strong>: List + detail panel (like MediaAgents)
+- <strong>Clickable rows</strong>: Select pool to view full details
+- <strong>Visual indicators</strong>:
+  - Online/Offline status badges
+  - Capacity bar graphs (used vs total)
+  - Cloud storage tier badges
+  - WORM protection indicator
+  - Archive storage flag
+- <strong>Detail panel shows</strong>:
+  - Pool ID and name
+  - Storage type (Disk/Cloud/Tape)
+  - Capacity metrics with visual bars
+  - Node count
+  - Associated policy
+  - Retention period
+  - Cloud storage class (if applicable)
+  - Deduplication status</p>
+<h3 id="storage-policies-new-view">Storage Policies - New View</h3>
+<p>Create a comprehensive Storage Policy view:</p>
+<p><strong>File</strong>: <code>templates/storagepolicies.html</code></p>
+<p>Features:
+- <strong>Master-detail layout</strong>:
+  - Left: List of all policies
+  - Right: Selected policy details
+- <strong>Policy list shows</strong>:
+  - Policy name
+  - Number of copies
+  - Number of streams
+  - Default policy indicator
+- <strong>Detail panel shows</strong>:
+  - Policy configuration
+  - Copy breakdown (Primary, Secondary, Archive)
+  - Retention rules for each copy
+  - Deduplication settings
+  - Associated storage pools
+  - Libraries used
+  - MediaAgents involved</p>
+<h3 id="plans-new-view">Plans - New View</h3>
+<p><strong>File</strong>: <code>templates/plans.html</code></p>
+<p>Features:
+- <strong>Card-based layout</strong>: Each plan as a card
+- <strong>Plan card shows</strong>:
+  - Plan name and description
+  - Plan type (Server, Laptop, etc.)
+  - RPO/SLA targets
+  - Number of entities using plan
+  - Number of copies configured
+  - Storage target
+  - Status indicators
+- <strong>Click to expand</strong>: Full plan configuration
+- <strong>Visual elements</strong>:
+  - Progress bars for RPO compliance
+  - Badge for plan type
+  - Entity count
+  - Copy configuration diagram</p>
+<h3 id="dashboard-enhancements">Dashboard Enhancements</h3>
+<p>Add to Infrastructure Dashboard:</p>
+<ol>
+<li><strong>Storage Policies Summary Card</strong></li>
+<li>Total policies count</li>
+<li>Default policy name</li>
+<li>
+<p>Link to policies page</p>
+</li>
+<li>
+<p><strong>Plans Summary Card</strong></p>
+</li>
+<li>Total plans count</li>
+<li>Most used plan</li>
+<li>Entities covered by plans</li>
+<li>
+<p>Link to plans page</p>
+</li>
+<li>
+<p><strong>Storage Pool Capacity Chart</strong></p>
+</li>
+<li>Visual chart showing pool usage</li>
+<li>Total capacity vs used capacity</li>
+<li>Top pools by usage percentage</li>
+</ol>
+<hr />
+<h2 id="part-8-implementation-steps">Part 8: Implementation Steps</h2>
+<h3 id="step-1-update-database-schema">Step 1: Update Database Schema</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Add new columns to storage_pools table</span>
+<span class="c1"># Create storage_policy_copies table</span>
+<span class="c1"># Create plans table</span>
+<span class="c1"># Run schema updates</span>
+</code></pre></div>
+
+<h3 id="step-2-enhance-storage-pool-data-collection">Step 2: Enhance Storage Pool Data Collection</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Update save_storage_pools_to_db() function</span>
+<span class="c1"># Add all new fields from JSON response</span>
+<span class="c1"># Test with existing data</span>
+</code></pre></div>
+
+<h3 id="step-3-implement-policy-details-collection">Step 3: Implement Policy Details Collection</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Create fetch_storage_policy_details() function</span>
+<span class="c1"># Update save_storage_to_db() to call details API</span>
+<span class="c1"># Create save_policy_copy_to_db() for copy configurations</span>
+<span class="c1"># Add to fetch_data route</span>
+</code></pre></div>
+
+<h3 id="step-4-implement-plans-collection">Step 4: Implement Plans Collection</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Create save_plans_to_db() function</span>
+<span class="c1"># Add /Plan endpoint to fetch_data route</span>
+<span class="c1"># Add plans checkbox to home page</span>
+<span class="c1"># Test API call</span>
+</code></pre></div>
+
+<h3 id="step-5-create-ui-views">Step 5: Create UI Views</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Create templates/storagepools.html (enhanced)</span>
+<span class="c1"># Create templates/storagepolicies.html</span>
+<span class="c1"># Create templates/plans.html</span>
+<span class="c1"># Add routes to app.py</span>
+<span class="c1"># Update navigation links</span>
+</code></pre></div>
+
+<h3 id="step-6-update-dashboard">Step 6: Update Dashboard</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Add policy and plan summaries</span>
+<span class="c1"># Add storage capacity visualizations</span>
+<span class="c1"># Update infrastructure_dashboard route</span>
+</code></pre></div>
+
+<hr />
+<h2 id="part-9-api-endpoints-reference">Part 9: API Endpoints Reference</h2>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Purpose</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/StoragePool</code></td>
+<td>GET</td>
+<td>List all storage pools</td>
+<td>✅ Implemented</td>
+</tr>
+<tr>
+<td><code>/StoragePool/{id}</code></td>
+<td>GET</td>
+<td>Get pool details</td>
+<td>⚠️ Possible enhancement</td>
+</tr>
+<tr>
+<td><code>/StoragePolicy</code></td>
+<td>GET</td>
+<td>List all policies</td>
+<td>✅ Implemented (basic)</td>
+</tr>
+<tr>
+<td><code>/StoragePolicy/{id}</code></td>
+<td>GET</td>
+<td>Get policy details</td>
+<td>❌ Not implemented</td>
+</tr>
+<tr>
+<td><code>/Plan</code></td>
+<td>GET</td>
+<td>List all plans</td>
+<td>❌ Not implemented</td>
+</tr>
+<tr>
+<td><code>/Plan/{id}</code></td>
+<td>GET</td>
+<td>Get plan details</td>
+<td>❌ Not implemented</td>
+</tr>
+<tr>
+<td><code>/V4/StoragePool</code></td>
+<td>GET</td>
+<td>V4 API pools (may not be available)</td>
+<td>❌ Not available</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="part-10-expected-data-volumes">Part 10: Expected Data Volumes</h2>
+<p>Based on your test data:</p>
+<ul>
+<li><strong>Storage Pools</strong>: ~8-50 pools (typical environment)</li>
+<li><strong>Storage Policies</strong>: ~100-500 policies</li>
+<li><strong>Plans</strong>: ~50-200 plans</li>
+<li><strong>Policy Copies</strong>: ~200-1000 copies (2-3 per policy average)</li>
+</ul>
+<p><strong>Database Impact</strong>: Minimal - all data combined should be &lt;10MB</p>
+<hr />
+<h2 id="conclusion">Conclusion</h2>
+<h3 id="current-state-summary">Current State Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Data Pulled</th>
+<th>Data Saved</th>
+<th>Data Presented</th>
+<th>Quality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Storage Pools</strong></td>
+<td>✅ Yes</td>
+<td>✅ Yes</td>
+<td>✅ Yes</td>
+<td>⚠️ Basic</td>
+</tr>
+<tr>
+<td><strong>Storage Policies</strong></td>
+<td>✅ Yes</td>
+<td>⚠️ Minimal</td>
+<td>✅ Yes</td>
+<td>❌ Poor</td>
+</tr>
+<tr>
+<td><strong>Plans</strong></td>
+<td>❌ No</td>
+<td>❌ No</td>
+<td>❌ No</td>
+<td>❌ Not implemented</td>
+</tr>
+</tbody>
+</table>
+<h3 id="recommendations-priority">Recommendations Priority</h3>
+<ol>
+<li><strong>🔴 HIGH</strong>: Enhance Storage Pool data collection (add all available fields)</li>
+<li><strong>🔴 HIGH</strong>: Implement Storage Policy details collection</li>
+<li><strong>🟡 MEDIUM</strong>: Implement Plans collection</li>
+<li><strong>🟡 MEDIUM</strong>: Create dedicated UI views for policies and plans</li>
+<li><strong>🟢 LOW</strong>: Add capacity visualization charts</li>
+</ol>
+<h3 id="next-actions">Next Actions</h3>
+<p>Choose one of these paths:</p>
+<p><strong>Path A - Quick Enhancement</strong> (1-2 hours):
+- Enhance storage pool database schema
+- Update save_storage_pools_to_db() to capture all fields
+- Update storage pools view to display new fields</p>
+<p><strong>Path B - Comprehensive Implementation</strong> (4-6 hours):
+- Implement all database schema changes
+- Add policy details collection
+- Add plans collection
+- Create new UI views for all components</p>
+<p><strong>Path C - Incremental</strong> (ongoing):
+- Phase 1: Storage pools enhancement
+- Phase 2: Storage policy details
+- Phase 3: Plans implementation
+- Phase 4: UI improvements</p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

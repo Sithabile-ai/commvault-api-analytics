@@ -1,0 +1,2610 @@
+====================================================================================================
+COMMVAULT REST API REFERENCE FOR AI SYSTEMS
+====================================================================================================
+Version: 2024E Compatible
+Purpose: Reference guide for AI systems building monitoring and configuration applications
+Last Updated: 2025-11-16
+
+====================================================================================================
+TABLE OF CONTENTS
+====================================================================================================
+
+PART 1:  API FUNDAMENTALS
+PART 2:  AUTHENTICATION AND CONNECTION
+PART 3:  CORE MONITORING ENDPOINTS
+PART 4:  INFRASTRUCTURE ENDPOINTS
+PART 5:  STORAGE AND DEDUPLICATION ENDPOINTS
+PART 6:  BACKUP AND RECOVERY ENDPOINTS
+PART 7:  RETENTION AND POLICY ENDPOINTS
+PART 8:  REPORTING AND ANALYTICS ENDPOINTS
+PART 9:  ADVANCED OPERATIONS
+PART 10: ERROR HANDLING AND BEST PRACTICES
+PART 11: RESPONSE STRUCTURES AND DATA MODELS
+PART 12: COMMON MONITORING PATTERNS
+PART 13: AUTOMATION SCENARIOS
+PART 14: DATABASE SCHEMA RECOMMENDATIONS
+
+====================================================================================================
+PART 1: API FUNDAMENTALS
+====================================================================================================
+
+1.1 BASE URL STRUCTURE
+----------------------------------------------------------------------------------------------------
+
+Standard Format:
+https://<commvault_server>:<port>/SearchSvc/CVWebService.svc
+
+Common Ports:
+- 81: Standard HTTP/HTTPS web service port
+- 443: HTTPS (if configured)
+
+Examples:
+- https://commvaultweb01:81/SearchSvc/CVWebService.svc
+- https://commserve.company.com/SearchSvc/CVWebService.svc
+
+Alternative Service Endpoints:
+- /webconsole/api/  - Web Console API (newer endpoints)
+- /V2/ - Version 2 endpoints
+- /V4/ - Version 4 endpoints (recommended for newer features)
+
+1.2 API VERSIONS
+----------------------------------------------------------------------------------------------------
+
+Commvault maintains multiple API versions:
+
+**V1 (Legacy):**
+- Original REST API
+- Still widely used
+- Pattern: /<Resource>
+
+**V2:**
+- Enhanced endpoints
+- Better error handling
+- Pattern: /V2/<Resource>
+
+**V4:**
+- Latest generation
+- Modern JSON schemas
+- Enhanced capabilities
+- Pattern: /V4/<Resource>
+- Recommended for new implementations
+
+Version Selection Strategy:
+- Use V4 when available (best features, future-proof)
+- Fall back to V2 for intermediate features
+- Use V1 for compatibility with older systems
+
+1.3 DATA FORMATS
+----------------------------------------------------------------------------------------------------
+
+Supported Formats:
+- JSON (recommended)
+- XML (legacy support)
+
+Request Headers:
+Content-Type: application/json
+Accept: application/json
+
+Response Format Determination:
+- Based on Accept header
+- JSON recommended for AI parsing
+- XML available for legacy compatibility
+
+1.4 RATE LIMITING AND PAGINATION
+----------------------------------------------------------------------------------------------------
+
+Rate Limits:
+- Typically not strictly enforced
+- Best practice: Limit to 10-20 requests/second
+- Batch operations when possible
+
+Pagination:
+- Some endpoints support pagination
+- Parameters: offset, limit
+- Example: ?offset=0&limit=100
+
+Response Size Limits:
+- Large responses may be truncated
+- Use pagination for large datasets
+- Filter results when possible
+
+====================================================================================================
+PART 2: AUTHENTICATION AND CONNECTION
+====================================================================================================
+
+2.1 AUTHENTICATION METHODS
+----------------------------------------------------------------------------------------------------
+
+**Method 1: Basic Authentication**
+
+Most common for API access:
+
+```
+Authorization: Basic <base64_encoded_username:password>
+```
+
+Python Example:
+```python
+import base64
+
+username = "admin"
+password = "password"
+auth_string = f"{username}:{password}"
+auth_bytes = auth_string.encode('ascii')
+base64_auth = base64.b64encode(auth_bytes).decode('ascii')
+
+headers = {
+    'Authorization': f'Basic {base64_auth}',
+    'Accept': 'application/json'
+}
+```
+
+**Method 2: Token-Based Authentication**
+
+For long-running applications:
+
+Step 1: Login to get token
+```
+POST /Login
+{
+    "username": "admin",
+    "password": "password"
+}
+```
+
+Response:
+```json
+{
+    "token": "QSDK abc123...",
+    "ccClientId": 2
+}
+```
+
+Step 2: Use token in subsequent requests
+```
+Authtoken: QSDK abc123...
+```
+
+**Method 3: SAML/SSO**
+
+Enterprise authentication (not covered in detail)
+
+2.2 CONNECTION TESTING
+----------------------------------------------------------------------------------------------------
+
+**Endpoint: Ping**
+```
+GET /Ping
+```
+
+Response:
+```json
+{
+    "response": "pong"
+}
+```
+
+Use for:
+- Testing connectivity
+- Verifying server availability
+- Health checks
+
+**Endpoint: Get CommCell Info**
+```
+GET /CommCell
+```
+
+Response includes:
+- CommServe name
+- Version information
+- License details
+
+2.3 SSL/TLS CONSIDERATIONS
+----------------------------------------------------------------------------------------------------
+
+Certificate Verification:
+- Production: verify=True (recommended)
+- Development: verify=False (only for testing)
+
+Python Example:
+```python
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+response = requests.get(url, headers=headers, verify=False)
+```
+
+Certificate Path (if needed):
+```python
+response = requests.get(url, headers=headers, verify='/path/to/ca-bundle.crt')
+```
+
+2.4 SESSION MANAGEMENT
+----------------------------------------------------------------------------------------------------
+
+Best Practices:
+- Reuse authentication tokens
+- Don't authenticate for every request
+- Implement token refresh logic
+- Handle token expiration gracefully
+
+Token Expiration:
+- Default: 30 minutes of inactivity
+- Configurable in CommCell settings
+
+Logout (when done):
+```
+POST /Logout
+```
+
+====================================================================================================
+PART 3: CORE MONITORING ENDPOINTS
+====================================================================================================
+
+3.1 JOBS MONITORING
+----------------------------------------------------------------------------------------------------
+
+**Get All Jobs**
+```
+GET /Job
+```
+
+Query Parameters:
+- jobFilter: Filter by job type
+- clientId: Filter by client
+- fromTime: Start time (Unix timestamp)
+- toTime: End time (Unix timestamp)
+
+Response Structure:
+```json
+{
+    "jobs": [
+        {
+            "jobId": 12345,
+            "jobType": "Backup",
+            "status": "Completed",
+            "clientName": "server01",
+            "appTypeName": "File System",
+            "backupLevel": "Incremental",
+            "startTime": 1699999999,
+            "endTime": 1700000100,
+            "sizeInBytes": 1073741824,
+            "percentComplete": 100
+        }
+    ]
+}
+```
+
+**Get Job Details**
+```
+GET /Job/{jobId}
+```
+
+Enhanced Job Information:
+```
+GET /V4/JobManagement/{jobId}
+```
+
+Response includes:
+- Detailed job statistics
+- Error messages
+- Performance metrics
+- File counts and sizes
+
+Job Status Values:
+- Completed: Successful
+- Completed w/ one or more errors: Partial success
+- Failed: Complete failure
+- Running: In progress
+- Waiting: Queued
+- Suspended: Paused
+- Killed: Manually terminated
+
+**Get Running Jobs**
+```
+GET /Job?filter=Running
+```
+
+Useful for:
+- Real-time monitoring
+- Load assessment
+- Conflict detection
+
+3.2 EVENTS AND ALERTS
+----------------------------------------------------------------------------------------------------
+
+**Get Events**
+```
+GET /Events
+```
+
+Query Parameters:
+- fromTime: Start timestamp
+- toTime: End timestamp
+- severityLevel: 0-4 (0=Info, 1=Warning, 2=Minor, 3=Major, 4=Critical)
+- jobId: Filter by job
+
+Response Structure:
+```json
+{
+    "events": [
+        {
+            "eventId": 67890,
+            "severityLevel": 2,
+            "eventCode": "16:2",
+            "eventCodeString": "16:2",
+            "description": "Backup job completed with errors",
+            "timeSource": 1699999999,
+            "jobId": 12345,
+            "clientName": "server01"
+        }
+    ]
+}
+```
+
+Event Severity Levels:
+- 0: Information
+- 1: Warning
+- 2: Minor error
+- 3: Major error
+- 4: Critical error
+
+**Get Alerts**
+```
+GET /AlertRule
+```
+
+Alert Types:
+- System alerts
+- Job completion alerts
+- Capacity alerts
+- Performance alerts
+
+**Common Event Codes:**
+- 16:2 - Job completed with errors
+- 16:18 - Job failed
+- 32:370 - DDB sealed
+- 40:110 - Database sync issues
+- 62:2483 - DDB corruption detected
+
+3.3 SYSTEM HEALTH
+----------------------------------------------------------------------------------------------------
+
+**Get CommServe Status**
+```
+GET /CommCell
+```
+
+**Get Service Status**
+```
+GET /Services
+```
+
+Response includes:
+- Service names
+- Running status
+- Start time
+- Process IDs
+
+**Get System Metrics**
+```
+GET /V4/System/Metrics
+```
+
+Includes:
+- CPU utilization
+- Memory usage
+- Disk I/O
+- Network throughput
+
+====================================================================================================
+PART 4: INFRASTRUCTURE ENDPOINTS
+====================================================================================================
+
+4.1 CLIENTS
+----------------------------------------------------------------------------------------------------
+
+**Get All Clients**
+```
+GET /Client
+```
+
+Response Structure:
+```json
+{
+    "clientProperties": [
+        {
+            "client": {
+                "clientId": 2,
+                "clientName": "server01",
+                "displayName": "server01",
+                "hostName": "server01.domain.com"
+            },
+            "osInfo": {
+                "osName": "Windows Server 2019"
+            },
+            "activityControl": {
+                "activityControlOptions": [
+                    {
+                        "activityType": 1,
+                        "enableActivityType": true
+                    }
+                ]
+            }
+        }
+    ]
+}
+```
+
+**Get Client Details**
+```
+GET /Client/{clientId}
+```
+
+**Get Client by Name**
+```
+GET /Client/byName(clientName='{clientName}')
+```
+
+Client Properties Include:
+- Client ID and name
+- Hostname
+- Operating system
+- Agent types
+- Activity status
+- Last contact time
+- Install path
+
+**Client Activity Status:**
+- Online/Offline
+- Last backup time
+- Protection status
+- Agent versions
+
+4.2 MEDIA AGENTS
+----------------------------------------------------------------------------------------------------
+
+**Get All MediaAgents**
+```
+GET /MediaAgent
+```
+
+Response Structure:
+```json
+{
+    "mediaAgentList": [
+        {
+            "mediaAgent": {
+                "mediaAgentId": 3,
+                "mediaAgentName": "MA01"
+            },
+            "osInfo": {
+                "osName": "Linux"
+            },
+            "status": 1,
+            "availableCapacity": 5497558138880,
+            "totalCapacity": 10995116277760
+        }
+    ]
+}
+```
+
+**Get MediaAgent Details**
+```
+GET /MediaAgent/{mediaAgentId}
+```
+
+MediaAgent Properties:
+- Name and ID
+- Operating system
+- Status (1=Online)
+- Available/total capacity
+- Mount paths
+- Associated libraries
+- Network configuration
+
+**MediaAgent Status Monitoring:**
+- Status: 1 = Online, other = Offline/degraded
+- Capacity tracking for space management
+- Library associations
+
+4.3 HYPERVISORS
+----------------------------------------------------------------------------------------------------
+
+**Get All Hypervisors**
+```
+GET /Hypervisor
+```
+
+**Get Hypervisor Details**
+```
+GET /Hypervisor/{hypervisorId}
+```
+
+Hypervisor Types:
+- VMware vCenter/ESXi
+- Hyper-V
+- Nutanix AHV
+- Azure
+- AWS
+- GCP
+
+Response Includes:
+- Hypervisor name and type
+- Connection status
+- VM inventory
+- Resource utilization
+
+**Get Virtual Machines**
+```
+GET /VM
+```
+
+VM Properties:
+- VM name and UUID
+- Power state
+- Associated hypervisor
+- Guest OS
+- Protection status
+
+====================================================================================================
+PART 5: STORAGE AND DEDUPLICATION ENDPOINTS
+====================================================================================================
+
+5.1 STORAGE POOLS
+----------------------------------------------------------------------------------------------------
+
+**Get All Storage Pools**
+```
+GET /StoragePool
+```
+
+Response Structure:
+```json
+{
+    "storagePools": [
+        {
+            "storagePoolId": 3,
+            "storagePoolName": "GDP_Local",
+            "storagePoolType": "DEDUPLICATION",
+            "mediaAgentName": "MA01",
+            "totalCapacity": 26293013,
+            "freeSpace": 16226909,
+            "dedupeEnabled": true
+        }
+    ]
+}
+```
+
+**Get Storage Pool Details**
+```
+GET /StoragePool/{storagePoolId}
+```
+
+**V4 Disk Storage Endpoint (Recommended)**
+```
+GET /V4/DiskStorage
+```
+
+Enhanced Response:
+```json
+{
+    "diskStorage": [
+        {
+            "id": 3,
+            "name": "GDP_Local",
+            "storagePoolType": "DEDUPLICATION",
+            "status": "Enabled",
+            "capacity": 26293013,
+            "freeSpace": 16226909,
+            "libraryVendorType": 0,
+            "storageType": "DISK",
+            "sizeOnDisk": 10066104,
+            "company": {
+                "id": 0,
+                "name": "Default"
+            }
+        }
+    ]
+}
+```
+
+Storage Pool Types:
+- DEDUPLICATION: Deduplicated storage
+- SECONDARY_COPY: Auxiliary copy target
+- NON_DEDUPLICATION: Regular disk storage
+- SCALE_OUT: Distributed storage
+
+Storage Types:
+- DISK: Local/SAN disk
+- CLOUD: Cloud storage
+- TAPE: Tape library
+- HYPERSCALE: Hyperscale storage
+
+5.2 LIBRARIES
+----------------------------------------------------------------------------------------------------
+
+**Get All Libraries**
+```
+GET /Library
+```
+
+Response Structure:
+```json
+{
+    "libraryList": [
+        {
+            "libraryId": 1,
+            "libraryName": "DiskLibrary1",
+            "libraryType": "3",
+            "mediaAgentName": "MA01",
+            "status": "Online"
+        }
+    ]
+}
+```
+
+**Get Library Details**
+```
+GET /Library/{libraryId}
+```
+
+Detailed Response Includes:
+- Library configuration
+- Capacity information
+- Mount paths
+- Media agent associations
+- Vendor type
+
+Library Types:
+- 1: Tape Library
+- 2: Optical Library
+- 3: Disk Library
+- 4: Network Attached Storage (NAS)
+- 5: Cloud Storage
+- 6: Deduplication Engine
+
+**Identifying Cloud Storage:**
+```python
+if library['libraryType'] == '5':
+    # Cloud storage library
+    # Examples: AWS S3, Azure Blob, Quantum ActiveScale
+```
+
+5.3 DEDUPLICATION DATABASE (DDB)
+----------------------------------------------------------------------------------------------------
+
+**Get DDB Information**
+```
+GET /DDBInformation/{ddbStoreId}
+```
+
+Response Structure:
+```json
+{
+    "storeId": 60,
+    "storeName": "PoolName_60",
+    "status": 1,
+    "maxSIDBAverageQITime": 2000,
+    "avgQITime": 450,
+    "totalCapacityMB": 524288,
+    "freeDiskSpaceMB": 314572,
+    "consumedDataMB": 209716,
+    "PrimaryEntries": 1048576,
+    "lastBackupTime": "2025-11-16T10:30:00",
+    "lastBackupJobId": 123456,
+    "offlineReason": "",
+    "subStoreList": [
+        {
+            "subStoreId": 1,
+            "storeId": 60,
+            "Path": "/DDB/Pool_60/Part1",
+            "MediaAgent": {
+                "mediaAgentId": 3,
+                "mediaAgentName": "MA01"
+            },
+            "avgQITime": 450,
+            "status": 1,
+            "freeDiskSpaceMB": 314572,
+            "totalCapacityMB": 524288,
+            "softstate": "online"
+        }
+    ]
+}
+```
+
+Critical DDB Metrics:
+- avgQITime: Query & Insert time (should be <1000μs)
+- status: 1=Online, other=issues
+- freeDiskSpaceMB: Available space
+- offlineReason: Diagnostic info if offline
+
+DDB Health Monitoring:
+```python
+if ddb['status'] != 1:
+    alert(f"DDB offline: {ddb['offlineReason']}")
+
+if ddb['avgQITime'] > 1000:
+    alert(f"High Q&I time: {ddb['avgQITime']}μs")
+
+free_percent = (ddb['freeDiskSpaceMB'] / ddb['totalCapacityMB']) * 100
+if free_percent < 20:
+    alert(f"Low DDB space: {free_percent:.1f}% free")
+```
+
+5.4 STORAGE ARRAYS
+----------------------------------------------------------------------------------------------------
+
+**Get Storage Arrays**
+```
+GET /V4/StorageArray
+```
+
+Response includes:
+- Array name and vendor
+- Capacity information
+- Snapshot capabilities
+- Connected hosts
+
+Used for:
+- Snapshot management
+- IntelliSnap operations
+- Array-based replication
+
+====================================================================================================
+PART 6: BACKUP AND RECOVERY ENDPOINTS
+====================================================================================================
+
+6.1 BACKUP PLANS
+----------------------------------------------------------------------------------------------------
+
+**Get All Plans**
+```
+GET /Plan
+```
+
+Response Structure:
+```json
+{
+    "plans": [
+        {
+            "planId": 33,
+            "planName": "Gold Plan (Server)",
+            "planType": 2,
+            "planSubType": 33554437,
+            "numberOfCopies": 2,
+            "rpoInMinutes": 480,
+            "storagePoolName": "HSXPOOL",
+            "status": "Active"
+        }
+    ]
+}
+```
+
+**Get Plan Details**
+```
+GET /Plan/{planId}
+```
+
+Plan Types:
+- 1: Data protection plan
+- 2: Server plan
+- 3: Laptop plan
+- 4: Database plan
+
+Plan Components:
+- Backup frequency (RPO)
+- Retention rules
+- Storage targets
+- Copy policies
+- Associated clients
+
+6.2 SUBCLIENTS
+----------------------------------------------------------------------------------------------------
+
+**Get Subclients for Client**
+```
+GET /Subclient?clientId={clientId}
+```
+
+Response Structure:
+```json
+{
+    "subClientProperties": [
+        {
+            "subClientEntity": {
+                "subclientId": 5,
+                "subclientName": "default",
+                "clientId": 2,
+                "clientName": "server01",
+                "appName": "File System"
+            },
+            "commonProperties": {
+                "storageDevice": {
+                    "dataBackupStoragePolicy": {
+                        "storagePolicyName": "GDP_Local"
+                    }
+                },
+                "enableBackup": true
+            }
+        }
+    ]
+}
+```
+
+**Get Subclient Details**
+```
+GET /Subclient/{subclientId}
+```
+
+Subclient Information:
+- Content (what's backed up)
+- Filters (what's excluded)
+- Storage policy
+- Schedule
+- Backup status
+
+6.3 BACKUP OPERATIONS
+----------------------------------------------------------------------------------------------------
+
+**Trigger Backup**
+```
+POST /Subclient/{subclientId}/action/backup
+```
+
+Request Body:
+```json
+{
+    "backupLevel": "Incremental",
+    "runIncrementalBackup": true
+}
+```
+
+Backup Levels:
+- Full
+- Incremental
+- Differential
+- Synthetic Full
+
+**Get Backup History**
+```
+GET /Subclient/{subclientId}/backup
+```
+
+Response includes:
+- Backup job IDs
+- Backup times
+- Data amounts
+- Success/failure status
+
+6.4 RESTORE OPERATIONS
+----------------------------------------------------------------------------------------------------
+
+**Browse Backup Data**
+```
+GET /Subclient/{subclientId}/Browse
+```
+
+Parameters:
+- path: Directory path to browse
+- fromTime: Browse data from specific point in time
+
+**Restore Files**
+```
+POST /Subclient/{subclientId}/action/restore
+```
+
+Request Body:
+```json
+{
+    "paths": ["/path/to/file1", "/path/to/file2"],
+    "destPath": "/restore/location",
+    "restoreTime": 1699999999
+}
+```
+
+Restore Options:
+- In-place restore
+- Out-of-place restore
+- Point-in-time restore
+- Overwrite options
+
+====================================================================================================
+PART 7: RETENTION AND POLICY ENDPOINTS
+====================================================================================================
+
+7.1 STORAGE POLICIES
+----------------------------------------------------------------------------------------------------
+
+**Get All Storage Policies**
+```
+GET /StoragePolicy
+```
+
+Response Structure:
+```json
+{
+    "storagePolicies": [
+        {
+            "storagePolicyId": 2,
+            "storagePolicyName": "CommServeDR",
+            "numberOfCopies": 1,
+            "type": 1
+        }
+    ]
+}
+```
+
+**Get Storage Policy Details**
+```
+GET /StoragePolicy/{storagePolicyId}
+```
+
+Storage Policy Components:
+- Primary copy
+- Auxiliary copies
+- Copy schedules
+- Retention rules
+- Deduplication settings
+
+7.2 RETENTION RULES
+----------------------------------------------------------------------------------------------------
+
+**Get Retention Rules for Plan**
+```
+GET /Plan/{planId}/RetentionRules
+```
+
+Database Query (if direct access):
+```sql
+SELECT
+    entityId,
+    entityName,
+    parentId,
+    parentName,
+    retainBackupDataForDays,
+    retainBackupDataForCycles,
+    enableDataAging
+FROM retention_rules
+WHERE parentId = {planId}
+```
+
+Retention Rule Properties:
+- Entity type (plan_copy, subclient)
+- Parent plan
+- Days-based retention
+- Cycles-based retention
+- Extended retention periods
+- Aging enablement
+
+Retention Types:
+- Basic retention: Keep for N days
+- Extended retention: Long-term archival
+- Indefinite retention: Keep forever
+- Cycle-based: Keep N backup cycles
+
+7.3 SCHEDULES
+----------------------------------------------------------------------------------------------------
+
+**Get Schedules for Subclient**
+```
+GET /Subclient/{subclientId}/Schedules
+```
+
+Response Structure:
+```json
+{
+    "taskDetail": [
+        {
+            "taskId": 1234,
+            "taskType": "Backup",
+            "taskName": "Incremental Backup",
+            "pattern": {
+                "freq_type": 4,
+                "freq_interval": 1,
+                "active_start_time": 0
+            },
+            "enabled": true
+        }
+    ]
+}
+```
+
+Schedule Pattern Types:
+- freq_type: 1=Once, 4=Daily, 8=Weekly, 16=Monthly
+- freq_interval: Frequency multiplier
+- active_start_time: Time of day (seconds since midnight)
+
+**Create Schedule**
+```
+POST /Schedules
+```
+
+**Modify Schedule**
+```
+PUT /Schedules/{scheduleId}
+```
+
+====================================================================================================
+PART 8: REPORTING AND ANALYTICS ENDPOINTS
+====================================================================================================
+
+8.1 JOB SUMMARIES
+----------------------------------------------------------------------------------------------------
+
+**Get Job Summary**
+```
+GET /JobSummary
+```
+
+Query Parameters:
+- fromTime: Start time
+- toTime: End time
+- clientId: Filter by client
+- jobType: Filter by job type
+
+Response Aggregates:
+- Total jobs run
+- Success/failure counts
+- Data protected
+- Average job duration
+
+8.2 CAPACITY REPORTS
+----------------------------------------------------------------------------------------------------
+
+**Get Client Capacity**
+```
+GET /V4/Report/Capacity
+```
+
+Response Structure:
+```json
+{
+    "capacityReport": [
+        {
+            "clientName": "server01",
+            "protectedData": 1073741824,
+            "totalData": 2147483648,
+            "dedupeRatio": 2.5,
+            "storagePoolName": "GDP_Local"
+        }
+    ]
+}
+```
+
+Capacity Metrics:
+- Protected data size
+- Storage consumed
+- Deduplication ratio
+- Growth trends
+
+**Get Storage Pool Capacity**
+```
+GET /V4/DiskStorage
+```
+
+Extract capacity info:
+- totalCapacity
+- freeSpace
+- sizeOnDisk (actual consumption)
+- Calculate: usedPercent = (1 - freeSpace/totalCapacity) * 100
+
+8.3 PROTECTION STATUS
+----------------------------------------------------------------------------------------------------
+
+**Get Protection Summary**
+```
+GET /V4/ProtectionSummary
+```
+
+Response includes:
+- Protected clients
+- Unprotected clients
+- Clients without recent backup
+- Protection gaps
+
+**Get Aging Data Summary**
+```
+GET /V4/AgingSummary
+```
+
+Shows:
+- Data eligible for pruning
+- Estimated space reclaimable
+- Aging job schedules
+
+====================================================================================================
+PART 9: ADVANCED OPERATIONS
+====================================================================================================
+
+9.1 AUXILIARY COPY OPERATIONS
+----------------------------------------------------------------------------------------------------
+
+**Get Auxiliary Copy Jobs**
+```
+GET /Job?jobFilter=AuxCopy
+```
+
+**Trigger Auxiliary Copy**
+```
+POST /StoragePolicy/{storagePolicyId}/AuxiliaryCopy
+```
+
+Request Body:
+```json
+{
+    "copyName": "Cloud Copy",
+    "allCopies": false
+}
+```
+
+Aux Copy Use Cases:
+- Offsite copies
+- Cloud archival
+- Tape backups
+- DR replication
+
+9.2 DATA AGING AND PRUNING
+----------------------------------------------------------------------------------------------------
+
+**Trigger Data Aging**
+```
+POST /StoragePolicy/{storagePolicyId}/DataAging
+```
+
+Data Aging Process:
+1. Identifies data past retention
+2. Marks for pruning
+3. Reclaims storage space
+
+**Get Aging Status**
+```
+GET /Job?jobFilter=DataAging
+```
+
+9.3 DDB OPERATIONS
+----------------------------------------------------------------------------------------------------
+
+**Trigger DDB Backup**
+```
+POST /DDB/{ddbStoreId}/Backup
+```
+
+**Trigger DDB Recovery**
+```
+POST /DDB/{ddbStoreId}/Recovery
+```
+
+Request Body:
+```json
+{
+    "recoverFromBackup": true,
+    "useScalableResourceAllocation": true,
+    "fullReconstruction": false
+}
+```
+
+**DDB Resync**
+```
+POST /DDBResync/{ddbStoreId}
+```
+
+**Seal DDB**
+```
+POST /DDB/{ddbStoreId}/Seal
+```
+
+9.4 DISASTER RECOVERY
+----------------------------------------------------------------------------------------------------
+
+**Get CommServe DR Backup Status**
+```
+GET /CommServe/DRBackup
+```
+
+**Trigger CommServe DR Backup**
+```
+POST /CommServe/DRBackup
+```
+
+**Get DR Pairs**
+```
+GET /V4/ReplicationPairs
+```
+
+Response shows:
+- Source clients
+- Destination clients
+- Replication status
+- Last replication time
+
+====================================================================================================
+PART 10: ERROR HANDLING AND BEST PRACTICES
+====================================================================================================
+
+10.1 HTTP STATUS CODES
+----------------------------------------------------------------------------------------------------
+
+Standard HTTP Status Codes:
+
+200 OK: Request successful
+```json
+{
+    "response": "Success",
+    "data": {...}
+}
+```
+
+201 Created: Resource created successfully
+
+204 No Content: Success with no response body
+
+400 Bad Request: Invalid request
+```json
+{
+    "errorCode": 400,
+    "errorMessage": "Invalid parameter"
+}
+```
+
+401 Unauthorized: Authentication failed
+```json
+{
+    "errorCode": 401,
+    "errorMessage": "Invalid credentials"
+}
+```
+
+404 Not Found: Resource doesn't exist
+```json
+{
+    "errorCode": 404,
+    "errorMessage": "Client not found"
+}
+```
+
+500 Internal Server Error: Server-side error
+```json
+{
+    "errorCode": 500,
+    "errorMessage": "Internal server error"
+}
+```
+
+10.2 ERROR HANDLING PATTERN
+----------------------------------------------------------------------------------------------------
+
+Python Implementation:
+```python
+import requests
+import time
+
+def api_request_with_retry(url, headers, max_retries=3):
+    """Make API request with retry logic"""
+
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(url, headers=headers, verify=False, timeout=30)
+
+            if response.status_code == 200:
+                return response.json()
+
+            elif response.status_code == 401:
+                # Re-authenticate
+                print("Authentication failed, re-authenticating...")
+                # Implement re-auth logic
+                continue
+
+            elif response.status_code == 404:
+                # Resource not found, don't retry
+                print(f"Resource not found: {url}")
+                return None
+
+            elif response.status_code >= 500:
+                # Server error, retry
+                print(f"Server error, attempt {attempt + 1}/{max_retries}")
+                time.sleep(5 * (attempt + 1))  # Exponential backoff
+                continue
+
+            else:
+                print(f"Unexpected status: {response.status_code}")
+                return None
+
+        except requests.exceptions.Timeout:
+            print(f"Timeout, attempt {attempt + 1}/{max_retries}")
+            time.sleep(5)
+            continue
+
+        except requests.exceptions.ConnectionError:
+            print(f"Connection error, attempt {attempt + 1}/{max_retries}")
+            time.sleep(10)
+            continue
+
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return None
+
+    print("Max retries exceeded")
+    return None
+```
+
+10.3 API BEST PRACTICES
+----------------------------------------------------------------------------------------------------
+
+**Connection Reuse:**
+```python
+import requests
+
+# Create session for connection pooling
+session = requests.Session()
+session.headers.update(headers)
+session.verify = False
+
+# Reuse session for all requests
+response = session.get(url)
+```
+
+**Batch Operations:**
+```python
+# Instead of individual requests
+for client_id in client_ids:
+    client = get_client(client_id)  # BAD
+
+# Fetch all at once
+all_clients = get_all_clients()  # GOOD
+```
+
+**Caching:**
+```python
+import time
+
+cache = {}
+CACHE_TTL = 300  # 5 minutes
+
+def get_client_cached(client_id):
+    cache_key = f"client_{client_id}"
+    now = time.time()
+
+    if cache_key in cache:
+        data, timestamp = cache[cache_key]
+        if now - timestamp < CACHE_TTL:
+            return data
+
+    # Fetch fresh data
+    data = api_get_client(client_id)
+    cache[cache_key] = (data, now)
+    return data
+```
+
+**Rate Limiting:**
+```python
+import time
+
+class RateLimiter:
+    def __init__(self, max_calls, period):
+        self.max_calls = max_calls
+        self.period = period
+        self.calls = []
+
+    def wait_if_needed(self):
+        now = time.time()
+        # Remove old calls outside period
+        self.calls = [c for c in self.calls if now - c < self.period]
+
+        if len(self.calls) >= self.max_calls:
+            sleep_time = self.period - (now - self.calls[0])
+            if sleep_time > 0:
+                time.sleep(sleep_time)
+
+        self.calls.append(now)
+
+# Usage
+limiter = RateLimiter(max_calls=10, period=1.0)  # 10 calls/second
+
+for request in requests_to_make:
+    limiter.wait_if_needed()
+    response = api_call(request)
+```
+
+10.4 LOGGING AND DEBUGGING
+----------------------------------------------------------------------------------------------------
+
+**Comprehensive Logging:**
+```python
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('commvault_api.log'),
+        logging.StreamHandler()
+    ]
+)
+
+logger = logging.getLogger('CommvaultAPI')
+
+def api_get_client(client_id):
+    logger.info(f"Fetching client {client_id}")
+
+    try:
+        response = requests.get(f"{BASE_URL}/Client/{client_id}", headers=headers)
+        logger.debug(f"Response status: {response.status_code}")
+
+        if response.status_code == 200:
+            logger.info(f"Successfully fetched client {client_id}")
+            return response.json()
+        else:
+            logger.error(f"Failed to fetch client {client_id}: {response.status_code}")
+            return None
+
+    except Exception as e:
+        logger.exception(f"Exception fetching client {client_id}")
+        return None
+```
+
+====================================================================================================
+PART 11: RESPONSE STRUCTURES AND DATA MODELS
+====================================================================================================
+
+11.1 COMMON DATA STRUCTURES
+----------------------------------------------------------------------------------------------------
+
+**Job Object:**
+```json
+{
+    "jobId": 12345,
+    "jobType": "Backup",
+    "status": "Completed",
+    "clientName": "server01",
+    "clientId": 2,
+    "appTypeName": "File System",
+    "backupLevel": "Incremental",
+    "startTime": 1699999999,
+    "endTime": 1700000100,
+    "sizeInBytes": 1073741824,
+    "percentComplete": 100,
+    "pendingReason": "",
+    "jobElapsedTime": 101,
+    "subclientId": 5,
+    "subclientName": "default"
+}
+```
+
+**Client Object:**
+```json
+{
+    "client": {
+        "clientId": 2,
+        "clientName": "server01",
+        "displayName": "server01",
+        "hostName": "server01.domain.com"
+    },
+    "osInfo": {
+        "osName": "Windows Server 2019",
+        "osVersion": "10.0.17763"
+    },
+    "clientProps": {
+        "activityControl": {
+            "activityControlOptions": [
+                {
+                    "activityType": 1,
+                    "enableActivityType": true
+                }
+            ]
+        }
+    }
+}
+```
+
+**Storage Pool Object:**
+```json
+{
+    "storagePoolId": 3,
+    "storagePoolName": "GDP_Local",
+    "storagePoolType": "DEDUPLICATION",
+    "mediaAgentId": 3,
+    "mediaAgentName": "MA01",
+    "totalCapacity": 26293013,
+    "freeSpace": 16226909,
+    "dedupeEnabled": true,
+    "storageType": "DISK",
+    "status": "Online"
+}
+```
+
+**Library Object:**
+```json
+{
+    "libraryId": 1,
+    "libraryName": "DiskLibrary1",
+    "libraryType": "3",
+    "libraryTypeDesc": "Disk Library",
+    "mediaAgentId": 3,
+    "mediaAgentName": "MA01",
+    "status": "Online",
+    "capacity": 10995116277760,
+    "freeSpace": 5497558138880,
+    "isCloudStorage": false,
+    "isDedupe": false
+}
+```
+
+11.2 TIMESTAMP FORMATS
+----------------------------------------------------------------------------------------------------
+
+Unix Timestamp (Seconds since epoch):
+```
+1699999999
+```
+
+Conversion:
+```python
+from datetime import datetime
+
+# Unix to datetime
+dt = datetime.fromtimestamp(1699999999)
+
+# Datetime to Unix
+timestamp = int(dt.timestamp())
+```
+
+ISO 8601 Format:
+```
+2025-11-16T10:30:00.000Z
+2025-11-16T10:30:00
+```
+
+Conversion:
+```python
+from datetime import datetime
+
+# ISO to datetime
+dt = datetime.fromisoformat("2025-11-16T10:30:00")
+
+# Datetime to ISO
+iso_string = dt.isoformat()
+```
+
+Commvault Time Fields:
+- startTime: Usually Unix timestamp
+- endTime: Usually Unix timestamp
+- lastFetchTime: Often ISO 8601
+- timeSource: Event timestamp (Unix)
+
+11.3 SIZE UNITS
+----------------------------------------------------------------------------------------------------
+
+Common Size Fields:
+- sizeInBytes: Raw bytes
+- totalCapacity: Often in MB
+- freeSpace: Often in MB
+
+Conversion Functions:
+```python
+def bytes_to_gb(bytes_value):
+    return bytes_value / (1024**3)
+
+def bytes_to_tb(bytes_value):
+    return bytes_value / (1024**4)
+
+def mb_to_gb(mb_value):
+    return mb_value / 1024
+
+def mb_to_tb(mb_value):
+    return mb_value / (1024**2)
+
+def format_size(bytes_value):
+    """Human-readable size"""
+    for unit in ['B', 'KB', 'MB', 'GB', 'TB', 'PB']:
+        if bytes_value < 1024.0:
+            return f"{bytes_value:.2f} {unit}"
+        bytes_value /= 1024.0
+    return f"{bytes_value:.2f} EB"
+```
+
+====================================================================================================
+PART 12: COMMON MONITORING PATTERNS
+====================================================================================================
+
+12.1 JOB MONITORING PATTERN
+----------------------------------------------------------------------------------------------------
+
+```python
+def monitor_jobs(hours=24):
+    """Monitor jobs from last N hours"""
+
+    # Calculate time range
+    end_time = int(time.time())
+    start_time = end_time - (hours * 3600)
+
+    # Fetch jobs
+    response = requests.get(
+        f"{BASE_URL}/Job?fromTime={start_time}&toTime={end_time}",
+        headers=headers,
+        verify=False
+    )
+
+    if response.status_code != 200:
+        logger.error(f"Failed to fetch jobs: {response.status_code}")
+        return
+
+    jobs = response.json().get('jobs', [])
+
+    # Analyze jobs
+    total = len(jobs)
+    completed = sum(1 for j in jobs if j['status'] == 'Completed')
+    failed = sum(1 for j in jobs if 'Failed' in j['status'])
+    running = sum(1 for j in jobs if j['status'] == 'Running')
+
+    print(f"Jobs in last {hours} hours:")
+    print(f"  Total: {total}")
+    print(f"  Completed: {completed}")
+    print(f"  Failed: {failed}")
+    print(f"  Running: {running}")
+
+    # Identify failures
+    failures = [j for j in jobs if 'Failed' in j['status']]
+    if failures:
+        print("\nFailed jobs:")
+        for job in failures:
+            print(f"  Job {job['jobId']}: {job['clientName']} - {job['jobType']}")
+```
+
+12.2 CAPACITY MONITORING PATTERN
+----------------------------------------------------------------------------------------------------
+
+```python
+def monitor_storage_capacity():
+    """Monitor storage pool capacity"""
+
+    response = requests.get(
+        f"{BASE_URL}/V4/DiskStorage",
+        headers=headers,
+        verify=False
+    )
+
+    if response.status_code != 200:
+        logger.error(f"Failed to fetch storage: {response.status_code}")
+        return
+
+    pools = response.json().get('diskStorage', [])
+
+    critical_pools = []
+    warning_pools = []
+
+    for pool in pools:
+        pool_name = pool['name']
+        total = pool.get('capacity', 0)
+        free = pool.get('freeSpace', 0)
+
+        if total == 0:
+            continue
+
+        free_pct = (free / total) * 100
+
+        if free_pct < 10:
+            critical_pools.append((pool_name, free_pct))
+        elif free_pct < 20:
+            warning_pools.append((pool_name, free_pct))
+
+    if critical_pools:
+        print("CRITICAL - Storage pools below 10% free:")
+        for name, pct in critical_pools:
+            print(f"  {name}: {pct:.1f}% free")
+
+    if warning_pools:
+        print("WARNING - Storage pools below 20% free:")
+        for name, pct in warning_pools:
+            print(f"  {name}: {pct:.1f}% free")
+
+    if not critical_pools and not warning_pools:
+        print("All storage pools healthy")
+```
+
+12.3 CLIENT PROTECTION STATUS PATTERN
+----------------------------------------------------------------------------------------------------
+
+```python
+def check_client_protection(days=7):
+    """Check which clients haven't been backed up recently"""
+
+    # Get all clients
+    response = requests.get(f"{BASE_URL}/Client", headers=headers, verify=False)
+    if response.status_code != 200:
+        return
+
+    clients = response.json().get('clientProperties', [])
+
+    # Get recent jobs
+    cutoff_time = int(time.time()) - (days * 86400)
+    jobs_response = requests.get(
+        f"{BASE_URL}/Job?fromTime={cutoff_time}",
+        headers=headers,
+        verify=False
+    )
+
+    recent_jobs = jobs_response.json().get('jobs', [])
+
+    # Build set of backed up clients
+    backed_up_clients = set()
+    for job in recent_jobs:
+        if job.get('jobType') == 'Backup' and job.get('status') == 'Completed':
+            backed_up_clients.add(job.get('clientName'))
+
+    # Find unprotected clients
+    unprotected = []
+    for client_prop in clients:
+        client_name = client_prop['client']['clientName']
+        if client_name not in backed_up_clients:
+            unprotected.append(client_name)
+
+    if unprotected:
+        print(f"Clients without successful backup in {days} days:")
+        for client in unprotected:
+            print(f"  - {client}")
+    else:
+        print(f"All clients backed up in last {days} days")
+
+    return unprotected
+```
+
+12.4 DDB HEALTH MONITORING PATTERN
+----------------------------------------------------------------------------------------------------
+
+```python
+def monitor_ddb_health():
+    """Monitor all DDB health"""
+
+    # Get all storage pools with dedup
+    response = requests.get(
+        f"{BASE_URL}/StoragePool",
+        headers=headers,
+        verify=False
+    )
+
+    pools = response.json().get('storagePools', [])
+    dedup_pools = [p for p in pools if p.get('dedupeEnabled')]
+
+    issues = []
+
+    for pool in dedup_pools:
+        # Extract DDB Store ID from pool name
+        # Format: PoolName_DDBStoreID
+        pool_name = pool['storagePoolName']
+        parts = pool_name.split('_')
+
+        if not parts[-1].isdigit():
+            continue
+
+        ddb_id = int(parts[-1])
+
+        # Get DDB info
+        ddb_response = requests.get(
+            f"{BASE_URL}/DDBInformation/{ddb_id}",
+            headers=headers,
+            verify=False
+        )
+
+        if ddb_response.status_code != 200:
+            issues.append(f"{pool_name}: Cannot fetch DDB info")
+            continue
+
+        ddb = ddb_response.json()
+
+        # Check health
+        if ddb.get('status') != 1:
+            issues.append(f"{pool_name}: DDB OFFLINE - {ddb.get('offlineReason')}")
+
+        qi_time = ddb.get('avgQITime', 0)
+        if qi_time > 2000:
+            issues.append(f"{pool_name}: CRITICAL Q&I time ({qi_time}μs)")
+        elif qi_time > 1000:
+            issues.append(f"{pool_name}: High Q&I time ({qi_time}μs)")
+
+        total = ddb.get('totalCapacityMB', 0)
+        free = ddb.get('freeDiskSpaceMB', 0)
+        if total > 0:
+            free_pct = (free / total) * 100
+            if free_pct < 10:
+                issues.append(f"{pool_name}: CRITICAL space ({free_pct:.1f}% free)")
+            elif free_pct < 20:
+                issues.append(f"{pool_name}: Low space ({free_pct:.1f}% free)")
+
+    if issues:
+        print("DDB Health Issues:")
+        for issue in issues:
+            print(f"  - {issue}")
+    else:
+        print("All DDBs healthy")
+
+    return issues
+```
+
+====================================================================================================
+PART 13: AUTOMATION SCENARIOS
+====================================================================================================
+
+13.1 AUTOMATED BACKUP VERIFICATION
+----------------------------------------------------------------------------------------------------
+
+```python
+def verify_backups_automated():
+    """Automated backup verification workflow"""
+
+    print("Starting automated backup verification...")
+
+    # 1. Get last 24 hours of backup jobs
+    end_time = int(time.time())
+    start_time = end_time - 86400
+
+    jobs_response = requests.get(
+        f"{BASE_URL}/Job?fromTime={start_time}&jobFilter=Backup",
+        headers=headers,
+        verify=False
+    )
+
+    jobs = jobs_response.json().get('jobs', [])
+
+    # 2. Categorize jobs
+    successful = []
+    failed = []
+    partial = []
+
+    for job in jobs:
+        status = job.get('status')
+        if status == 'Completed':
+            successful.append(job)
+        elif 'Failed' in status:
+            failed.append(job)
+        elif 'error' in status.lower():
+            partial.append(job)
+
+    # 3. Generate report
+    report = {
+        'timestamp': datetime.now().isoformat(),
+        'period': '24 hours',
+        'total_jobs': len(jobs),
+        'successful': len(successful),
+        'failed': len(failed),
+        'partial': len(partial),
+        'issues': []
+    }
+
+    # 4. Identify issues
+    if failed:
+        for job in failed:
+            report['issues'].append({
+                'severity': 'Critical',
+                'type': 'Job Failure',
+                'client': job.get('clientName'),
+                'job_id': job.get('jobId'),
+                'message': f"Backup failed for {job.get('clientName')}"
+            })
+
+    if partial:
+        for job in partial:
+            report['issues'].append({
+                'severity': 'Warning',
+                'type': 'Partial Success',
+                'client': job.get('clientName'),
+                'job_id': job.get('jobId'),
+                'message': f"Backup completed with errors for {job.get('clientName')}"
+            })
+
+    # 5. Check for missing backups (clients without jobs)
+    all_clients_response = requests.get(f"{BASE_URL}/Client", headers=headers, verify=False)
+    all_clients = all_clients_response.json().get('clientProperties', [])
+
+    backed_up_clients = set(j.get('clientName') for j in jobs)
+    all_client_names = set(c['client']['clientName'] for c in all_clients)
+    missing_backups = all_client_names - backed_up_clients
+
+    for client in missing_backups:
+        report['issues'].append({
+            'severity': 'Warning',
+            'type': 'No Backup',
+            'client': client,
+            'message': f"No backup job found for {client} in last 24 hours"
+        })
+
+    # 6. Store report in database
+    store_backup_report(report)
+
+    # 7. Send alerts if needed
+    if report['issues']:
+        send_alert_email(report)
+
+    return report
+```
+
+13.2 CAPACITY PLANNING AUTOMATION
+----------------------------------------------------------------------------------------------------
+
+```python
+def capacity_planning_analysis():
+    """Automated capacity planning"""
+
+    print("Analyzing capacity trends...")
+
+    # 1. Get current capacity
+    storage_response = requests.get(
+        f"{BASE_URL}/V4/DiskStorage",
+        headers=headers,
+        verify=False
+    )
+
+    pools = storage_response.json().get('diskStorage', [])
+
+    # 2. Get historical data from database
+    conn = sqlite3.connect('Database/commvault.db')
+    cur = conn.cursor()
+
+    predictions = []
+
+    for pool in pools:
+        pool_name = pool['name']
+        total_capacity = pool.get('capacity', 0)
+        current_free = pool.get('freeSpace', 0)
+
+        # Get trend data (last 30 days)
+        cur.execute("""
+            SELECT timestamp, freeSpace
+            FROM storage_pool_history
+            WHERE storagePoolName = ?
+            AND timestamp >= datetime('now', '-30 days')
+            ORDER BY timestamp
+        """, (pool_name,))
+
+        history = cur.fetchall()
+
+        if len(history) < 5:
+            # Not enough data
+            continue
+
+        # Calculate daily consumption rate
+        first_free = history[0][1]
+        last_free = history[-1][1]
+        days_measured = len(history)
+
+        daily_consumption = (first_free - last_free) / days_measured
+
+        if daily_consumption <= 0:
+            # Space is not decreasing
+            continue
+
+        # Predict days until full
+        days_until_full = current_free / daily_consumption
+
+        prediction = {
+            'pool_name': pool_name,
+            'current_free_mb': current_free,
+            'total_capacity_mb': total_capacity,
+            'daily_consumption_mb': daily_consumption,
+            'days_until_full': days_until_full,
+            'projected_full_date': (datetime.now() + timedelta(days=days_until_full)).strftime('%Y-%m-%d')
+        }
+
+        predictions.append(prediction)
+
+        # Alert if < 90 days
+        if days_until_full < 90:
+            print(f"WARNING: {pool_name} will be full in {days_until_full:.0f} days")
+
+    conn.close()
+
+    return predictions
+```
+
+13.3 AUTOMATED HEALTH CHECK
+----------------------------------------------------------------------------------------------------
+
+```python
+def comprehensive_health_check():
+    """Complete environment health check"""
+
+    health_report = {
+        'timestamp': datetime.now().isoformat(),
+        'overall_status': 'Healthy',
+        'checks': {}
+    }
+
+    # 1. Check CommServe connectivity
+    try:
+        ping = requests.get(f"{BASE_URL}/Ping", headers=headers, verify=False, timeout=10)
+        health_report['checks']['commserve_connectivity'] = 'OK' if ping.status_code == 200 else 'FAILED'
+    except:
+        health_report['checks']['commserve_connectivity'] = 'FAILED'
+        health_report['overall_status'] = 'Critical'
+
+    # 2. Check MediaAgent status
+    ma_response = requests.get(f"{BASE_URL}/MediaAgent", headers=headers, verify=False)
+    if ma_response.status_code == 200:
+        media_agents = ma_response.json().get('mediaAgentList', [])
+        offline_mas = [ma for ma in media_agents if ma.get('status') != 1]
+
+        if offline_mas:
+            health_report['checks']['mediaagents'] = f"WARNING: {len(offline_mas)} MediaAgents offline"
+            health_report['overall_status'] = 'Warning'
+        else:
+            health_report['checks']['mediaagents'] = f"OK: All {len(media_agents)} MediaAgents online"
+
+    # 3. Check storage capacity
+    capacity_issues = []
+    storage_response = requests.get(f"{BASE_URL}/V4/DiskStorage", headers=headers, verify=False)
+
+    if storage_response.status_code == 200:
+        pools = storage_response.json().get('diskStorage', [])
+
+        for pool in pools:
+            total = pool.get('capacity', 0)
+            free = pool.get('freeSpace', 0)
+
+            if total > 0:
+                free_pct = (free / total) * 100
+                if free_pct < 10:
+                    capacity_issues.append(f"{pool['name']}: {free_pct:.1f}% free")
+
+    if capacity_issues:
+        health_report['checks']['storage_capacity'] = f"CRITICAL: {len(capacity_issues)} pools low on space"
+        health_report['overall_status'] = 'Critical'
+    else:
+        health_report['checks']['storage_capacity'] = "OK: Adequate space available"
+
+    # 4. Check recent job failures
+    end_time = int(time.time())
+    start_time = end_time - 86400
+
+    jobs_response = requests.get(
+        f"{BASE_URL}/Job?fromTime={start_time}",
+        headers=headers,
+        verify=False
+    )
+
+    if jobs_response.status_code == 200:
+        jobs = jobs_response.json().get('jobs', [])
+        failed = sum(1 for j in jobs if 'Failed' in j.get('status', ''))
+
+        if failed > 0:
+            health_report['checks']['job_failures'] = f"WARNING: {failed} jobs failed in last 24h"
+            if health_report['overall_status'] == 'Healthy':
+                health_report['overall_status'] = 'Warning'
+        else:
+            health_report['checks']['job_failures'] = "OK: No job failures"
+
+    # 5. Check DDB health
+    ddb_issues = monitor_ddb_health()  # From previous pattern
+    if ddb_issues:
+        health_report['checks']['ddb_health'] = f"WARNING: {len(ddb_issues)} DDB issues"
+        if health_report['overall_status'] == 'Healthy':
+            health_report['overall_status'] = 'Warning'
+    else:
+        health_report['checks']['ddb_health'] = "OK: All DDBs healthy"
+
+    # 6. Store health report
+    store_health_report(health_report)
+
+    return health_report
+```
+
+====================================================================================================
+PART 14: DATABASE SCHEMA RECOMMENDATIONS
+====================================================================================================
+
+14.1 CORE MONITORING TABLES
+----------------------------------------------------------------------------------------------------
+
+**jobs Table:**
+```sql
+CREATE TABLE jobs (
+    jobId            INTEGER PRIMARY KEY,
+    jobType          TEXT,
+    status           TEXT,
+    clientName       TEXT,
+    clientId         INTEGER,
+    appTypeName      TEXT,
+    backupLevel      TEXT,
+    startTime        INTEGER,  -- Unix timestamp
+    endTime          INTEGER,
+    sizeInBytes      INTEGER,
+    percentComplete  INTEGER,
+    subclientId      INTEGER,
+    subclientName    TEXT,
+    lastFetchTime    TEXT
+);
+
+CREATE INDEX idx_jobs_client ON jobs(clientId);
+CREATE INDEX idx_jobs_time ON jobs(startTime);
+CREATE INDEX idx_jobs_status ON jobs(status);
+```
+
+**clients Table:**
+```sql
+CREATE TABLE clients (
+    clientId         INTEGER PRIMARY KEY,
+    clientName       TEXT NOT NULL,
+    displayName      TEXT,
+    hostName         TEXT,
+    osName           TEXT,
+    osVersion        TEXT,
+    status           TEXT,
+    lastBackupTime   INTEGER,
+    protectionStatus TEXT,
+    lastFetchTime    TEXT
+);
+
+CREATE INDEX idx_clients_name ON clients(clientName);
+```
+
+**mediaagents Table:**
+```sql
+CREATE TABLE mediaagents (
+    mediaAgentId     INTEGER PRIMARY KEY,
+    mediaAgentName   TEXT NOT NULL,
+    hostName         TEXT,
+    osType           TEXT,
+    status           INTEGER,
+    availableSpace   INTEGER,
+    totalSpace       INTEGER,
+    lastFetchTime    TEXT
+);
+```
+
+**storage_pools Table:**
+```sql
+CREATE TABLE storage_pools (
+    storagePoolId    INTEGER PRIMARY KEY,
+    storagePoolName  TEXT NOT NULL,
+    storagePoolType  TEXT,
+    mediaAgentName   TEXT,
+    totalCapacity    INTEGER,
+    freeSpace        INTEGER,
+    dedupeEnabled    INTEGER,
+    storageType      TEXT,
+    status           TEXT,
+    lastFetchTime    TEXT
+);
+
+CREATE INDEX idx_pools_capacity ON storage_pools(freeSpace, totalCapacity);
+```
+
+14.2 STORAGE ESTATE TABLES
+----------------------------------------------------------------------------------------------------
+
+**storage_libraries Table:**
+```sql
+CREATE TABLE storage_libraries (
+    libraryId        INTEGER PRIMARY KEY,
+    libraryName      TEXT NOT NULL,
+    libraryType      TEXT,
+    libraryTypeDesc  TEXT,
+    mediaAgentId     INTEGER,
+    mediaAgentName   TEXT,
+    status           TEXT,
+    capacity         INTEGER,
+    freeSpace        INTEGER,
+    usedSpace        INTEGER,
+    usedPercent      REAL,
+    vendorType       INTEGER,
+    isCloudStorage   INTEGER,
+    isDedupe         INTEGER,
+    lastFetchTime    TEXT
+);
+```
+
+**pool_library_mapping Table:**
+```sql
+CREATE TABLE pool_library_mapping (
+    storagePoolId    INTEGER,
+    libraryId        INTEGER,
+    mappingDate      TEXT,
+    PRIMARY KEY (storagePoolId, libraryId),
+    FOREIGN KEY (storagePoolId) REFERENCES storage_pools(storagePoolId),
+    FOREIGN KEY (libraryId) REFERENCES storage_libraries(libraryId)
+);
+```
+
+**storage_write_patterns Table:**
+```sql
+CREATE TABLE storage_write_patterns (
+    planId           INTEGER,
+    planName         TEXT,
+    storagePoolId    INTEGER,
+    storagePoolName  TEXT,
+    libraryId        INTEGER,
+    libraryName      TEXT,
+    copyType         TEXT,
+    retentionDays    INTEGER,
+    lastFetchTime    TEXT
+);
+
+CREATE INDEX idx_write_patterns_plan ON storage_write_patterns(planId);
+CREATE INDEX idx_write_patterns_pool ON storage_write_patterns(storagePoolId);
+```
+
+14.3 HEALTH MONITORING TABLES
+----------------------------------------------------------------------------------------------------
+
+**ddb_health Table:**
+```sql
+CREATE TABLE ddb_health (
+    timestamp        TEXT,
+    ddbStoreId       INTEGER,
+    ddbStoreName     TEXT,
+    status           INTEGER,
+    avgQITime        INTEGER,
+    totalCapacityMB  INTEGER,
+    freeDiskSpaceMB  INTEGER,
+    primaryEntries   INTEGER,
+    offlineReason    TEXT,
+    lastBackupTime   TEXT,
+    PRIMARY KEY (timestamp, ddbStoreId)
+);
+
+CREATE INDEX idx_ddb_health_time ON ddb_health(timestamp);
+CREATE INDEX idx_ddb_health_store ON ddb_health(ddbStoreId);
+```
+
+**storage_pool_history Table:**
+```sql
+CREATE TABLE storage_pool_history (
+    timestamp        TEXT,
+    storagePoolId    INTEGER,
+    storagePoolName  TEXT,
+    totalCapacity    INTEGER,
+    freeSpace        INTEGER,
+    usedPercent      REAL,
+    PRIMARY KEY (timestamp, storagePoolId)
+);
+
+CREATE INDEX idx_pool_history_time ON storage_pool_history(timestamp);
+```
+
+**health_reports Table:**
+```sql
+CREATE TABLE health_reports (
+    reportId         INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp        TEXT,
+    overallStatus    TEXT,
+    checksPerformed  TEXT,  -- JSON
+    issuesFound      TEXT,  -- JSON
+    reportData       TEXT   -- Full JSON report
+);
+
+CREATE INDEX idx_health_reports_time ON health_reports(timestamp);
+```
+
+14.4 EVENT AND ALERT TABLES
+----------------------------------------------------------------------------------------------------
+
+**events Table:**
+```sql
+CREATE TABLE events (
+    eventId          INTEGER PRIMARY KEY,
+    severityLevel    INTEGER,
+    eventCode        TEXT,
+    description      TEXT,
+    timeSource       INTEGER,
+    jobId            INTEGER,
+    clientName       TEXT,
+    subsystem        TEXT,
+    lastFetchTime    TEXT
+);
+
+CREATE INDEX idx_events_time ON events(timeSource);
+CREATE INDEX idx_events_severity ON events(severityLevel);
+CREATE INDEX idx_events_client ON events(clientName);
+```
+
+**alerts Table:**
+```sql
+CREATE TABLE alerts (
+    alertId          INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp        TEXT,
+    alertType        TEXT,
+    severity         TEXT,
+    source           TEXT,
+    message          TEXT,
+    acknowledged     INTEGER DEFAULT 0,
+    acknowledgedBy   TEXT,
+    acknowledgedTime TEXT
+);
+
+CREATE INDEX idx_alerts_time ON alerts(timestamp);
+CREATE INDEX idx_alerts_ack ON alerts(acknowledged);
+```
+
+14.5 CONFIGURATION TABLES
+----------------------------------------------------------------------------------------------------
+
+**plans Table:**
+```sql
+CREATE TABLE plans (
+    planId           INTEGER PRIMARY KEY,
+    planName         TEXT NOT NULL,
+    description      TEXT,
+    type             INTEGER,
+    subtype          INTEGER,
+    numCopies        INTEGER,
+    numAssocEntities INTEGER,
+    rpoInMinutes     INTEGER,
+    storageTarget    TEXT,
+    storagePolicyId  INTEGER,
+    statusFlag       INTEGER,
+    lastFetchTime    TEXT
+);
+```
+
+**retention_rules Table:**
+```sql
+CREATE TABLE retention_rules (
+    ruleId                      INTEGER PRIMARY KEY AUTOINCREMENT,
+    entityType                  TEXT,
+    entityId                    INTEGER,
+    entityName                  TEXT,
+    parentId                    INTEGER,
+    parentName                  TEXT,
+    retainBackupDataForDays     INTEGER,
+    retainBackupDataForCycles   INTEGER,
+    retainArchiverDataForDays   INTEGER,
+    enableDataAging             INTEGER,
+    jobBasedRetention           INTEGER,
+    firstExtendedRetentionDays  INTEGER,
+    firstExtendedRetentionCycles INTEGER,
+    secondExtendedRetentionDays INTEGER,
+    secondExtendedRetentionCycles INTEGER,
+    lastFetchTime               TEXT
+);
+
+CREATE INDEX idx_retention_parent ON retention_rules(parentId);
+```
+
+====================================================================================================
+PART 15: SAMPLE COMPLETE MONITORING APPLICATION
+====================================================================================================
+
+15.1 APPLICATION STRUCTURE
+----------------------------------------------------------------------------------------------------
+
+```
+commvault_monitor/
+├── config.ini                  # Configuration
+├── app.py                      # Main Flask application
+├── api/
+│   ├── __init__.py
+│   ├── client.py              # API client wrapper
+│   └── endpoints.py           # Endpoint definitions
+├── collectors/
+│   ├── __init__.py
+│   ├── job_collector.py       # Collect job data
+│   ├── storage_collector.py   # Collect storage data
+│   └── health_collector.py    # Collect health data
+├── database/
+│   ├── __init__.py
+│   ├── schema.py              # Database schema
+│   └── models.py              # Data models
+├── monitors/
+│   ├── __init__.py
+│   ├── capacity_monitor.py    # Capacity monitoring
+│   ├── job_monitor.py         # Job monitoring
+│   └── ddb_monitor.py         # DDB monitoring
+└── templates/
+    ├── dashboard.html         # Main dashboard
+    ├── jobs.html              # Jobs view
+    └── storage.html           # Storage view
+```
+
+15.2 SAMPLE API CLIENT
+----------------------------------------------------------------------------------------------------
+
+```python
+# api/client.py
+import requests
+import base64
+import logging
+from typing import Optional, Dict, Any
+
+logger = logging.getLogger(__name__)
+
+class CommvaultAPIClient:
+    """Commvault REST API Client"""
+
+    def __init__(self, base_url: str, username: str, password: str):
+        self.base_url = base_url.rstrip('/')
+        self.username = username
+        self.password = password
+        self.session = requests.Session()
+        self._setup_auth()
+
+    def _setup_auth(self):
+        """Setup basic authentication"""
+        auth_string = f"{self.username}:{self.password}"
+        auth_bytes = auth_string.encode('ascii')
+        base64_auth = base64.b64encode(auth_bytes).decode('ascii')
+
+        self.session.headers.update({
+            'Authorization': f'Basic {base64_auth}',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        })
+        self.session.verify = False
+
+    def get(self, endpoint: str, params: Optional[Dict] = None) -> Optional[Dict[str, Any]]:
+        """Make GET request"""
+        url = f"{self.base_url}/{endpoint.lstrip('/')}"
+
+        try:
+            response = self.session.get(url, params=params, timeout=30)
+
+            if response.status_code == 200:
+                return response.json()
+            else:
+                logger.error(f"GET {endpoint} failed: {response.status_code}")
+                return None
+
+        except Exception as e:
+            logger.exception(f"Exception in GET {endpoint}")
+            return None
+
+    def post(self, endpoint: str, data: Optional[Dict] = None) -> Optional[Dict[str, Any]]:
+        """Make POST request"""
+        url = f"{self.base_url}/{endpoint.lstrip('/')}"
+
+        try:
+            response = self.session.post(url, json=data, timeout=30)
+
+            if response.status_code in [200, 201]:
+                return response.json() if response.content else {'success': True}
+            else:
+                logger.error(f"POST {endpoint} failed: {response.status_code}")
+                return None
+
+        except Exception as e:
+            logger.exception(f"Exception in POST {endpoint}")
+            return None
+
+    # Convenience methods
+    def get_jobs(self, from_time: Optional[int] = None, to_time: Optional[int] = None):
+        """Get jobs"""
+        params = {}
+        if from_time:
+            params['fromTime'] = from_time
+        if to_time:
+            params['toTime'] = to_time
+
+        return self.get('/Job', params=params)
+
+    def get_clients(self):
+        """Get all clients"""
+        return self.get('/Client')
+
+    def get_storage_pools(self):
+        """Get storage pools"""
+        return self.get('/V4/DiskStorage')
+
+    def get_ddb_info(self, ddb_store_id: int):
+        """Get DDB information"""
+        return self.get(f'/DDBInformation/{ddb_store_id}')
+
+    def get_mediaagents(self):
+        """Get MediaAgents"""
+        return self.get('/MediaAgent')
+
+    def get_events(self, from_time: Optional[int] = None, severity: Optional[int] = None):
+        """Get events"""
+        params = {}
+        if from_time:
+            params['fromTime'] = from_time
+        if severity is not None:
+            params['severityLevel'] = severity
+
+        return self.get('/Events', params=params)
+```
+
+15.3 SAMPLE DATA COLLECTOR
+----------------------------------------------------------------------------------------------------
+
+```python
+# collectors/job_collector.py
+import sqlite3
+from datetime import datetime, timedelta
+import logging
+
+logger = logging.getLogger(__name__)
+
+class JobCollector:
+    """Collect and store job data"""
+
+    def __init__(self, api_client, db_path):
+        self.api = api_client
+        self.db_path = db_path
+
+    def collect_jobs(self, hours=24):
+        """Collect jobs from last N hours"""
+
+        logger.info(f"Collecting jobs from last {hours} hours")
+
+        # Calculate time range
+        end_time = int(datetime.now().timestamp())
+        start_time = end_time - (hours * 3600)
+
+        # Fetch jobs from API
+        result = self.api.get_jobs(from_time=start_time, to_time=end_time)
+
+        if not result:
+            logger.error("Failed to fetch jobs")
+            return 0
+
+        jobs = result.get('jobs', [])
+        logger.info(f"Fetched {len(jobs)} jobs")
+
+        # Store in database
+        conn = sqlite3.connect(self.db_path)
+        cur = conn.cursor()
+
+        stored_count = 0
+
+        for job in jobs:
+            try:
+                cur.execute("""
+                    INSERT OR REPLACE INTO jobs
+                    (jobId, jobType, status, clientName, clientId, appTypeName,
+                     backupLevel, startTime, endTime, sizeInBytes, percentComplete,
+                     subclientId, subclientName, lastFetchTime)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, (
+                    job.get('jobId'),
+                    job.get('jobType'),
+                    job.get('status'),
+                    job.get('clientName'),
+                    job.get('clientId'),
+                    job.get('appTypeName'),
+                    job.get('backupLevel'),
+                    job.get('startTime'),
+                    job.get('endTime'),
+                    job.get('sizeInBytes'),
+                    job.get('percentComplete'),
+                    job.get('subclientId'),
+                    job.get('subclientName'),
+                    datetime.now().isoformat()
+                ))
+
+                stored_count += 1
+
+            except Exception as e:
+                logger.error(f"Error storing job {job.get('jobId')}: {e}")
+                continue
+
+        conn.commit()
+        conn.close()
+
+        logger.info(f"Stored {stored_count} jobs in database")
+        return stored_count
+```
+
+====================================================================================================
+END OF COMMVAULT API REFERENCE FOR AI SYSTEMS
+====================================================================================================
+
+This reference provides comprehensive information for AI systems to build monitoring and
+configuration applications using the Commvault REST API.
+
+Key Sections:
+- API fundamentals and authentication
+- Complete endpoint reference
+- Response structures and data models
+- Error handling patterns
+- Monitoring and automation patterns
+- Database schema recommendations
+- Sample implementation code
+
+For Additional Information:
+- Official API Documentation: https://api.commvault.com/
+- Commvault Documentation: https://documentation.commvault.com/
+- Community Forums: https://community.commvault.com/
+
+Document Version: 1.0
+Last Updated: 2025-11-16
+Compatible with: Commvault 11.20+ and 2024E
+
+====================================================================================================

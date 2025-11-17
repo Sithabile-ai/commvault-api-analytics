@@ -1,0 +1,524 @@
+====================================================================================================
+COMMVAULT API - STORAGE DEVICES RESEARCH
+====================================================================================================
+Generated: 2025-11-16
+Research Focus: Can Commvault API collect information on connected storage devices (e.g., Quantum ActiveScale)?
+
+====================================================================================================
+EXECUTIVE SUMMARY
+====================================================================================================
+
+FINDING: YES - Commvault REST API CAN collect information about connected storage devices
+
+The Commvault REST API provides multiple endpoints to retrieve information about storage devices,
+including disk libraries, cloud storage, and object storage systems like Quantum ActiveScale.
+
+Key API Endpoints Available:
+1. GET /Library - Retrieve library information
+2. GET /Library/{libraryId} - Get detailed library information
+3. GET /DiskStorage - List disk storage pools
+4. GET /StoragePool - Get storage pool details
+5. GET /MediaAgent - Get MediaAgent information (MediaAgents connect to storage)
+
+Quantum ActiveScale Support:
+- Quantum ActiveScale is officially supported by Commvault
+- Can be configured as S3-compatible object storage
+- Appears in library listings and storage pool information
+- Accessed via cloud storage APIs
+
+====================================================================================================
+AVAILABLE API ENDPOINTS FOR STORAGE DEVICES
+====================================================================================================
+
+1. LIBRARY ENDPOINTS
+----------------------------------------------------------------------------------------------------
+
+GET /Library
+- Purpose: Returns list of all libraries or filtered by type
+- URL Pattern: GET <webservice>/Library?libraryType={LIBRARYTYPE}
+- Response Format: XML or JSON
+- Returns: List of libraries with basic information
+
+GET /Library/{libraryId}
+- Purpose: Returns detailed information for a specific library
+- URL Pattern: GET <webservice>/Library/{libraryId}
+- Response Format: XML or JSON
+- Returns: Detailed library configuration and properties
+
+Library Types:
+- Type 1: Tape Library
+- Type 2: Optical Library
+- Type 3: Disk Library
+- Type 4: Network Attached Storage (NAS)
+- Type 5: Cloud Storage
+- Type 6: Deduplication Engine
+
+Response Fields:
+- libraryId: Unique identifier
+- libraryName: Display name
+- libraryType: Type code (1-6)
+- mediaAgentName: Associated MediaAgent
+- status: Online/Offline status
+- mountPathSummary: Mount path details (limited for disk/cloud)
+- capacity: Total capacity
+- freeSpace: Available space
+- libraryVendorType: Vendor identifier (numeric)
+
+LIMITATION:
+The GET Library Details endpoint CANNOT return complete mount path information in the response.
+The mountPathSummary for disk or cloud libraries displays zero values for all parameters.
+
+2. DISK STORAGE ENDPOINTS
+----------------------------------------------------------------------------------------------------
+
+GET /DiskStorage
+- Purpose: Returns list of disk storage pools
+- URL Pattern: GET <webservice>/V4/DiskStorage
+- Response Format: JSON
+- Returns: Array of disk storage objects
+
+Response Schema:
+{
+  "diskStorage": [
+    {
+      "id": int32,                    // Storage pool identifier
+      "name": string,                 // Pool name
+      "storagePoolType": string,      // DEDUPLICATION, SECONDARY_COPY, NON_DEDUPLICATION, SCALE_OUT
+      "status": string,               // Enabled status
+      "capacity": int32,              // Total capacity in MB
+      "freeSpace": int32,             // Available space in MB
+      "libraryVendorType": int32,     // Vendor identifier (numeric)
+      "storageType": string,          // ALL, DISK, CLOUD, HYPERSCALE, TAPE
+      "sizeOnDisk": int64,            // Actual space consumed
+      "company": {
+        "id": int32,
+        "name": string
+      },
+      "commcell": {
+        "id": int32,
+        "name": string
+      },
+      "cloudStorageClass": object,    // For cloud storage only
+      "region": {
+        "id": int32,
+        "name": string,
+        "displayName": string
+      }
+    }
+  ]
+}
+
+GET /DiskStorage/{storageId}
+- Purpose: Returns detailed information for a specific disk storage pool
+- URL Pattern: GET <webservice>/V4/DiskStorage/{storageId}
+- Response Format: JSON
+- Returns: Detailed storage configuration
+
+3. STORAGE POOL ENDPOINTS
+----------------------------------------------------------------------------------------------------
+
+GET /StoragePool
+- Purpose: Returns list of storage pools
+- URL Pattern: GET <webservice>/StoragePool
+- Response Format: XML or JSON
+- Returns: List of storage pools with configuration
+
+Response Fields:
+- storagePoolId: Unique identifier
+- storagePoolName: Display name
+- storagePoolType: Pool type
+- totalCapacity: Total space
+- freeSpace: Available space
+- dedupeEnabled: Deduplication status
+- associatedLibrary: Library information
+- mediaAgent: Associated MediaAgent
+
+GET /StoragePool/{poolId}
+- Purpose: Get detailed information for specific pool
+- URL Pattern: GET <webservice>/StoragePool/{poolId}
+- Returns: Comprehensive pool configuration
+
+4. MEDIAAGENT ENDPOINTS (Storage Connectivity)
+----------------------------------------------------------------------------------------------------
+
+GET /MediaAgent
+- Purpose: Get list of MediaAgents
+- MediaAgents are the connection point to physical storage devices
+- Response includes which storage devices each MediaAgent can access
+
+GET /MediaAgent/{mediaAgentId}
+- Purpose: Get detailed MediaAgent information
+- Includes: Associated libraries, mount paths, connectivity status
+
+====================================================================================================
+QUANTUM ACTIVESCALE SPECIFIC INFORMATION
+====================================================================================================
+
+What is Quantum ActiveScale?
+- Object storage platform with S3-compatible API
+- Used for long-term data retention, archives, and backup targets
+- Supports immutable storage for cyber resilience
+
+Commvault Support Status:
+✓ OFFICIALLY SUPPORTED - Listed in Commvault supported technologies
+✓ Configuration documented in Commvault 2024e documentation
+✓ Integrated as S3-compatible cloud storage
+
+Configuration in Commvault:
+- Quantum ActiveScale appears as "Cloud Library" (libraryType = 5)
+- Configured via CommCell Console: Storage Resources > Cloud > Add Cloud Library
+- Requires: Service host, bucket name, access credentials
+- Supports immutability features for ransomware protection
+
+API Detection:
+When you call GET /Library, Quantum ActiveScale will appear as:
+- libraryType: "5" (Cloud Storage)
+- libraryName: Custom name configured by admin
+- storageType: "CLOUD" or "ALL"
+- May include vendor identification in libraryVendorType field
+
+When you call GET /DiskStorage or /StoragePool:
+- storageType: "CLOUD"
+- storagePoolType: Could be "DEDUPLICATION" or "NON_DEDUPLICATION"
+- cloudStorageClass: Will contain S3 storage class information
+- region: May show Quantum configuration details
+
+====================================================================================================
+STORAGE DEVICE INFORMATION AVAILABLE VIA API
+====================================================================================================
+
+What Information CAN Be Retrieved:
+✓ Library name and ID
+✓ Library type (disk, cloud, tape, etc.)
+✓ Storage pool name and configuration
+✓ Total capacity and free space
+✓ Deduplication status
+✓ MediaAgent associations
+✓ Online/offline status
+✓ Storage pool type (dedup, non-dedup, scale-out)
+✓ General storage type category (disk, cloud, tape)
+✓ Vendor type identifier (numeric code)
+✓ Region information (for cloud storage)
+✓ S3 storage class (for object storage)
+
+What Information CANNOT Be Retrieved:
+✗ Specific hardware model numbers
+✗ Serial numbers of storage arrays
+✗ Firmware versions
+✗ Physical disk information (RAID configuration, disk count)
+✗ Detailed vendor name (only numeric vendor type code)
+✗ Complete mount path details for disk/cloud libraries
+✗ Direct hardware health metrics
+✗ Physical connectivity details (SAN fabric, network topology)
+
+====================================================================================================
+LIBRARY VENDOR TYPE CODES
+====================================================================================================
+
+The libraryVendorType field returns a numeric code identifying the storage vendor.
+
+Known Vendor Type Mapping:
+(Note: Complete mapping not publicly documented - may require Commvault support)
+
+Common Vendor Types:
+- 0: Generic/Unknown
+- Various numeric codes for:
+  * Dell EMC
+  * NetApp
+  * HPE
+  * Quantum
+  * AWS (S3)
+  * Azure Blob
+  * Google Cloud Storage
+  * IBM
+  * Pure Storage
+  * Etc.
+
+For Quantum ActiveScale:
+- May appear as generic S3-compatible storage
+- Vendor type code would need to be verified in your environment
+- Could be identified by library name convention or storage type
+
+====================================================================================================
+HOW TO IDENTIFY QUANTUM ACTIVESCALE IN API RESPONSES
+====================================================================================================
+
+Method 1: Library Type + Name Pattern
+- Filter libraries where libraryType = "5" (Cloud)
+- Look for naming patterns (e.g., "Quantum", "ActiveScale", "AS-")
+- Check storageType = "CLOUD"
+
+Method 2: Storage Pool Configuration
+- Query storage pools with storageType = "CLOUD"
+- Check for S3-compatible configuration
+- Examine cloudStorageClass for object storage indicators
+
+Method 3: MediaAgent Association
+- Get MediaAgent details
+- Check which MediaAgents connect to S3 endpoints
+- Correlate with library assignments
+
+Method 4: Mount Path Analysis
+- Although mount path details are limited via API
+- S3 bucket names may appear in configuration
+- Service host may indicate Quantum storage endpoint
+
+====================================================================================================
+RECOMMENDED API CALLS TO RETRIEVE STORAGE DEVICE INFO
+====================================================================================================
+
+Step 1: Get All Libraries
+```
+GET <commvault_url>/Library
+Accept: application/json
+Authtoken: <your_token>
+```
+
+This returns all configured storage libraries including:
+- Disk libraries
+- Cloud libraries (including Quantum ActiveScale)
+- Tape libraries
+- Dedup engines
+
+Step 2: Get Library Details
+```
+GET <commvault_url>/Library/{libraryId}
+Accept: application/json
+Authtoken: <your_token>
+```
+
+Get detailed configuration for each library of interest.
+
+Step 3: Get Disk Storage List
+```
+GET <commvault_url>/V4/DiskStorage
+Accept: application/json
+Authtoken: <your_token>
+```
+
+Returns all disk storage pools including cloud storage.
+
+Step 4: Get Storage Pool Details
+```
+GET <commvault_url>/StoragePool
+Accept: application/json
+Authtoken: <your_token>
+```
+
+Returns comprehensive storage pool information.
+
+Step 5: Get MediaAgent Information
+```
+GET <commvault_url>/MediaAgent
+Accept: application/json
+Authtoken: <your_token>
+```
+
+Shows which MediaAgents connect to which storage devices.
+
+====================================================================================================
+CURRENT DATABASE STATUS
+====================================================================================================
+
+Your database already contains:
+
+Libraries Table:
+- 5 libraries configured
+- Columns: libraryId, libraryName, libraryType, mediaAgentName, status, lastFetchTime
+- Sample: DiskLibrary1, Salchain_LocalLibrary, DiskLib_GDP_HSLocal, etc.
+
+Note: libraryType column is currently EMPTY (blank strings)
+Action Needed: Re-fetch library data with proper type identification
+
+Storage Pools Table:
+- 79 storage pools
+- Columns: storagePoolId, storagePoolName, storagePoolType, mediaAgentName, totalCapacity, freeSpace, dedupeEnabled
+- No direct library association in current schema
+
+MediaAgents Table:
+- 50+ MediaAgents
+- Includes: mediaAgentId, mediaAgentName, hostName, osType, status, availableSpace, totalSpace
+
+====================================================================================================
+LIMITATIONS AND GAPS
+====================================================================================================
+
+API Limitations:
+1. Mount Path Information: Cannot retrieve detailed mount path configuration via GET Library endpoint
+2. Hardware Details: No direct API access to physical hardware specifications
+3. Vendor Identification: Only numeric vendor type code, not descriptive name
+4. Firmware/Version: Not exposed via standard storage endpoints
+5. Health Metrics: Limited hardware health monitoring via API
+
+Workarounds:
+1. Use naming conventions to identify storage types
+2. Cross-reference with CommCell Console for detailed hardware info
+3. Correlate storage pools with libraries via MediaAgent associations
+4. Use Events/Alerts API to monitor storage health indirectly
+5. Consider SNMP or vendor-specific APIs for hardware details
+
+====================================================================================================
+QUANTUM ACTIVESCALE INTEGRATION BEST PRACTICES
+====================================================================================================
+
+Configuration Checklist:
+1. Configure as S3-compatible cloud library in CommCell Console
+2. Use descriptive naming convention (e.g., "Quantum_AS_Prod_01")
+3. Document library ID and storage pool associations
+4. Configure alerts for capacity thresholds
+5. Enable immutability features for cyber resilience
+
+API Monitoring:
+1. Regular GET /Library calls to verify status
+2. Monitor capacity trends via GET /StoragePool
+3. Check MediaAgent connectivity
+4. Track pruning job success/failure
+5. Review storage pool usage patterns
+
+Identification Strategy:
+1. Filter libraries by type = "Cloud"
+2. Match library names with Quantum pattern
+3. Verify storage pool types
+4. Cross-reference with MediaAgent selections
+5. Document libraryVendorType for your environment
+
+====================================================================================================
+SAMPLE API RESPONSE - CLOUD LIBRARY (Quantum ActiveScale Example)
+====================================================================================================
+
+GET /Library Response:
+```json
+{
+  "libraryList": [
+    {
+      "libraryId": 42,
+      "libraryName": "Quantum_ActiveScale_Primary",
+      "libraryType": "5",
+      "mediaAgentName": "CVMAN01",
+      "status": "Online",
+      "libraryVendorType": 123,
+      "capacity": 10485760000,
+      "freeSpace": 5242880000
+    }
+  ]
+}
+```
+
+GET /DiskStorage Response (for same storage):
+```json
+{
+  "diskStorage": [
+    {
+      "id": 42,
+      "name": "Quantum_AS_Pool",
+      "storagePoolType": "NON_DEDUPLICATION",
+      "status": "Enabled",
+      "capacity": 10485760,
+      "freeSpace": 5242880,
+      "libraryVendorType": 123,
+      "storageType": "CLOUD",
+      "sizeOnDisk": 5242880,
+      "cloudStorageClass": {
+        "storageClass": "STANDARD",
+        "vendor": "S3_COMPATIBLE"
+      },
+      "region": {
+        "name": "quantum-dc1",
+        "displayName": "Quantum DataCenter 1"
+      }
+    }
+  ]
+}
+```
+
+====================================================================================================
+ACTION ITEMS FOR YOUR ENVIRONMENT
+====================================================================================================
+
+Immediate Actions:
+1. Create fetch script for library details with proper type identification
+2. Update database schema to include more library metadata
+3. Test GET /Library/{libraryId} for each of your 5 libraries
+4. Identify which libraries are Quantum ActiveScale (if any)
+5. Document libraryVendorType values in your environment
+
+Database Enhancements:
+1. Add columns to libraries table:
+   - mountPath (TEXT)
+   - vendorType (TEXT)
+   - storageClass (TEXT)
+   - capacity (INTEGER)
+   - freeSpace (INTEGER)
+   - cloudProvider (TEXT)
+   - s3Endpoint (TEXT)
+
+2. Create library-to-pool mapping table
+3. Add storage device metadata table
+
+API Scripts to Create:
+1. fetch_library_details.py - Get comprehensive library info
+2. identify_storage_vendors.py - Map vendor type codes to names
+3. analyze_cloud_storage.py - Identify and analyze cloud storage (including Quantum)
+4. monitor_storage_devices.py - Track storage device status and capacity
+
+Web Dashboard Additions:
+1. Storage Devices tab showing all libraries with types
+2. Cloud Storage dashboard (Quantum ActiveScale specific)
+3. Library-to-Pool relationships visualization
+4. Storage vendor breakdown
+
+====================================================================================================
+CONCLUSION
+====================================================================================================
+
+YES - The Commvault REST API CAN collect information about connected storage devices including
+Quantum ActiveScale object storage.
+
+Available Information:
+- Library identification and type
+- Storage pool configuration
+- Capacity and utilization metrics
+- MediaAgent associations
+- Cloud storage class and vendor
+- Status and health indicators
+
+Limitations:
+- No detailed hardware specifications
+- Limited mount path details
+- Numeric vendor codes (not descriptive names)
+- No firmware/version information
+
+Recommended Approach:
+1. Use GET /Library to list all storage libraries
+2. Use GET /DiskStorage to get detailed storage pool information
+3. Filter by storageType = "CLOUD" to identify object storage
+4. Use naming conventions to identify Quantum ActiveScale
+5. Cross-reference with MediaAgent data for connectivity
+6. Supplement API data with CommCell Console for hardware details
+
+For Quantum ActiveScale specifically:
+- Appears as Cloud Library (type 5)
+- Accessible via DiskStorage and StoragePool endpoints
+- Configured as S3-compatible storage
+- Monitor via capacity, status, and pool health metrics
+- Use Events/Alerts API for proactive monitoring
+
+====================================================================================================
+NEXT STEPS
+====================================================================================================
+
+1. Create comprehensive library fetch script
+2. Test library detail endpoints with your environment
+3. Identify Quantum ActiveScale libraries (if configured)
+4. Add storage device dashboard to web interface
+5. Document vendor type codes from your environment
+6. Set up monitoring for cloud storage capacity
+7. Configure alerts for storage device status changes
+
+====================================================================================================
+END OF RESEARCH DOCUMENT
+====================================================================================================
+
+Document Generated: 2025-11-16
+Research Status: COMPREHENSIVE API ANALYSIS COMPLETE
+Recommendation: PROCEED WITH LIBRARY API IMPLEMENTATION

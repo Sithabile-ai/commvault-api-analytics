@@ -1,0 +1,299 @@
+====================================================================================================
+PRUNING POLICY ANALYSIS - WHY ISN'T SPACE BEING RECLAIMED?
+====================================================================================================
+
+Analyzing the relationship between aging, pruning, and storage reclamation...
+
+====================================================================================================
+BACKGROUND: AGING vs PRUNING
+====================================================================================================
+
+📚 KEY CONCEPTS:
+
+1. AGING (Logical Operation)
+   - Marks data as eligible for deletion based on retention rules
+   - Runs daily at 12:00 PM (configurable)
+   - Does NOT free up space - only marks data
+   - Fast operation (metadata only)
+
+2. PRUNING (Physical Operation)
+   - Actually deletes aged data from disk
+   - Frees up physical storage space
+   - Resource-intensive operation
+   - Runs after aging completes
+
+3. THE PROBLEM:
+   If aging marks data but pruning doesn't run or complete,
+   storage space will NOT be reclaimed!
+
+====================================================================================================
+SECTION 1: STORAGE POLICY & PRUNING CONFIGURATION
+====================================================================================================
+
+Total Storage Policies: 226
+
+Storage Policies Requiring Pruning Analysis:
+Policy Name                                                           
+----------------------------------------------------------------------------------------------------
+A.R.B Electrical Backup Plan                                          
+ALS_AD                                                                
+ALS_FS                                                                
+ALS_SQL                                                               
+ALS_VM                                                                
+AMT Server Plan                                                       
+AS2 Server Foundation Plan                                            
+ASEM Backup Plan                                                      
+Abacus Laptop Plan                                                    
+Accelerate Property Laptop Plan                                       
+ActiveScale_EXT_Plan                                                  
+AllBro_Backup Plan                                                    
+Allan Gray Backup Plan                                                
+Allan Gray Laptop                                                     
+Amaro Foods Backup Plan                                               
+Apex Backup Plan                                                      
+Apex Plan                                                             
+BallStraathof_AD                                                      
+BallStraathof_FS                                                      
+BallStraathof_Oracle                                                  
+... and 206 more policies
+
+====================================================================================================
+SECTION 2: DEDUPLICATION & PRUNING COMPLEXITY
+====================================================================================================
+
+🔍 DEDUPLICATION PRUNING PROCESS:
+
+For deduplicated storage, pruning is MORE COMPLEX:
+
+Step 1: Data Aging runs → Jobs marked as aged
+Step 2: DDB (Deduplication Database) reference counters decremented
+Step 3: Blocks with zero references moved to 'Pending Pruning' queue
+Step 4: Physical pruning operation removes blocks from disk
+Step 5: Space reclaimed and available
+
+⚠️  PRUNING CAN BE BLOCKED BY:
+   - DDB not sealed (for cloud storage)
+   - MediaAgent offline or overloaded
+   - Mount paths offline
+   - Pruning operation window restrictions
+   - High pending delete counts in DDB
+   - Resource constraints (CPU/memory)
+
+Libraries Configured: 100
+
+Libraries (where pruning must occur):
+  - ALS_LocalLibrary                                             | Type: Unknown
+  - ActiveScale                                                  | Type: Unknown
+  - ActiveScale_Tape                                             | Type: Unknown
+  - Allbro_Local                                                 | Type: Unknown
+  - Amaro Foods_DiskLibrary                                      | Type: Unknown
+  - Apex Local_DL                                                | Type: Unknown
+  - Apex-backup Disk Storage                                     | Type: Unknown
+  - Ball_LocalLibrary                                            | Type: Unknown
+  - Blue Bull                                                    | Type: Unknown
+  - CCIC_LocalLibrary                                            | Type: Unknown
+  - CIS_Local                                                    | Type: Unknown
+  - CLMAN02_Storage                                              | Type: Unknown
+  - CLSVMA01 - NAS                                               | Type: Unknown
+  - CLSVMA01_Storage                                             | Type: Unknown
+  - CVNGA001                                                     | Type: Unknown
+
+====================================================================================================
+SECTION 3: MEDIAAGENT HEALTH (Critical for Pruning)
+====================================================================================================
+
+Total MediaAgents: 243
+
+⚠️  CRITICAL: MediaAgents must be ONLINE for pruning to work!
+
+MediaAgent Status:
+MediaAgent Name                          Host                          
+----------------------------------------------------------------------------------------------------
+CLSVMA01                                 N/A                           
+CVHSMAN01.JHB.SEAGATESTORAGECLOUD.CO.ZA  N/A                           
+CVHSMAN02.JHB.SEAGATESTORAGECLOUD.CO.ZA  N/A                           
+CVHSMAN03.JHB.SEAGATESTORAGECLOUD.CO.ZA  N/A                           
+FEY-SV-LPXY                              N/A                           
+ITDS157                                  N/A                           
+ITDS218                                  N/A                           
+ITDS237                                  N/A                           
+MediaAgent3                              N/A                           
+MediaAgent4                              N/A                           
+Server2022QAS                            N/A                           
+abu-bck-01                               N/A                           
+afctbak02                                N/A                           
+afcthvs01                                N/A                           
+agbmscpthv01                             N/A                           
+alsjnbbak02                              N/A                           
+alsjnbhv01                               N/A                           
+amlapp01                                 N/A                           
+amlidcfs01                               N/A                           
+apex-backups                             N/A                           
+... and 223 more MediaAgents
+
+⚠️  ACTION REQUIRED:
+   - Verify all MediaAgents are ONLINE in Commvault console
+   - Check MediaAgent logs (SIDBPrune.log) for pruning issues
+   - Ensure mount paths are accessible
+
+====================================================================================================
+SECTION 4: RETENTION RULES IMPACT ON PRUNING
+====================================================================================================
+
+Total Retention Rules: 518
+  - Aging Enabled: 518 (100.0%)
+  - Aging DISABLED: 0 (0.0%)
+
+⚠️  PRUNING DELAY: 130 rules have cycle requirements
+   Average cycles required: 2.0
+   → Aging delayed = Pruning delayed = Space NOT reclaimed
+
+====================================================================================================
+SECTION 5: STORAGE POOL SPACE (Proof of Pruning Failure)
+====================================================================================================
+
+Storage Pool Health:
+  - Total Pools: 79
+  - 🔴 CRITICAL (<10% free): 3
+  - 🟠 WARNING (10-20% free): 8
+  - 🟡 LOW (20-30% free): 3
+
+💥 STORAGE CRISIS DETECTED!
+
+   11 pools are critically low on space
+   This is PROOF that pruning is not working properly!
+
+   If aging were working AND pruning were completing:
+   → Aged data would be deleted
+   → Space would be freed
+   → Pools would not be critically full
+
+Most Critical Pools (Highest Pruning Priority):
+Pool Name                                          % Free    
+----------------------------------------------------------------------------------------------------
+Apex GDP                                               1.97%
+Southern_Sun_Durban                                    2.05%
+Simera_GDP                                             9.30%
+Southern_Sun_City_Bowl                                12.47%
+MKLM_GDP                                              12.85%
+GDP Railway                                           12.98%
+Universal GDP                                         13.37%
+Capri_Local_GDP                                       14.75%
+CLMAN02_Storage                                       14.75%
+Southern_Sun_Local                                    17.80%
+EnergyPartners_Local                                  18.96%
+
+====================================================================================================
+SECTION 6: ROOT CAUSE - WHY ISN'T PRUNING WORKING?
+====================================================================================================
+
+ANALYSIS FINDINGS:
+
+2. ⏱️  CYCLE RETENTION DELAYS on 130 rules
+   ROOT CAUSE: Data not marked for aging = Not eligible for pruning
+   SOLUTION: Reduce cycle requirements from 2 → 1 for short-term policies
+
+3. 💾 STORAGE POOLS CRITICALLY LOW (11 pools)
+   ROOT CAUSE: Pruning not completing or not running at all
+   POSSIBLE CAUSES:
+      a) MediaAgents offline or overloaded
+      b) DDB sealed/corrupted (for deduplication)
+      c) Pruning operation windows blocking execution
+      d) Mount paths offline
+      e) High pending delete queue in DDB
+   SOLUTION: Check MediaAgent status, DDB health, and pruning logs
+
+====================================================================================================
+SECTION 7: RECOMMENDATIONS TO FIX PRUNING ISSUES
+====================================================================================================
+
+PRIORITY 1: VERIFY PRUNING IS ENABLED & RUNNING
+
+Step 1: Check Data Aging Configuration
+  - Go to CommCell Console → Storage Resources → Storage Policies
+  - Right-click each policy → Properties → Retention tab
+  - Verify 'Enable Data Aging' is checked
+  - Check 'Data Aging Time' (default: 12:00 PM)
+
+Step 2: Verify MediaAgent Status
+  - Go to CommCell Console → Storage Resources → MediaAgents
+  - Verify all MediaAgents show as 'Online'
+  - Check 'Control Panel' → 'Event Viewer' for errors
+
+Step 3: Check DDB Status (for Deduplication)
+  - Go to CommCell Console → Storage Resources → Deduplication Engines
+  - Right-click DDB → Properties
+  - Check 'Status' field (should be 'Active', not 'Sealed')
+  - Note 'Pending Deletes' count (high = pruning backlog)
+
+Step 4: Manually Trigger Pruning
+  - Right-click Deduplication Database
+  - Select 'All Tasks' → 'Validate and Prune Aged Data'
+  - Monitor job progress
+  - Check if space is freed after completion
+
+PRIORITY 2: RESOLVE CONFIGURATION ISSUES
+
+Action 2: Fix cycle retention on 130 rules
+  - Reduce from 2 cycles → 1 cycle for ≤30 day policies
+  - Allows faster aging = faster pruning eligibility
+
+Action 3: Emergency space reclamation on 3 critical pools
+  - Manually run pruning on most critical pools first
+  - Consider temporary storage expansion if needed
+  - Monitor pruning job completion
+
+PRIORITY 3: VERIFY PRUNING RESULTS
+
+Step 1: Run Data Retention Forecast Report
+  - CommCell Console → Reports → Data Retention Forecast
+  - Shows what data should be aged/pruned
+  - Identifies issues preventing pruning
+
+Step 2: Check Pruning Logs
+  - On MediaAgent: <Install_Path>/Log Files/SIDBPrune.log
+  - Look for pruning job execution
+  - Check for errors or warnings
+
+Step 3: Monitor Storage Pool Space
+  - After pruning runs, check if pool free space increases
+  - If no change = pruning failed or didn't run
+  - Investigate root cause from logs
+
+====================================================================================================
+SECTION 8: EXECUTIVE SUMMARY
+====================================================================================================
+
+THE AGING-PRUNING RELATIONSHIP:
+
+  AGING (Logical) → Marks data eligible for deletion
+         ↓
+  PRUNING (Physical) → Actually deletes the data
+         ↓
+  SPACE RECLAMATION → Storage freed up
+
+CURRENT STATE:
+
+  ✅ All 518 rules have aging ENABLED
+  ⏱️  130 rules have cycle delays → Aging delayed → Pruning delayed
+  💾 11 pools critically low → PROOF pruning not working
+
+MOST LIKELY ROOT CAUSES:
+
+  1. Aging not marking data due to cycle retention requirements
+  2. Pruning operations not completing (MediaAgent issues)
+  3. DDB sealed or corrupted (for deduplication storage)
+  4. Pruning operation windows restricting when pruning can run
+
+IMMEDIATE ACTIONS:
+
+  1. Fix aging configuration (enable aging, reduce cycles)
+  2. Verify MediaAgent health and availability
+  3. Manually run 'Validate and Prune Aged Data' on critical pools
+  4. Monitor pruning job logs for errors
+  5. Check DDB status if using deduplication
+
+====================================================================================================
+ANALYSIS COMPLETE
+====================================================================================================
+

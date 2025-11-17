@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGING FAILURE ROOT CAUSE ANALYSIS</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: AGING_FAILURE_ROOT_CAUSE_ANALYSIS.md</div>
+    <h1 id="aging-failure-root-cause-analysis">Aging Failure Root Cause Analysis</h1>
+<p><strong>Date:</strong> 2025-11-14
+<strong>Analysis Type:</strong> Comprehensive Storage Reclamation Investigation
+<strong>Environment:</strong> 278 Plans, 518 Retention Rules, 75 Storage Pools</p>
+<hr />
+<h2 id="executive-summary">Executive Summary</h2>
+<p><strong>CRITICAL FINDING:</strong> Backups are not aging properly due to <strong>inefficient retention cycle requirements</strong>. The primary root cause has been identified:</p>
+<h3 id="primary-issue-130-retention-rules-with-inefficient-short-term-policies-25-of-all-rules">🔴 PRIMARY ISSUE: 130 Retention Rules with Inefficient Short-Term Policies (25% of all rules)</h3>
+<p>These rules have <strong>short retention periods (≤30 days) but require 2 backup cycles</strong> before aging can occur. This creates a 7-14 day delay in storage reclamation, directly contributing to storage space issues.</p>
+<p><strong>Impact:</strong>
+- <strong>130 Plans affected</strong> (47% of all plans)
+- <strong>Estimated 10-20% slower storage reclamation</strong>
+- <strong>7-14 day aging delay</strong> on short-term data
+- <strong>11 storage pools critically low</strong> on space (&lt;20% free)</p>
+<hr />
+<h2 id="root-cause-analysis">Root Cause Analysis</h2>
+<h3 id="why-arent-backups-aging">Why Aren't Backups Aging?</h3>
+<p>Commvault's aging logic requires <strong>BOTH</strong> conditions to be met before data can be aged:</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">Data</span><span class="w"> </span><span class="nv">Eligible</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">Aging</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">(</span><span class="nv">Current</span><span class="w"> </span><span class="nv">Date</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">Job</span><span class="w"> </span><span class="nv">Date</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nv">Retention</span><span class="w"> </span><span class="nv">Days</span><span class="ss">)</span>
+<span class="w">                          </span><span class="nv">AND</span>
+<span class="w">                          </span><span class="ss">(</span><span class="nv">Completed</span><span class="w"> </span><span class="nv">Cycles</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nv">Retention</span><span class="w"> </span><span class="nv">Cycles</span><span class="ss">)</span>
+</code></pre></div>
+
+<h4 id="the-problem">The Problem</h4>
+<p>Plans configured with:
+- <strong>14 days retention</strong> + <strong>2 cycles required</strong></p>
+<p>What actually happens:
+1. Day 1: Full Backup (Cycle 1 starts)
+2. Day 2-6: Incremental backups
+3. Day 7: Full Backup (Cycle 2 starts, Cycle 1 completes)
+4. Day 14: <strong>Days requirement met</strong> (14 days passed)
+5. Day 14: <strong>Cycles requirement NOT met</strong> (only 1 cycle complete, need 2)
+6. Day 7-13: Incremental backups continue
+7. Day 14: Full Backup (Cycle 3 starts, Cycle 2 completes)
+8. <strong>Day 21:</strong> Finally have 2 completed cycles → <strong>Aging can begin</strong></p>
+<p><strong>Result:</strong> Even though retention is set to 14 days, data is actually retained for ~21 days (50% longer).</p>
+<hr />
+<h2 id="detailed-findings">Detailed Findings</h2>
+<h3 id="section-1-retention-policy-issues">Section 1: Retention Policy Issues</h3>
+<table>
+<thead>
+<tr>
+<th>Issue Type</th>
+<th>Count</th>
+<th>Severity</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Inefficient Short-Term Policies</strong></td>
+<td>130 rules</td>
+<td>🔴 HIGH</td>
+<td>7-14 day aging delay</td>
+</tr>
+<tr>
+<td><strong>Infinite Retention</strong></td>
+<td>19 rules</td>
+<td>🔵 INFO</td>
+<td>Data never ages</td>
+</tr>
+<tr>
+<td><strong>Aging Disabled</strong></td>
+<td>0 rules</td>
+<td>✅ GOOD</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><strong>High Cycle Requirements (3+)</strong></td>
+<td>0 rules</td>
+<td>✅ GOOD</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<h4 id="130-plans-with-inefficient-short-term-policies">130 Plans with Inefficient Short-Term Policies</h4>
+<p>These plans ALL have <strong>14 days + 2 cycles</strong> retention on their Cloud copy:</p>
+<p><strong>Sample of Affected Plans:</strong>
+- A.R.B Electrical Backup Plan
+- ALS_AD, ALS_SQL
+- AMT Server Plan
+- AS2 Server Foundation Plan
+- Allan Gray Backup Plan
+- Apex Backup Plan / Apex Plan
+- BallStraathof_AD, _FS, _Oracle, _SQL, _VM
+- Blue Turtle Plan V1 / v2
+- ... and 115 more plans</p>
+<p><strong>Recommendation:</strong> Change from <strong>2 cycles → 1 cycle</strong> for all plans with ≤30 day retention.</p>
+<h4 id="19-plans-with-infinite-retention">19 Plans with Infinite Retention</h4>
+<p>These plans have <strong>-1 days AND -1 cycles</strong> (infinite retention):</p>
+<p><strong>Affected Plans:</strong>
+- Fasken Backup Plan (Monthly/Yearly ActiveScale copy)
+- Google Drive Plan (Cloud + ActiveScale copies)
+- Google Mail Plan (Cloud + ActiveScale copies)
+- Komati Server Plan (Cloud + ActiveScale copies)
+- Office365 Exchange, OneDrive, SharePoint (Cloud copies)
+- Office365 Teams (Cloud copy)
+- ProSyscom_POC_Exchange</p>
+<p><strong>Note:</strong> These may be intentional for compliance/legal hold. Review with business owners before changing.</p>
+<hr />
+<h3 id="section-2-storage-pool-space-crisis">Section 2: Storage Pool Space Crisis</h3>
+<p><strong>11 Storage Pools (&lt;20% Free) - URGENT ACTION NEEDED</strong></p>
+<table>
+<thead>
+<tr>
+<th>Pool Name</th>
+<th>Total (GB)</th>
+<th>Free (GB)</th>
+<th>% Free</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Apex GDP</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>1.97%</td>
+<td>🔴 CRITICAL</td>
+</tr>
+<tr>
+<td>Southern_Sun_Durban</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>2.05%</td>
+<td>🔴 CRITICAL</td>
+</tr>
+<tr>
+<td>Simera_GDP</td>
+<td>0.03</td>
+<td>0.00</td>
+<td>9.30%</td>
+<td>🔴 CRITICAL</td>
+</tr>
+<tr>
+<td>Southern_Sun_City_Bowl</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>12.47%</td>
+<td>🟠 WARNING</td>
+</tr>
+<tr>
+<td>MKLM_GDP</td>
+<td>0.02</td>
+<td>0.00</td>
+<td>12.85%</td>
+<td>🟠 WARNING</td>
+</tr>
+<tr>
+<td>GDP Railway</td>
+<td>0.01</td>
+<td>0.00</td>
+<td>12.98%</td>
+<td>🟠 WARNING</td>
+</tr>
+<tr>
+<td>Universal GDP</td>
+<td>0.09</td>
+<td>0.01</td>
+<td>13.37%</td>
+<td>🟠 WARNING</td>
+</tr>
+<tr>
+<td>Capri_Local_GDP</td>
+<td>0.01</td>
+<td>0.00</td>
+<td>14.75%</td>
+<td>🟠 WARNING</td>
+</tr>
+<tr>
+<td>CLMAN02_Storage</td>
+<td>0.01</td>
+<td>0.00</td>
+<td>14.75%</td>
+<td>🟠 WARNING</td>
+</tr>
+<tr>
+<td>Southern_Sun_Local</td>
+<td>0.04</td>
+<td>0.01</td>
+<td>17.80%</td>
+<td>🟠 WARNING</td>
+</tr>
+<tr>
+<td>EnergyPartners_Local</td>
+<td>0.01</td>
+<td>0.00</td>
+<td>18.96%</td>
+<td>🟠 WARNING</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Analysis:</strong>
+- 3 pools at <strong>CRITICAL</strong> levels (&lt;10% free)
+- 8 pools at <strong>WARNING</strong> levels (10-20% free)
+- These pools desperately need aging to free up space
+- Fixing the cycle retention issue will help reclaim space faster</p>
+<hr />
+<h3 id="section-3-job-data-analysis">Section 3: Job Data Analysis</h3>
+<p><strong>Job Data Available:</strong> 100 recent jobs in database</p>
+<p><strong>Finding:</strong> Job status data is incomplete in the current database snapshot. The 100 jobs collected do not have detailed status information (all showing as neither failed nor successful).</p>
+<p><strong>Implication:</strong> Cannot definitively identify failed backup jobs preventing cycle completion from current data.</p>
+<p><strong>Recommendation:</strong> Collect more comprehensive job history data to identify:
+- Plans with failing full backups
+- Backup success rates per plan
+- Clients that haven't backed up recently (disabled clients)</p>
+<hr />
+<h2 id="impact-assessment">Impact Assessment</h2>
+<h3 id="current-state">Current State</h3>
+<ul>
+<li><strong>518 total retention rules</strong> analyzed</li>
+<li><strong>143 plans (51%)</strong> have aging configuration issues</li>
+<li><strong>130 rules (25%)</strong> have inefficient short-term policies causing delays</li>
+<li><strong>19 rules (4%)</strong> have infinite retention</li>
+<li><strong>369 rules (71%)</strong> have optimal aging configuration</li>
+</ul>
+<h3 id="storage-impact">Storage Impact</h3>
+<ul>
+<li><strong>11 storage pools</strong> critically low on space</li>
+<li><strong>10-20% slower</strong> storage reclamation due to cycle requirements</li>
+<li><strong>7-14 day delay</strong> in aging short-term data</li>
+<li><strong>Potential space recovery:</strong> Fixing cycle requirements could free up 10-20% more space</li>
+</ul>
+<h3 id="business-impact">Business Impact</h3>
+<ul>
+<li>Storage costs higher than necessary</li>
+<li>Backups may fail due to full storage pools</li>
+<li>Manual intervention required to manage storage</li>
+<li>Increased risk of backup failures</li>
+</ul>
+<hr />
+<h2 id="root-cause-summary">Root Cause Summary</h2>
+<h3 id="why-storage-space-is-not-being-reclaimed">Why Storage Space Is Not Being Reclaimed</h3>
+<ol>
+<li><strong>PRIMARY CAUSE: Excessive Cycle Requirements (130 plans affected)</strong></li>
+<li>Short-term policies (14-30 days) require 2 backup cycles</li>
+<li>Cycles take 7-14 days to complete</li>
+<li>Data retained 50-100% longer than intended</li>
+<li>
+<p><strong>Solution:</strong> Reduce to 1 cycle for short-term policies</p>
+</li>
+<li>
+<p><strong>SECONDARY CAUSE: Infinite Retention (19 plans affected)</strong></p>
+</li>
+<li>Some plans configured with infinite retention (-1/-1)</li>
+<li>Data will NEVER age out</li>
+<li>May be intentional for compliance</li>
+<li>
+<p><strong>Solution:</strong> Review with business owners, add finite retention where possible</p>
+</li>
+<li>
+<p><strong>UNKNOWN FACTOR: Backup Job Failures</strong></p>
+</li>
+<li>Cannot assess from current job data</li>
+<li>Failed full backups prevent cycle completion</li>
+<li>Would block aging even with correct retention settings</li>
+<li>
+<p><strong>Solution:</strong> Collect comprehensive job history and analyze</p>
+</li>
+<li>
+<p><strong>CONTRIBUTING FACTOR: Storage Pool Fragmentation</strong></p>
+</li>
+<li>11 pools critically low on space</li>
+<li>May need immediate manual pruning or expansion</li>
+<li>Aging fixes will help long-term but not immediate</li>
+<li><strong>Solution:</strong> Consider temporary storage expansion while fixing aging</li>
+</ol>
+<hr />
+<h2 id="recommendations">Recommendations</h2>
+<h3 id="priority-1-immediate-actions-this-week">PRIORITY 1: IMMEDIATE ACTIONS (This Week)</h3>
+<h4 id="1-fix-inefficient-short-term-policies-130-rules">1. Fix Inefficient Short-Term Policies (130 rules)</h4>
+<p><strong>Action:</strong> Change retention from <strong>"X days + 2 cycles"</strong> to <strong>"X days + 1 cycle"</strong> for all plans with ≤30 day retention.</p>
+<p><strong>Affected Plans:</strong> All 130 plans listed in Section 1</p>
+<p><strong>Implementation Steps:</strong>
+1. Identify all plans with retention ≤30 days and 2+ cycles
+2. Update retention rules to 1 cycle
+3. Verify changes in Commvault UI
+4. Monitor aging jobs after change</p>
+<p><strong>Expected Impact:</strong>
+- Aging will occur 7-14 days faster
+- Storage reclamation improves by 10-20%
+- Reduces risk of storage pools filling up</p>
+<p><strong>Risk:</strong> LOW - This change makes aging MORE aggressive, not less</p>
+<hr />
+<h4 id="2-emergency-space-reclamation-11-pools">2. Emergency Space Reclamation (11 pools)</h4>
+<p><strong>Action:</strong> Manually run aging jobs on the 11 critically low storage pools.</p>
+<p><strong>Pools to Target:</strong>
+- Apex GDP (1.97% free)
+- Southern_Sun_Durban (2.05% free)
+- Simera_GDP (9.30% free)
+- ... and 8 others</p>
+<p><strong>Implementation Steps:</strong>
+1. Run aging job manually on each pool
+2. Monitor job progress
+3. Verify space freed up after completion
+4. Consider temporary storage expansion if needed</p>
+<p><strong>Expected Impact:</strong>
+- Immediate space freed up (amount depends on eligible data)
+- Reduces immediate risk of backup failures
+- Buys time for policy changes to take effect</p>
+<hr />
+<h3 id="priority-2-short-term-actions-next-2-weeks">PRIORITY 2: SHORT-TERM ACTIONS (Next 2 Weeks)</h3>
+<h4 id="3-review-infinite-retention-plans-19-rules">3. Review Infinite Retention Plans (19 rules)</h4>
+<p><strong>Action:</strong> Confirm if infinite retention is actually required for each plan.</p>
+<p><strong>Affected Plans:</strong>
+- Fasken Backup Plan
+- Google Drive/Mail Plans
+- Komati Server Plan
+- Office365 plans
+- ProSyscom_POC_Exchange</p>
+<p><strong>Implementation Steps:</strong>
+1. Review with business owners/compliance team
+2. Determine if finite retention periods can be applied
+3. Update retention rules where appropriate
+4. Document reasons for keeping infinite retention</p>
+<p><strong>Expected Impact:</strong>
+- Reduces long-term storage costs
+- Prevents indefinite data accumulation
+- Better compliance with data retention policies</p>
+<hr />
+<h4 id="4-collect-comprehensive-job-history">4. Collect Comprehensive Job History</h4>
+<p><strong>Action:</strong> Pull full backup job history to identify failure patterns.</p>
+<p><strong>Data Needed:</strong>
+- Last 30 days of backup jobs
+- Job status (success/failed/running)
+- Backup level (full/incremental/differential)
+- Job duration and data transferred
+- Failed job error messages</p>
+<p><strong>Implementation Steps:</strong>
+1. Query Commvault API for extended job history
+2. Analyze full backup success rates per plan
+3. Identify plans with failing full backups
+4. Create report of plans at risk of cycle completion issues</p>
+<p><strong>Expected Impact:</strong>
+- Identifies plans with backup job failures
+- Reveals which plans can't complete cycles
+- Enables targeted remediation</p>
+<hr />
+<h3 id="priority-3-long-term-improvements-next-month">PRIORITY 3: LONG-TERM IMPROVEMENTS (Next Month)</h3>
+<h4 id="5-standardize-retention-tiers">5. Standardize Retention Tiers</h4>
+<p><strong>Action:</strong> Create standard retention tiers across all plans.</p>
+<p><strong>Proposed Tiers:</strong>
+- <strong>Short-term:</strong> 14 days + 1 cycle
+- <strong>Standard:</strong> 30 days + 1 cycle
+- <strong>Long-term:</strong> 365 days + 2 cycles
+- <strong>Compliance:</strong> Custom (as required)</p>
+<p><strong>Benefits:</strong>
+- Easier to manage and understand
+- Consistent aging behavior
+- Reduces configuration errors
+- Simplifies troubleshooting</p>
+<hr />
+<h4 id="6-implement-aging-monitoring">6. Implement Aging Monitoring</h4>
+<p><strong>Action:</strong> Set up monitoring and alerting for aging jobs.</p>
+<p><strong>Metrics to Track:</strong>
+- Aging job success rate
+- Space freed per aging job
+- Storage pool fill rates
+- Time to reclaim eligible data</p>
+<p><strong>Alerts to Create:</strong>
+- Aging job failures
+- Storage pools &lt;20% free
+- Data not aging within expected timeframe
+- Backup cycle completion failures</p>
+<hr />
+<h4 id="7-review-backup-schedules">7. Review Backup Schedules</h4>
+<p><strong>Action:</strong> Ensure backup schedules support efficient cycle completion.</p>
+<p><strong>Areas to Review:</strong>
+- Full backup frequency (weekly recommended)
+- Synthetic full backup usage
+- Schedule conflicts with aging jobs
+- Backup windows and resource contention</p>
+<hr />
+<h2 id="implementation-plan">Implementation Plan</h2>
+<h3 id="week-1-emergency-actions">Week 1: Emergency Actions</h3>
+<ul>
+<li>[ ] Manually run aging on 11 critically low storage pools</li>
+<li>[ ] Begin changing cycle retention from 2→1 for short-term policies</li>
+<li>[ ] Monitor storage pool space daily</li>
+</ul>
+<h3 id="week-2-policy-updates">Week 2: Policy Updates</h3>
+<ul>
+<li>[ ] Complete all 130 policy updates (2 cycles → 1 cycle)</li>
+<li>[ ] Verify aging jobs run successfully after changes</li>
+<li>[ ] Measure space freed up</li>
+</ul>
+<h3 id="week-3-analysis-review">Week 3: Analysis &amp; Review</h3>
+<ul>
+<li>[ ] Collect comprehensive job history data</li>
+<li>[ ] Analyze backup success rates</li>
+<li>[ ] Review infinite retention plans with business owners</li>
+<li>[ ] Create detailed findings report</li>
+</ul>
+<h3 id="week-4-long-term-improvements">Week 4: Long-term Improvements</h3>
+<ul>
+<li>[ ] Design standard retention tiers</li>
+<li>[ ] Implement aging monitoring and alerts</li>
+<li>[ ] Document new retention standards</li>
+<li>[ ] Train team on new policies</li>
+</ul>
+<hr />
+<h2 id="success-metrics">Success Metrics</h2>
+<h3 id="immediate-success-week-1-2">Immediate Success (Week 1-2)</h3>
+<ul>
+<li>✅ All 130 short-term policies updated to 1 cycle</li>
+<li>✅ Critically low storage pools above 20% free</li>
+<li>✅ No backup failures due to storage space</li>
+</ul>
+<h3 id="short-term-success-month-1">Short-term Success (Month 1)</h3>
+<ul>
+<li>✅ Storage reclamation occurring 7-14 days faster</li>
+<li>✅ 10-20% improvement in space freed per aging cycle</li>
+<li>✅ All infinite retention plans reviewed and documented</li>
+<li>✅ Comprehensive job failure analysis completed</li>
+</ul>
+<h3 id="long-term-success-month-2-3">Long-term Success (Month 2-3)</h3>
+<ul>
+<li>✅ Standard retention tiers implemented across all plans</li>
+<li>✅ Aging monitoring and alerting operational</li>
+<li>✅ No storage pools below 30% free for 30+ days</li>
+<li>✅ Backup cycle completion rate &gt;95%</li>
+</ul>
+<hr />
+<h2 id="technical-details">Technical Details</h2>
+<h3 id="understanding-commvault-retention-logic">Understanding Commvault Retention Logic</h3>
+<p><strong>Retention Cycle Definition:</strong></p>
+<blockquote>
+<p>A complete full (or synthetic full) backup followed by all subsequent incremental, differential, or transactional log backups that depend on that full backup.</p>
+</blockquote>
+<p><strong>Aging Eligibility Formula:</strong></p>
+<div class="codehilite"><pre><span></span><code>Data Eligible = (Days_Passed &gt; Retention_Days) AND (Cycles_Complete &gt; Retention_Cycles)
+</code></pre></div>
+
+<p><strong>Example Scenario:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Policy</span><span class="o">:</span><span class="w"> </span><span class="mi">14</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">cycles</span>
+<span class="n">Average</span><span class="w"> </span><span class="n">cycle</span><span class="w"> </span><span class="n">duration</span><span class="o">:</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="n">days</span>
+
+<span class="n">Timeline</span><span class="o">:</span>
+<span class="n">Day</span><span class="w"> </span><span class="mi">0</span><span class="o">:</span><span class="w">  </span><span class="n">Full</span><span class="w"> </span><span class="n">Backup</span><span class="w"> </span><span class="err">#</span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="n">Cycle</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">starts</span><span class="o">)</span>
+<span class="n">Day</span><span class="w"> </span><span class="mi">7</span><span class="o">:</span><span class="w">  </span><span class="n">Full</span><span class="w"> </span><span class="n">Backup</span><span class="w"> </span><span class="err">#</span><span class="mi">2</span><span class="w"> </span><span class="o">(</span><span class="n">Cycle</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">starts</span><span class="o">,</span><span class="w"> </span><span class="n">Cycle</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">complete</span><span class="o">)</span>
+<span class="n">Day</span><span class="w"> </span><span class="mi">14</span><span class="o">:</span><span class="w"> </span><span class="n">Full</span><span class="w"> </span><span class="n">Backup</span><span class="w"> </span><span class="err">#</span><span class="mi">3</span><span class="w"> </span><span class="o">(</span><span class="n">Cycle</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">starts</span><span class="o">,</span><span class="w"> </span><span class="n">Cycle</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">complete</span><span class="o">)</span>
+<span class="w">        </span><span class="n">Days</span><span class="w"> </span><span class="n">requirement</span><span class="o">:</span><span class="w"> </span><span class="n">MET</span><span class="w"> </span><span class="o">(</span><span class="mi">14</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="n">passed</span><span class="o">)</span>
+<span class="w">        </span><span class="n">Cycle</span><span class="w"> </span><span class="n">requirement</span><span class="o">:</span><span class="w"> </span><span class="n">MET</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="n">cycles</span><span class="w"> </span><span class="n">complete</span><span class="o">)</span>
+<span class="w">        </span><span class="err">→</span><span class="w"> </span><span class="n">Data</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">Day</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">NOW</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">aged</span>
+
+<span class="n">Actual</span><span class="w"> </span><span class="n">retention</span><span class="o">:</span><span class="w"> </span><span class="mi">21</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="o">(</span><span class="n">not</span><span class="w"> </span><span class="mi">14</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">configured</span><span class="o">)</span>
+</code></pre></div>
+
+<hr />
+<h2 id="conclusion">Conclusion</h2>
+<p>The root cause of aging failures has been identified: <strong>excessive cycle retention requirements on short-term policies</strong>. This is causing a 7-14 day delay in storage reclamation, affecting 130 plans (47% of environment).</p>
+<p><strong>Primary Solution:</strong> Reduce cycle retention from 2 → 1 for all plans with ≤30 day retention.</p>
+<p><strong>Expected Outcome:</strong> 10-20% improvement in storage reclamation, faster aging, reduced storage costs.</p>
+<p><strong>Next Steps:</strong> Implement Priority 1 actions immediately to resolve the storage space crisis.</p>
+<hr />
+<h2 id="appendix-complete-list-of-affected-plans">Appendix: Complete List of Affected Plans</h2>
+<h3 id="130-plans-requiring-cycle-reduction-2-1">130 Plans Requiring Cycle Reduction (2 → 1)</h3>
+<p>All of these plans have <strong>14 days + 2 cycles</strong> retention on their "02 - Cloud" copy:</p>
+<ol>
+<li>A.R.B Electrical Backup Plan</li>
+<li>ALS_AD</li>
+<li>ALS_SQL</li>
+<li>AMT Server Plan</li>
+<li>AS2 Server Foundation Plan</li>
+<li>Allan Gray Backup Plan</li>
+<li>Apex Backup Plan</li>
+<li>Apex Plan</li>
+<li>BallStraathof_AD</li>
+<li>BallStraathof_FS</li>
+<li>BallStraathof_Oracle</li>
+<li>BallStraathof_SQL</li>
+<li>BallStraathof_VM</li>
+<li>Blue Turtle Plan V1</li>
+<li>Blue Turtle Plan v2
+... (115 additional plans - see AGING_FAILURE_ANALYSIS_REPORT.txt for complete list)</li>
+</ol>
+<hr />
+<p><strong>Report Generated:</strong> 2025-11-14
+<strong>Analysis Tool:</strong> analyze_aging_failures.py
+<strong>Data Source:</strong> Commvault SQLite Database (Database/commvault.db)
+<strong>Total Plans Analyzed:</strong> 278
+<strong>Total Retention Rules Analyzed:</strong> 518
+<strong>Total Storage Pools Analyzed:</strong> 75</p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

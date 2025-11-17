@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIXES IMPLEMENTED</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: FIXES_IMPLEMENTED.md</div>
+    <h1 id="api-fixes-implementation-summary">API Fixes Implementation Summary</h1>
+<h2 id="date-2025-11-13">Date: 2025-11-13</h2>
+<p>All Priority 1 and Priority 2 fixes have been successfully implemented in <a href="d:\Commvault_API\app.py">app.py</a>.</p>
+<hr />
+<h2 id="fixes-completed">✅ FIXES COMPLETED</h2>
+<h3 id="priority-1-critical-parser-fixes-100-complete">Priority 1: Critical Parser Fixes (100% Complete)</h3>
+<h4 id="1-mediaagents-parser-fixed">1. MediaAgents Parser Fixed ✅</h4>
+<p><strong>File</strong>: <a href="d:\Commvault_API\app.py#L380-L424">app.py:380-424</a></p>
+<p><strong>Problem</strong>: API returns <code>{"response": [{"entityInfo": {...}}]}</code> but parser expected <code>{"mediaAgentList": [...]}</code></p>
+<p><strong>Solution Implemented</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Now checks for &#39;response&#39; key first with entityInfo structure</span>
+<span class="n">ma_list</span> <span class="o">=</span> <span class="n">mediaagents_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;response&quot;</span><span class="p">,</span> <span class="p">[])</span>
+
+<span class="c1"># Then extracts ID and name from entityInfo</span>
+<span class="k">if</span> <span class="s2">&quot;entityInfo&quot;</span> <span class="ow">in</span> <span class="n">ma_entry</span><span class="p">:</span>
+    <span class="n">entity_info</span> <span class="o">=</span> <span class="n">ma_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entityInfo&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">ma_id</span> <span class="o">=</span> <span class="n">entity_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">entity_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Backward Compatibility</strong>: Falls back to old structure if new one not found</p>
+<p><strong>Expected Result</strong>: MediaAgents will now be properly stored in database</p>
+<hr />
+<h4 id="2-libraries-parser-fixed">2. Libraries Parser Fixed ✅</h4>
+<p><strong>File</strong>: <a href="d:\Commvault_API\app.py#L426-L466">app.py:426-466</a></p>
+<p><strong>Problem</strong>: Same as MediaAgents - wrong JSON structure expected</p>
+<p><strong>Solution Implemented</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Now checks for &#39;response&#39; key first with entityInfo structure</span>
+<span class="n">lib_list</span> <span class="o">=</span> <span class="n">libraries_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;response&quot;</span><span class="p">,</span> <span class="p">[])</span>
+
+<span class="c1"># Then extracts ID and name from entityInfo</span>
+<span class="k">if</span> <span class="s2">&quot;entityInfo&quot;</span> <span class="ow">in</span> <span class="n">lib_entry</span><span class="p">:</span>
+    <span class="n">entity_info</span> <span class="o">=</span> <span class="n">lib_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entityInfo&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">lib_id</span> <span class="o">=</span> <span class="n">entity_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">entity_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Expected Result</strong>: Libraries will now be properly stored in database</p>
+<hr />
+<h4 id="3-storage-pools-fixed-endpoint-parser">3. Storage Pools Fixed (Endpoint + Parser) ✅</h4>
+<p><strong>File</strong>:
+- Endpoint: <a href="d:\Commvault_API\app.py#L787-L795">app.py:787-795</a>
+- Parser: <a href="d:\Commvault_API\app.py#L468-L503">app.py:468-503</a></p>
+<p><strong>Problem 1</strong>: Endpoint <code>/V4/StoragePool</code> returns 404 (V4 API not available)</p>
+<p><strong>Solution 1</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Changed from:</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/V4/StoragePool&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="c1"># To:</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/StoragePool&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Problem 2</strong>: Parser expected <code>storagePools</code> key, API returns <code>storagePoolList</code></p>
+<p><strong>Solution 2</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Now uses correct key</span>
+<span class="n">pools_list</span> <span class="o">=</span> <span class="n">pools_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePoolList&quot;</span><span class="p">,</span> <span class="p">[])</span>
+
+<span class="c1"># Capacity data is at pool_entry level, not inside storagePool object</span>
+<span class="n">total_cap</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;totalCapacity&quot;</span><span class="p">,</span> <span class="s2">&quot;N/A&quot;</span><span class="p">)</span>
+<span class="n">free_space</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;totalFreeSpace&quot;</span><span class="p">,</span> <span class="s2">&quot;N/A&quot;</span><span class="p">)</span>  <span class="c1"># Fixed: was &#39;freeSpace&#39;</span>
+</code></pre></div>
+
+<p><strong>Expected Result</strong>: Storage pools with full capacity data will be stored</p>
+<hr />
+<h3 id="priority-2-performance-fix-100-complete">Priority 2: Performance Fix (100% Complete)</h3>
+<h4 id="4-jobs-timeout-fixed">4. Jobs Timeout Fixed ✅</h4>
+<p><strong>File</strong>: <a href="d:\Commvault_API\app.py#L742-L750">app.py:742-750</a></p>
+<p><strong>Problem</strong>: Request times out - API returns 1 year of jobs by default</p>
+<p><strong>Solution Implemented</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Added time filter parameter (86400 seconds = 24 hours)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/Job?completedJobLookupTime=86400&quot;</span><span class="p">,</span>
+    <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+    <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Expected Result</strong>: Jobs from last 24 hours retrieved without timeout</p>
+<hr />
+<h3 id="priority-3-endpoint-research-implemented-with-fallback">Priority 3: Endpoint Research (Implemented with Fallback)</h3>
+<h4 id="5-events-endpoint-updated">5. Events Endpoint Updated ⚠️</h4>
+<p><strong>File</strong>: <a href="d:\Commvault_API\app.py#L817-L833">app.py:817-833</a></p>
+<p><strong>Problem</strong>: <code>/Event</code> returns 404</p>
+<p><strong>Solution Implemented</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Try new endpoint first</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/CommServ/Event?level=Critical&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="c1"># Fallback to old endpoint if new one fails</span>
+<span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/Event?level=Critical&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Status</strong>: Needs testing - may not be available in this Commvault version</p>
+<hr />
+<h2 id="implementation-statistics">📊 Implementation Statistics</h2>
+<table>
+<thead>
+<tr>
+<th>Fix</th>
+<th>Priority</th>
+<th>Status</th>
+<th>File Location</th>
+<th>Lines Changed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MediaAgents Parser</td>
+<td>P1</td>
+<td>✅ Complete</td>
+<td>app.py:380-424</td>
+<td>~45 lines</td>
+</tr>
+<tr>
+<td>Libraries Parser</td>
+<td>P1</td>
+<td>✅ Complete</td>
+<td>app.py:426-466</td>
+<td>~40 lines</td>
+</tr>
+<tr>
+<td>Storage Pools Endpoint</td>
+<td>P1</td>
+<td>✅ Complete</td>
+<td>app.py:787-795</td>
+<td>~2 lines</td>
+</tr>
+<tr>
+<td>Storage Pools Parser</td>
+<td>P1</td>
+<td>✅ Complete</td>
+<td>app.py:468-503</td>
+<td>~36 lines</td>
+</tr>
+<tr>
+<td>Jobs Timeout</td>
+<td>P2</td>
+<td>✅ Complete</td>
+<td>app.py:742-750</td>
+<td>~1 line</td>
+</tr>
+<tr>
+<td>Events Endpoint</td>
+<td>P3</td>
+<td>⚠️ Needs Test</td>
+<td>app.py:817-833</td>
+<td>~17 lines</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total Lines Modified</strong>: ~141 lines
+<strong>Files Modified</strong>: 1 (<a href="d:\Commvault_API\app.py">app.py</a>)</p>
+<hr />
+<h2 id="testing">🧪 Testing</h2>
+<h3 id="test-script-created">Test Script Created</h3>
+<p><strong>File</strong>: <a href="d:\Commvault_API\test_fixes.py">test_fixes.py</a></p>
+<p><strong>What it tests</strong>:
+1. MediaAgents endpoint + parser
+2. Libraries endpoint + parser
+3. Storage Pools endpoint + parser
+4. Jobs with time filter
+5. Events with new endpoint</p>
+<p><strong>How to run</strong>:</p>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>test_fixes.py
+</code></pre></div>
+
+<p><strong>Expected output</strong>:
+- Verification of each fix
+- JSON response structure validation
+- Success/failure summary
+- Test output files saved as <code>test_fixed_*.json</code></p>
+<hr />
+<h2 id="expected-improvement">📈 Expected Improvement</h2>
+<h3 id="before-fixes">Before Fixes:</h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Status</th>
+<th>Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MediaAgents</td>
+<td>❌ No data</td>
+<td>Wrong parser</td>
+</tr>
+<tr>
+<td>Libraries</td>
+<td>❌ No data</td>
+<td>Wrong parser</td>
+</tr>
+<tr>
+<td>Storage Pools</td>
+<td>❌ 404 Error</td>
+<td>Wrong endpoint</td>
+</tr>
+<tr>
+<td>Jobs</td>
+<td>❌ Timeout</td>
+<td>Too much data</td>
+</tr>
+<tr>
+<td>Events</td>
+<td>❌ 404</td>
+<td>Wrong endpoint</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Success Rate</strong>: 7/14 endpoints (50%)</p>
+<h3 id="after-fixes">After Fixes:</h3>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Expected Status</th>
+<th>Fix Applied</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MediaAgents</td>
+<td>✅ Working</td>
+<td>Parser updated</td>
+</tr>
+<tr>
+<td>Libraries</td>
+<td>✅ Working</td>
+<td>Parser updated</td>
+</tr>
+<tr>
+<td>Storage Pools</td>
+<td>✅ Working</td>
+<td>Endpoint + parser fixed</td>
+</tr>
+<tr>
+<td>Jobs</td>
+<td>✅ Working</td>
+<td>Time filter added</td>
+</tr>
+<tr>
+<td>Events</td>
+<td>⚠️ Testing</td>
+<td>Endpoint changed</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Expected Success Rate</strong>: 11/14 endpoints (78%) minimum</p>
+<hr />
+<h2 id="how-to-verify-fixes">🎯 How to Verify Fixes</h2>
+<h3 id="method-1-run-test-script">Method 1: Run Test Script</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Test all fixes at once</span>
+python<span class="w"> </span>test_fixes.py
+
+<span class="c1"># Check output files</span>
+ls<span class="w"> </span>test_fixed_*.json
+</code></pre></div>
+
+<h3 id="method-2-use-the-web-app">Method 2: Use the Web App</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Start the Flask app</span>
+python<span class="w"> </span>app.py
+
+<span class="c1"># In browser: http://localhost:5000</span>
+<span class="c1"># 1. Select these checkboxes:</span>
+<span class="c1">#    - MediaAgents</span>
+<span class="c1">#    - Libraries</span>
+<span class="c1">#    - Storage Pools</span>
+<span class="c1">#    - Jobs</span>
+<span class="c1"># 2. Click &quot;Fetch Data from Commvault&quot;</span>
+<span class="c1"># 3. Check results - should see success counts</span>
+<span class="c1"># 4. Go to Infrastructure Dashboard</span>
+<span class="c1"># 5. Verify MediaAgents, Libraries, Storage Pools sections show data</span>
+</code></pre></div>
+
+<h3 id="method-3-check-database">Method 3: Check Database</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># After fetching data, check database</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">import sqlite3</span>
+<span class="s2">db = sqlite3.connect(&#39;Database/commvault.db&#39;)</span>
+<span class="s2">cursor = db.cursor()</span>
+
+<span class="s2">print(&#39;Checking database after fixes...&#39;)</span>
+<span class="s2">print()</span>
+
+<span class="s2">cursor.execute(&#39;SELECT COUNT(*) FROM mediaagents&#39;)</span>
+<span class="s2">count = cursor.fetchone()[0]</span>
+<span class="s2">print(f&#39;MediaAgents: {count} records&#39;)</span>
+
+<span class="s2">cursor.execute(&#39;SELECT COUNT(*) FROM libraries&#39;)</span>
+<span class="s2">count = cursor.fetchone()[0]</span>
+<span class="s2">print(f&#39;Libraries: {count} records&#39;)</span>
+
+<span class="s2">cursor.execute(&#39;SELECT COUNT(*) FROM storage_pools&#39;)</span>
+<span class="s2">count = cursor.fetchone()[0]</span>
+<span class="s2">print(f&#39;Storage Pools: {count} records&#39;)</span>
+
+<span class="s2">cursor.execute(&#39;SELECT COUNT(*) FROM jobs&#39;)</span>
+<span class="s2">count = cursor.fetchone()[0]</span>
+<span class="s2">print(f&#39;Jobs: {count} records&#39;)</span>
+<span class="s2">&quot;</span>
+</code></pre></div>
+
+<p><strong>Expected Results</strong>:
+- MediaAgents: Should show 10+ records
+- Libraries: Should show multiple records
+- Storage Pools: Should show multiple records
+- Jobs: Should show jobs from last 24 hours</p>
+<hr />
+<h2 id="code-changes-summary">📝 Code Changes Summary</h2>
+<h3 id="1-mediaagents-parser-apppy380-424">1. MediaAgents Parser (app.py:380-424)</h3>
+<p><strong>Before</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">ma_list</span> <span class="o">=</span> <span class="n">mediaagents_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mediaAgentList&quot;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="n">ma_info</span> <span class="o">=</span> <span class="n">ma_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mediaAgent&quot;</span><span class="p">,</span> <span class="n">ma_entry</span><span class="p">)</span>
+<span class="n">ma_id</span> <span class="o">=</span> <span class="n">ma_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mediaAgentId&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>After</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">ma_list</span> <span class="o">=</span> <span class="n">mediaagents_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;response&quot;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="k">if</span> <span class="s2">&quot;entityInfo&quot;</span> <span class="ow">in</span> <span class="n">ma_entry</span><span class="p">:</span>
+    <span class="n">entity_info</span> <span class="o">=</span> <span class="n">ma_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entityInfo&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">ma_id</span> <span class="o">=</span> <span class="n">entity_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="2-libraries-parser-apppy426-466">2. Libraries Parser (app.py:426-466)</h3>
+<p><strong>Before</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">lib_list</span> <span class="o">=</span> <span class="n">libraries_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;libraryList&quot;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="n">lib_info</span> <span class="o">=</span> <span class="n">lib_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;library&quot;</span><span class="p">,</span> <span class="n">lib_entry</span><span class="p">)</span>
+<span class="n">lib_id</span> <span class="o">=</span> <span class="n">lib_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;libraryId&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>After</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">lib_list</span> <span class="o">=</span> <span class="n">libraries_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;response&quot;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="k">if</span> <span class="s2">&quot;entityInfo&quot;</span> <span class="ow">in</span> <span class="n">lib_entry</span><span class="p">:</span>
+    <span class="n">entity_info</span> <span class="o">=</span> <span class="n">lib_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entityInfo&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">lib_id</span> <span class="o">=</span> <span class="n">entity_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="3-storage-pools-endpoint-apppy788">3. Storage Pools Endpoint (app.py:788)</h3>
+<p><strong>Before</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/V4/StoragePool&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>After</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/StoragePool&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="4-storage-pools-parser-apppy468-503">4. Storage Pools Parser (app.py:468-503)</h3>
+<p><strong>Before</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">pools_list</span> <span class="o">=</span> <span class="n">pools_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePools&quot;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="n">total_cap</span> <span class="o">=</span> <span class="n">pool_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;totalCapacity&quot;</span><span class="p">,</span> <span class="s2">&quot;N/A&quot;</span><span class="p">)</span>
+<span class="n">free_space</span> <span class="o">=</span> <span class="n">pool_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;freeSpace&quot;</span><span class="p">,</span> <span class="s2">&quot;N/A&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>After</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">pools_list</span> <span class="o">=</span> <span class="n">pools_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePoolList&quot;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="n">total_cap</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;totalCapacity&quot;</span><span class="p">,</span> <span class="s2">&quot;N/A&quot;</span><span class="p">)</span>
+<span class="n">free_space</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;totalFreeSpace&quot;</span><span class="p">,</span> <span class="s2">&quot;N/A&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="5-jobs-endpoint-apppy743">5. Jobs Endpoint (app.py:743)</h3>
+<p><strong>Before</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/Job&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>After</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/Job?completedJobLookupTime=86400&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="6-events-endpoint-apppy817-833">6. Events Endpoint (app.py:817-833)</h3>
+<p><strong>Before</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/Event?level=Critical&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>After</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/CommServ/Event?level=Critical&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+<span class="c1"># With fallback to old endpoint</span>
+</code></pre></div>
+
+<hr />
+<h2 id="troubleshooting">🔍 Troubleshooting</h2>
+<h3 id="if-mediaagentslibraries-still-show-no-data">If MediaAgents/Libraries still show no data:</h3>
+<ol>
+<li>Check test output file: <code>test_fixed_MediaAgents.json</code></li>
+<li>Verify JSON structure matches expected format</li>
+<li>Look for <code>response</code> array with <code>entityInfo</code> objects</li>
+<li>Check database: <code>SELECT * FROM mediaagents LIMIT 5;</code></li>
+</ol>
+<h3 id="if-storage-pools-still-fail">If Storage Pools still fail:</h3>
+<ol>
+<li>Verify endpoint returns 200 status</li>
+<li>Check test output file: <code>test_fixed_Storage_Pools.json</code></li>
+<li>Look for <code>storagePoolList</code> key</li>
+<li>Verify capacity fields: <code>totalCapacity</code>, <code>totalFreeSpace</code></li>
+</ol>
+<h3 id="if-jobs-still-timeout">If Jobs still timeout:</h3>
+<ol>
+<li>Try increasing time window: <code>completedJobLookupTime=172800</code> (48 hours)</li>
+<li>Or decrease: <code>completedJobLookupTime=43200</code> (12 hours)</li>
+<li>Check if any jobs exist in that time range</li>
+</ol>
+<h3 id="if-events-still-fail">If Events still fail:</h3>
+<ol>
+<li>Check if <code>/CommServ/Event</code> endpoint exists in your version</li>
+<li>Try without filters: <code>/CommServ/Event</code></li>
+<li>May not be available in all Commvault versions</li>
+<li>Alternative: Use Alerts endpoint instead</li>
+</ol>
+<hr />
+<h2 id="related-documentation">📚 Related Documentation</h2>
+<ul>
+<li><a href="d:\Commvault_API\API_FIXES_RESEARCH.md">API_FIXES_RESEARCH.md</a> - Detailed research findings</li>
+<li><a href="d:\Commvault_API\API_TEST_RESULTS.md">API_TEST_RESULTS.md</a> - Original test results</li>
+<li><a href="d:\Commvault_API\test_fixes.py">test_fixes.py</a> - Verification test script</li>
+</ul>
+<hr />
+<h2 id="next-steps">✅ Next Steps</h2>
+<ol>
+<li>
+<p><strong>Test the fixes</strong>:
+   <code>bash
+   python test_fixes.py</code></p>
+</li>
+<li>
+<p><strong>Verify with web app</strong>:
+   <code>bash
+   python app.py
+   # Visit http://localhost:5000</code></p>
+</li>
+<li>
+<p><strong>Check database</strong>:
+   <code>bash
+   # Use the SQL command above to verify data</code></p>
+</li>
+<li>
+<p><strong>Review test output files</strong>:
+   <code>bash
+   # Check test_fixed_*.json files for actual API responses</code></p>
+</li>
+<li>
+<p><strong>If all fixes work</strong>: Update <a href="d:\Commvault_API\QUICK_WINS_SUMMARY.md">QUICK_WINS_SUMMARY.md</a> with new success rates</p>
+</li>
+<li>
+<p><strong>If Events endpoint fails</strong>: Remove from UI or mark as "Not Available"</p>
+</li>
+</ol>
+<hr />
+<h2 id="success-criteria">🎉 Success Criteria</h2>
+<p>All Priority 1 &amp; 2 fixes are considered successful if:</p>
+<ul>
+<li>✅ MediaAgents: Shows 10+ records in database</li>
+<li>✅ Libraries: Shows multiple records in database</li>
+<li>✅ Storage Pools: Shows pools with capacity data</li>
+<li>✅ Jobs: Returns jobs from last 24 hours without timeout</li>
+<li>⚠️ Events: Works (bonus) or gracefully fails</li>
+</ul>
+<p><strong>Minimum target</strong>: 4/5 fixes working (80% success rate)</p>
+<p><strong>Expected</strong>: All 5 fixes working (100% success rate for Priority 1 &amp; 2)</p>
+<hr />
+<p><strong>Implementation Complete!</strong> ✅</p>
+<p>All confirmed fixes have been applied to <a href="d:\Commvault_API\app.py">app.py</a>. Ready for testing!</p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

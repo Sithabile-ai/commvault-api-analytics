@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(if not exist Database mkdir Database)",
+      "Bash(if not exist templates mkdir templates)",
+      "Bash(if not exist static mkdir static)",
+      "Bash(python test_api_endpoints.py:*)",
+      "Bash(python -c:*)",
+      "Bash(dir:*)",
+      "Bash(nul)",
+      "Bash(timeout 5 bash:*)",
+      "Bash(python analyze_aging_policies.py:*)",
+      "Bash(aging_policy_report.txt)",
+      "Bash(python list_30day_plans.py:*)",
+      "Bash(python test_schedules_endpoint.py:*)",
+      "Bash(python:*)",
+      "Bash(aging_failure_analysis.txt)",
+      "Bash(cat:*)",
+      "Bash(tee:*)",
+      "Bash(CRITICAL_POOLS_ACTION_PLAN.txt)",
+      "Bash(git init:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

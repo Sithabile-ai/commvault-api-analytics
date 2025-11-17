@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}Commvault Data Retrieval - Home{% endblock %}
+
+{% block content %}
+<div class="nav-links">
+    <a href="{{ url_for('index') }}" style="background: #f0f0f0;">Home</a>
+    <a href="{{ url_for('infrastructure_dashboard') }}">🏗️ Infrastructure Dashboard</a>
+    <a href="{{ url_for('retention_health_dashboard') }}">💊 Retention Health</a>
+    <a href="{{ url_for('storage_pool_health_dashboard') }}">🗄️ Storage Pool Health</a>
+    <a href="{{ url_for('view_retention_policies') }}">📋 Retention Policies</a>
+    <a href="{{ url_for('view_data', data_type='clients') }}">Clients</a>
+    <a href="{{ url_for('view_data', data_type='jobs') }}">Jobs</a>
+    <a href="{{ url_for('view_data', data_type='storage_pools') }}">Storage Pools</a>
+</div>
+
+<h2 style="margin-bottom: 20px; color: #333;">Configure Connection & Fetch Data</h2>
+
+<form method="POST" action="{{ url_for('fetch_data') }}">
+    <div class="form-group">
+        <label for="base_url">Commvault Base URL:</label>
+        <input type="text"
+               id="base_url"
+               name="base_url"
+               value="{{ config.base_url }}"
+               placeholder="http://your-server:81/SearchSvc/CVWebService.svc"
+               required>
+        <small style="color: #666; display: block; margin-top: 5px;">
+            Example: http://commvaultweb01.jhb.seagatestoragecloud.co.za:81/SearchSvc/CVWebService.svc
+        </small>
+    </div>
+
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text"
+               id="username"
+               name="username"
+               value="{{ config.username }}"
+               placeholder="user@domain.com"
+               required>
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password"
+               id="password"
+               name="password"
+               value="{{ config.password }}"
+               placeholder="Password or Base64-encoded password"
+               required>
+        <small style="color: #666; display: block; margin-top: 5px;">
+            You can provide either plaintext or Base64-encoded password
+        </small>
+    </div>
+
+    <div class="form-group">
+        <label>Select Data Types to Retrieve:</label>
+        <div class="checkbox-group">
+            <div style="background: #f0f7ff; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                <strong style="color: #1976D2; display: block; margin-bottom: 10px;">📊 Basic Data</strong>
+                <label>
+                    <input type="checkbox" name="data_type" value="clients">
+                    Clients - All client machines in the CommCell
+                </label>
+                <label>
+                    <input type="checkbox" name="data_type" value="jobs">
+                    Jobs - Backup and restore jobs
+                </label>
+                <label>
+                    <input type="checkbox" name="data_type" value="plans">
+                    Plans - Modern backup plans with retention/aging rules ⭐
+                </label>
+                <label>
+                    <input type="checkbox" name="data_type" value="storage">
+                    Storage Policies - Storage configurations
+                </label>
+            </div>
+
+            <div style="background: #fff4e6; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                <strong style="color: #f57c00; display: block; margin-bottom: 10px;">🏗️ Infrastructure & Hardware</strong>
+                <label>
+                    <input type="checkbox" name="data_type" value="mediaagents">
+                    MediaAgents - Backup infrastructure servers
+                </label>
+                <label>
+                    <input type="checkbox" name="data_type" value="storage_pools">
+                    Storage Pools - Disk/tape storage pools with capacity info
+                </label>
+                <label>
+                    <input type="checkbox" name="data_type" value="libraries">
+                    Libraries - Tape and disk libraries
+                </label>
+                <label>
+                    <input type="checkbox" name="data_type" value="hypervisors">
+                    Hypervisors - VM infrastructure (VMware, Hyper-V, etc.)
+                </label>
+                <label>
+                    <input type="checkbox" name="data_type" value="storage_arrays">
+                    Storage Arrays - Physical storage hardware
+                </label>
+            </div>
+
+            <div style="background: #fff0f6; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                <strong style="color: #c2185b; display: block; margin-bottom: 10px;">🔔 Monitoring & Alerts (NEW!)</strong>
+                <label>
+                    <input type="checkbox" name="data_type" value="events">
+                    Events - Critical system events and errors
+                </label>
+                <label>
+                    <input type="checkbox" name="data_type" value="alerts">
+                    Alerts - Active alerts and notifications
+                </label>
+                <label>
+                    <input type="checkbox" name="data_type" value="commcell_info">
+                    CommCell Health - CommServe status and version info
+                </label>
+            </div>
+
+            <div style="background: #f3e5f5; padding: 15px; border-radius: 5px;">
+                <strong style="color: #7b1fa2; display: block; margin-bottom: 10px;">📈 Enhanced Metrics (NEW!)</strong>
+                <label>
+                    <input type="checkbox" name="data_type" value="jobs_enhanced">
+                    Enhanced Jobs - Performance metrics, throughput, dedupe savings
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit">Fetch Data from Commvault</button>
+</form>
+
+<div style="background: #e7f3ff; padding: 20px; border-radius: 8px; border-left: 4px solid #2196F3; margin-top: 30px;">
+    <h3 style="color: #1976D2; margin-bottom: 10px;">How to Use:</h3>
+    <ol style="margin-left: 20px; color: #333; line-height: 1.8;">
+        <li>Enter your Commvault Web Service URL, username, and password</li>
+        <li>Select the data types you want to retrieve from the checkboxes</li>
+        <li>Click "Fetch Data from Commvault" to retrieve and store the data</li>
+        <li>View retrieved data using the navigation links above</li>
+        <li>All data is stored locally in an SQLite database</li>
+    </ol>
+</div>
+
+<div style="background: #fff3cd; padding: 20px; border-radius: 8px; border-left: 4px solid #ffc107; margin-top: 20px;">
+    <h3 style="color: #856404; margin-bottom: 10px;">Note:</h3>
+    <p style="color: #856404; line-height: 1.6;">
+        This application connects to the Commvault REST API and stores data in a local SQLite database.
+        Make sure you have network access to the Commvault Web Server and valid credentials.
+        The password can be provided in plaintext (will be Base64-encoded automatically) or as a Base64-encoded string.
+    </p>
+</div>
+{% endblock %}

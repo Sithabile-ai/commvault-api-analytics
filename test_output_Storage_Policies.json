@@ -1,0 +1,1586 @@
+{
+  "policies": [
+    {
+      "numberOfStreams": 1,
+      "storagePolicy": {
+        "storagePolicyName": "CommServeDR",
+        "storagePolicyId": 2
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "GDP_Local_SystemCreatedSP",
+        "storagePolicyId": 4
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "GDP_Cloud_SystemCreatedSP",
+        "storagePolicyId": 6
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Silver Server Plan",
+        "storagePolicyId": 36
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Sliver (Packet Hub Server Plan)",
+        "storagePolicyId": 50
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Bronze Endpoint",
+        "storagePolicyId": 52
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Gold Endpoint",
+        "storagePolicyId": 54
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Silver Endpoint",
+        "storagePolicyId": 55
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Gold Plan (Server)",
+        "storagePolicyId": 58
+      }
+    },
+    {
+      "numberOfStreams": 150,
+      "storagePolicy": {
+        "storagePolicyName": "Silver Plan (Server)",
+        "storagePolicyId": 59
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Sithabile Staff",
+        "storagePolicyId": 60
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Silicone Server Plan",
+        "storagePolicyId": 61
+      }
+    },
+    {
+      "numberOfStreams": 150,
+      "storagePolicy": {
+        "storagePolicyName": "Silicone AD Plan",
+        "storagePolicyId": 62
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Netsurit SQL Plan",
+        "storagePolicyId": 63
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Parktonian Hotel Gold Plan",
+        "storagePolicyId": 64
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Ordirile IT SQL Plan",
+        "storagePolicyId": 67
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Ordirile IT File System Plan",
+        "storagePolicyId": 68
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Ordirile IT AD Plan",
+        "storagePolicyId": 69
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "NetsurIT Endpoint Plan",
+        "storagePolicyId": 81
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Salchain_Local_SystemCreatedSP",
+        "storagePolicyId": 83
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Salchain File System",
+        "storagePolicyId": 84
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Salchain_EndPoint",
+        "storagePolicyId": 85
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Salchain_AD",
+        "storagePolicyId": 86
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Salchain_SQL",
+        "storagePolicyId": 87
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "SuccessBrokers_FS",
+        "storagePolicyId": 88
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "SuccessBrokers_AD",
+        "storagePolicyId": 90
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "SuccessBrokers_SQL",
+        "storagePolicyId": 91
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "SuccessBrokers_Edge",
+        "storagePolicyId": 92
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Formax_AD",
+        "storagePolicyId": 93
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Formax_SQL",
+        "storagePolicyId": 94
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Formax_FS",
+        "storagePolicyId": 96
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "BallStraathof_FS",
+        "storagePolicyId": 97
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "BallStraathof_SQL",
+        "storagePolicyId": 99
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "BallStraathof_AD",
+        "storagePolicyId": 100
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "BallStraathof_Oracle",
+        "storagePolicyId": 102
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Formax_VM",
+        "storagePolicyId": 103
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "ALS_VM",
+        "storagePolicyId": 104
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "SuccessBrokers_VM",
+        "storagePolicyId": 106
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "BallStraathof_VM",
+        "storagePolicyId": 107
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Salchain_VM",
+        "storagePolicyId": 108
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "ALS_FS",
+        "storagePolicyId": 110
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "ALS_SQL",
+        "storagePolicyId": 111
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "ALS_AD",
+        "storagePolicyId": 112
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Interwill Endpoint",
+        "storagePolicyId": 118
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "MMH - VIP Users",
+        "storagePolicyId": 122
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "MMH - Branding Users",
+        "storagePolicyId": 123
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "MMH - Users",
+        "storagePolicyId": 124
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "ClockWorks_FS_Plan",
+        "storagePolicyId": 136
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "ClockWorks_AD_Plan",
+        "storagePolicyId": 137
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "ClockWorks SQL Plan",
+        "storagePolicyId": 138
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Office365 OneDrive",
+        "storagePolicyId": 139
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "CCIC VM Plan",
+        "storagePolicyId": 145
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "CCIC FS Plan",
+        "storagePolicyId": 146
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "CCIC SQL Plan",
+        "storagePolicyId": 147
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "CCIC AD Plan",
+        "storagePolicyId": 148
+      }
+    },
+    {
+      "numberOfStreams": 200,
+      "storagePolicy": {
+        "storagePolicyName": "Office365 Exchange",
+        "storagePolicyId": 159
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Office365 SharePoint",
+        "storagePolicyId": 160
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Velocity Trade Backup Plan",
+        "storagePolicyId": 162
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "STS_OneDrive",
+        "storagePolicyId": 166
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "STS_SharePoint",
+        "storagePolicyId": 167
+      }
+    },
+    {
+      "numberOfStreams": 300,
+      "storagePolicy": {
+        "storagePolicyName": "Laptop Foundation",
+        "storagePolicyId": 168
+      }
+    },
+    {
+      "numberOfStreams": 400,
+      "storagePolicy": {
+        "storagePolicyName": "Server Foundation",
+        "storagePolicyId": 169
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Amaro Foods Backup Plan",
+        "storagePolicyId": 170
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "STS_Office 365 Plan",
+        "storagePolicyId": 173
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Google Mail Plan",
+        "storagePolicyId": 180
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Google Drive Plan",
+        "storagePolicyId": 181
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "STS Server Plan",
+        "storagePolicyId": 191
+      }
+    },
+    {
+      "numberOfStreams": 300,
+      "storagePolicy": {
+        "storagePolicyName": "Datatim Backup Plan",
+        "storagePolicyId": 192
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Plumblink Backup Plan",
+        "storagePolicyId": 193
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Scarecrow Backup Plan",
+        "storagePolicyId": 196
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Interwil Server Plan",
+        "storagePolicyId": 199
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Medikredit\u00a0 - BI SQL backup.",
+        "storagePolicyId": 203
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "MediKredit_DR Center",
+        "storagePolicyId": 206
+      }
+    },
+    {
+      "numberOfStreams": 300,
+      "storagePolicy": {
+        "storagePolicyName": "MediKredit - Treaco Plan",
+        "storagePolicyId": 207
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "MediKredit_HeadOffice",
+        "storagePolicyId": 208
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Rialto Foods Backup Plan",
+        "storagePolicyId": 210
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Wealthport Backup Plan",
+        "storagePolicyId": 212
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Syntech Cloud\u00a0Backup Plan",
+        "storagePolicyId": 213
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Syntech Backup Plan",
+        "storagePolicyId": 218
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Profica",
+        "storagePolicyId": 219
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "MKLM_Plan",
+        "storagePolicyId": 221
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Capri Server Plan",
+        "storagePolicyId": 226
+      }
+    },
+    {
+      "numberOfStreams": 150,
+      "storagePolicy": {
+        "storagePolicyName": "Daikin Backup Plan",
+        "storagePolicyId": 227
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Speedspace Backup Plan",
+        "storagePolicyId": 228
+      }
+    },
+    {
+      "numberOfStreams": 200,
+      "storagePolicy": {
+        "storagePolicyName": "Plumblink_Laptop_Plan",
+        "storagePolicyId": 229
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Cani Rusk Plan",
+        "storagePolicyId": 231
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "STS_Teams Plan",
+        "storagePolicyId": 233
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Office365 Teams",
+        "storagePolicyId": 235
+      }
+    },
+    {
+      "numberOfStreams": 50,
+      "storagePolicy": {
+        "storagePolicyName": "Finlar JHB Backup Plan",
+        "storagePolicyId": 240
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Finlar CPT Backup Plan",
+        "storagePolicyId": 241
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "ProSyscom_POC_Exchange",
+        "storagePolicyId": 242
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Finlar CPT Laptop Plan",
+        "storagePolicyId": 243
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Formax Endpoint Plan",
+        "storagePolicyId": 245
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "MMH-BOT",
+        "storagePolicyId": 253
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "MMH-GHA",
+        "storagePolicyId": 254
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "MMH-Kingsway",
+        "storagePolicyId": 256
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "MMH - Christie House",
+        "storagePolicyId": 257
+      }
+    },
+    {
+      "numberOfStreams": 200,
+      "storagePolicy": {
+        "storagePolicyName": "MMH-NAM",
+        "storagePolicyId": 259
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Server Plan Saturday Full",
+        "storagePolicyId": 262
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Server Plan Friday Full",
+        "storagePolicyId": 263
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Irene Backup Plan",
+        "storagePolicyId": 267
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Mentor-Server-Plan_NotUsed",
+        "storagePolicyId": 270
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Mark Minnaar Backup Plan",
+        "storagePolicyId": 272
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Mentor-Plan",
+        "storagePolicyId": 273
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "ASEM Backup Plan",
+        "storagePolicyId": 275
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Extraordinary Backup Plan",
+        "storagePolicyId": 277
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Apex Plan",
+        "storagePolicyId": 279
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "PureGas Plan",
+        "storagePolicyId": 280
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Singita CPT Backup Plan",
+        "storagePolicyId": 282
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Singita JHB Backup Plan",
+        "storagePolicyId": 284
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Singita SSS Backup Plan",
+        "storagePolicyId": 286
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Singita SKNP Backup Plan",
+        "storagePolicyId": 288
+      }
+    },
+    {
+      "numberOfStreams": 300,
+      "storagePolicy": {
+        "storagePolicyName": "Laptop Foundation JHB City Parks & Zoo",
+        "storagePolicyId": 290
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Mabula_Plan",
+        "storagePolicyId": 292
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "ClifftopLodge Backup Plan",
+        "storagePolicyId": 294
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Energy Partners  Archive Plan",
+        "storagePolicyId": 295
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Apex Backup Plan",
+        "storagePolicyId": 299
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Wealthease Backup Plan",
+        "storagePolicyId": 300
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Gordon Verhoef & Krause Backup Plan",
+        "storagePolicyId": 301
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "DLM Backup Plan",
+        "storagePolicyId": 302
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "LawExplorer Backup Plan",
+        "storagePolicyId": 303
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Simera Backup Plan",
+        "storagePolicyId": 308
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Top Vending Backup Plan",
+        "storagePolicyId": 309
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Netsurit NOC Backup Plan",
+        "storagePolicyId": 310
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "McCarthy Backup Plan",
+        "storagePolicyId": 311
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "IBI Server Backup",
+        "storagePolicyId": 313
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Fasken Backup Plan",
+        "storagePolicyId": 317
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "IBI Every2Hours",
+        "storagePolicyId": 319
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "IBI Everyday Full",
+        "storagePolicyId": 320
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Abacus Laptop Plan",
+        "storagePolicyId": 321
+      }
+    },
+    {
+      "numberOfStreams": 150,
+      "storagePolicy": {
+        "storagePolicyName": "Front Runner Server Plan",
+        "storagePolicyId": 323
+      }
+    },
+    {
+      "numberOfStreams": 150,
+      "storagePolicy": {
+        "storagePolicyName": "Front Runner SQL Plan",
+        "storagePolicyId": 324
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Singita Teraco",
+        "storagePolicyId": 325
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Top Vending Hyper-V",
+        "storagePolicyId": 327
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Syntech Server Plan",
+        "storagePolicyId": 331
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Van der Vyver Transport Backup Plan",
+        "storagePolicyId": 335
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Netsurit NOC Backup SQL",
+        "storagePolicyId": 338
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Energy Partners Backup Plan",
+        "storagePolicyId": 347
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "DMX Africa Backup Plan",
+        "storagePolicyId": 349
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "CapriChem Backup Plan",
+        "storagePolicyId": 351
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "SPS Plant Backup",
+        "storagePolicyId": 357
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Simera NAS Backup Plan",
+        "storagePolicyId": 358
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "PureGas CPT Plan",
+        "storagePolicyId": 359
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Mogale City Municipality Plan",
+        "storagePolicyId": 360
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Moore Attorneys Plan",
+        "storagePolicyId": 362
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "MMH - MOZ",
+        "storagePolicyId": 364
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "GVSupreme Backup Plan",
+        "storagePolicyId": 366
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Weekly Onsite Backup",
+        "storagePolicyId": 368
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "UmAfrika Backup Server",
+        "storagePolicyId": 370
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Jojo Server Plan",
+        "storagePolicyId": 371
+      }
+    },
+    {
+      "numberOfStreams": 200,
+      "storagePolicy": {
+        "storagePolicyName": "Filmfinity Backup Plan",
+        "storagePolicyId": 373
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Chartered Wealth Solutions Plan",
+        "storagePolicyId": 375
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "NGA Server Foundation Plan",
+        "storagePolicyId": 378
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "MIFA Plan",
+        "storagePolicyId": 379
+      }
+    },
+    {
+      "numberOfStreams": 200,
+      "storagePolicy": {
+        "storagePolicyName": "AS2 Server Foundation Plan",
+        "storagePolicyId": 380
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "SMD Server Plan",
+        "storagePolicyId": 381
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "A.R.B Electrical Backup Plan",
+        "storagePolicyId": 385
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "MIFA_File_Plan",
+        "storagePolicyId": 387
+      }
+    },
+    {
+      "numberOfStreams": 150,
+      "storagePolicy": {
+        "storagePolicyName": "MIFA Server Plan",
+        "storagePolicyId": 392
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "AllBro_Backup Plan",
+        "storagePolicyId": 394
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "CT Onsite Backup",
+        "storagePolicyId": 397
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Merafe Backup Plan",
+        "storagePolicyId": 399
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Komati Laptop Plan",
+        "storagePolicyId": 400
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "KZN Agricultural - Pastel 6Month Backup Plan",
+        "storagePolicyId": 401
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Dickon Hall Foods Backup Plan",
+        "storagePolicyId": 402
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Retailer Brands Backup Plan",
+        "storagePolicyId": 403
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "ESXPlan",
+        "storagePolicyId": 410
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Ithala Server Plan",
+        "storagePolicyId": 411
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Paradigm Backup Plan",
+        "storagePolicyId": 414
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Allan Gray Backup Plan",
+        "storagePolicyId": 415
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Allan Gray Laptop",
+        "storagePolicyId": 416
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "TropicalGI Plan",
+        "storagePolicyId": 418
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Citadel Backup Plan",
+        "storagePolicyId": 420
+      }
+    },
+    {
+      "numberOfStreams": 50,
+      "storagePolicy": {
+        "storagePolicyName": "Accelerate Property Laptop Plan",
+        "storagePolicyId": 421
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Water Resources",
+        "storagePolicyId": 426
+      }
+    },
+    {
+      "numberOfStreams": 400,
+      "storagePolicy": {
+        "storagePolicyName": "SouthernSun Backup Plan",
+        "storagePolicyId": 427
+      }
+    },
+    {
+      "numberOfStreams": 600,
+      "storagePolicy": {
+        "storagePolicyName": "Server Edition",
+        "storagePolicyId": 429
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Laptop Edition",
+        "storagePolicyId": 430
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Blue Bull File System",
+        "storagePolicyId": 433
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Filmfinity SQL Backup Plan",
+        "storagePolicyId": 434
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Komati Server Plan",
+        "storagePolicyId": 435
+      }
+    },
+    {
+      "numberOfStreams": 300,
+      "storagePolicy": {
+        "storagePolicyName": "Reflex Server Plan",
+        "storagePolicyId": 437
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "AMT Server Plan",
+        "storagePolicyId": 439
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Henley Server Plan",
+        "storagePolicyId": 441
+      }
+    },
+    {
+      "numberOfStreams": 400,
+      "storagePolicy": {
+        "storagePolicyName": "Server Foundation V2",
+        "storagePolicyId": 443
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Universal Health Care Backup Plan",
+        "storagePolicyId": 444
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Netsurit NOC Azure Plan",
+        "storagePolicyId": 445
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Traficc Backup Plan",
+        "storagePolicyId": 446
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "SouthernSun Local Plan",
+        "storagePolicyId": 448
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Universal Health Care Short Retention",
+        "storagePolicyId": 449
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "TrackMatic Backup Plan",
+        "storagePolicyId": 450
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Southern Sun Durban Plan",
+        "storagePolicyId": 452
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Southern Sun HazyView Plan",
+        "storagePolicyId": 456
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Southern Sun OR Tambo Plan",
+        "storagePolicyId": 458
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Southern Sun Abu Dhabi",
+        "storagePolicyId": 460
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Southern Sun - Sun square City Bowl",
+        "storagePolicyId": 465
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Ignition Group Plan",
+        "storagePolicyId": 466
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Trackmatic Once Off Plan",
+        "storagePolicyId": 468
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Railway Furnishers Plan",
+        "storagePolicyId": 472
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Universal Nas Plan",
+        "storagePolicyId": 474
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Pioneer Plastic Plan",
+        "storagePolicyId": 479
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "ESA Plan",
+        "storagePolicyId": 480
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "ActiveScale_EXT_Plan",
+        "storagePolicyId": 482
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Van Der Vyver Linux Plan",
+        "storagePolicyId": 487
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Southern Sun Cape Town Plan",
+        "storagePolicyId": 490
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "TrackMatic New Local Plan",
+        "storagePolicyId": 491
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "IntegriSure Backup Plan",
+        "storagePolicyId": 492
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Edward Backup Plan",
+        "storagePolicyId": 498
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Normal full Server Plan",
+        "storagePolicyId": 500
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Irene Test",
+        "storagePolicyId": 501
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Capri Linux Server Plan",
+        "storagePolicyId": 504
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "ESSAPPROD",
+        "storagePolicyId": 506
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Capri Linux Test",
+        "storagePolicyId": 509
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Finbond Mutual Bank Backup Plan",
+        "storagePolicyId": 510
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "NCC Server Plan",
+        "storagePolicyId": 511
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Trafalgar Plan",
+        "storagePolicyId": 512
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Simera Cloud Plan",
+        "storagePolicyId": 524
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Simera SSC plan",
+        "storagePolicyId": 528
+      }
+    },
+    {
+      "numberOfStreams": 200,
+      "storagePolicy": {
+        "storagePolicyName": "Reflex Local MediaAgent",
+        "storagePolicyId": 532
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "QASTEST",
+        "storagePolicyId": 533
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Blue Turtle Plan V1",
+        "storagePolicyId": 534
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Blue Turtle Plan V2",
+        "storagePolicyId": 535
+      }
+    },
+    {
+      "numberOfStreams": 120,
+      "storagePolicy": {
+        "storagePolicyName": "Empact Group V1",
+        "storagePolicyId": 536
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Empact Group V2",
+        "storagePolicyId": 537
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Universal Local Plan",
+        "storagePolicyId": 540
+      }
+    },
+    {
+      "numberOfStreams": 100,
+      "storagePolicy": {
+        "storagePolicyName": "Feynman plan",
+        "storagePolicyId": 542
+      }
+    }
+  ]
+}

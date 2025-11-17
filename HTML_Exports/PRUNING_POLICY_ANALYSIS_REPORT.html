@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRUNING POLICY ANALYSIS REPORT</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: PRUNING_POLICY_ANALYSIS_REPORT.md</div>
+    <h1 id="pruning-policy-analysis-report">Pruning Policy Analysis Report</h1>
+<p><strong>Date:</strong> 2025-11-14
+<strong>Analysis Focus:</strong> Understanding Aging vs Pruning and Why Space Isn't Being Reclaimed
+<strong>Environment:</strong> 226 Storage Policies, 100 Libraries, 243 MediaAgents, 79 Storage Pools</p>
+<hr />
+<h2 id="executive-summary">Executive Summary</h2>
+<p>This analysis reveals the <strong>complete picture of why storage space is not being reclaimed</strong> in your Commvault environment. While the previous aging analysis identified that data isn't being marked for deletion fast enough, this pruning analysis explains why <strong>even aged data isn't freeing up storage space</strong>.</p>
+<h3 id="critical-finding-the-two-stage-problem">🔴 Critical Finding: The Two-Stage Problem</h3>
+<p>Your storage reclamation failure has <strong>TWO distinct stages</strong>, both of which are failing:</p>
+<p><strong>STAGE 1: AGING (Logical Marking)</strong> - 🟠 DELAYED
+- 130 rules have cycle retention issues
+- Data not marked for aging fast enough
+- <strong>Result:</strong> Delayed aging = Delayed pruning eligibility</p>
+<p><strong>STAGE 2: PRUNING (Physical Deletion)</strong> - 🔴 FAILING
+- 11 storage pools critically low on space
+- Aged data not being physically deleted
+- <strong>Result:</strong> No space reclaimed despite aging</p>
+<hr />
+<h2 id="understanding-aging-vs-pruning">Understanding Aging vs Pruning</h2>
+<h3 id="the-critical-difference">The Critical Difference</h3>
+<p>Many administrators confuse these two operations. Understanding the difference is <strong>essential</strong> to fixing the problem:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Type</th>
+<th>What It Does</th>
+<th>Impact on Storage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AGING</strong></td>
+<td>Logical</td>
+<td>Marks backup jobs as eligible for deletion based on retention rules</td>
+<td><strong>NO space freed</strong> - metadata only</td>
+</tr>
+<tr>
+<td><strong>PRUNING</strong></td>
+<td>Physical</td>
+<td>Actually deletes aged data blocks from disk storage</td>
+<td><strong>Space IS freed</strong> - physical deletion</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-process-flow">The Process Flow</h3>
+<div class="codehilite"><pre><span></span><code><span class="mf">1.</span><span class="w"> </span><span class="n">AGING</span><span class="w"> </span><span class="kr">RUN</span><span class="n">S</span><span class="w"> </span><span class="p">(</span><span class="n">Daily</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="mf">12</span><span class="p">:</span><span class="mf">00</span><span class="w"> </span><span class="n">PM</span><span class="p">)</span>
+<span class="w">   </span><span class="err">↓</span>
+<span class="w">   </span><span class="n">Retention</span><span class="w"> </span><span class="n">rules</span><span class="w"> </span><span class="n">evaluated</span>
+<span class="w">   </span><span class="err">↓</span>
+<span class="w">   </span><span class="n">Jobs</span><span class="w"> </span><span class="n">exceeding</span><span class="w"> </span><span class="n">retention</span><span class="w"> </span><span class="n">marked</span><span class="w"> </span><span class="n">as</span><span class="w"> </span><span class="s">&quot;aged&quot;</span>
+<span class="w">   </span><span class="err">↓</span>
+<span class="mf">2.</span><span class="w"> </span><span class="n">PRUNING</span><span class="w"> </span><span class="kr">RUN</span><span class="n">S</span><span class="w"> </span><span class="p">(</span><span class="n">After</span><span class="w"> </span><span class="n">aging</span><span class="p">)</span>
+<span class="w">   </span><span class="err">↓</span>
+<span class="w">   </span><span class="kr">For</span><span class="w"> </span><span class="n">NON</span><span class="o">-</span><span class="n">dedup</span><span class="p">:</span><span class="w"> </span><span class="n">Aged</span><span class="w"> </span><span class="n">jobs</span><span class="w"> </span><span class="n">deleted</span><span class="w"> </span><span class="n">immediately</span>
+<span class="w">   </span><span class="err">↓</span>
+<span class="w">   </span><span class="kr">For</span><span class="w"> </span><span class="n">DEDUP</span><span class="p">:</span><span class="w"> </span><span class="n">DDB</span><span class="w"> </span><span class="n">reference</span><span class="w"> </span><span class="n">counters</span><span class="w"> </span><span class="n">decremented</span>
+<span class="w">   </span><span class="err">↓</span>
+<span class="w">   </span><span class="n">Blocks</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="n">references</span><span class="w"> </span><span class="n">queued</span><span class="w"> </span><span class="kr">for</span><span class="w"> </span><span class="n">pruning</span>
+<span class="w">   </span><span class="err">↓</span>
+<span class="w">   </span><span class="n">Physical</span><span class="w"> </span><span class="n">deletion</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">disk</span>
+<span class="w">   </span><span class="err">↓</span>
+<span class="mf">3.</span><span class="w"> </span><span class="n">SPACE</span><span class="w"> </span><span class="n">RECLAIMED</span>
+</code></pre></div>
+
+<h3 id="the-problem-if-aging-works-but-pruning-fails"><strong>The Problem:</strong> If Aging Works But Pruning Fails</h3>
+<ul>
+<li>Aging marks jobs as aged (metadata updated)</li>
+<li>Pruning fails to delete the actual data</li>
+<li><strong>Storage pools remain full</strong></li>
+<li><strong>Backups may fail</strong> due to lack of space</li>
+<li><strong>Costs increase</strong> from unnecessary storage</li>
+</ul>
+<p>This is EXACTLY what's happening in your environment!</p>
+<hr />
+<h2 id="analysis-findings">Analysis Findings</h2>
+<h3 id="section-1-aging-configuration-status">Section 1: Aging Configuration Status</h3>
+<p>✅ <strong>GOOD NEWS:</strong> Aging is properly configured</p>
+<ul>
+<li><strong>518 total retention rules</strong> analyzed</li>
+<li><strong>518 rules (100%)</strong> have aging ENABLED</li>
+<li><strong>0 rules (0%)</strong> have aging disabled</li>
+</ul>
+<p>This means data CAN be marked for aging (unlike some environments where aging is completely disabled).</p>
+<h3 id="section-2-aging-delays-from-previous-analysis">Section 2: Aging Delays (From Previous Analysis)</h3>
+<p>⏱️ <strong>ISSUE:</strong> Cycle retention requirements delaying aging</p>
+<ul>
+<li><strong>130 retention rules</strong> have short retention (≤30 days) + 2 cycle requirements</li>
+<li>Average cycles required: <strong>2.0</strong></li>
+<li><strong>Effective delay:</strong> 7-14 days before data eligible for aging</li>
+</ul>
+<p><strong>Impact on Pruning:</strong>
+If aging is delayed, pruning is delayed. Data can't be pruned until it's first aged.</p>
+<h3 id="section-3-pruning-failure-evidence">Section 3: Pruning Failure Evidence</h3>
+<p>💥 <strong>PROOF OF PRUNING FAILURE:</strong> Storage pools critically full</p>
+<p><strong>Current State:</strong>
+- <strong>Total Storage Pools:</strong> 79
+- <strong>🔴 CRITICAL (&lt;10% free):</strong> 3 pools
+- <strong>🟠 WARNING (10-20% free):</strong> 8 pools
+- <strong>🟡 LOW (20-30% free):</strong> 14 pools</p>
+<p><strong>Most Critical Pools (Highest Priority for Manual Pruning):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Pool Name</th>
+<th>% Free</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Apex GDP</td>
+<td>1.97%</td>
+<td>🔴 CRITICAL</td>
+</tr>
+<tr>
+<td>Southern_Sun_Durban</td>
+<td>2.05%</td>
+<td>🔴 CRITICAL</td>
+</tr>
+<tr>
+<td>Simera_GDP</td>
+<td>9.30%</td>
+<td>🔴 CRITICAL</td>
+</tr>
+<tr>
+<td>Southern_Sun_City_Bowl</td>
+<td>12.47%</td>
+<td>🟠 WARNING</td>
+</tr>
+<tr>
+<td>MKLM_GDP</td>
+<td>12.85%</td>
+<td>🟠 WARNING</td>
+</tr>
+<tr>
+<td>GDP Railway</td>
+<td>12.98%</td>
+<td>🟠 WARNING</td>
+</tr>
+<tr>
+<td>Universal GDP</td>
+<td>13.37%</td>
+<td>🟠 WARNING</td>
+</tr>
+<tr>
+<td>Capri_Local_GDP</td>
+<td>14.75%</td>
+<td>🟠 WARNING</td>
+</tr>
+<tr>
+<td>CLMAN02_Storage</td>
+<td>14.75%</td>
+<td>🟠 WARNING</td>
+</tr>
+<tr>
+<td>Southern_Sun_Local</td>
+<td>17.80%</td>
+<td>🟠 WARNING</td>
+</tr>
+<tr>
+<td>EnergyPartners_Local</td>
+<td>18.96%</td>
+<td>🟠 WARNING</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Analysis:</strong>
+If aging AND pruning were working properly, these pools would NOT be this full. The fact that 11 pools have &lt;20% free space is <strong>definitive proof</strong> that pruning is not completing successfully.</p>
+<h3 id="section-4-deduplication-complexity">Section 4: Deduplication Complexity</h3>
+<p>🔍 <strong>Additional Complexity:</strong> Deduplication requires multi-step pruning</p>
+<p>For environments using deduplication (which appears to be your case based on storage pool types):</p>
+<p><strong>Deduplication Pruning Process:</strong>
+1. Data aging marks jobs as aged
+2. DDB (Deduplication Database) reference counters are decremented for each aged block
+3. When a block's reference count reaches zero, it's added to "Pending Pruning" queue
+4. Physical pruning job deletes blocks from disk
+5. Space is finally freed</p>
+<p><strong>Pruning Can Be Blocked By:</strong>
+- DDB sealed or corrupted
+- High "Pending Deletes" count in DDB
+- MediaAgent offline or overloaded
+- Mount paths inaccessible
+- Pruning operation window restrictions
+- Resource constraints (CPU/Memory/Disk I/O)</p>
+<hr />
+<h2 id="root-cause-analysis">Root Cause Analysis</h2>
+<h3 id="primary-root-causes">Primary Root Causes</h3>
+<p><strong>1. Aging Delays Due to Cycle Retention (130 rules)</strong>
+- <strong>Impact:</strong> Medium-High
+- <strong>Cause:</strong> Cycle requirements delay when data becomes eligible for aging
+- <strong>Effect on Pruning:</strong> Delayed aging = Delayed pruning eligibility
+- <strong>Solution:</strong> Reduce cycles from 2 → 1 for short-term policies</p>
+<p><strong>2. Pruning Operations Not Completing (Evidence: 11 critically low pools)</strong>
+- <strong>Impact:</strong> CRITICAL
+- <strong>Cause:</strong> Unknown - requires further investigation
+- <strong>Possible Reasons:</strong>
+  - MediaAgent offline or unavailable
+  - DDB sealed/corrupted
+  - Pruning jobs failing silently
+  - Operation windows blocking pruning
+  - Resource exhaustion
+- <strong>Solution:</strong> Investigate MediaAgent logs, DDB status, and pruning job history</p>
+<p><strong>3. Deduplication Reference Count Issues</strong>
+- <strong>Impact:</strong> High (if using deduplication)
+- <strong>Cause:</strong> References not being properly decremented
+- <strong>Effect:</strong> Blocks never reach zero references = Never pruned
+- <strong>Solution:</strong> Verify DDB health, run DDB verification</p>
+<hr />
+<h2 id="infrastructure-analysis">Infrastructure Analysis</h2>
+<h3 id="mediaagents-critical-for-pruning">MediaAgents (Critical for Pruning)</h3>
+<p><strong>Total MediaAgents:</strong> 243</p>
+<p>⚠️ <strong>CRITICAL REQUIREMENT:</strong> All MediaAgents must be ONLINE for pruning to work.</p>
+<p><strong>Key MediaAgents to Verify:</strong>
+- CLSVMA01
+- CVHSMAN01.JHB.SEAGATESTORAGECLOUD.CO.ZA
+- CVHSMAN02.JHB.SEAGATESTORAGECLOUD.CO.ZA
+- CVHSMAN03.JHB.SEAGATESTORAGECLOUD.CO.ZA
+- ... and 239 others</p>
+<p><strong>Action Required:</strong>
+1. Open Commvault Console
+2. Navigate to Storage Resources → MediaAgents
+3. Verify each MediaAgent shows as "Online"
+4. For any offline MediaAgents:
+   - Investigate why they're offline
+   - Check network connectivity
+   - Review MediaAgent logs
+   - Restart MediaAgent service if needed</p>
+<h3 id="libraries-pruning-target-locations">Libraries (Pruning Target Locations)</h3>
+<p><strong>Total Libraries:</strong> 100</p>
+<p>These are the physical locations where pruning must occur. If libraries or their mount paths are offline, pruning cannot proceed.</p>
+<p><strong>Sample Libraries:</strong>
+- ALS_LocalLibrary
+- ActiveScale
+- ActiveScale_Tape
+- Allbro_Local
+- Amaro Foods_DiskLibrary
+- ... and 95 others</p>
+<p><strong>Action Required:</strong>
+1. Verify all library mount paths are accessible
+2. Check library status in Commvault Console
+3. Ensure sufficient permissions for pruning operations</p>
+<h3 id="storage-policies">Storage Policies</h3>
+<p><strong>Total Storage Policies:</strong> 226</p>
+<p>Each storage policy has retention rules that govern aging. All policies require working pruning to reclaim space.</p>
+<p><strong>Sample Policies:</strong>
+- A.R.B Electrical Backup Plan
+- ALS_AD, ALS_SQL
+- AMT Server Plan
+- Apex Backup Plan
+- ... and 222 others</p>
+<hr />
+<h2 id="immediate-actions-required">Immediate Actions Required</h2>
+<h3 id="priority-1-verify-pruning-infrastructure-today">PRIORITY 1: Verify Pruning Infrastructure (TODAY)</h3>
+<h4 id="step-1-check-mediaagent-status">Step 1: Check MediaAgent Status</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">Location</span><span class="o">:</span><span class="w"> </span><span class="n">CommCell</span><span class="w"> </span><span class="n">Console</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Storage</span><span class="w"> </span><span class="n">Resources</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">MediaAgents</span>
+<span class="n">Action</span><span class="o">:</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="n">ALL</span><span class="w"> </span><span class="n">show</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="s2">&quot;Online&quot;</span>
+<span class="n">Critical</span><span class="o">:</span><span class="w"> </span><span class="n">Pruning</span><span class="w"> </span><span class="n">CANNOT</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">MediaAgents</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">offline</span>
+</code></pre></div>
+
+<h4 id="step-2-check-ddb-status-for-deduplication">Step 2: Check DDB Status (for Deduplication)</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">Location</span><span class="o">:</span><span class="w"> </span><span class="n">CommCell</span><span class="w"> </span><span class="n">Console</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Storage</span><span class="w"> </span><span class="n">Resources</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Deduplication</span><span class="w"> </span><span class="n">Engines</span>
+<span class="n">Action</span><span class="o">:</span>
+<span class="w">  </span><span class="mi">1</span><span class="o">.</span><span class="w"> </span><span class="n">Right</span><span class="o">-</span><span class="n">click</span><span class="w"> </span><span class="k">each</span><span class="w"> </span><span class="n">DDB</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Properties</span>
+<span class="w">  </span><span class="mi">2</span><span class="o">.</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="n">Status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Active&quot;</span><span class="w"> </span><span class="o">(</span><span class="n">NOT</span><span class="w"> </span><span class="s2">&quot;Sealed&quot;</span><span class="o">)</span>
+<span class="w">  </span><span class="mi">3</span><span class="o">.</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="s2">&quot;Pending Deletes&quot;</span><span class="w"> </span><span class="n">count</span>
+<span class="w">  </span><span class="mi">4</span><span class="o">.</span><span class="w"> </span><span class="n">High</span><span class="w"> </span><span class="n">pending</span><span class="w"> </span><span class="n">deletes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pruning</span><span class="w"> </span><span class="n">backlog</span>
+
+<span class="n">Warning</span><span class="o">:</span><span class="w"> </span><span class="n">If</span><span class="w"> </span><span class="n">DDB</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="s2">&quot;Sealed&quot;</span><span class="o">,</span><span class="w"> </span><span class="n">NO</span><span class="w"> </span><span class="n">pruning</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="n">occur</span><span class="o">!</span>
+</code></pre></div>
+
+<h4 id="step-3-manually-trigger-pruning-on-critical-pools">Step 3: Manually Trigger Pruning on Critical Pools</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">Location</span><span class="o">:</span><span class="w"> </span><span class="n">CommCell</span><span class="w"> </span><span class="n">Console</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Storage</span><span class="w"> </span><span class="n">Resources</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Deduplication</span><span class="w"> </span><span class="n">Database</span>
+<span class="n">Action</span><span class="o">:</span>
+<span class="w">  </span><span class="mi">1</span><span class="o">.</span><span class="w"> </span><span class="n">Right</span><span class="o">-</span><span class="n">click</span><span class="w"> </span><span class="n">DDB</span>
+<span class="w">  </span><span class="mi">2</span><span class="o">.</span><span class="w"> </span><span class="n">Select</span><span class="w"> </span><span class="s2">&quot;All Tasks&quot;</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="s2">&quot;Validate and Prune Aged Data&quot;</span>
+<span class="w">  </span><span class="mi">3</span><span class="o">.</span><span class="w"> </span><span class="n">Monitor</span><span class="w"> </span><span class="n">job</span><span class="w"> </span><span class="n">progress</span>
+<span class="w">  </span><span class="mi">4</span><span class="o">.</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="n">storage</span><span class="w"> </span><span class="n">pool</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="n">after</span><span class="w"> </span><span class="n">completion</span>
+
+<span class="n">Priority</span><span class="w"> </span><span class="n">Pools</span><span class="w"> </span><span class="o">(</span><span class="k">do</span><span class="w"> </span><span class="n">these</span><span class="w"> </span><span class="n">FIRST</span><span class="o">):</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Apex</span><span class="w"> </span><span class="n">GDP</span><span class="w"> </span><span class="o">(</span><span class="mf">1.97</span><span class="o">%</span><span class="w"> </span><span class="n">free</span><span class="o">)</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Southern_Sun_Durban</span><span class="w"> </span><span class="o">(</span><span class="mf">2.05</span><span class="o">%</span><span class="w"> </span><span class="n">free</span><span class="o">)</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Simera_GDP</span><span class="w"> </span><span class="o">(</span><span class="mf">9.30</span><span class="o">%</span><span class="w"> </span><span class="n">free</span><span class="o">)</span>
+</code></pre></div>
+
+<h4 id="step-4-review-pruning-logs">Step 4: Review Pruning Logs</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">Location</span><span class="o">:</span><span class="w"> </span><span class="n">MediaAgent</span><span class="w"> </span><span class="n">Server</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Install_Path</span><span class="o">&gt;/</span><span class="n">Log</span><span class="w"> </span><span class="n">Files</span><span class="o">/</span><span class="n">SIDBPrune</span><span class="o">.</span><span class="na">log</span>
+<span class="n">Action</span><span class="o">:</span>
+<span class="w">  </span><span class="mi">1</span><span class="o">.</span><span class="w"> </span><span class="n">Open</span><span class="w"> </span><span class="n">SIDBPrune</span><span class="o">.</span><span class="na">log</span>
+<span class="w">  </span><span class="mi">2</span><span class="o">.</span><span class="w"> </span><span class="n">Search</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">recent</span><span class="w"> </span><span class="n">pruning</span><span class="w"> </span><span class="n">operations</span>
+<span class="w">  </span><span class="mi">3</span><span class="o">.</span><span class="w"> </span><span class="n">Look</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">errors</span><span class="o">,</span><span class="w"> </span><span class="n">warnings</span><span class="o">,</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">failures</span>
+<span class="w">  </span><span class="mi">4</span><span class="o">.</span><span class="w"> </span><span class="n">Note</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="s2">&quot;Skipped&quot;</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="s2">&quot;Failed&quot;</span><span class="w"> </span><span class="n">messages</span>
+
+<span class="n">Key</span><span class="w"> </span><span class="n">Things</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">Look</span><span class="w"> </span><span class="n">For</span><span class="o">:</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="s2">&quot;Pruning skipped&quot;</span><span class="w"> </span><span class="n">messages</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Resource</span><span class="w"> </span><span class="n">exhaustion</span><span class="w"> </span><span class="n">errors</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Mount</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="n">access</span><span class="w"> </span><span class="n">errors</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Timeout</span><span class="w"> </span><span class="n">errors</span>
+</code></pre></div>
+
+<hr />
+<h3 id="priority-2-fix-aging-configuration-this-week">PRIORITY 2: Fix Aging Configuration (THIS WEEK)</h3>
+<h4 id="action-1-reduce-cycle-retention-130-rules">Action 1: Reduce Cycle Retention (130 rules)</h4>
+<p><strong>Current State:</strong> 130 rules have ≤30 days retention + 2 cycle requirement</p>
+<p><strong>Required Change:</strong> 2 cycles → 1 cycle</p>
+<p><strong>Impact:</strong>
+- Aging will occur 7-14 days faster
+- Data becomes eligible for pruning sooner
+- Storage reclamation accelerates</p>
+<p><strong>Implementation:</strong>
+1. Identify all plans with ≤30 day retention
+2. Update retention rules to require only 1 cycle
+3. Verify changes in Commvault UI
+4. Monitor aging jobs after change</p>
+<p><strong>Affected Plans:</strong> (sample)
+- A.R.B Electrical Backup Plan
+- ALS_AD, ALS_SQL
+- AMT Server Plan
+- Apex Backup Plan
+- BallStraathof_AD, _FS, _Oracle, _SQL, _VM
+- ... and 120 others</p>
+<hr />
+<h3 id="priority-3-monitor-and-verify-ongoing">PRIORITY 3: Monitor and Verify (ONGOING)</h3>
+<h4 id="verification-step-1-run-data-retention-forecast-report">Verification Step 1: Run Data Retention Forecast Report</h4>
+<p><strong>Purpose:</strong> Shows what data should be aged and pruned</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Location</span><span class="o">:</span><span class="w"> </span><span class="n">CommCell</span><span class="w"> </span><span class="n">Console</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Reports</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Data</span><span class="w"> </span><span class="n">Retention</span><span class="w"> </span><span class="n">Forecast</span>
+<span class="n">Action</span><span class="o">:</span>
+<span class="w">  </span><span class="mi">1</span><span class="o">.</span><span class="w"> </span><span class="n">Select</span><span class="w"> </span><span class="n">library</span><span class="o">/</span><span class="n">storage</span><span class="w"> </span><span class="n">policy</span>
+<span class="w">  </span><span class="mi">2</span><span class="o">.</span><span class="w"> </span><span class="n">Generate</span><span class="w"> </span><span class="n">report</span>
+<span class="w">  </span><span class="mi">3</span><span class="o">.</span><span class="w"> </span><span class="n">Review</span><span class="w"> </span><span class="s2">&quot;Aged Data&quot;</span><span class="w"> </span><span class="n">section</span>
+<span class="w">  </span><span class="mi">4</span><span class="o">.</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">warnings</span><span class="o">/</span><span class="n">issues</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="n">bottom</span>
+
+<span class="n">What</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">Look</span><span class="w"> </span><span class="n">For</span><span class="o">:</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Data</span><span class="w"> </span><span class="n">eligible</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">aging</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">aged</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Data</span><span class="w"> </span><span class="n">aged</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">pruned</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Warnings</span><span class="w"> </span><span class="n">about</span><span class="w"> </span><span class="n">DDB</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">MediaAgent</span><span class="w"> </span><span class="n">issues</span>
+</code></pre></div>
+
+<h4 id="verification-step-2-monitor-storage-pool-space">Verification Step 2: Monitor Storage Pool Space</h4>
+<p><strong>Purpose:</strong> Confirm pruning is actually freeing space</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Frequency</span><span class="o">:</span><span class="w"> </span><span class="n">Daily</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="n">week</span><span class="o">,</span><span class="w"> </span><span class="n">then</span><span class="w"> </span><span class="n">weekly</span>
+<span class="n">Action</span><span class="o">:</span>
+<span class="w">  </span><span class="mi">1</span><span class="o">.</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="n">storage</span><span class="w"> </span><span class="n">pool</span><span class="w"> </span><span class="n">free</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">%</span>
+<span class="w">  </span><span class="mi">2</span><span class="o">.</span><span class="w"> </span><span class="n">Compare</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">previous</span><span class="w"> </span><span class="n">day</span>
+<span class="w">  </span><span class="mi">3</span><span class="o">.</span><span class="w"> </span><span class="n">Look</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">increasing</span><span class="w"> </span><span class="n">free</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="n">trend</span>
+
+<span class="n">Success</span><span class="w"> </span><span class="n">Criteria</span><span class="o">:</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Free</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">increases</span><span class="w"> </span><span class="n">daily</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Critical</span><span class="w"> </span><span class="n">pools</span><span class="w"> </span><span class="n">move</span><span class="w"> </span><span class="n">above</span><span class="w"> </span><span class="mi">20</span><span class="o">%</span><span class="w"> </span><span class="n">free</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="n">pools</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="n">below</span><span class="w"> </span><span class="mi">10</span><span class="o">%</span><span class="w"> </span><span class="n">free</span>
+</code></pre></div>
+
+<h4 id="verification-step-3-review-pruning-job-history">Verification Step 3: Review Pruning Job History</h4>
+<p><strong>Purpose:</strong> Ensure pruning jobs are running and completing successfully</p>
+<div class="codehilite"><pre><span></span><code><span class="n">Location</span><span class="o">:</span><span class="w"> </span><span class="n">CommCell</span><span class="w"> </span><span class="n">Console</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">Job</span><span class="w"> </span><span class="n">Controller</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">All</span><span class="w"> </span><span class="n">Jobs</span>
+<span class="n">Filter</span><span class="o">:</span><span class="w"> </span><span class="n">Job</span><span class="w"> </span><span class="n">Type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Pruning&quot;</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="s2">&quot;Data Aging&quot;</span>
+<span class="n">Action</span><span class="o">:</span>
+<span class="w">  </span><span class="mi">1</span><span class="o">.</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">recent</span><span class="w"> </span><span class="n">pruning</span><span class="w"> </span><span class="n">jobs</span>
+<span class="w">  </span><span class="mi">2</span><span class="o">.</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Completed&quot;</span>
+<span class="w">  </span><span class="mi">3</span><span class="o">.</span><span class="w"> </span><span class="n">Review</span><span class="w"> </span><span class="n">job</span><span class="w"> </span><span class="n">details</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">pruned</span>
+<span class="w">  </span><span class="mi">4</span><span class="o">.</span><span class="w"> </span><span class="n">Check</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="n">failed</span><span class="w"> </span><span class="n">jobs</span>
+
+<span class="n">Red</span><span class="w"> </span><span class="n">Flags</span><span class="o">:</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="n">pruning</span><span class="w"> </span><span class="n">jobs</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">last</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="n">days</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">All</span><span class="w"> </span><span class="n">pruning</span><span class="w"> </span><span class="n">jobs</span><span class="w"> </span><span class="n">showing</span><span class="w"> </span><span class="s2">&quot;Failed&quot;</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Jobs</span><span class="w"> </span><span class="n">completing</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="n">pruned</span>
+</code></pre></div>
+
+<hr />
+<h2 id="technical-deep-dive">Technical Deep Dive</h2>
+<h3 id="why-pruning-fails-in-deduplication-environments">Why Pruning Fails in Deduplication Environments</h3>
+<p>Deduplication adds significant complexity to the pruning process:</p>
+<p><strong>Traditional (Non-Dedup) Pruning:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nx">Job</span><span class="w"> </span><span class="nx">aged</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="nx">Job</span><span class="w"> </span><span class="nx">deleted</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="nx">Space</span><span class="w"> </span><span class="nx">freed</span>
+<span class="p">(</span><span class="nx">Simple</span><span class="p">,</span><span class="w"> </span><span class="nx">immediate</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Deduplication Pruning:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nv">Job</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="nv">aged</span><span class="w"> </span>→<span class="w"> </span><span class="nv">Ref</span><span class="w"> </span><span class="nv">count</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">each</span><span class="w"> </span><span class="nv">block</span>
+<span class="nv">Job</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="nv">aged</span><span class="w"> </span>→<span class="w"> </span><span class="nv">Ref</span><span class="w"> </span><span class="nv">count</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">each</span><span class="w"> </span><span class="nv">block</span>
+...
+<span class="nv">Job</span><span class="w"> </span><span class="nv">N</span><span class="w"> </span><span class="nv">aged</span><span class="w"> </span>→<span class="w"> </span><span class="nv">Some</span><span class="w"> </span><span class="nv">blocks</span><span class="w"> </span><span class="nv">reach</span><span class="w"> </span><span class="nv">ref</span><span class="w"> </span><span class="nv">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span>↓
+<span class="nv">Blocks</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">ref</span><span class="o">=</span><span class="mi">0</span><span class="w"> </span><span class="nv">added</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">pending</span><span class="w"> </span><span class="nv">pruning</span><span class="w"> </span><span class="nv">queue</span>
+<span class="w">            </span>↓
+<span class="nv">Physical</span><span class="w"> </span><span class="nv">pruning</span><span class="w"> </span><span class="nv">operation</span><span class="w"> </span><span class="nv">runs</span>
+<span class="w">            </span>↓
+<span class="nv">Blocks</span><span class="w"> </span><span class="nv">deleted</span><span class="w"> </span><span class="nv">from</span><span class="w"> </span><span class="nv">SFILES</span>
+<span class="w">            </span>↓
+<span class="nv">DDB</span><span class="w"> </span><span class="nv">updated</span>
+<span class="w">            </span>↓
+<span class="nv">Space</span><span class="w"> </span><span class="nv">freed</span>
+<span class="ss">(</span><span class="nv">Complex</span>,<span class="w"> </span><span class="nv">multi</span><span class="o">-</span><span class="nv">step</span>,<span class="w"> </span><span class="nv">resource</span><span class="o">-</span><span class="nv">intensive</span><span class="ss">)</span>
+</code></pre></div>
+
+<p><strong>Common Failure Points:</strong>
+1. <strong>Reference count not decremented</strong> (aging job didn't update DDB properly)
+2. <strong>Pending pruning queue too large</strong> (pruning can't keep up with aging)
+3. <strong>DDB sealed</strong> (no pruning allowed on sealed DDBs)
+4. <strong>MediaAgent unavailable</strong> (pruning job can't run)
+5. <strong>Pruning operation window</strong> (pruning only allowed at certain times)</p>
+<h3 id="troubleshooting-pruning-failures">Troubleshooting Pruning Failures</h3>
+<p><strong>Symptom:</strong> Aging works, but storage pools remain full</p>
+<p><strong>Diagnostic Steps:</strong></p>
+<ol>
+<li>
+<p><strong>Check if pruning jobs are running:</strong>
+   <code>CommCell Console → Job Controller → Filter by "Pruning"
+   Expected: Daily pruning jobs completing successfully
+   If Missing: Pruning not scheduled or failing to start</code></p>
+</li>
+<li>
+<p><strong>Check DDB pending deletes:</strong>
+   <code>CommCell Console → Deduplication Engine → Properties → Statistics
+   Look for: "Pending Deletes" count
+   Normal: &lt;10,000
+   Warning: 10,000-100,000
+   Critical: &gt;100,000 (pruning severely backlogged)</code></p>
+</li>
+<li>
+<p><strong>Check MediaAgent resource usage:</strong>
+   <code>On MediaAgent server: Task Manager → Performance tab
+   Look for: CPU &gt;90%, Memory &gt;90%, Disk I/O &gt;90%
+   If High: Resource exhaustion preventing pruning</code></p>
+</li>
+<li>
+<p><strong>Check mount path accessibility:</strong>
+   <code>On MediaAgent: Navigate to mount path directory
+   Expected: Directory accessible, sufficient permissions
+   If Failed: Pruning cannot access storage to delete files</code></p>
+</li>
+<li>
+<p><strong>Check pruning operation window:</strong>
+   <code>CommCell Console → MediaAgent → Properties → Operation Window
+   Look for: Pruning operation restrictions
+   If Restricted: Pruning may only run during specific hours</code></p>
+</li>
+</ol>
+<hr />
+<h2 id="recommendations-summary">Recommendations Summary</h2>
+<h3 id="immediate-today">Immediate (Today)</h3>
+<ol>
+<li>✅ Verify all 243 MediaAgents are ONLINE</li>
+<li>✅ Check DDB status (Active vs Sealed)</li>
+<li>✅ Manually run pruning on 3 critical pools</li>
+<li>✅ Review SIDBPrune.log for errors</li>
+</ol>
+<h3 id="short-term-this-week">Short-term (This Week)</h3>
+<ol>
+<li>✅ Reduce cycle retention from 2→1 on 130 rules</li>
+<li>✅ Run Data Retention Forecast report</li>
+<li>✅ Monitor pruning job execution daily</li>
+<li>✅ Check storage pool space trends</li>
+</ol>
+<h3 id="long-term-this-month">Long-term (This Month)</h3>
+<ol>
+<li>✅ Implement automated pruning monitoring</li>
+<li>✅ Set up alerts for pruning job failures</li>
+<li>✅ Establish baseline for normal pruning performance</li>
+<li>✅ Document pruning troubleshooting procedures</li>
+</ol>
+<hr />
+<h2 id="success-metrics">Success Metrics</h2>
+<h3 id="week-1-success-criteria">Week 1 Success Criteria</h3>
+<ul>
+<li>✅ All MediaAgents showing as "Online"</li>
+<li>✅ DDB status confirmed as "Active"</li>
+<li>✅ Manual pruning completes successfully on critical pools</li>
+<li>✅ Storage pool free space increases by at least 5%</li>
+</ul>
+<h3 id="month-1-success-criteria">Month 1 Success Criteria</h3>
+<ul>
+<li>✅ All 130 cycle retention rules updated</li>
+<li>✅ No storage pools below 20% free</li>
+<li>✅ Daily pruning jobs completing successfully</li>
+<li>✅ Storage pool free space stabilized above 30%</li>
+</ul>
+<h3 id="month-3-success-criteria">Month 3 Success Criteria</h3>
+<ul>
+<li>✅ Automated monitoring and alerting operational</li>
+<li>✅ Zero pruning job failures in 30 days</li>
+<li>✅ Storage costs reduced by 10-15%</li>
+<li>✅ No backup failures due to storage space</li>
+</ul>
+<hr />
+<h2 id="conclusion">Conclusion</h2>
+<p>Your storage reclamation problem has <strong>TWO distinct components:</strong></p>
+<p><strong>Component 1: Aging (Logical)</strong>
+- Issue: Delayed due to cycle retention requirements
+- Severity: MEDIUM-HIGH
+- Solution: Reduce cycles from 2 → 1
+- Status: Solution identified, ready to implement</p>
+<p><strong>Component 2: Pruning (Physical)</strong>
+- Issue: Not completing or not running
+- Severity: CRITICAL
+- Solution: Verify MediaAgent health, DDB status, trigger manual pruning
+- Status: Requires immediate investigation and action</p>
+<p><strong>Both must be fixed</strong> for storage space to be reclaimed.</p>
+<p><strong>Immediate Priority:</strong> Focus on PRIORITY 1 actions (verify MediaAgent status, check DDB, manually run pruning) to get pruning working again. This will provide immediate relief to critically full storage pools.</p>
+<p><strong>Secondary Priority:</strong> Fix aging delays (reduce cycle retention) to prevent the problem from recurring and to accelerate future pruning operations.</p>
+<hr />
+<p><strong>Report Generated:</strong> 2025-11-14
+<strong>Analysis Tools:</strong> analyze_pruning_policies.py, analyze_aging_failures.py
+<strong>Data Source:</strong> Commvault SQLite Database (Database/commvault.db)
+<strong>Environment Size:</strong> 226 Storage Policies, 518 Retention Rules, 79 Storage Pools, 243 MediaAgents</p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

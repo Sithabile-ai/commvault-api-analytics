@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFRASTRUCTURE GUIDE</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: INFRASTRUCTURE_GUIDE.md</div>
+    <h1 id="commvault-infrastructure-visibility-guide">Commvault Infrastructure Visibility Guide</h1>
+<h2 id="overview">Overview</h2>
+<p>The enhanced Commvault Data Retrieval application now provides comprehensive visibility into your Commvault infrastructure, including hardware, storage pools, hyperscale environments, and physical storage arrays.</p>
+<h2 id="new-infrastructure-data-types">New Infrastructure Data Types</h2>
+<h3 id="1-mediaagents">1. MediaAgents 📡</h3>
+<p>MediaAgents are the core infrastructure servers that handle data movement in Commvault.</p>
+<p><strong>What you'll see:</strong>
+- MediaAgent ID and Name
+- Hostname
+- Operating System Type
+- Status (Online/Offline)
+- Available Storage Space
+- Total Storage Space</p>
+<p><strong>API Endpoint:</strong> <code>GET /MediaAgent</code></p>
+<p><strong>Use Cases:</strong>
+- Monitor MediaAgent health and status
+- Track storage capacity on backup infrastructure servers
+- Identify MediaAgents that need capacity expansion
+- Audit infrastructure for compliance</p>
+<h3 id="2-storage-pools">2. Storage Pools 💾</h3>
+<p>Storage Pools are logical groupings of storage resources (disk or tape) where backup data is stored.</p>
+<p><strong>What you'll see:</strong>
+- Storage Pool ID and Name
+- Pool Type (Disk, Tape, Cloud, Dedupe, etc.)
+- Associated MediaAgent
+- Total Capacity
+- Free Space Available
+- Deduplication Status (Enabled/Disabled)</p>
+<p><strong>API Endpoint:</strong> <code>GET /V4/StoragePool</code></p>
+<p><strong>Use Cases:</strong>
+- Monitor storage pool capacity and usage
+- Identify pools running low on space
+- Track deduplication savings
+- Plan storage expansion
+- Optimize storage allocation</p>
+<h3 id="3-libraries">3. Libraries 📚</h3>
+<p>Libraries are physical or virtual tape/disk libraries connected to MediaAgents.</p>
+<p><strong>What you'll see:</strong>
+- Library ID and Name
+- Library Type (Tape, Disk, VTL, etc.)
+- Associated MediaAgent
+- Status (Online/Offline)</p>
+<p><strong>API Endpoint:</strong> <code>GET /Library</code></p>
+<p><strong>Use Cases:</strong>
+- Monitor tape library health
+- Track which MediaAgents serve which libraries
+- Audit physical storage infrastructure
+- Plan library maintenance</p>
+<h3 id="4-hypervisors">4. Hypervisors ☁️</h3>
+<p>Hypervisor instances represent VM infrastructure like VMware, Hyper-V, Nutanix, etc.</p>
+<p><strong>What you'll see:</strong>
+- Instance ID and Name
+- Hypervisor Type (VMware, Hyper-V, Nutanix, etc.)
+- Hostname/vCenter
+- Vendor
+- Status (Active/Inactive)</p>
+<p><strong>API Endpoint:</strong> <code>GET /Instance</code></p>
+<p><strong>Use Cases:</strong>
+- Inventory all virtualization platforms
+- Track hypervisor connectivity status
+- Audit VM backup infrastructure
+- Monitor multi-hypervisor environments</p>
+<h3 id="5-storage-arrays">5. Storage Arrays 🗄️</h3>
+<p>Physical storage arrays (SAN/NAS) integrated with Commvault for snapshots and array-based backups.</p>
+<p><strong>What you'll see:</strong>
+- Array ID and Name
+- Array Type
+- Vendor (NetApp, EMC, Pure Storage, etc.)
+- Model
+- Total Capacity
+- Used Capacity</p>
+<p><strong>API Endpoint:</strong> <code>GET /V4/Storage/Array</code></p>
+<p><strong>Use Cases:</strong>
+- Inventory physical storage hardware
+- Track array capacity utilization
+- Monitor snapshot-enabled arrays
+- Plan hardware refresh cycles</p>
+<h2 id="how-to-use-infrastructure-features">How to Use Infrastructure Features</h2>
+<h3 id="fetching-infrastructure-data">Fetching Infrastructure Data</h3>
+<ol>
+<li>
+<p><strong>Navigate to the home page</strong> (<code>http://localhost:5000</code>)</p>
+</li>
+<li>
+<p><strong>In the "Select Data Types" section</strong>, you'll see two categories:</p>
+</li>
+<li><strong>📊 Basic Data</strong> (Clients, Jobs, Plans, Storage Policies)</li>
+<li>
+<p><strong>🏗️ Infrastructure &amp; Hardware</strong> (New!)</p>
+</li>
+<li>
+<p><strong>Select infrastructure data types</strong> you want to retrieve:</p>
+</li>
+<li>☑️ MediaAgents</li>
+<li>☑️ Storage Pools</li>
+<li>☑️ Libraries</li>
+<li>☑️ Hypervisors</li>
+<li>
+<p>☑️ Storage Arrays</p>
+</li>
+<li>
+<p><strong>Click "Fetch Data from Commvault"</strong></p>
+</li>
+<li>
+<p><strong>View Results</strong> - You'll see summary cards showing how many of each infrastructure component were retrieved</p>
+</li>
+</ol>
+<h3 id="viewing-infrastructure-dashboard">Viewing Infrastructure Dashboard</h3>
+<p>The new <strong>Infrastructure Dashboard</strong> provides a comprehensive overview of your Commvault environment.</p>
+<p><strong>Access:</strong> Click "🏗️ Infrastructure Dashboard" in the navigation menu</p>
+<p><strong>Dashboard Features:</strong></p>
+<h4 id="summary-cards-top-section">Summary Cards (Top Section)</h4>
+<ul>
+<li>Total count of MediaAgents</li>
+<li>Total count of Storage Pools</li>
+<li>Total count of Libraries</li>
+<li>Total count of Hypervisors</li>
+<li>Total Clients</li>
+<li>Total Jobs</li>
+</ul>
+<h4 id="mediaagents-status-table">MediaAgents Status Table</h4>
+<ul>
+<li>See all MediaAgents with their online/offline status</li>
+<li>Monitor storage capacity (available vs. total)</li>
+<li>Identify MediaAgents needing attention</li>
+</ul>
+<h4 id="storage-pools-table">Storage Pools Table</h4>
+<ul>
+<li>View all storage pools with capacity information</li>
+<li>See free space and total capacity</li>
+<li>Check deduplication status</li>
+<li>Identify pools running low on space</li>
+</ul>
+<h4 id="libraries-table">Libraries Table</h4>
+<ul>
+<li>List all tape and disk libraries</li>
+<li>Check which MediaAgent serves each library</li>
+<li>Monitor library online/offline status</li>
+</ul>
+<h4 id="hypervisor-infrastructure-table">Hypervisor Infrastructure Table</h4>
+<ul>
+<li>View all hypervisor instances</li>
+<li>See hypervisor type and vendor</li>
+<li>Monitor connection status</li>
+</ul>
+<h4 id="jobs-summary">Jobs Summary</h4>
+<ul>
+<li>Total job count</li>
+<li>Completed jobs count</li>
+<li>Failed jobs count</li>
+<li>Success rate percentage</li>
+</ul>
+<h3 id="viewing-individual-data-types">Viewing Individual Data Types</h3>
+<p>Navigate to specific data type views using the menu:</p>
+<ul>
+<li><strong>Clients</strong> - View all backup clients</li>
+<li><strong>Jobs</strong> - View latest 100 backup jobs</li>
+<li><strong>MediaAgents</strong> - View all MediaAgents with full details</li>
+<li><strong>Storage Pools</strong> - View all storage pools with capacity</li>
+<li><strong>Libraries</strong> - View all libraries</li>
+<li><strong>Hypervisors</strong> - View all hypervisor instances</li>
+<li><strong>Storage Arrays</strong> - View all storage arrays</li>
+</ul>
+<h2 id="database-schema">Database Schema</h2>
+<p>All infrastructure data is stored in SQLite with the following tables:</p>
+<h3 id="mediaagents">mediaagents</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">mediaagents</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">mediaAgentId</span><span class="w">      </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">mediaAgentName</span><span class="w">    </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">hostName</span><span class="w">          </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">osType</span><span class="w">            </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">status</span><span class="w">            </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">availableSpace</span><span class="w">    </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">totalSpace</span><span class="w">        </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w">     </span><span class="nb">TEXT</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="storage_pools">storage_pools</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">storage_pools</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">storagePoolId</span><span class="w">     </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">storagePoolName</span><span class="w">   </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">storagePoolType</span><span class="w">   </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">mediaAgentName</span><span class="w">    </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">totalCapacity</span><span class="w">     </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">freeSpace</span><span class="w">         </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">dedupeEnabled</span><span class="w">     </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w">     </span><span class="nb">TEXT</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="libraries">libraries</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">libraries</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">libraryId</span><span class="w">         </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">libraryName</span><span class="w">       </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">libraryType</span><span class="w">       </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">mediaAgentName</span><span class="w">    </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">status</span><span class="w">            </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w">     </span><span class="nb">TEXT</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="hypervisors">hypervisors</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">hypervisors</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">instanceId</span><span class="w">        </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">instanceName</span><span class="w">      </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">hypervisorType</span><span class="w">    </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">hostName</span><span class="w">          </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">vendor</span><span class="w">            </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">status</span><span class="w">            </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w">     </span><span class="nb">TEXT</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h3 id="storage_arrays">storage_arrays</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">storage_arrays</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">arrayId</span><span class="w">           </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">arrayName</span><span class="w">         </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">arrayType</span><span class="w">         </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">vendor</span><span class="w">            </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">model</span><span class="w">             </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">totalCapacity</span><span class="w">     </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">usedCapacity</span><span class="w">      </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w">     </span><span class="nb">TEXT</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h2 id="common-use-cases">Common Use Cases</h2>
+<h3 id="1-capacity-planning">1. Capacity Planning</h3>
+<p><strong>Objective:</strong> Identify storage pools nearing capacity</p>
+<p><strong>Steps:</strong>
+1. Fetch Storage Pools data
+2. Go to Infrastructure Dashboard
+3. Review Storage Pools table
+4. Look for pools with low free space
+5. Plan expansion or data migration</p>
+<h3 id="2-infrastructure-health-monitoring">2. Infrastructure Health Monitoring</h3>
+<p><strong>Objective:</strong> Monitor all infrastructure components status</p>
+<p><strong>Steps:</strong>
+1. Fetch all infrastructure data types
+2. Open Infrastructure Dashboard
+3. Check MediaAgents Status section for offline agents
+4. Check Libraries section for offline libraries
+5. Check Hypervisors section for inactive instances</p>
+<h3 id="3-hyperscale-environment-audit">3. Hyperscale Environment Audit</h3>
+<p><strong>Objective:</strong> Inventory all hyperscale/VM infrastructure</p>
+<p><strong>Steps:</strong>
+1. Fetch Hypervisors data
+2. Go to View Hypervisors page
+3. Export data or query database:
+   <code>sql
+   SELECT instanceName, hypervisorType, vendor, status
+   FROM hypervisors
+   ORDER BY vendor, hypervisorType;</code></p>
+<h3 id="4-storage-hardware-inventory">4. Storage Hardware Inventory</h3>
+<p><strong>Objective:</strong> Document all physical storage arrays</p>
+<p><strong>Steps:</strong>
+1. Fetch Storage Arrays data
+2. Go to View Storage Arrays page
+3. Review vendor, model, and capacity information
+4. Use for hardware refresh planning</p>
+<h3 id="5-mediaagent-load-distribution">5. MediaAgent Load Distribution</h3>
+<p><strong>Objective:</strong> Understand which MediaAgents serve which resources</p>
+<p><strong>Steps:</strong>
+1. Fetch MediaAgents, Storage Pools, and Libraries
+2. Query database:
+   <code>sql
+   SELECT
+       m.mediaAgentName,
+       COUNT(DISTINCT sp.storagePoolId) as pool_count,
+       COUNT(DISTINCT l.libraryId) as library_count
+   FROM mediaagents m
+   LEFT JOIN storage_pools sp ON m.mediaAgentName = sp.mediaAgentName
+   LEFT JOIN libraries l ON m.mediaAgentName = l.mediaAgentName
+   GROUP BY m.mediaAgentName;</code></p>
+<h2 id="advanced-queries">Advanced Queries</h2>
+<h3 id="find-storage-pools-by-type">Find Storage Pools by Type</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">storagePoolName</span><span class="p">,</span><span class="w"> </span><span class="n">storagePoolType</span><span class="p">,</span><span class="w"> </span><span class="n">totalCapacity</span><span class="p">,</span><span class="w"> </span><span class="n">freeSpace</span><span class="p">,</span><span class="w"> </span><span class="n">dedupeEnabled</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">storage_pools</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">storagePoolType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Disk&#39;</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">storagePoolName</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="list-hypervisors-by-vendor">List Hypervisors by Vendor</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">vendor</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">count</span><span class="p">,</span>
+<span class="w">       </span><span class="n">GROUP_CONCAT</span><span class="p">(</span><span class="n">instanceName</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;, &#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">instances</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">hypervisors</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">vendor</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">count</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="mediaagent-capacity-summary">MediaAgent Capacity Summary</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span>
+<span class="w">    </span><span class="n">mediaAgentName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">osType</span><span class="p">,</span>
+<span class="w">    </span><span class="n">status</span><span class="p">,</span>
+<span class="w">    </span><span class="n">totalSpace</span><span class="p">,</span>
+<span class="w">    </span><span class="n">availableSpace</span><span class="p">,</span>
+<span class="w">    </span><span class="k">CASE</span>
+<span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="n">totalSpace</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span>
+<span class="w">        </span><span class="k">THEN</span><span class="w"> </span><span class="k">CAST</span><span class="p">(</span><span class="n">availableSpace</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="nb">REAL</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">CAST</span><span class="p">(</span><span class="n">totalSpace</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="nb">REAL</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span>
+<span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">percent_free</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">mediaagents</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">percent_free</span><span class="w"> </span><span class="k">ASC</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="storage-arrays-by-vendor">Storage Arrays by Vendor</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">vendor</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">count</span><span class="p">,</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">totalCapacity</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">total_capacity</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">storage_arrays</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">vendor</span><span class="p">,</span><span class="w"> </span><span class="n">model</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">vendor</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">;</span>
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="no-infrastructure-data-showing">No Infrastructure Data Showing</h3>
+<p><strong>Problem:</strong> Dashboard shows "No Infrastructure Data Available"</p>
+<p><strong>Solutions:</strong>
+1. Go to home page and fetch infrastructure data
+2. Make sure you select infrastructure checkboxes (MediaAgents, Storage Pools, etc.)
+3. Check for API errors in the results page
+4. Verify your Commvault user has permissions to view infrastructure</p>
+<h3 id="api-endpoint-errors">API Endpoint Errors</h3>
+<p><strong>Problem:</strong> "Failed with status 404" for infrastructure endpoints</p>
+<p><strong>Solutions:</strong>
+1. Verify your Commvault version supports these API endpoints (v11.24+)
+2. Check if the endpoint paths are correct for your version
+3. Some endpoints may use different versions (V2, V4, etc.)
+4. Try fetching from CommandCenter web console to verify data exists</p>
+<h3 id="empty-tables">Empty Tables</h3>
+<p><strong>Problem:</strong> Data fetched but tables are empty</p>
+<p><strong>Solutions:</strong>
+1. Check the JSON response structure in results
+2. The parsing logic may need adjustment for your Commvault version
+3. Review the <code>save_*_to_db()</code> functions in <a href="app.py">app.py</a>
+4. Enable debug mode and check console output</p>
+<h2 id="api-version-compatibility">API Version Compatibility</h2>
+<p>The infrastructure endpoints use different API versions:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Endpoint</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MediaAgents</td>
+<td><code>/MediaAgent</code></td>
+<td>Available in v11+</td>
+</tr>
+<tr>
+<td>Libraries</td>
+<td><code>/Library</code></td>
+<td>Available in v11+</td>
+</tr>
+<tr>
+<td>Storage Pools</td>
+<td><code>/V4/StoragePool</code></td>
+<td>V4 API, v11.24+</td>
+</tr>
+<tr>
+<td>Hypervisors</td>
+<td><code>/Instance</code></td>
+<td>Returns VM instances</td>
+</tr>
+<tr>
+<td>Storage Arrays</td>
+<td><code>/V4/Storage/Array</code></td>
+<td>V4 API, v11.24+</td>
+</tr>
+</tbody>
+</table>
+<p>If you're using an older Commvault version, some endpoints may not be available or may use different paths.</p>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>Regular Updates</strong>: Fetch infrastructure data weekly to track changes</li>
+<li><strong>Capacity Monitoring</strong>: Set alerts for storage pools below 20% free space</li>
+<li><strong>Status Checks</strong>: Monitor MediaAgent and Library status daily</li>
+<li><strong>Audit Trail</strong>: Use <code>lastFetchTime</code> to track when data was last updated</li>
+<li><strong>Backup Database</strong>: Keep backups of <code>commvault.db</code> for historical analysis</li>
+<li><strong>Export Reports</strong>: Query database to generate custom infrastructure reports</li>
+</ol>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li>Set up automated scheduled fetching (cron/Task Scheduler)</li>
+<li>Create custom SQL views for specific infrastructure reports</li>
+<li>Export data to CSV for executive reporting</li>
+<li>Integrate with monitoring tools (Prometheus, Grafana, etc.)</li>
+<li>Build alerting based on threshold values</li>
+</ul>
+<hr />
+<p><strong>Need Help?</strong></p>
+<ul>
+<li>Check <a href="README.md">README.md</a> for general application documentation</li>
+<li>Review <a href="QUICKSTART.md">QUICKSTART.md</a> for setup instructions</li>
+<li>Consult Commvault REST API documentation at <a href="https://api.commvault.com">api.commvault.com</a></li>
+</ul>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

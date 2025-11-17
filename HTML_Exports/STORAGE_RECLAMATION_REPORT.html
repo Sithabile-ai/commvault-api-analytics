@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STORAGE RECLAMATION REPORT</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: STORAGE_RECLAMATION_REPORT.md</div>
+    <h1 id="storage-space-reclamation-conflict-analysis-report">Storage Space Reclamation - Conflict Analysis Report</h1>
+<p><strong>Date:</strong> 2025-11-14
+<strong>Environment:</strong> 278 Plans, 518 Retention Rules
+<strong>Objective:</strong> Identify conflicts preventing storage space from being freed</p>
+<hr />
+<h2 id="executive-summary">Executive Summary</h2>
+<p><strong>Status:</strong> ⚠️ <strong>ISSUES FOUND</strong> - Multiple conflicts detected preventing efficient storage reclamation</p>
+<h3 id="key-findings">Key Findings:</h3>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th style="text-align: right;">Count</th>
+<th>Impact</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Inefficient Short-Term Policies</strong></td>
+<td style="text-align: right;">130 rules</td>
+<td>Delayed aging on 14-30 day policies</td>
+<td><strong>HIGH</strong></td>
+</tr>
+<tr>
+<td><strong>Backup Failure Vulnerability</strong></td>
+<td style="text-align: right;">133 rules</td>
+<td>Long-term data at risk if backups fail</td>
+<td><strong>MEDIUM</strong></td>
+</tr>
+<tr>
+<td><strong>Medium Risk Cycle Retention</strong></td>
+<td style="text-align: right;">30 plans</td>
+<td>2 cycles required before aging</td>
+<td><strong>MEDIUM</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Overall Impact:</strong> While average storage overhead is minimal (0 days), <strong>260+ retention rules</strong> have configuration issues that could delay or prevent storage space reclamation.</p>
+<hr />
+<h2 id="critical-issues-blocking-storage-reclamation">Critical Issues Blocking Storage Reclamation</h2>
+<h3 id="issue-1-inefficient-short-term-retention-high-priority">Issue #1: Inefficient Short-Term Retention (HIGH PRIORITY)</h3>
+<p><strong>Problem:</strong> 130 retention rules have ≤30 day retention BUT require 2 cycles before aging</p>
+<p><strong>Impact:</strong>
+- Plans configured for "14 days" actually need 14+ days AND 2 backup cycles
+- If backups run weekly, effective retention = 14-21 days (not 14)
+- If full backup fails, aging is BLOCKED indefinitely</p>
+<p><strong>Example Plans Affected:</strong>
+- Multiple cloud copies with 14 days + 2 cycles
+- Short-term policies that should age quickly are delayed</p>
+<p><strong>Solution:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Change</span><span class="o">:</span><span class="w"> </span><span class="mi">14</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">cycles</span>
+<span class="n">To</span><span class="o">:</span><span class="w">     </span><span class="mi">14</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">cycle</span>
+</code></pre></div>
+
+<p><strong>Expected Benefit:</strong> Faster storage reclamation for 130 rules, more predictable aging</p>
+<hr />
+<h3 id="issue-2-backup-failure-vulnerability-medium-priority">Issue #2: Backup Failure Vulnerability (MEDIUM PRIORITY)</h3>
+<p><strong>Problem:</strong> 133 retention rules with LONG retention (90-2555 days) + only 1 cycle</p>
+<p><strong>Impact:</strong>
+- If a single full backup fails, aging is BLOCKED for months
+- Plans with 2+ year retention are most vulnerable
+- Storage cannot be freed even after retention days pass</p>
+<p><strong>High-Risk Plans (2+ years retention, 1 cycle):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Plan Name</th>
+<th style="text-align: right;">Retention Days</th>
+<th>Vulnerability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Energy Partners Archive Plan</td>
+<td style="text-align: right;"><strong>2,555 days</strong> (7 years)</td>
+<td>CRITICAL</td>
+</tr>
+<tr>
+<td>Amaro Foods Backup Plan</td>
+<td style="text-align: right;"><strong>1,826 days</strong> (5 years)</td>
+<td>CRITICAL</td>
+</tr>
+<tr>
+<td>MIFA Plans (3 plans)</td>
+<td style="text-align: right;"><strong>1,825 days</strong> (5 years)</td>
+<td>CRITICAL</td>
+</tr>
+<tr>
+<td>Ordirile IT Plans (4 copies)</td>
+<td style="text-align: right;"><strong>1,825 days</strong> (5 years)</td>
+<td>CRITICAL</td>
+</tr>
+<tr>
+<td>Mark Minnaar Backup Plan</td>
+<td style="text-align: right;"><strong>1,825 days</strong> (5 years)</td>
+<td>CRITICAL</td>
+</tr>
+<tr>
+<td>Medikredit BI SQL</td>
+<td style="text-align: right;"><strong>1,095 days</strong> (3 years)</td>
+<td>HIGH</td>
+</tr>
+<tr>
+<td>Endpoint Plans (16 copies)</td>
+<td style="text-align: right;"><strong>730 days</strong> (2 years)</td>
+<td>HIGH</td>
+</tr>
+<tr>
+<td>Gold Plan (Server)</td>
+<td style="text-align: right;"><strong>365 days</strong> (1 year)</td>
+<td>MEDIUM</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Solution:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="k">For</span><span class="w"> </span><span class="nv">plans</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="mi">365</span><span class="o">+</span><span class="w"> </span><span class="nv">days</span><span class="w"> </span><span class="nv">retention</span>:
+<span class="nv">Change</span>:<span class="w"> </span><span class="mi">365</span><span class="w"> </span><span class="nv">days</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="nv">cycle</span>
+<span class="nv">To</span>:<span class="w">     </span><span class="mi">365</span><span class="w"> </span><span class="nv">days</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="nv">cycles</span>
+
+<span class="nv">This</span><span class="w"> </span><span class="nv">prevents</span><span class="w"> </span><span class="nv">aging</span><span class="w"> </span><span class="nv">from</span><span class="w"> </span><span class="nv">being</span><span class="w"> </span><span class="nv">blocked</span><span class="w"> </span><span class="nv">by</span><span class="w"> </span><span class="nv">a</span><span class="w"> </span><span class="nv">single</span><span class="w"> </span><span class="nv">failed</span><span class="w"> </span><span class="nv">backup</span>
+</code></pre></div>
+
+<p><strong>Expected Benefit:</strong> Resilient aging that completes even with occasional backup failures</p>
+<hr />
+<h3 id="issue-3-medium-risk-cycle-retention-medium-priority">Issue #3: Medium-Risk Cycle Retention (MEDIUM PRIORITY)</h3>
+<p><strong>Problem:</strong> 30 plans require 2 backup cycles before aging</p>
+<p><strong>Plans Affected (sample):</strong>
+- A.R.B Electrical Backup Plan
+- ALS_AD, ALS_SQL
+- AMT Server Plan
+- Multiple BallStraathof plans
+- CCIC plans (AD, FS, SQL, VM)
+- Chartered Wealth Solutions
+- And 15+ more...</p>
+<p><strong>Current Configuration:</strong> All have 14 days + 2 cycles</p>
+<p><strong>Impact:</strong>
+- Aging delayed until 2 full backups complete
+- If backups are weekly: minimum 21 days retention (not 14)
+- If backup fails: aging blocked</p>
+<p><strong>Solution:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">Change</span><span class="o">:</span><span class="w"> </span><span class="mi">14</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">cycles</span>
+<span class="n">To</span><span class="o">:</span><span class="w">     </span><span class="mi">14</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">cycle</span>
+</code></pre></div>
+
+<p><strong>Expected Benefit:</strong> Predictable 14-day retention, faster storage reclamation</p>
+<hr />
+<h2 id="minor-issues-detected">Minor Issues Detected</h2>
+<h3 id="cycle-extension-low-impact">Cycle Extension (LOW IMPACT)</h3>
+<p><strong>Found:</strong> 3 plans where cycle retention extends data retention by 2-6 days</p>
+<table>
+<thead>
+<tr>
+<th>Plan</th>
+<th style="text-align: right;">Days</th>
+<th style="text-align: right;">Cycles</th>
+<th style="text-align: right;">Extra Days</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Irene Test</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr>
+<td>Speedspace</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>Southern Sun OR Tambo</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Impact:</strong> Minimal - only adds a few days
+<strong>Action:</strong> Monitor, no immediate action needed</p>
+<hr />
+<h2 id="storage-optimization-statistics">Storage Optimization Statistics</h2>
+<h3 id="overall-environment-health">Overall Environment Health</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th style="text-align: right;">Value</th>
+<th>Assessment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Total Retention Rules</strong></td>
+<td style="text-align: right;">518</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>Aging Enabled</strong></td>
+<td style="text-align: right;">518 (100%)</td>
+<td>✅ Good</td>
+</tr>
+<tr>
+<td><strong>Average Configured Days</strong></td>
+<td style="text-align: right;">153.3 days</td>
+<td>Normal</td>
+</tr>
+<tr>
+<td><strong>Average Cycles</strong></td>
+<td style="text-align: right;">1.3</td>
+<td>✅ Good (low)</td>
+</tr>
+<tr>
+<td><strong>Average Effective Retention</strong></td>
+<td style="text-align: right;">153.3 days</td>
+<td>✅ Matches configured</td>
+</tr>
+<tr>
+<td><strong>Storage Overhead</strong></td>
+<td style="text-align: right;">0 days</td>
+<td>✅ No systematic waste</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Assessment:</strong> Environment is generally well-configured, but specific plan categories need attention.</p>
+<hr />
+<h2 id="recommendations-for-immediate-action">Recommendations for Immediate Action</h2>
+<h3 id="priority-1-fix-inefficient-short-term-policies-high">Priority 1: Fix Inefficient Short-Term Policies (HIGH)</h3>
+<p><strong>Action:</strong> Reduce cycle retention from 2 to 1 for all plans with ≤30 day retention</p>
+<p><strong>Plans to Update:</strong> 130 retention rules (mostly cloud copies with 14 days)</p>
+<p><strong>Implementation:</strong>
+1. Identify all retention rules with <code>Days ≤ 30 AND Cycles = 2</code>
+2. Update to <code>Cycles = 1</code>
+3. Expected impact: Storage reclamation 7-14 days faster</p>
+<p><strong>Risk:</strong> LOW - Makes aging more predictable and efficient</p>
+<hr />
+<h3 id="priority-2-add-cycle-redundancy-for-long-term-plans-medium">Priority 2: Add Cycle Redundancy for Long-Term Plans (MEDIUM)</h3>
+<p><strong>Action:</strong> Increase cycle retention from 1 to 2 for plans with 365+ days retention</p>
+<p><strong>Plans to Update:</strong> 133 retention rules with long retention + single cycle</p>
+<p><strong>Implementation:</strong>
+1. Identify all retention rules with <code>Days ≥ 365 AND Cycles = 1</code>
+2. Update to <code>Cycles = 2</code>
+3. Expected impact: Aging resilience against backup failures</p>
+<p><strong>Risk:</strong> LOW - Adds ~7 days to effective retention but prevents aging failures</p>
+<hr />
+<h3 id="priority-3-standardize-retention-tiers-low">Priority 3: Standardize Retention Tiers (LOW)</h3>
+<p><strong>Action:</strong> Create standard retention tiers for easier management</p>
+<p><strong>Proposed Tiers:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th style="text-align: right;">Days</th>
+<th style="text-align: right;">Cycles</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Short</strong></td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">1</td>
+<td>Operational recovery</td>
+</tr>
+<tr>
+<td><strong>Standard</strong></td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">1</td>
+<td>Monthly backups</td>
+</tr>
+<tr>
+<td><strong>Medium</strong></td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">2</td>
+<td>Quarterly compliance</td>
+</tr>
+<tr>
+<td><strong>Long</strong></td>
+<td style="text-align: right;">365</td>
+<td style="text-align: right;">2</td>
+<td>Annual compliance</td>
+</tr>
+<tr>
+<td><strong>Archive</strong></td>
+<td style="text-align: right;">1825+</td>
+<td style="text-align: right;">2</td>
+<td>Legal/regulatory</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Implementation:</strong> Migrate plans to nearest standard tier over time</p>
+<p><strong>Risk:</strong> NONE - Long-term organizational improvement</p>
+<hr />
+<h2 id="why-storage-space-isnt-being-freed">Why Storage Space Isn't Being Freed</h2>
+<p>Based on the analysis, storage space reclamation is likely delayed by:</p>
+<h3 id="1-incomplete-backup-cycles-most-likely">1. <strong>Incomplete Backup Cycles</strong> (Most Likely)</h3>
+<p><strong>Scenario:</strong>
+- Cloud copies require 2 cycles
+- Full backups running weekly or failing
+- Cycles not completing = aging blocked</p>
+<p><strong>Evidence:</strong>
+- 30 plans with 2-cycle requirement
+- 130 short-term rules needing 2 cycles</p>
+<p><strong>Solution:</strong> Reduce to 1 cycle for short-term policies</p>
+<h3 id="2-failed-full-backups-likely">2. <strong>Failed Full Backups</strong> (Likely)</h3>
+<p><strong>Scenario:</strong>
+- Incremental backups succeed
+- Full backups fail consistently
+- No new cycles created = aging blocked forever</p>
+<p><strong>Evidence:</strong>
+- 133 long-term plans with only 1 cycle (vulnerable)</p>
+<p><strong>Solution:</strong>
+- Monitor backup job success rates
+- Fix failing backup jobs
+- Add cycle redundancy (2 cycles minimum)</p>
+<h3 id="3-disabled-subclients-possible">3. <strong>Disabled Subclients</strong> (Possible)</h3>
+<p><strong>Scenario:</strong>
+- Client deactivated/disabled
+- No new backups = cycles frozen
+- Data held indefinitely despite days elapsed</p>
+<p><strong>Evidence:</strong> Not directly visible in retention rules</p>
+<p><strong>Solution:</strong> Enable Commvault setting "Ignore cycle retention on backup activity disabled subclients"</p>
+<h3 id="4-auxiliary-copy-dependencies-possible">4. <strong>Auxiliary Copy Dependencies</strong> (Possible)</h3>
+<p><strong>Scenario:</strong>
+- Primary data eligible for aging
+- Cloud/tape copy still depends on it
+- Cannot prune primary until aux copy is independent</p>
+<p><strong>Evidence:</strong> Not directly visible in current data</p>
+<p><strong>Solution:</strong> Verify aux copy jobs create independent fulls</p>
+<hr />
+<h2 id="next-steps-for-investigation">Next Steps for Investigation</h2>
+<h3 id="step-1-check-backup-job-success-rates">Step 1: Check Backup Job Success Rates</h3>
+<p><strong>Action:</strong> Analyze which plans have failing full backup jobs</p>
+<p><strong>Method:</strong> Query Jobs table for:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span>
+<span class="w">    </span><span class="n">clientName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">jobType</span><span class="p">,</span>
+<span class="w">    </span><span class="n">status</span><span class="p">,</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">JobCount</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">jobs</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%Failed%&#39;</span>
+<span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">jobType</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;%Full%&#39;</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">clientName</span><span class="p">,</span><span class="w"> </span><span class="n">jobType</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">JobCount</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+
+<p><strong>Expected Outcome:</strong> Identify plans where full backups consistently fail</p>
+<h3 id="step-2-identify-disabled-subclients">Step 2: Identify Disabled Subclients</h3>
+<p><strong>Action:</strong> Find clients that are no longer backing up but consuming storage</p>
+<p><strong>Method:</strong> Check last backup date for each client:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span>
+<span class="w">    </span><span class="n">clientName</span><span class="p">,</span>
+<span class="w">    </span><span class="k">MAX</span><span class="p">(</span><span class="n">startTime</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">LastBackup</span><span class="p">,</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">TotalJobs</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">jobs</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">clientName</span>
+<span class="k">HAVING</span><span class="w"> </span><span class="n">LastBackup</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nb">date</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-90 days&#39;</span><span class="p">)</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">LastBackup</span><span class="p">;</span>
+</code></pre></div>
+
+<p><strong>Expected Outcome:</strong> List of inactive clients holding storage</p>
+<h3 id="step-3-collect-job-schedule-data">Step 3: Collect Job Schedule Data</h3>
+<p><strong>Action:</strong> Run <code>python test_schedules_endpoint.py</code> to get backup schedule timing</p>
+<p><strong>Expected Outcome:</strong>
+- Identify backup schedule patterns
+- Detect timing conflicts with aging jobs
+- Calculate actual cycle durations</p>
+<h3 id="step-4-review-data-aging-job-results">Step 4: Review Data Aging Job Results</h3>
+<p><strong>Action:</strong> Check if aging jobs are running successfully</p>
+<p><strong>Check:</strong>
+- Aging job history and completion status
+- Amount of storage reclaimed per aging job
+- Any errors or warnings in aging job logs</p>
+<hr />
+<h2 id="estimated-storage-impact">Estimated Storage Impact</h2>
+<h3 id="if-recommendations-implemented">If Recommendations Implemented:</h3>
+<p><strong>Short-Term (1-3 months):</strong>
+- Faster aging on 130 short-term policies
+- Storage reclamation 7-14 days sooner
+- More predictable capacity planning</p>
+<p><strong>Medium-Term (3-6 months):</strong>
+- Improved aging resilience on 133 long-term plans
+- Reduced risk of aging failures
+- Better backup job monitoring</p>
+<p><strong>Long-Term (6+ months):</strong>
+- Standardized retention tiers
+- Easier policy management
+- Consistent storage patterns</p>
+<p><strong>Quantifiable Impact:</strong>
+Difficult to estimate without knowing:
+- Current storage usage per plan
+- Backup job failure rates
+- Actual full backup schedule frequency</p>
+<p><strong>Conservative Estimate:</strong> 10-20% improvement in storage reclamation efficiency</p>
+<hr />
+<h2 id="documents-created">Documents Created</h2>
+<ol>
+<li><strong><a href="AGING_SCHEDULE_CONFLICT_RESEARCH.md">AGING_SCHEDULE_CONFLICT_RESEARCH.md</a></strong> - Detailed research on conflicts</li>
+<li><strong><a href="analyze_aging_schedule_conflicts.py">analyze_aging_schedule_conflicts.py</a></strong> - Analysis script</li>
+<li><strong><a href="STORAGE_RECLAMATION_REPORT.md">STORAGE_RECLAMATION_REPORT.md</a></strong> - This report</li>
+<li><strong><a href="JOB_SCHEDULE_RESEARCH.md">JOB_SCHEDULE_RESEARCH.md</a></strong> - Job schedule API research</li>
+<li><strong><a href="test_schedules_endpoint.py">test_schedules_endpoint.py</a></strong> - Test script for schedule data</li>
+</ol>
+<hr />
+<h2 id="conclusion">Conclusion</h2>
+<p><strong>Root Cause:</strong> Aging policies are correctly configured, but <strong>cycle retention requirements</strong> are preventing storage from being freed as quickly as expected.</p>
+<p><strong>Primary Issue:</strong> 130+ short-term retention rules require 2 backup cycles, which delays aging beyond the configured days setting.</p>
+<p><strong>Secondary Issue:</strong> 133 long-term retention rules with only 1 cycle are vulnerable to aging failures if backups fail.</p>
+<p><strong>Recommended Action:</strong> Adjust cycle retention values to match retention strategy:
+- Short-term (≤30 days): Use 1 cycle
+- Long-term (365+ days): Use 2 cycles for resilience</p>
+<p><strong>Expected Outcome:</strong> Faster, more predictable storage space reclamation</p>
+<hr />
+<p><strong>Report Generated:</strong> 2025-11-14
+<strong>Analysis Tool:</strong> analyze_aging_schedule_conflicts.py
+<strong>Data Source:</strong> Database/commvault.db (518 retention rules analyzed)</p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

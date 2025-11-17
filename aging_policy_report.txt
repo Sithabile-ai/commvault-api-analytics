@@ -1,0 +1,1471 @@
+================================================================================
+AGING POLICY ANALYSIS REPORT
+================================================================================
+
+Total Retention Rules: 518
+Total Plans: 216
+
+================================================================================
+AGING STATUS SUMMARY
+================================================================================
+Retention Rules with Aging ENABLED:  518 (100.0%)
+Retention Rules with Aging DISABLED: 0 (0.0%)
+
+================================================================================
+RETENTION DAYS DISTRIBUTION
+================================================================================
+Retention Days       Count      Plans/Copies
+--------------------------------------------------------------------------------
+              1 days          1     Irene Test...
+              3 days          1     Simera NAS Backup Plan...
+              4 days          1     Speedspace Backup Plan...
+              5 days          3     Southern Sun Cape Town Plan, Southern Sun OR Tambo...
+              7 days         17     Apex Backup Plan, ESSAPPROD, ESXPlan...
+             10 days         91     A.R.B Electrical Backup Plan, AS2 Server Foundatio...
+             14 days        141     ALS_SQL, A.R.B Electrical Backup Plan, ALS_AD...
+             15 days         22     BallStraathof_AD, BallStraathof_Oracle, BallStraat...
+             21 days          4     CCIC SQL Plan, CCIC AD Plan, CCIC VM Plan...
+             29 days          2     Singita CPT Backup Plan, Singita JHB Backup Plan...
+             30 days         76     ALS_AD, ALS_FS...
+             31 days          1     Paradigm Backup Plan...
+             60 days          1     Cani Rusk Plan...
+             90 days          3     Ithala Server Plan, Finlar CPT Laptop Plan, Datati...
+             91 days          1     IntegriSure Backup Plan...
+             93 days         18     ClockWorks SQL Plan, ClockWorks_AD_Plan, Amaro Foo...
+            182 days          5     Filmfinity Backup Plan, KZN Agricultural - Pastel ...
+            183 days          2     TrackMatic New Local Plan, Ignition Group Plan...
+            186 days          4     Finlar JHB Backup Plan, Finlar CPT Backup Plan...
+            364 days          4     AllBro_Backup Plan, Blue Turtle Plan v2, Blue Turt...
+            365 days         74     A.R.B Electrical Backup Plan, Abacus Laptop Plan, ...
+            730 days         16     Bronze Endpoint, Accelerate Property Laptop Plan...
+           1095 days          1     Medikredit  - BI SQL backup....
+           1825 days          8     MIFA Server Plan, MIFA_File_Plan, MIFA Plan...
+           1826 days          1     Amaro Foods Backup Plan...
+           2555 days          1     Energy Partners  Archive Plan...
+
+================================================================================
+SPECIFIC RETENTION PERIOD COUNTS
+================================================================================
+Plans/Copies with 30-DAY retention: 76
+Plans/Copies with 14-DAY retention: 141
+
+Unique PLANS with 30-day retention: 64
+Unique PLANS with 14-day retention: 131
+
+================================================================================
+30-DAY RETENTION POLICIES
+================================================================================
+
+📦 ALS_AD
+   └─ Copy: 01 - Primary
+
+📦 ALS_FS
+   └─ Copy: 01 - Primary
+   └─ Copy: 02 - Cloud
+
+📦 ALS_SQL
+   └─ Copy: 01 - Primary
+
+📦 ALS_VM
+   └─ Copy: 01 - Primary
+   └─ Copy: 02 - Cloud
+
+📦 ASEM Backup Plan
+   └─ Copy: 01 - Primary
+   └─ Copy: 02 - Cloud
+
+📦 ActiveScale_EXT_Plan
+   └─ Copy: 01 - Primary
+   └─ Copy: snap copy
+
+📦 AllBro_Backup Plan
+   └─ Copy: 01 - Primary
+
+📦 CT Onsite Backup
+   └─ Copy: Cloud Copy
+   └─ Copy: Primary
+
+📦 Cani Rusk Plan
+   └─ Copy: 01 - Primary
+
+📦 Capri Linux Server Plan
+   └─ Copy: Primary
+
+📦 Capri Linux Test
+   └─ Copy: Primary
+
+📦 Capri Server Plan
+   └─ Copy: 01 - Primary
+
+📦 CapriChem Backup Plan
+   └─ Copy: 01 -  Primary
+
+📦 ClockWorks SQL Plan
+   └─ Copy: 01 - Primary
+
+📦 ClockWorks_FS_Plan
+   └─ Copy: Primary_old
+
+📦 Daikin Backup Plan
+   └─ Copy: 01 - Primary
+   └─ Copy: 02 - Cloud
+
+📦 Dickon Hall Foods Backup Plan
+   └─ Copy: 01 - Primary New
+
+📦 Edward Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Extraordinary Backup Plan
+   └─ Copy: 01 - Primary
+
+📦 Fasken Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Finlar CPT Backup Plan
+   └─ Copy: 01 - Primary
+
+📦 Formax Endpoint Plan
+   └─ Copy: 01 - Primary
+
+📦 Formax_AD
+   └─ Copy: 01 - Primary
+
+📦 Formax_FS
+   └─ Copy: 01 - Primary
+
+📦 Formax_SQL
+   └─ Copy: 01 - Primary
+
+📦 Formax_VM
+   └─ Copy: 01 - Primary
+
+📦 GVSupreme Backup Plan
+   └─ Copy: 01 Primary
+   └─ Copy: 02 Cloud Copy
+
+📦 Gordon Verhoef & Krause Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 LawExplorer Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 MIFA Server Plan
+   └─ Copy: DC09
+
+📦 MIFA_File_Plan
+   └─ Copy: 01 - Primary
+
+📦 MKLM_Plan
+   └─ Copy: 01 - Primary
+
+📦 MMH - Christie House
+   └─ Copy: 01 - Primary
+
+📦 MMH - MOZ
+   └─ Copy: 01 - Primary
+
+📦 MMH-BOT
+   └─ Copy: 01 - Primary
+
+📦 MMH-GHA
+   └─ Copy: 01 - Primary
+
+📦 MMH-Kingsway
+   └─ Copy: 01 - Primary
+
+📦 MMH-NAM
+   └─ Copy: 01 - Primary
+
+📦 MediKredit - Treaco Plan
+   └─ Copy: 03 - Cloud
+   └─ Copy: DC09
+
+📦 MediKredit_DR Center
+   └─ Copy: 01 - Primary
+
+📦 MediKredit_HeadOffice
+   └─ Copy: 03 - Cloud
+
+📦 Medikredit  - BI SQL backup.
+   └─ Copy: 03 - Cloud
+
+📦 Mentor-Plan
+   └─ Copy: 01 - Primary
+
+📦 Mentor-Server-Plan
+   └─ Copy: Primary
+   └─ Copy: snap copy
+
+📦 Plumblink_Laptop_Plan
+   └─ Copy: 02 - Cloud
+   └─ Copy: ActiveScale
+
+📦 QASTEST
+   └─ Copy: ActiveScale
+
+📦 Retailer Brands Backup Plan
+   └─ Copy: 01 - Primary New
+
+📦 Rialto Foods Backup Plan
+   └─ Copy: 01 - Primary
+   └─ Copy: 02 - Cloud
+
+📦 SMD Server Plan
+   └─ Copy: 02 - Cloud
+
+📦 SPS Plant Backup 
+   └─ Copy: 01 - Primary
+
+📦 Server Foundation
+   └─ Copy: 02 - Cloud
+
+📦 Server Foundation V2
+   └─ Copy: 02 -  Cloud
+
+📦 Sithabile Staff
+   └─ Copy: 02 - Cloud
+
+📦 SouthernSun Local Plan
+   └─ Copy: 02 - Cloud
+
+📦 Syntech Backup Plan
+   └─ Copy: 01 - Primary
+
+📦 Syntech Server Plan
+   └─ Copy: 01- Primary
+
+📦 Top Vending Hyper-V
+   └─ Copy: 02 - Cloud
+
+📦 Traficc Backup Plan
+   └─ Copy: 01 - Primary
+
+📦 UmAfrika Backup Server
+   └─ Copy: 01 - Primary
+
+📦 Universal Local Plan
+   └─ Copy: 01 - Primary
+
+📦 Universal Nas Plan
+   └─ Copy: 01 - Primary
+
+📦 Van Der Vyver Linux Plan
+   └─ Copy: 01 - Primary
+   └─ Copy: Cloud Copy
+
+📦 Van der Vyver Transport Backup Plan
+   └─ Copy: 01 - Primary
+
+📦 Weekly Onsite Backup
+   └─ Copy: snap copy
+
+================================================================================
+14-DAY RETENTION POLICIES
+================================================================================
+
+📦 A.R.B Electrical Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 ALS_AD
+   └─ Copy: 02 - Cloud
+
+📦 ALS_SQL
+   └─ Copy: 02 - Cloud
+
+📦 AMT Server Plan
+   └─ Copy: 02 - Cloud
+
+📦 AS2 Server Foundation Plan
+   └─ Copy: 02 - Cloud
+
+📦 Allan Gray Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Apex Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Apex Plan
+   └─ Copy: 01 - Primary
+   └─ Copy: 02 - Cloud
+
+📦 BallStraathof_AD
+   └─ Copy: 02 - Cloud
+
+📦 BallStraathof_FS
+   └─ Copy: 02 - Cloud
+
+📦 BallStraathof_Oracle
+   └─ Copy: 02 - Cloud
+
+📦 BallStraathof_SQL
+   └─ Copy: 02 - Cloud
+
+📦 BallStraathof_VM
+   └─ Copy: 02 - Cloud
+
+📦 Blue Turtle Plan V1
+   └─ Copy: 02 - Cloud
+
+📦 Blue Turtle Plan v2
+   └─ Copy: 02 - Cloud
+
+📦 CCIC AD Plan
+   └─ Copy: 02 -  Cloud
+
+📦 CCIC FS Plan
+   └─ Copy: 02 - Cloud
+
+📦 CCIC SQL Plan
+   └─ Copy: 02 - Cloud
+
+📦 CCIC VM Plan
+   └─ Copy: 02 - Cloud
+
+📦 Capri Server Plan
+   └─ Copy: 02 - Cloud
+
+📦 CapriChem Backup Plan
+   └─ Copy: 02 -  Cloud
+
+📦 Chartered Wealth Solutions Plan
+   └─ Copy: 01 - Primary
+   └─ Copy: 02 - Cloud
+
+📦 ClifftopLodge Backup Plan
+   └─ Copy: 01 - Primary
+   └─ Copy: 02 - Cloud
+
+📦 DLM Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Dickon Hall Foods Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 ESA Plan 
+   └─ Copy: 02 - Cloud
+
+📦 Empact Group V1 
+   └─ Copy: 02 Cloud Copy
+
+📦 Empact Group V2
+   └─ Copy: 02 Cloud Copy
+
+📦 Energy Partners Backup Plan
+   └─ Copy: 02 -  Cloud
+
+📦 Extraordinary Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Filmfinity Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Filmfinity SQL Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Finbond Mutual Bank Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Finlar CPT Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Finlar JHB Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Formax_FS
+   └─ Copy: 02 - Cloud
+
+📦 Formax_VM
+   └─ Copy: 02 - Cloud
+
+📦 Front Runner SQL Plan
+   └─ Copy: 01 - Primary
+   └─ Copy: 02 - Cloud
+
+📦 Front Runner Server Plan
+   └─ Copy: 02 - Cloud
+
+📦 Henley Server Plan
+   └─ Copy: 02 - Cloud
+
+📦 IBI Every2Hours
+   └─ Copy: 02 - Cloud
+
+📦 IBI Everyday Full
+   └─ Copy: 02 - Cloud
+
+📦 IBI Server Backup
+   └─ Copy: 02 - Cloud
+
+📦 Ignition Group Plan
+   └─ Copy: 02 Cloud Copy
+
+📦 IntegriSure Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Irene Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Ithala Server Plan
+   └─ Copy: 02 - Cloud
+
+📦 Jojo Server Plan
+   └─ Copy: 02 Cloud_Copy
+
+📦 Laptop Edition
+   └─ Copy: 02 - Cloud
+
+📦 MIFA Plan
+   └─ Copy: 02 Cloud Copy
+
+📦 MIFA Server Plan
+   └─ Copy: 02 - Cloud
+
+📦 MIFA_File_Plan
+   └─ Copy: 02 - Cloud
+
+📦 MKLM_Plan
+   └─ Copy: 02 - Cloud
+
+📦 MMH - Christie House
+   └─ Copy: 02 - Cloud
+
+📦 MMH - MOZ
+   └─ Copy: 02 - Cloud
+
+📦 MMH-BOT
+   └─ Copy: 02 - Cloud
+
+📦 MMH-GHA
+   └─ Copy: 02 - Cloud
+
+📦 MMH-Kingsway
+   └─ Copy: 02 - Cloud
+
+📦 MMH-NAM
+   └─ Copy: 02 - Cloud
+
+📦 Mabula_Plan
+   └─ Copy: 01 - Primary
+   └─ Copy: 02 - Cloud
+
+📦 McCarthy Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 MediKredit - Treaco Plan
+   └─ Copy: 02 Cloud Copy
+
+📦 MediKredit_DR Center
+   └─ Copy: 02 - Cloud
+
+📦 MediKredit_HeadOffice
+   └─ Copy: 02 - Cloud
+
+📦 Medikredit  - BI SQL backup.
+   └─ Copy: 02 - Cloud
+
+📦 Mentor-Plan
+   └─ Copy: 02 - Cloud
+
+📦 Merafe Backup Plan
+   └─ Copy: 01 - Primary
+   └─ Copy: 02 - Cloud
+
+📦 Mogale City Municipality Plan
+   └─ Copy: 02 - Cloud
+
+📦 Moore Attorneys Plan
+   └─ Copy: 01 - Primary
+   └─ Copy: 02 - Cloud
+
+📦 NCC Server Plan
+   └─ Copy: 02 - Cloud
+
+📦 Netsurit AD Plan
+   └─ Copy: 02 - Cloud
+
+📦 Netsurit NOC Azure Plan 
+   └─ Copy: 02 - Cloud
+
+📦 Netsurit NOC Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Netsurit NOC Backup SQL
+   └─ Copy: 02 - Cloud
+
+📦 Netsurit SQL Plan
+   └─ Copy: 02 - Cloud
+
+📦 Normal full Server Plan
+   └─ Copy: 02 - Cloud
+
+📦 Ordirile IT AD Plan
+   └─ Copy: 02 - Cloud
+
+📦 Paradigm Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Pioneer Plastic Plan
+   └─ Copy: 02 - Cloud
+
+📦 Plumblink Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Profica
+   └─ Copy: 02 - Cloud
+
+📦 PureGas CPT Plan
+   └─ Copy: 02 - Cloud
+
+📦 PureGas Plan
+   └─ Copy: 01-  Primary
+   └─ Copy: 02 - Cloud
+
+📦 Railway Furnishers Plan
+   └─ Copy: 02 - Cloud
+
+📦 Reflex Local MediaAgent
+   └─ Copy: 02 Cloud Copy
+
+📦 Reflex Server Plan
+   └─ Copy: 02 - Cloud
+
+📦 SPS Plant Backup 
+   └─ Copy: 02 - Cloud
+
+📦 STS Server Plan
+   └─ Copy: 02 - Cloud
+
+📦 Salchain_SQL
+   └─ Copy: 02 - Cloud
+
+📦 Scarecrow Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Server Edition
+   └─ Copy: 02 - Cloud
+
+📦 Server Plan Friday Full
+   └─ Copy: 02 - Cloud
+
+📦 Server Plan Saturday Full
+   └─ Copy: 02 - Cloud
+
+📦 Silicone Server Plan
+   └─ Copy: 02 - Cloud
+
+📦 Silver Plan (Server)
+   └─ Copy: 02 - Cloud
+
+📦 Simera Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Simera Cloud Plan
+   └─ Copy: 02 - Cloud
+
+📦 Simera NAS Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Simera SSC plan 
+   └─ Copy: 02 - Cloud
+
+📦 Singita JHB Backup Plan
+   └─ Copy: 01 Primary
+
+📦 Singita SKNP Backup Plan
+   └─ Copy: 01 - Primary
+   └─ Copy: 02 - Cloud
+
+📦 Singita SSS Backup Plan
+   └─ Copy: 01 - Primary
+   └─ Copy: 02 - Cloud
+
+📦 Singita Teraco 
+   └─ Copy: 02 - Cloud
+
+📦 Sliver (Packet Hub Server Plan)
+   └─ Copy: 02 - Cloud
+
+📦 Southern Sun - Sun square City Bowl 
+   └─ Copy: 02 - Cloud
+
+📦 Southern Sun Abu Dhabi
+   └─ Copy: 02 - Cloud
+
+📦 Southern Sun Cape Town Plan
+   └─ Copy: 02 - Cloud
+
+📦 Southern Sun Durban Plan
+   └─ Copy: 02 - Cloud
+
+📦 Southern Sun HazyView Plan
+   └─ Copy: 02 - Cloud
+
+📦 Southern Sun OR Tambo Plan
+   └─ Copy: 02 - Cloud
+
+📦 SouthernSun Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Speedspace Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Syntech Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Syntech Cloud Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Syntech Server Plan
+   └─ Copy: 02 - Cloud
+
+📦 Top Vending Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 TrackMatic Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 TrackMatic New Local Plan
+   └─ Copy: 02 - Cloud
+
+📦 Trackmatic Once Off Plan
+   └─ Copy: 02 - Cloud
+
+📦 Trafalgar Plan
+   └─ Copy: 02 - Cloud
+
+📦 Traficc Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 UmAfrika Backup Server
+   └─ Copy: 02 - Cloud
+
+📦 Universal Health Care Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Universal Health Care Short Retention
+   └─ Copy: 02 - Cloud
+
+📦 Universal Local Plan
+   └─ Copy: 02 - Cloud
+
+📦 Universal Nas Plan
+   └─ Copy: 02 - Cloud
+
+📦 Van der Vyver Transport Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Velocity Trade Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Water Resources 
+   └─ Copy: 02 - Cloud
+
+📦 Wealthease Backup Plan
+   └─ Copy: 02 - Cloud
+
+📦 Wealthport Backup Plan
+   └─ Copy: 02 - Cloud
+
+================================================================================
+INFINITE RETENTION POLICIES
+================================================================================
+Total: 19
+
+
+📦 Fasken Backup Plan
+   └─ Copy: 03 - Monthy_Yearly_ActiveScale (Days=-1)
+
+📦 Google Drive Plan
+   └─ Copy: 02 - Cloud (Days=-1)
+   └─ Copy: 02 ActiveScale (Days=-1)
+
+📦 Google Mail Plan
+   └─ Copy: 02 - Cloud (Days=-1)
+   └─ Copy: 02 ActiveScale (Days=-1)
+
+📦 Komati Server Plan
+   └─ Copy: 02 - Cloud (Days=-1)
+   └─ Copy: 03 - ActviceScale (Days=-1)
+
+📦 Office365 Exchange
+   └─ Copy: 02 - Cloud (Days=-1)
+
+📦 Office365 OneDrive
+   └─ Copy: 02 - Cloud (Days=-1)
+
+📦 Office365 SharePoint
+   └─ Copy: 02 - Cloud (Days=-1)
+   └─ Copy: 03 - ActiveScale (Days=-1)
+
+📦 Office365 Teams
+   └─ Copy: 01 - Cloud (Days=-1)
+   └─ Copy: 02 - ActiveScale (Days=-1)
+
+📦 ProSyscom_POC_Exchange
+   └─ Copy: 02 - Cloud (Days=-1)
+   └─ Copy: 03 - ActiveScale (Days=-1)
+
+📦 STS_Office 365 Plan
+   └─ Copy: 02 - Cloud (Days=-1)
+
+📦 STS_OneDrive
+   └─ Copy: 02 - Cloud (Days=-1)
+
+📦 STS_SharePoint
+   └─ Copy: 02 - Cloud (Days=-1)
+
+📦 STS_Teams Plan
+   └─ Copy: 02 - Cloud (Days=-1)
+
+================================================================================
+DETAILED AGING POLICY TABLE
+================================================================================
+
+Plan Name                                Copy Name                      Days     Cycles   Archive    Aging   
+------------------------------------------------------------------------------------------------------------------------
+A.R.B Electrical Backup Plan             01 - Primary                   10       N/A      ∞          Enabled 
+A.R.B Electrical Backup Plan             02 - Cloud                     14       2        ∞          Enabled 
+A.R.B Electrical Backup Plan             03 - ActiveScale               365      1        ∞          Enabled 
+ALS_AD                                   01 - Primary                   30       1        ∞          Enabled 
+ALS_AD                                   02 - Cloud                     14       2        ∞          Enabled 
+ALS_FS                                   01 - Primary                   30       1        ∞          Enabled 
+ALS_FS                                   02 - Cloud                     30       1        ∞          Enabled 
+ALS_SQL                                  01 - Primary                   30       1        ∞          Enabled 
+ALS_SQL                                  02 - Cloud                     14       2        ∞          Enabled 
+ALS_VM                                   01 - Primary                   30       1        ∞          Enabled 
+ALS_VM                                   02 - Cloud                     30       1        ∞          Enabled 
+AMT Server Plan                          01 - Primary                   10       1        ∞          Enabled 
+AMT Server Plan                          02 - Cloud                     14       2        ∞          Enabled 
+AS2 Server Foundation Plan               01 Primary                     10       1        ∞          Enabled 
+AS2 Server Foundation Plan               02 - Cloud                     14       2        ∞          Enabled 
+AS2 Server Foundation Plan               03 ActiveScale                 365      1        ∞          Enabled 
+ASEM Backup Plan                         01 - Primary                   30       1        ∞          Enabled 
+ASEM Backup Plan                         02 - Cloud                     30       1        ∞          Enabled 
+Abacus Laptop Plan                       02 - Cloud                     365      1        ∞          Enabled 
+Abacus Laptop Plan                       02 ActiveScale                 365      1        ∞          Enabled 
+Accelerate Property Laptop Plan          01 - Primary                   10       1        ∞          Enabled 
+Accelerate Property Laptop Plan          02 - Cloud                     730      1        ∞          Enabled 
+Accelerate Property Laptop Plan          03 - ActiveScale               730      1        ∞          Enabled 
+ActiveScale_EXT_Plan                     01 - Primary                   30       1        ∞          Enabled 
+ActiveScale_EXT_Plan                     snap copy                      30       N/A      ∞          Enabled 
+AllBro_Backup Plan                       01 - Primary                   30       1        ∞          Enabled 
+AllBro_Backup Plan                       02 - Cloud                     364      1        ∞          Enabled 
+Allan Gray Backup Plan                   01 - Primary                   10       N/A      ∞          Enabled 
+Allan Gray Backup Plan                   02 - Cloud                     14       2        ∞          Enabled 
+Allan Gray Laptop                        03 ActiveScale                 365      1        ∞          Enabled 
+Allan Gray Laptop                        Cloud                          365      1        ∞          Enabled 
+Allan Gray Laptop                        Primary                        10       N/A      ∞          Enabled 
+Amaro Foods Backup Plan                  01 -  Primary                  10       1        ∞          Enabled 
+Amaro Foods Backup Plan                  02 - Cloud                     93       1        ∞          Enabled 
+Amaro Foods Backup Plan                  03 - ActiveScale               1826     1        ∞          Enabled 
+Apex Backup Plan                         01 - Primary                   7        1        ∞          Enabled 
+Apex Backup Plan                         02 - Cloud                     14       2        ∞          Enabled 
+Apex Backup Plan                         03 - ActiveScale               365      1        ∞          Enabled 
+Apex Plan                                01 - Primary                   14       1        ∞          Enabled 
+Apex Plan                                02 - Cloud                     14       2        ∞          Enabled 
+Apex Plan                                03 - ActiveScale               365      1        ∞          Enabled 
+BallStraathof_AD                         01 - Primary                   15       1        ∞          Enabled 
+BallStraathof_AD                         02 - Cloud                     14       2        ∞          Enabled 
+BallStraathof_AD                         ActiveScale                    365      1        ∞          Enabled 
+BallStraathof_FS                         01 - Primary                   15       1        ∞          Enabled 
+BallStraathof_FS                         02 - Cloud                     14       2        ∞          Enabled 
+BallStraathof_FS                         ActiveScale                    365      N/A      ∞          Enabled 
+BallStraathof_Oracle                     01 - Primary                   15       1        ∞          Enabled 
+BallStraathof_Oracle                     02 - Cloud                     14       2        ∞          Enabled 
+BallStraathof_SQL                        01 - Primary                   15       N/A      ∞          Enabled 
+BallStraathof_SQL                        02 - Cloud                     14       2        ∞          Enabled 
+BallStraathof_SQL                        03 - ActiveScale               365      1        ∞          Enabled 
+BallStraathof_VM                         01 - Primary                   15       N/A      ∞          Enabled 
+BallStraathof_VM                         02 - Cloud                     14       2        ∞          Enabled 
+BallStraathof_VM                         03 - ActiveScale               365      1        ∞          Enabled 
+Blue Turtle Plan V1                      01 - Primary                   10       1        ∞          Enabled 
+Blue Turtle Plan V1                      02 - Cloud                     14       2        ∞          Enabled 
+Blue Turtle Plan V1                      03 - ActiveScale               364      1        ∞          Enabled 
+Blue Turtle Plan v2                      01 - Primary                   10       1        ∞          Enabled 
+Blue Turtle Plan v2                      02 - Cloud                     14       2        ∞          Enabled 
+Blue Turtle Plan v2                      03 - ActiveScale               364      1        ∞          Enabled 
+Bronze Endpoint                          02 - Cloud                     730      1        ∞          Enabled 
+Bronze Endpoint                          03 ActiveScale                 730      1        ∞          Enabled 
+Bronze Endpoint                          HSXPrimary                     10       1        ∞          Enabled 
+CCIC AD Plan                             01 - Primary_Temp              10       1        ∞          Enabled 
+CCIC AD Plan                             01- Primary                    21       N/A      ∞          Enabled 
+CCIC AD Plan                             02 -  Cloud                    14       2        ∞          Enabled 
+CCIC FS Plan                             01 - Primary                   15       N/A      ∞          Enabled 
+CCIC FS Plan                             02 - Cloud                     14       2        ∞          Enabled 
+CCIC SQL Plan                            01 - Primary                   21       N/A      ∞          Enabled 
+CCIC SQL Plan                            02 - Cloud                     14       2        ∞          Enabled 
+CCIC VM Plan                             01 - Primary                   21       N/A      ∞          Enabled 
+CCIC VM Plan                             02 - Cloud                     14       2        ∞          Enabled 
+CT Onsite Backup                         Cloud Copy                     30       1        ∞          Enabled 
+CT Onsite Backup                         Primary                        30       1        ∞          Enabled 
+Cani Rusk Plan                           01 - Primary                   30       1        ∞          Enabled 
+Cani Rusk Plan                           02 - Cloud                     60       1        ∞          Enabled 
+Cani Rusk Plan                           03 - ActiveScale               365      1        ∞          Enabled 
+Capri Linux Server Plan                  Cloud Copy                     21       N/A      ∞          Enabled 
+Capri Linux Server Plan                  Primary                        30       1        ∞          Enabled 
+Capri Linux Test                         Primary                        30       1        ∞          Enabled 
+Capri Server Plan                        01 - Primary                   30       1        ∞          Enabled 
+Capri Server Plan                        02 - Cloud                     14       2        ∞          Enabled 
+Capri Server Plan                        03 ActiveScale                 365      1        ∞          Enabled 
+Capri Server Plan                        Monthly_Yearly_ActiveScale     365      N/A      ∞          Enabled 
+CapriChem Backup Plan                    01 -  Primary                  30       1        ∞          Enabled 
+CapriChem Backup Plan                    02 -  Cloud                    14       2        ∞          Enabled 
+CapriChem Backup Plan                    03 - ActiveScale               365      1        ∞          Enabled 
+Chartered Wealth Solutions Plan          01 - Primary                   14       1        ∞          Enabled 
+Chartered Wealth Solutions Plan          02 - Cloud                     14       2        ∞          Enabled 
+Chartered Wealth Solutions Plan          03 - ActiveScale               365      1        ∞          Enabled 
+ClifftopLodge Backup Plan                01 - Primary                   14       1        ∞          Enabled 
+ClifftopLodge Backup Plan                02 - Cloud                     14       2        ∞          Enabled 
+ClifftopLodge Backup Plan                03 - ActiveScale               365      1        ∞          Enabled 
+ClockWorks SQL Plan                      01 - Primary                   30       1        ∞          Enabled 
+ClockWorks SQL Plan                      02 - Cloud                     93       1        ∞          Enabled 
+ClockWorks_AD_Plan                       01 - Primary                   10       1        ∞          Enabled 
+ClockWorks_AD_Plan                       02 - Cloud                     93       1        ∞          Enabled 
+ClockWorks_FS_Plan                       02 - Cloud                     93       1        ∞          Enabled 
+ClockWorks_FS_Plan                       03 ActiveScale                 93       1        ∞          Enabled 
+ClockWorks_FS_Plan                       Primary_old                    30       N/A      ∞          Enabled 
+DLM Backup Plan                          01 - Primay_New                10       1        ∞          Enabled 
+DLM Backup Plan                          02 - Cloud                     14       2        ∞          Enabled 
+DLM Backup Plan                          03 ActiveScale                 365      1        ∞          Enabled 
+DMX Africa Backup Plan                   01 - Primary DMX               10       N/A      ∞          Enabled 
+Daikin Backup Plan                       01 - Primary                   30       1        ∞          Enabled 
+Daikin Backup Plan                       02 - Cloud                     30       1        ∞          Enabled 
+Datatim Backup Plan                      01 - Primary                   10       N/A      ∞          Enabled 
+Datatim Backup Plan                      02 - Cloud                     90       1        ∞          Enabled 
+Datatim Backup Plan                      03 - ActiveScale               365      1        ∞          Enabled 
+Dickon Hall Foods Backup Plan            01 - Primary New               30       1        ∞          Enabled 
+Dickon Hall Foods Backup Plan            02 - Cloud                     14       2        ∞          Enabled 
+ESA Plan                                 01 - Primary                   10       1        ∞          Enabled 
+ESA Plan                                 02 - Cloud                     14       2        ∞          Enabled 
+ESA Plan                                 03 - ActiveScale               365      1        ∞          Enabled 
+ESSAPPROD                                Primary                        7        1        ∞          Enabled 
+ESXPlan                                  Primary                        7        1        ∞          Enabled 
+Edward Backup Plan                       01 - Primary                   7        1        ∞          Enabled 
+Edward Backup Plan                       02 - Cloud                     30       N/A      ∞          Enabled 
+Edward Backup Plan                       03 - ActiveScale               365      N/A      ∞          Enabled 
+Empact Group V1                          01 Primary                     10       1        ∞          Enabled 
+Empact Group V1                          02 Cloud Copy                  14       2        ∞          Enabled 
+Empact Group V1                          03 ActiveScale                 365      1        ∞          Enabled 
+Empact Group V2                          01 Primary                     10       1        ∞          Enabled 
+Empact Group V2                          02 Cloud Copy                  14       2        ∞          Enabled 
+Empact Group V2                          03 ActiveScale                 365      1        ∞          Enabled 
+Energy Partners  Archive Plan            01 - Primary                   10       1        ∞          Enabled 
+Energy Partners  Archive Plan            ActiveScale                    2555     1        ∞          Enabled 
+Energy Partners Backup Plan              01 - Primary_New               15       1        ∞          Enabled 
+Energy Partners Backup Plan              02 -  Cloud                    14       2        ∞          Enabled 
+Extraordinary Backup Plan                01 - Primary                   30       1        ∞          Enabled 
+Extraordinary Backup Plan                02 - Cloud                     14       2        ∞          Enabled 
+Extraordinary Backup Plan                03 - ActiveScale               365      1        ∞          Enabled 
+Fasken Backup Plan                       02 - Cloud                     30       1        ∞          Enabled 
+Fasken Backup Plan                       03 - Monthy_Yearly_ActiveScal  ∞        ∞        ∞          Enabled 
+Feynman plan                             Primary                        10       1        ∞          Enabled 
+Filmfinity Backup Plan                   01 - Primary                   10       N/A      ∞          Enabled 
+Filmfinity Backup Plan                   02 - Cloud                     14       2        ∞          Enabled 
+Filmfinity Backup Plan                   03 - ActiveScale               182      1        ∞          Enabled 
+Filmfinity SQL Backup Plan               01 - Primary                   10       1        ∞          Enabled 
+Filmfinity SQL Backup Plan               02 - Cloud                     14       2        ∞          Enabled 
+Filmfinity SQL Backup Plan               03 - ActiveScale               182      1        ∞          Enabled 
+Finbond Mutual Bank Backup Plan          01 - Primary                   10       1        ∞          Enabled 
+Finbond Mutual Bank Backup Plan          02 - Cloud                     14       2        ∞          Enabled 
+Finbond Mutual Bank Backup Plan          03 - ActiveScale               365      1        ∞          Enabled 
+Finlar CPT Backup Plan                   01 - Primary                   30       1        ∞          Enabled 
+Finlar CPT Backup Plan                   02 - Cloud                     14       2        ∞          Enabled 
+Finlar CPT Backup Plan                   03 ActiveScale                 186      1        ∞          Enabled 
+Finlar CPT Laptop Plan                   01 - Primary                   90       1        ∞          Enabled 
+Finlar CPT Laptop Plan                   02 - Cloud                     730      1        ∞          Enabled 
+Finlar JHB Backup Plan                   01 - Primary                   15       1        ∞          Enabled 
+Finlar JHB Backup Plan                   02 - Cloud                     14       2        ∞          Enabled 
+Finlar JHB Backup Plan                   03 - Monthly_Yearly_ActiveSca  186      N/A      ∞          Enabled 
+Finlar JHB Backup Plan                   4 ActiveScale                  186      1        ∞          Enabled 
+Formax Endpoint Plan                     01 - Primary                   30       1        ∞          Enabled 
+Formax Endpoint Plan                     02 - Cloud                     365      1        ∞          Enabled 
+Formax_AD                                01 - Primary                   30       1        ∞          Enabled 
+Formax_AD                                02 - Cloud                     93       1        ∞          Enabled 
+Formax_FS                                01 - Primary                   30       1        ∞          Enabled 
+Formax_FS                                02 - Cloud                     14       2        ∞          Enabled 
+Formax_FS                                03 ActiveScale                 93       1        ∞          Enabled 
+Formax_SQL                               01 - Primary                   30       1        ∞          Enabled 
+Formax_SQL                               02 - Cloud                     93       1        ∞          Enabled 
+Formax_VM                                01 - Primary                   30       1        ∞          Enabled 
+Formax_VM                                02 - Cloud                     14       2        ∞          Enabled 
+Formax_VM                                03 ActiveScale                 93       1        ∞          Enabled 
+Front Runner SQL Plan                    01 - Primary                   14       1        ∞          Enabled 
+Front Runner SQL Plan                    02 - Cloud                     14       2        ∞          Enabled 
+Front Runner SQL Plan                    03 ActiveScale                 365      1        ∞          Enabled 
+Front Runner Server Plan                 01 - Primary                   7        1        ∞          Enabled 
+Front Runner Server Plan                 02 - Cloud                     14       2        ∞          Enabled 
+Front Runner Server Plan                 03 ActiveScale                 365      1        ∞          Enabled 
+GVSupreme Backup Plan                    01 Primary                     30       1        ∞          Enabled 
+GVSupreme Backup Plan                    02 Cloud Copy                  30       1        ∞          Enabled 
+Gold Endpoint                            02 - Cloud                     730      1        ∞          Enabled 
+Gold Endpoint                            03 ActiveScale                 730      1        ∞          Enabled 
+Gold Endpoint                            HSXPrimary                     10       1        ∞          Enabled 
+Gold Plan (Server)                       01 - Primary                   10       1        ∞          Enabled 
+Gold Plan (Server)                       02 - Cloud                     365      1        ∞          Enabled 
+Gold Plan (Server)                       03 ActiveScale                 365      1        ∞          Enabled 
+Google Drive Plan                        02 - Cloud                     ∞        ∞        ∞          Enabled 
+Google Drive Plan                        02 ActiveScale                 ∞        ∞        ∞          Enabled 
+Google Mail Plan                         02 - Cloud                     ∞        ∞        ∞          Enabled 
+Google Mail Plan                         02 ActiveScale                 ∞        ∞        ∞          Enabled 
+Gordon Verhoef & Krause Backup Plan      01 - Primary                   10       1        ∞          Enabled 
+Gordon Verhoef & Krause Backup Plan      02 - Cloud                     30       1        ∞          Enabled 
+Henley Server Plan                       01 - Primary                   10       1        ∞          Enabled 
+Henley Server Plan                       02 - Cloud                     14       2        ∞          Enabled 
+Henley Server Plan                       03 ActiveScale                 365      1        ∞          Enabled 
+IBI Every2Hours                          01 - Primary                   10       1        ∞          Enabled 
+IBI Every2Hours                          02 - Cloud                     14       2        ∞          Enabled 
+IBI Every2Hours                          03 - ActiveScale               365      1        ∞          Enabled 
+IBI Everyday Full                        01 Primary                     10       1        ∞          Enabled 
+IBI Everyday Full                        02 - Cloud                     14       2        ∞          Enabled 
+IBI Server Backup                        01 - Primary                   10       1        ∞          Enabled 
+IBI Server Backup                        02 - Cloud                     14       2        ∞          Enabled 
+Ignition Group Plan                      01 - Primary                   10       1        ∞          Enabled 
+Ignition Group Plan                      02 Cloud Copy                  14       2        ∞          Enabled 
+Ignition Group Plan                      03 ActiveScale                 183      1        ∞          Enabled 
+IntegriSure Backup Plan                  01 - Primary                   10       1        ∞          Enabled 
+IntegriSure Backup Plan                  02 - Cloud                     14       2        ∞          Enabled 
+IntegriSure Backup Plan                  03 - ActiveScale               91       1        ∞          Enabled 
+IntegriSure Backup Plan                  03 - Local                     7        N/A      ∞          Enabled 
+Interwil Server Plan                     02 - Cloud                     93       N/A      ∞          Enabled 
+Interwil Server Plan                     HSXPrimary                     10       N/A      ∞          Enabled 
+Interwill Endpoint                       02 - Cloud                     730      1        ∞          Enabled 
+Interwill Endpoint                       02 ActiveScale                 730      1        ∞          Enabled 
+Irene Backup Plan                        01 - Primary                   7        N/A      ∞          Enabled 
+Irene Backup Plan                        02 - Cloud                     14       2        ∞          Enabled 
+Irene Backup Plan                        03 ActiveScale                 365      1        ∞          Enabled 
+Irene Test                               Primary                        1        1        ∞          Enabled 
+Ithala Server Plan                       01 - Primary                   10       1        ∞          Enabled 
+Ithala Server Plan                       02 - Cloud                     14       2        ∞          Enabled 
+Ithala Server Plan                       03 ActiveScale                 90       1        ∞          Enabled 
+Jojo Server Plan                         01 - Primary                   10       1        ∞          Enabled 
+Jojo Server Plan                         02 Cloud_Copy                  14       2        ∞          Enabled 
+Jojo Server Plan                         03 ActiveScale                 365      1        ∞          Enabled 
+KZN Agricultural - Pastel 6Month Backup  01 - Primary                   15       1        ∞          Enabled 
+KZN Agricultural - Pastel 6Month Backup  02 - Cloud                     182      1        ∞          Enabled 
+Komati Laptop Plan                       03 ActiveScale                 730      1        ∞          Enabled 
+Komati Laptop Plan                       Cloud                          730      1        ∞          Enabled 
+Komati Laptop Plan                       Primary                        10       1        ∞          Enabled 
+Komati Server Plan                       01- Primary                    10       1        ∞          Enabled 
+Komati Server Plan                       02 - Cloud                     ∞        ∞        ∞          Enabled 
+Komati Server Plan                       03 - ActviceScale              ∞        ∞        ∞          Enabled 
+Laptop Edition                           01 - Primary                   10       1        ∞          Enabled 
+Laptop Edition                           02 - Cloud                     14       2        ∞          Enabled 
+Laptop Foundation                        01 - Cloud                     365      1        ∞          Enabled 
+Laptop Foundation                        02 ActiveScale                 365      1        ∞          Enabled 
+Laptop Foundation JHB City Parks & Zoo   01 - Cloud                     365      1        ∞          Enabled 
+Laptop Foundation JHB City Parks & Zoo   02 ActiveScale                 365      1        ∞          Enabled 
+LawExplorer Backup Plan                  01 - Primary                   10       1        ∞          Enabled 
+LawExplorer Backup Plan                  02 - Cloud                     30       1        ∞          Enabled 
+MIFA Plan                                01 - Primary                   10       1        ∞          Enabled 
+MIFA Plan                                02 Cloud Copy                  14       2        ∞          Enabled 
+MIFA Plan                                03 ActiveScale                 1825     1        ∞          Enabled 
+MIFA Server Plan                         01 - Primary                   7        1        ∞          Enabled 
+MIFA Server Plan                         02 - Cloud                     14       2        ∞          Enabled 
+MIFA Server Plan                         03 - ActiveScale               1825     1        ∞          Enabled 
+MIFA Server Plan                         DC09                           30       N/A      ∞          Enabled 
+MIFA_File_Plan                           01 - Primary                   30       N/A      ∞          Enabled 
+MIFA_File_Plan                           02 - Cloud                     14       2        ∞          Enabled 
+MIFA_File_Plan                           03 - ActiveScale               1825     1        ∞          Enabled 
+MKLM_Plan                                01 - Primary                   30       N/A      ∞          Enabled 
+MKLM_Plan                                02 - Cloud                     14       2        ∞          Enabled 
+MMH - Branding Users                     01 - Primary                   10       1        ∞          Enabled 
+MMH - Branding Users                     02 - Cloud                     730      1        ∞          Enabled 
+MMH - Christie House                     01 - Primary                   30       1        ∞          Enabled 
+MMH - Christie House                     02 - Cloud                     14       2        ∞          Enabled 
+MMH - MOZ                                01 - Primary                   30       1        ∞          Enabled 
+MMH - MOZ                                02 - Cloud                     14       2        ∞          Enabled 
+MMH - MOZ                                03 - ActiveScale               365      1        ∞          Enabled 
+MMH - Users                              01 - Primary                   10       1        ∞          Enabled 
+MMH - Users                              02 - Cloud                     730      1        ∞          Enabled 
+MMH - VIP Users                          01 -  Primary                  10       1        ∞          Enabled 
+MMH - VIP Users                          02 - Cloud                     730      1        ∞          Enabled 
+MMH-BOT                                  01 - Primary                   30       1        ∞          Enabled 
+MMH-BOT                                  02 - Cloud                     14       2        ∞          Enabled 
+MMH-BOT                                  03 ActiveScale                 365      1        ∞          Enabled 
+MMH-GHA                                  01 - Primary                   30       N/A      ∞          Enabled 
+MMH-GHA                                  02 - Cloud                     14       2        ∞          Enabled 
+MMH-GHA                                  03 - ActiveScale               365      1        ∞          Enabled 
+MMH-Kingsway                             01 - Primary                   30       1        ∞          Enabled 
+MMH-Kingsway                             02 - Cloud                     14       2        ∞          Enabled 
+MMH-Kingsway                             03 - ActiveScale               365      1        ∞          Enabled 
+MMH-NAM                                  01 - Primary                   30       1        ∞          Enabled 
+MMH-NAM                                  02 - Cloud                     14       2        ∞          Enabled 
+MMH-NAM                                  03 ActiveScale                 365      1        ∞          Enabled 
+Mabula_Plan                              01 - Primary                   14       1        ∞          Enabled 
+Mabula_Plan                              02 - Cloud                     14       2        ∞          Enabled 
+Mabula_Plan                              03 ActiveScale                 365      1        ∞          Enabled 
+Mark Minnaar Backup Plan                 01 - Primary                   7        1        ∞          Enabled 
+Mark Minnaar Backup Plan                 02 - Cloud                     7        1        ∞          Enabled 
+Mark Minnaar Backup Plan                 03                             1825     1        ∞          Enabled 
+McCarthy Backup Plan                     01 - Primary                   10       1        ∞          Enabled 
+McCarthy Backup Plan                     02 - Cloud                     14       2        ∞          Enabled 
+MediKredit - Treaco Plan                 01 New Primary                 10       1        ∞          Enabled 
+MediKredit - Treaco Plan                 02 Cloud Copy                  14       2        ∞          Enabled 
+MediKredit - Treaco Plan                 03 - Cloud                     30       N/A      ∞          Enabled 
+MediKredit - Treaco Plan                 04 ActiveScale                 365      1        ∞          Enabled 
+MediKredit - Treaco Plan                 DC09                           30       N/A      ∞          Enabled 
+MediKredit_DR Center                     01 - Primary                   30       N/A      ∞          Enabled 
+MediKredit_DR Center                     02 - Cloud                     14       2        ∞          Enabled 
+MediKredit_DR Center                     03 - ActiveScale               365      1        ∞          Enabled 
+MediKredit_HeadOffice                    01 Primary                     10       1        ∞          Enabled 
+MediKredit_HeadOffice                    02 - Cloud                     14       2        ∞          Enabled 
+MediKredit_HeadOffice                    03 - Cloud                     30       N/A      ∞          Enabled 
+MediKredit_HeadOffice                    04 ActiveScale                 365      1        ∞          Enabled 
+Medikredit  - BI SQL backup.             01 - Primary                   10       1        ∞          Enabled 
+Medikredit  - BI SQL backup.             02 - Cloud                     14       2        ∞          Enabled 
+Medikredit  - BI SQL backup.             03 - Cloud                     30       1        ∞          Enabled 
+Medikredit  - BI SQL backup.             04 - ActiveScale               1095     1        ∞          Enabled 
+Mentor-Plan                              01 - Primary                   30       1        ∞          Enabled 
+Mentor-Plan                              02 - Cloud                     14       2        ∞          Enabled 
+Mentor-Plan                              03 - ActiveScale               365      1        ∞          Enabled 
+Mentor-Server-Plan                       Primary                        30       1        ∞          Enabled 
+Mentor-Server-Plan                       snap copy                      30       N/A      ∞          Enabled 
+Merafe Backup Plan                       01 - Primary                   14       1        ∞          Enabled 
+Merafe Backup Plan                       02 - Cloud                     14       2        ∞          Enabled 
+Merafe Backup Plan                       03 - ActiveScale               365      1        ∞          Enabled 
+Mogale City Municipality Plan            01 - Primary                   10       1        ∞          Enabled 
+Mogale City Municipality Plan            02 - Cloud                     14       2        ∞          Enabled 
+Moore Attorneys Plan                     01 - Primary                   14       1        ∞          Enabled 
+Moore Attorneys Plan                     02 - Cloud                     14       2        ∞          Enabled 
+NCC Server Plan                          01 - Primary                   10       1        ∞          Enabled 
+NCC Server Plan                          02 - Cloud                     14       2        ∞          Enabled 
+NCC Server Plan                          03 - ActiveScale               365      1        ∞          Enabled 
+NetsurIT Endpoint Plan                   01 - Primary                   10       1        ∞          Enabled 
+NetsurIT Endpoint Plan                   02 - Cloud                     365      1        ∞          Enabled 
+Netsurit AD Plan                         01 - Primary                   10       1        ∞          Enabled 
+Netsurit AD Plan                         02 - Cloud                     14       2        ∞          Enabled 
+Netsurit NOC Azure Plan                  01 - Primary                   10       1        ∞          Enabled 
+Netsurit NOC Azure Plan                  02 - Cloud                     14       2        ∞          Enabled 
+Netsurit NOC Backup Plan                 01 - Primary                   7        N/A      ∞          Enabled 
+Netsurit NOC Backup Plan                 02 - Cloud                     14       2        ∞          Enabled 
+Netsurit NOC Backup SQL                  01 - Primary                   7        N/A      ∞          Enabled 
+Netsurit NOC Backup SQL                  02 - Cloud                     14       2        ∞          Enabled 
+Netsurit SQL Plan                        01 - Primary                   10       1        ∞          Enabled 
+Netsurit SQL Plan                        02 - Cloud                     14       2        ∞          Enabled 
+Normal full Server Plan                  01 - Primary                   10       1        ∞          Enabled 
+Normal full Server Plan                  02 - Cloud                     14       2        ∞          Enabled 
+Normal full Server Plan                  03 - ActiveScale               365      1        ∞          Enabled 
+Office365 Exchange                       02 - Cloud                     ∞        ∞        ∞          Enabled 
+Office365 OneDrive                       02 - Cloud                     ∞        ∞        ∞          Enabled 
+Office365 SharePoint                     02 - Cloud                     ∞        ∞        ∞          Enabled 
+Office365 SharePoint                     03 - ActiveScale               ∞        ∞        ∞          Enabled 
+Office365 Teams                          01 - Cloud                     ∞        ∞        ∞          Enabled 
+Office365 Teams                          02 - ActiveScale               ∞        ∞        ∞          Enabled 
+Ordirile IT AD Plan                      01 - Primary                   10       1        ∞          Enabled 
+Ordirile IT AD Plan                      02 - Cloud                     14       2        ∞          Enabled 
+Ordirile IT File System Plan             02 - Cloud                     1825     1        ∞          Enabled 
+Ordirile IT File System Plan             03 - ActiveScale               1825     1        ∞          Enabled 
+Ordirile IT SQL Plan                     02 - Cloud                     1825     1        ∞          Enabled 
+Ordirile IT SQL Plan                     02 ActiveScale                 1825     1        ∞          Enabled 
+Paradigm Backup Plan                     01 - Primary Copy              31       1        ∞          Enabled 
+Paradigm Backup Plan                     02 - Cloud                     14       2        ∞          Enabled 
+Parktonian Hotel Gold Plan               01 - Primary                   10       1        ∞          Enabled 
+Parktonian Hotel Gold Plan               02 - Cloud                     730      1        ∞          Enabled 
+Pioneer Plastic Plan                     01 - Primary                   10       1        ∞          Enabled 
+Pioneer Plastic Plan                     02 - Cloud                     14       2        ∞          Enabled 
+Plumblink Backup Plan                    02 - Cloud                     14       2        ∞          Enabled 
+Plumblink Backup Plan                    03 - ActiveScale               365      1        ∞          Enabled 
+Plumblink_Laptop_Plan                    02 - Cloud                     30       1        ∞          Enabled 
+Plumblink_Laptop_Plan                    ActiveScale                    30       1        ∞          Enabled 
+ProSyscom_POC_Exchange                   01 - Primary                   10       1        ∞          Enabled 
+ProSyscom_POC_Exchange                   02 - Cloud                     ∞        ∞        ∞          Enabled 
+ProSyscom_POC_Exchange                   03 - ActiveScale               ∞        ∞        ∞          Enabled 
+Profica                                  01 - Primary                   10       1        ∞          Enabled 
+Profica                                  02 - Cloud                     14       2        ∞          Enabled 
+PureGas CPT Plan                         01 - Primary                   10       1        ∞          Enabled 
+PureGas CPT Plan                         02 - Cloud                     14       2        ∞          Enabled 
+PureGas Plan                             01-  Primary                   14       N/A      ∞          Enabled 
+PureGas Plan                             02 - Cloud                     14       2        ∞          Enabled 
+QASTEST                                  02 - Cloud                     10       1        ∞          Enabled 
+QASTEST                                  ActiveScale                    30       N/A      ∞          Enabled 
+Railway Furnishers Plan                  01 - Primary                   10       1        ∞          Enabled 
+Railway Furnishers Plan                  02 - Cloud                     14       2        ∞          Enabled 
+Reflex Local MediaAgent                  01 Primary                     10       N/A      ∞          Enabled 
+Reflex Local MediaAgent                  02 Cloud Copy                  14       2        ∞          Enabled 
+Reflex Local MediaAgent                  03 ActiveScale                 365      1        ∞          Enabled 
+Reflex Server Plan                       01 - Primary                   10       1        ∞          Enabled 
+Reflex Server Plan                       02 - Cloud                     14       2        ∞          Enabled 
+Reflex Server Plan                       03 - ActiveScale               365      1        ∞          Enabled 
+Retailer Brands Backup Plan              01 - Primary New               30       1        ∞          Enabled 
+Retailer Brands Backup Plan              02 - Cloud                     15       1        ∞          Enabled 
+Rialto Foods Backup Plan                 01 - Primary                   30       N/A      ∞          Enabled 
+Rialto Foods Backup Plan                 02 - Cloud                     30       N/A      ∞          Enabled 
+SMD Server Plan                          01 - Primary                   10       1        ∞          Enabled 
+SMD Server Plan                          02 - Cloud                     30       1        ∞          Enabled 
+SPS Plant Backup                         01 - Primary                   30       1        ∞          Enabled 
+SPS Plant Backup                         02 - Cloud                     14       2        ∞          Enabled 
+SPS Plant Backup                         03 - ActiveScale               365      1        ∞          Enabled 
+STS Server Plan                          02 - Cloud                     14       2        ∞          Enabled 
+STS Server Plan                          03 - ActiveScale               365      1        ∞          Enabled 
+STS_Office 365 Plan                      02 - Cloud                     ∞        ∞        ∞          Enabled 
+STS_OneDrive                             02 - Cloud                     ∞        ∞        ∞          Enabled 
+STS_SharePoint                           02 - Cloud                     ∞        ∞        ∞          Enabled 
+STS_Teams Plan                           02 - Cloud                     ∞        ∞        ∞          Enabled 
+Salchain File System                     01 - Primary                   10       N/A      ∞          Enabled 
+Salchain File System                     01 - Primary_New               15       N/A      ∞          Enabled 
+Salchain File System                     02 - Cloud                     93       1        ∞          Enabled 
+Salchain File System                     Salchain File System snap cop  15       1        ∞          Enabled 
+Salchain_AD                              01 - Primary                   15       N/A      ∞          Enabled 
+Salchain_AD                              01 - Primary_New               15       N/A      ∞          Enabled 
+Salchain_AD                              02 - Cloud                     93       1        ∞          Enabled 
+Salchain_EndPoint                        01 -  PrimaryNew               10       1        ∞          Enabled 
+Salchain_EndPoint                        02 - Cloud                     93       1        ∞          Enabled 
+Salchain_SQL                             01 - Primary                   10       N/A      ∞          Enabled 
+Salchain_SQL                             02 - Cloud                     14       2        ∞          Enabled 
+Scarecrow Backup Plan                    01 - Primary                   10       1        ∞          Enabled 
+Scarecrow Backup Plan                    02 - Cloud                     14       2        ∞          Enabled 
+Server Edition                           01 - Primary                   10       1        ∞          Enabled 
+Server Edition                           02 - Cloud                     14       2        ∞          Enabled 
+Server Edition                           03 - ActiveScale               365      1        ∞          Enabled 
+Server Foundation                        01 - HSXPrimary                15       1        ∞          Enabled 
+Server Foundation                        02 - Cloud                     30       1        ∞          Enabled 
+Server Foundation                        03 - ActiveScale               365      1        ∞          Enabled 
+Server Foundation V2                     01 - Primary                   10       1        ∞          Enabled 
+Server Foundation V2                     02 -  Cloud                    30       1        ∞          Enabled 
+Server Foundation V2                     03 - ActiveScale               365      1        ∞          Enabled 
+Server Plan Friday Full                  01 - Primary                   10       1        ∞          Enabled 
+Server Plan Friday Full                  02 - Cloud                     14       2        ∞          Enabled 
+Server Plan Saturday Full                01 - Primary                   10       1        ∞          Enabled 
+Server Plan Saturday Full                02 - Cloud                     14       2        ∞          Enabled 
+Silicone Server Plan                     01 - Primary                   10       1        ∞          Enabled 
+Silicone Server Plan                     02 - Cloud                     14       2        ∞          Enabled 
+Silver Endpoint                          02 - Cloud                     730      1        ∞          Enabled 
+Silver Plan (Server)                     01 - Primary                   10       1        ∞          Enabled 
+Silver Plan (Server)                     02 - Cloud                     14       2        ∞          Enabled 
+Simera Backup Plan                       01 - Primary                   7        N/A      ∞          Enabled 
+Simera Backup Plan                       02 - Cloud                     14       2        ∞          Enabled 
+Simera Backup Plan                       03 - ActiveScale               365      1        ∞          Enabled 
+Simera Cloud Plan                        01 - Primary                   10       1        ∞          Enabled 
+Simera Cloud Plan                        02 - Cloud                     14       2        ∞          Enabled 
+Simera Cloud Plan                        03 - ActiveScale               365      1        ∞          Enabled 
+Simera NAS Backup Plan                   01 - Primary                   3        N/A      ∞          Enabled 
+Simera NAS Backup Plan                   02 - Cloud                     14       2        ∞          Enabled 
+Simera NAS Backup Plan                   03 - ActiveScale               365      1        ∞          Enabled 
+Simera SSC plan                          01 - Primary                   10       1        ∞          Enabled 
+Simera SSC plan                          02 - Cloud                     14       2        ∞          Enabled 
+Singita CPT Backup Plan                  01 Primary                     10       1        ∞          Enabled 
+Singita CPT Backup Plan                  02 - Cloud                     29       1        ∞          Enabled 
+Singita JHB Backup Plan                  01 Primary                     14       1        ∞          Enabled 
+Singita JHB Backup Plan                  02 - Cloud                     29       1        ∞          Enabled 
+Singita SKNP Backup Plan                 01 - Primary                   14       1        ∞          Enabled 
+Singita SKNP Backup Plan                 02 - Cloud                     14       2        ∞          Enabled 
+Singita SSS Backup Plan                  01 - Primary                   14       N/A      ∞          Enabled 
+Singita SSS Backup Plan                  02 - Cloud                     14       2        ∞          Enabled 
+Singita Teraco                           01 - Primary                   10       N/A      ∞          Enabled 
+Singita Teraco                           02 - Cloud                     14       2        ∞          Enabled 
+Singita Teraco                           03 - Monthly/Yearly_ActiveSca  365      N/A      ∞          Enabled 
+Sithabile Staff                          02 - Cloud                     30       1        ∞          Enabled 
+Sliver (Packet Hub Server Plan)          01 - Primary                   10       1        ∞          Enabled 
+Sliver (Packet Hub Server Plan)          02 - Cloud                     14       2        ∞          Enabled 
+Southern Sun - Sun square City Bowl      01 - Primary                   7        1        ∞          Enabled 
+Southern Sun - Sun square City Bowl      02 - Cloud                     14       2        ∞          Enabled 
+Southern Sun - Sun square City Bowl      03 - ActiveScale               365      1        ∞          Enabled 
+Southern Sun Abu Dhabi                   01 - Primary                   7        1        ∞          Enabled 
+Southern Sun Abu Dhabi                   02 - Cloud                     14       2        ∞          Enabled 
+Southern Sun Abu Dhabi                   03 - ActiveScale               365      1        ∞          Enabled 
+Southern Sun Cape Town Plan              01 - Primary                   5        N/A      ∞          Enabled 
+Southern Sun Cape Town Plan              02 - Cloud                     14       2        ∞          Enabled 
+Southern Sun Cape Town Plan              03 - ActiveScale               365      1        ∞          Enabled 
+Southern Sun Durban Plan                 01 - Primary                   5        N/A      ∞          Enabled 
+Southern Sun Durban Plan                 02 - Cloud                     14       2        ∞          Enabled 
+Southern Sun HazyView Plan               01 - Primary                   15       1        ∞          Enabled 
+Southern Sun HazyView Plan               02 - Cloud                     14       2        ∞          Enabled 
+Southern Sun OR Tambo Plan               01 - Primary                   5        1        ∞          Enabled 
+Southern Sun OR Tambo Plan               02 - Cloud                     14       2        ∞          Enabled 
+Southern Sun OR Tambo Plan               03 - ActiveScale               365      1        ∞          Enabled 
+SouthernSun Backup Plan                  01 - Primary                   10       1        ∞          Enabled 
+SouthernSun Backup Plan                  02 - Cloud                     14       2        ∞          Enabled 
+SouthernSun Local Plan                   01 - Primary                   7        1        ∞          Enabled 
+SouthernSun Local Plan                   02 - Cloud                     30       1        ∞          Enabled 
+Speedspace Backup Plan                   01 - Primary                   4        1        ∞          Enabled 
+Speedspace Backup Plan                   02 - Cloud                     14       2        ∞          Enabled 
+SuccessBrokers_AD                        01 - Primary                   15       1        ∞          Enabled 
+SuccessBrokers_AD                        02 - Cloud                     93       1        ∞          Enabled 
+SuccessBrokers_Edge                      02 - Cloud                     93       1        ∞          Enabled 
+SuccessBrokers_Edge                      HSXPrimary                     15       1        ∞          Enabled 
+SuccessBrokers_FS                        01 - Primary                   15       N/A      ∞          Enabled 
+SuccessBrokers_FS                        02 - Cloud                     93       1        ∞          Enabled 
+SuccessBrokers_SQL                       01 - Primary                   15       1        ∞          Enabled 
+SuccessBrokers_SQL                       02 - Cloud                     93       1        ∞          Enabled 
+SuccessBrokers_VM                        01 - Primary                   15       1        ∞          Enabled 
+SuccessBrokers_VM                        02 - Cloud                     93       1        ∞          Enabled 
+Syntech Backup Plan                      01 - Primary                   30       1        ∞          Enabled 
+Syntech Backup Plan                      02 - Cloud                     14       2        ∞          Enabled 
+Syntech Cloud Backup Plan                01 -  Primary                  10       1        ∞          Enabled 
+Syntech Cloud Backup Plan                02 - Cloud                     14       2        ∞          Enabled 
+Syntech Server Plan                      01- Primary                    30       1        ∞          Enabled 
+Syntech Server Plan                      02 - Cloud                     14       2        ∞          Enabled 
+Top Vending Backup Plan                  01 - Primary New               10       1        ∞          Enabled 
+Top Vending Backup Plan                  02 - Cloud                     14       2        ∞          Enabled 
+Top Vending Hyper-V                      01 - Primary                   10       N/A      ∞          Enabled 
+Top Vending Hyper-V                      02 - Cloud                     30       1        ∞          Enabled 
+Top Vending Hyper-V                      Temp Copy                      10       1        ∞          Enabled 
+TrackMatic Backup Plan                   01 - Primary Local             7        N/A      ∞          Enabled 
+TrackMatic Backup Plan                   02 - Cloud                     14       2        ∞          Enabled 
+TrackMatic Backup Plan                   Temp_Primary                   15       N/A      ∞          Enabled 
+TrackMatic New Local Plan                01 - Primary                   10       1        ∞          Enabled 
+TrackMatic New Local Plan                02 - Cloud                     14       2        ∞          Enabled 
+TrackMatic New Local Plan                03 - ActiveScale               183      1        ∞          Enabled 
+Trackmatic Once Off Plan                 01 - Primary                   10       1        ∞          Enabled 
+Trackmatic Once Off Plan                 02 - Cloud                     14       2        ∞          Enabled 
+Trackmatic Once Off Plan                 03 - ActiveScale               186      1        ∞          Enabled 
+Trafalgar Plan                           01 - Primary                   10       1        ∞          Enabled 
+Trafalgar Plan                           02 - Cloud                     14       2        ∞          Enabled 
+Trafalgar Plan                           03 - ActiveScale               365      1        ∞          Enabled 
+Traficc Backup Plan                      01 - Primary                   30       1        ∞          Enabled 
+Traficc Backup Plan                      02 - Cloud                     14       2        ∞          Enabled 
+UmAfrika Backup Server                   01 - Primary                   30       N/A      ∞          Enabled 
+UmAfrika Backup Server                   02 - Cloud                     14       2        ∞          Enabled 
+Universal Health Care Backup Plan        01 - Primary                   10       1        ∞          Enabled 
+Universal Health Care Backup Plan        02 - Cloud                     14       2        ∞          Enabled 
+Universal Health Care Backup Plan        03 - ActiveScale               182      1        ∞          Enabled 
+Universal Health Care Short Retention    02 - Cloud                     14       2        ∞          Enabled 
+Universal Local Plan                     01 - Primary                   30       1        ∞          Enabled 
+Universal Local Plan                     02 - Cloud                     14       2        ∞          Enabled 
+Universal Local Plan                     03 - ActiveScale               182      1        ∞          Enabled 
+Universal Nas Plan                       01 - Primary                   30       1        ∞          Enabled 
+Universal Nas Plan                       02 - Cloud                     14       2        ∞          Enabled 
+Van Der Vyver Linux Plan                 01 - Primary                   30       1        ∞          Enabled 
+Van Der Vyver Linux Plan                 Cloud Copy                     30       1        ∞          Enabled 
+Van der Vyver Transport Backup Plan      01 - Primary                   30       N/A      ∞          Enabled 
+Van der Vyver Transport Backup Plan      02 - Cloud                     14       2        ∞          Enabled 
+Van der Vyver Transport Backup Plan      03 - ActiveScale               365      1        ∞          Enabled 
+Velocity Trade Backup Plan               01 - Primary                   10       1        ∞          Enabled 
+Velocity Trade Backup Plan               02 - Cloud                     14       2        ∞          Enabled 
+Velocity Trade Backup Plan               03 - ActiveScale               365      1        ∞          Enabled 
+Water Resources                          01 - Primary                   10       1        ∞          Enabled 
+Water Resources                          02 - Cloud                     14       2        ∞          Enabled 
+Wealthease Backup Plan                   02 - ActiveScale               365      1        ∞          Enabled 
+Wealthease Backup Plan                   02 - Cloud                     14       2        ∞          Enabled 
+Wealthport Backup Plan                   02 - Cloud                     14       2        ∞          Enabled 
+Wealthport Backup Plan                   02 ActiveScale                 365      1        ∞          Enabled 
+Weekly Onsite Backup                     Local Disk Primary             364      1        ∞          Enabled 
+Weekly Onsite Backup                     snap copy                      30       N/A      ∞          Enabled 
+
+================================================================================
+STATISTICS BY PLAN
+================================================================================
+
+Plan Name                                          Copies   Min Days   Max Days   Avg Days   Aging On
+------------------------------------------------------------------------------------------------------------------------
+Ordirile IT SQL Plan                               2        1825       1825       1825.0     2/2
+Ordirile IT File System Plan                       2        1825       1825       1825.0     2/2
+Energy Partners  Archive Plan                      2        10         2555       1282.5     2/2
+Silver Endpoint                                    1        730        730        730.0      1/1
+Interwill Endpoint                                 2        730        730        730.0      2/2
+Amaro Foods Backup Plan                            3        10         1826       643.0      3/3
+MIFA_File_Plan                                     3        14         1825       623.0      3/3
+MIFA Plan                                          3        10         1825       616.3      3/3
+Mark Minnaar Backup Plan                           3        7          1825       613.0      3/3
+Komati Laptop Plan                                 3        10         730        490.0      3/3
+Gold Endpoint                                      3        10         730        490.0      3/3
+Bronze Endpoint                                    3        10         730        490.0      3/3
+Accelerate Property Laptop Plan                    3        10         730        490.0      3/3
+MIFA Server Plan                                   4        7          1825       469.0      4/4
+Finlar CPT Laptop Plan                             2        90         730        410.0      2/2
+Parktonian Hotel Gold Plan                         2        10         730        370.0      2/2
+MMH - VIP Users                                    2        10         730        370.0      2/2
+MMH - Users                                        2        10         730        370.0      2/2
+MMH - Branding Users                               2        10         730        370.0      2/2
+Laptop Foundation JHB City Parks & Zoo             2        365        365        365.0      2/2
+Laptop Foundation                                  2        365        365        365.0      2/2
+Abacus Laptop Plan                                 2        365        365        365.0      2/2
+Medikredit  - BI SQL backup.                       4        10         1095       287.2      4/4
+Gold Plan (Server)                                 3        10         365        246.7      3/3
+Allan Gray Laptop                                  3        10         365        246.7      3/3
+Formax Endpoint Plan                               2        30         365        197.5      2/2
+Weekly Onsite Backup                               2        30         364        197.0      2/2
+AllBro_Backup Plan                                 2        30         364        197.0      2/2
+Capri Server Plan                                  4        14         365        193.5      4/4
+Wealthport Backup Plan                             2        14         365        189.5      2/2
+Wealthease Backup Plan                             2        14         365        189.5      2/2
+STS Server Plan                                    2        14         365        189.5      2/2
+Plumblink Backup Plan                              2        14         365        189.5      2/2
+NetsurIT Endpoint Plan                             2        10         365        187.5      2/2
+Datatim Backup Plan                                3        10         365        155.0      3/3
+Cani Rusk Plan                                     3        30         365        151.7      3/3
+Server Foundation                                  3        15         365        136.7      3/3
+Van der Vyver Transport Backup Plan                3        14         365        136.3      3/3
+SPS Plant Backup                                   3        14         365        136.3      3/3
+Mentor-Plan                                        3        14         365        136.3      3/3
+MediKredit_DR Center                               3        14         365        136.3      3/3
+MMH-NAM                                            3        14         365        136.3      3/3
+MMH-Kingsway                                       3        14         365        136.3      3/3
+MMH-GHA                                            3        14         365        136.3      3/3
+MMH-BOT                                            3        14         365        136.3      3/3
+MMH - MOZ                                          3        14         365        136.3      3/3
+Extraordinary Backup Plan                          3        14         365        136.3      3/3
+CapriChem Backup Plan                              3        14         365        136.3      3/3
+Server Foundation V2                               3        10         365        135.0      3/3
+Edward Backup Plan                                 3        7          365        134.0      3/3
+BallStraathof_VM                                   3        14         365        131.3      3/3
+BallStraathof_SQL                                  3        14         365        131.3      3/3
+BallStraathof_FS                                   3        14         365        131.3      3/3
+BallStraathof_AD                                   3        14         365        131.3      3/3
+Merafe Backup Plan                                 3        14         365        131.0      3/3
+Mabula_Plan                                        3        14         365        131.0      3/3
+Front Runner SQL Plan                              3        14         365        131.0      3/3
+ClifftopLodge Backup Plan                          3        14         365        131.0      3/3
+Chartered Wealth Solutions Plan                    3        14         365        131.0      3/3
+Apex Plan                                          3        14         365        131.0      3/3
+Velocity Trade Backup Plan                         3        10         365        129.7      3/3
+Trafalgar Plan                                     3        10         365        129.7      3/3
+Singita Teraco                                     3        10         365        129.7      3/3
+Simera Cloud Plan                                  3        10         365        129.7      3/3
+Server Edition                                     3        10         365        129.7      3/3
+Reflex Server Plan                                 3        10         365        129.7      3/3
+Reflex Local MediaAgent                            3        10         365        129.7      3/3
+Normal full Server Plan                            3        10         365        129.7      3/3
+NCC Server Plan                                    3        10         365        129.7      3/3
+Jojo Server Plan                                   3        10         365        129.7      3/3
+IBI Every2Hours                                    3        10         365        129.7      3/3
+Henley Server Plan                                 3        10         365        129.7      3/3
+Finbond Mutual Bank Backup Plan                    3        10         365        129.7      3/3
+Empact Group V2                                    3        10         365        129.7      3/3
+Empact Group V1                                    3        10         365        129.7      3/3
+ESA Plan                                           3        10         365        129.7      3/3
+DLM Backup Plan                                    3        10         365        129.7      3/3
+AS2 Server Foundation Plan                         3        10         365        129.7      3/3
+A.R.B Electrical Backup Plan                       3        10         365        129.7      3/3
+Blue Turtle Plan v2                                3        10         364        129.3      3/3
+Blue Turtle Plan V1                                3        10         364        129.3      3/3
+Southern Sun Abu Dhabi                             3        7          365        128.7      3/3
+Southern Sun - Sun square City Bowl                3        7          365        128.7      3/3
+Simera Backup Plan                                 3        7          365        128.7      3/3
+Irene Backup Plan                                  3        7          365        128.7      3/3
+Front Runner Server Plan                           3        7          365        128.7      3/3
+Apex Backup Plan                                   3        7          365        128.7      3/3
+Southern Sun OR Tambo Plan                         3        5          365        128.0      3/3
+Southern Sun Cape Town Plan                        3        5          365        128.0      3/3
+Simera NAS Backup Plan                             3        3          365        127.3      3/3
+MediKredit_HeadOffice                              4        10         365        104.8      4/4
+Finlar JHB Backup Plan                             4        14         186        100.2      4/4
+KZN Agricultural - Pastel 6Month Backup Plan       2        15         182        98.5       2/2
+MediKredit - Treaco Plan                           5        10         365        89.8       5/5
+Finlar CPT Backup Plan                             3        14         186        76.7       3/3
+Universal Local Plan                               3        14         182        75.3       3/3
+ClockWorks_FS_Plan                                 3        30         93         72.0       3/3
+Trackmatic Once Off Plan                           3        10         186        70.0       3/3
+TrackMatic New Local Plan                          3        10         183        69.0       3/3
+Ignition Group Plan                                3        10         183        69.0       3/3
+Universal Health Care Backup Plan                  3        10         182        68.7       3/3
+Filmfinity SQL Backup Plan                         3        10         182        68.7       3/3
+Filmfinity Backup Plan                             3        10         182        68.7       3/3
+Formax_SQL                                         2        30         93         61.5       2/2
+Formax_AD                                          2        30         93         61.5       2/2
+ClockWorks SQL Plan                                2        30         93         61.5       2/2
+SuccessBrokers_VM                                  2        15         93         54.0       2/2
+SuccessBrokers_SQL                                 2        15         93         54.0       2/2
+SuccessBrokers_FS                                  2        15         93         54.0       2/2
+SuccessBrokers_Edge                                2        15         93         54.0       2/2
+SuccessBrokers_AD                                  2        15         93         54.0       2/2
+Salchain_EndPoint                                  2        10         93         51.5       2/2
+Interwil Server Plan                               2        10         93         51.5       2/2
+ClockWorks_AD_Plan                                 2        10         93         51.5       2/2
+Formax_VM                                          3        14         93         45.7       3/3
+Formax_FS                                          3        14         93         45.7       3/3
+Salchain_AD                                        3        15         93         41.0       3/3
+Ithala Server Plan                                 3        10         90         38.0       3/3
+Salchain File System                               4        10         93         33.2       4/4
+IntegriSure Backup Plan                            4        7          91         30.5       4/4
+Van Der Vyver Linux Plan                           2        30         30         30.0       2/2
+Sithabile Staff                                    1        30         30         30.0       1/1
+Rialto Foods Backup Plan                           2        30         30         30.0       2/2
+Plumblink_Laptop_Plan                              2        30         30         30.0       2/2
+Mentor-Server-Plan                                 2        30         30         30.0       2/2
+GVSupreme Backup Plan                              2        30         30         30.0       2/2
+Daikin Backup Plan                                 2        30         30         30.0       2/2
+Capri Linux Test                                   1        30         30         30.0       1/1
+CT Onsite Backup                                   2        30         30         30.0       2/2
+ActiveScale_EXT_Plan                               2        30         30         30.0       2/2
+ASEM Backup Plan                                   2        30         30         30.0       2/2
+ALS_VM                                             2        30         30         30.0       2/2
+ALS_FS                                             2        30         30         30.0       2/2
+Capri Linux Server Plan                            2        21         30         25.5       2/2
+Retailer Brands Backup Plan                        2        15         30         22.5       2/2
+Paradigm Backup Plan                               2        14         31         22.5       2/2
+Universal Nas Plan                                 2        14         30         22.0       2/2
+UmAfrika Backup Server                             2        14         30         22.0       2/2
+Traficc Backup Plan                                2        14         30         22.0       2/2
+Syntech Server Plan                                2        14         30         22.0       2/2
+Syntech Backup Plan                                2        14         30         22.0       2/2
+MMH - Christie House                               2        14         30         22.0       2/2
+MKLM_Plan                                          2        14         30         22.0       2/2
+Dickon Hall Foods Backup Plan                      2        14         30         22.0       2/2
+ALS_SQL                                            2        14         30         22.0       2/2
+ALS_AD                                             2        14         30         22.0       2/2
+Singita JHB Backup Plan                            2        14         29         21.5       2/2
+SMD Server Plan                                    2        10         30         20.0       2/2
+QASTEST                                            2        10         30         20.0       2/2
+LawExplorer Backup Plan                            2        10         30         20.0       2/2
+Gordon Verhoef & Krause Backup Plan                2        10         30         20.0       2/2
+Singita CPT Backup Plan                            2        10         29         19.5       2/2
+SouthernSun Local Plan                             2        7          30         18.5       2/2
+CCIC VM Plan                                       2        14         21         17.5       2/2
+CCIC SQL Plan                                      2        14         21         17.5       2/2
+Top Vending Hyper-V                                3        10         30         16.7       3/3
+CCIC AD Plan                                       3        10         21         15.0       3/3
+Southern Sun HazyView Plan                         2        14         15         14.5       2/2
+Fasken Backup Plan                                 2        ∞          30         14.5       2/2
+Energy Partners Backup Plan                        2        14         15         14.5       2/2
+CCIC FS Plan                                       2        14         15         14.5       2/2
+BallStraathof_Oracle                               2        14         15         14.5       2/2
+Universal Health Care Short Retention              1        14         14         14.0       1/1
+Singita SSS Backup Plan                            2        14         14         14.0       2/2
+Singita SKNP Backup Plan                           2        14         14         14.0       2/2
+PureGas Plan                                       2        14         14         14.0       2/2
+Moore Attorneys Plan                               2        14         14         14.0       2/2
+Water Resources                                    2        10         14         12.0       2/2
+TrackMatic Backup Plan                             3        7          15         12.0       3/3
+Top Vending Backup Plan                            2        10         14         12.0       2/2
+Syntech Cloud Backup Plan                          2        10         14         12.0       2/2
+SouthernSun Backup Plan                            2        10         14         12.0       2/2
+Sliver (Packet Hub Server Plan)                    2        10         14         12.0       2/2
+Simera SSC plan                                    2        10         14         12.0       2/2
+Silver Plan (Server)                               2        10         14         12.0       2/2
+Silicone Server Plan                               2        10         14         12.0       2/2
+Server Plan Saturday Full                          2        10         14         12.0       2/2
+Server Plan Friday Full                            2        10         14         12.0       2/2
+Scarecrow Backup Plan                              2        10         14         12.0       2/2
+Salchain_SQL                                       2        10         14         12.0       2/2
+Railway Furnishers Plan                            2        10         14         12.0       2/2
+PureGas CPT Plan                                   2        10         14         12.0       2/2
+Profica                                            2        10         14         12.0       2/2
+Pioneer Plastic Plan                               2        10         14         12.0       2/2
+Ordirile IT AD Plan                                2        10         14         12.0       2/2
+Netsurit SQL Plan                                  2        10         14         12.0       2/2
+Netsurit NOC Azure Plan                            2        10         14         12.0       2/2
+Netsurit AD Plan                                   2        10         14         12.0       2/2
+Mogale City Municipality Plan                      2        10         14         12.0       2/2
+McCarthy Backup Plan                               2        10         14         12.0       2/2
+Laptop Edition                                     2        10         14         12.0       2/2
+IBI Server Backup                                  2        10         14         12.0       2/2
+IBI Everyday Full                                  2        10         14         12.0       2/2
+Allan Gray Backup Plan                             2        10         14         12.0       2/2
+AMT Server Plan                                    2        10         14         12.0       2/2
+Netsurit NOC Backup SQL                            2        7          14         10.5       2/2
+Netsurit NOC Backup Plan                           2        7          14         10.5       2/2
+Feynman plan                                       1        10         10         10.0       1/1
+DMX Africa Backup Plan                             1        10         10         10.0       1/1
+Southern Sun Durban Plan                           2        5          14         9.5        2/2
+Speedspace Backup Plan                             2        4          14         9.0        2/2
+ESXPlan                                            1        7          7          7.0        1/1
+ESSAPPROD                                          1        7          7          7.0        1/1
+ProSyscom_POC_Exchange                             3        ∞          10         2.7        3/3
+Komati Server Plan                                 3        ∞          10         2.7        3/3
+Irene Test                                         1        1          1          1.0        1/1
+STS_Teams Plan                                     1        ∞          ∞          N/A        1/1
+STS_SharePoint                                     1        ∞          ∞          N/A        1/1
+STS_OneDrive                                       1        ∞          ∞          N/A        1/1
+STS_Office 365 Plan                                1        ∞          ∞          N/A        1/1
+Office365 Teams                                    2        ∞          ∞          N/A        2/2
+Office365 SharePoint                               2        ∞          ∞          N/A        2/2
+Office365 OneDrive                                 1        ∞          ∞          N/A        1/1
+Office365 Exchange                                 1        ∞          ∞          N/A        1/1
+Google Mail Plan                                   2        ∞          ∞          N/A        2/2
+Google Drive Plan                                  2        ∞          ∞          N/A        2/2
+
+================================================================================
+REPORT COMPLETE
+================================================================================

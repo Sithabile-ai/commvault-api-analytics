@@ -1,0 +1,259 @@
+====================================================================================================
+COMPREHENSIVE AGING FAILURE ANALYSIS
+====================================================================================================
+
+Analyzing why backups are not aging and storage space is not being reclaimed...
+
+====================================================================================================
+SECTION 1: DATA AVAILABILITY CHECK
+====================================================================================================
+
+Available tables in database: 15
+  - alerts: 0 records
+  - clients: 0 records
+  - commcell_info: 0 records
+  - events: 0 records
+  - hypervisors: 0 records
+  - jobs: 100 records
+  - jobs_enhanced: 0 records
+  - libraries: 100 records
+  - mediaagents: 243 records
+  - plans: 278 records
+  - retention_rules: 518 records
+  - sqlite_sequence: 1 records
+  - storage_arrays: 0 records
+  - storage_policies: 226 records
+  - storage_pools: 79 records
+
+====================================================================================================
+SECTION 2: RETENTION POLICY ANALYSIS
+====================================================================================================
+
+Total Retention Rules: 518
+
+❌ CRITICAL: 0 rules have DATA AGING DISABLED
+
+⚠️  WARNING: 19 rules have INFINITE RETENTION
+   Plans/Policies with infinite retention (data will never age):
+      - Fasken Backup Plan / 03 - Monthy_Yearly_ActiveScale (Days: -1, Cycles: -1)
+      - Google Drive Plan / 02 - Cloud (Days: -1, Cycles: -1)
+      - Google Drive Plan / 02 ActiveScale (Days: -1, Cycles: -1)
+      - Google Mail Plan / 02 - Cloud (Days: -1, Cycles: -1)
+      - Google Mail Plan / 02 ActiveScale (Days: -1, Cycles: -1)
+      - Komati Server Plan / 02 - Cloud (Days: -1, Cycles: -1)
+      - Komati Server Plan / 03 - ActviceScale (Days: -1, Cycles: -1)
+      - Office365 Exchange / 02 - Cloud (Days: -1, Cycles: -1)
+      - Office365 OneDrive / 02 - Cloud (Days: -1, Cycles: -1)
+      - Office365 SharePoint / 02 - Cloud (Days: -1, Cycles: -1)
+      ... and 9 more
+
+⚠️  ISSUE: 0 rules require 3+ CYCLES (very slow aging)
+
+🔴 HIGH PRIORITY: 130 rules have SHORT RETENTION + HIGH CYCLES
+   (These are preventing storage reclamation on short-term data)
+   Inefficient short-term policies (recommend reducing cycles to 1):
+      - A.R.B Electrical Backup Plan             02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - ALS_AD                                   02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - ALS_SQL                                  02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - AMT Server Plan                          02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - AS2 Server Foundation Plan               02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - Allan Gray Backup Plan                   02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - Apex Backup Plan                         02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - Apex Plan                                02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - BallStraathof_AD                         02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - BallStraathof_FS                         02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - BallStraathof_Oracle                     02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - BallStraathof_SQL                        02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - BallStraathof_VM                         02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - Blue Turtle Plan V1                      02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - Blue Turtle Plan v2                      02 - Cloud           |  14d + 2c → ~7 day aging delay
+      ... and 115 more
+
+====================================================================================================
+SECTION 3: PLAN ANALYSIS
+====================================================================================================
+
+Total Plans in Database: 278
+
+Plans with Aging Issues: 143
+
+Top 20 Plans with Most Critical Issues:
+  - Google Drive Plan                                            | Issues: INFINITE RETENTION
+  - Google Mail Plan                                             | Issues: INFINITE RETENTION
+  - Komati Server Plan                                           | Issues: INFINITE RETENTION
+  - Office365 SharePoint                                         | Issues: INFINITE RETENTION
+  - Office365 Teams                                              | Issues: INFINITE RETENTION
+  - ProSyscom_POC_Exchange                                       | Issues: INFINITE RETENTION
+  - A.R.B Electrical Backup Plan                                 | Issues: INEFFICIENT SHORT-TERM
+  - ALS_AD                                                       | Issues: INEFFICIENT SHORT-TERM
+  - ALS_SQL                                                      | Issues: INEFFICIENT SHORT-TERM
+  - AMT Server Plan                                              | Issues: INEFFICIENT SHORT-TERM
+  - AS2 Server Foundation Plan                                   | Issues: INEFFICIENT SHORT-TERM
+  - Allan Gray Backup Plan                                       | Issues: INEFFICIENT SHORT-TERM
+  - Apex Backup Plan                                             | Issues: INEFFICIENT SHORT-TERM
+  - Apex Plan                                                    | Issues: INEFFICIENT SHORT-TERM
+  - BallStraathof_AD                                             | Issues: INEFFICIENT SHORT-TERM
+  - BallStraathof_FS                                             | Issues: INEFFICIENT SHORT-TERM
+  - BallStraathof_Oracle                                         | Issues: INEFFICIENT SHORT-TERM
+  - BallStraathof_SQL                                            | Issues: INEFFICIENT SHORT-TERM
+  - BallStraathof_VM                                             | Issues: INEFFICIENT SHORT-TERM
+  - Blue Turtle Plan V1                                          | Issues: INEFFICIENT SHORT-TERM
+
+====================================================================================================
+SECTION 4: STORAGE POOL ANALYSIS
+====================================================================================================
+
+Storage Pools: 75
+
+Storage Pool Space Status:
+Pool Name                                Total (GB)      Free (GB)       % Free     Status
+----------------------------------------------------------------------------------------------------
+Apex GDP                                          0.00           0.00      1.97%  🔴 CRITICAL
+Southern_Sun_Durban                               0.00           0.00      2.05%  🔴 CRITICAL
+Simera_GDP                                        0.03           0.00      9.30%  🔴 CRITICAL
+Southern_Sun_City_Bowl                            0.00           0.00     12.47%  🟠 WARNING
+MKLM_GDP                                          0.02           0.00     12.85%  🟠 WARNING
+GDP Railway                                       0.01           0.00     12.98%  🟠 WARNING
+Universal GDP                                     0.09           0.01     13.37%  🟠 WARNING
+Capri_Local_GDP                                   0.01           0.00     14.75%  🟠 WARNING
+CLMAN02_Storage                                   0.01           0.00     14.75%  🟠 WARNING
+Southern_Sun_Local                                0.04           0.01     17.80%  🟠 WARNING
+EnergyPartners_Local                              0.01           0.00     18.96%  🟠 WARNING
+Speedspace_GDP                                    0.00           0.00     22.65%  🟡 LOW
+HPEHSXPOOL                                        0.70           0.20     28.67%  🟡 LOW
+Clifftoplodge_GDP                                 0.00           0.00     29.64%  🟡 LOW
+Mentor_Local                                      0.01           0.00     30.47%  🟢 OK
+Moore Attorney GDP                                0.01           0.00     35.19%  🟢 OK
+Chartered Wealth Solutions GDP                    0.01           0.00     36.62%  🟢 OK
+Amaro Foods_GDP                                   0.01           0.00     38.72%  🟢 OK
+HSXPOOL                                           0.52           0.20     38.74%  🟢 OK
+Southern_Sun_Cape_Town                            0.01           0.00     39.58%  🟢 OK
+Reflex-Local GDP                                  0.08           0.03     40.04%  🟢 OK
+Succ_Local                                        0.00           0.00     40.21%  🟢 OK
+GDP_HSLocal                                       0.17           0.07     40.85%  🟢 OK
+Apex-backup GDP                                   0.01           0.01     41.29%  🟢 OK
+MK_Local                                          0.07           0.04     47.37%  🟢 OK
+Merafe GDP                                        0.01           0.00     50.55%  🟢 OK
+Salchain_Local                                    0.01           0.00     53.86%  🟢 OK
+MMH_GHA_local                                     0.03           0.01     54.34%  🟢 OK
+Energy Partners GDPS                              0.01           0.01     56.17%  🟢 OK
+Irene_Local                                       0.01           0.00     56.74%  🟢 OK
+ForMax_Local                                      0.01           0.00     56.75%  🟢 OK
+sscptbak02_GDP                                    0.01           0.00     58.11%  🟢 OK
+Mifa_Local_New                                    0.02           0.01     60.86%  🟢 OK
+GDP_Local                                         0.02           0.02     61.72%  🟢 OK
+Southern_Sun_OR_Tambo                             0.00           0.00     63.31%  🟢 OK
+VanVyver Transport_Local GDP                      0.01           0.00     63.50%  🟢 OK
+SPS Plant GDP                                     0.02           0.02     64.72%  🟢 OK
+Mabula_Local                                      0.00           0.00     66.37%  🟢 OK
+MIFA_New_Local                                    0.01           0.01     67.62%  🟢 OK
+Mifa_Local                                        0.01           0.01     68.92%  🟢 OK
+Finlar_JHB_GDP                                    0.01           0.01     70.22%  🟢 OK
+Extra_Local                                       0.01           0.00     70.52%  🟢 OK
+Cani_Local                                        0.00           0.00     71.71%  🟢 OK
+Blue Bulls GBP                                    0.01           0.01     71.85%  🟢 OK
+PureGas_GDP                                       0.01           0.01     72.42%  🟢 OK
+Local DiskLib UmAfrika                            0.01           0.00     74.52%  🟢 OK
+uGT-BACKOFF-SRV                                   0.01           0.00     74.52%  🟢 OK
+ALS_Local                                         0.01           0.00     74.53%  🟢 OK
+Finlar_CPT_GDP                                    0.01           0.01     76.79%  🟢 OK
+Paradigm GDP                                      0.01           0.01     78.27%  🟢 OK
+Syntech_Local                                     0.01           0.00     79.42%  🟢 OK
+Traficc_Local_New                                 0.01           0.01     79.52%  🟢 OK
+CapriChem GDP                                     0.00           0.00     79.93%  🟢 OK
+GVSupreme GDP                                     0.00           0.00     83.22%  🟢 OK
+MMH_MOZ_Local                                     0.01           0.01     84.84%  🟢 OK
+Southern_Sun_Abu_Dhabi                            0.03           0.02     85.48%  🟢 OK
+MMH_Bots_local                                    0.01           0.01     85.67%  🟢 OK
+MMH_Les_CH_Local                                  0.01           0.01     86.69%  🟢 OK
+MMH_Nam_local                                     0.08           0.07     87.79%  🟢 OK
+MMH_Les_local                                     0.01           0.01     90.04%  🟢 OK
+Southernn_Sun_HazyView_Sun                        0.00           0.00     90.65%  🟢 OK
+Front Runner_GDP                                  0.00           0.00     90.92%  🟢 OK
+Capri Linux GDP                                   0.00           0.00     91.79%  🟢 OK
+CLSVMA01 - NAS                                    0.00           0.00     91.79%  🟢 OK
+CLSVMA01_Storage                                  0.00           0.00     91.79%  🟢 OK
+Universal Local GDP                               0.09           0.08     93.07%  🟢 OK
+Fasken_Local_GDP                                  0.08           0.07     95.66%  🟢 OK
+feynman GDP                                       0.00           0.00     97.41%  🟢 OK
+Netsurit Noc GDP                                  0.01           0.01     98.07%  🟢 OK
+TrackMatic GDP                                    0.04           0.03     98.13%  🟢 OK
+DHF_Local                                         0.01           0.01     98.41%  🟢 OK
+CCIS_Local                                        0.00           0.00     99.62%  🟢 OK
+Top Vending Hyper-V GDP                           0.01           0.01     99.94%  🟢 OK
+ClockWorks_Local                                  0.01           0.01     99.97%  🟢 OK
+IntergriSure_Local                                0.04           0.04    100.00%  🟢 OK
+
+⚠️  11 pools have less than 20% free space
+   These pools urgently need aging to free up space
+
+====================================================================================================
+SECTION 5: JOB ANALYSIS (Last 100 Jobs)
+====================================================================================================
+
+Total Jobs in Database: 100
+Recent Jobs Analyzed: 100
+  - Failed: 0 (0.0%)
+  - Successful: 0 (0.0%)
+
+====================================================================================================
+SECTION 6: RECOMMENDATIONS TO FIX AGING ISSUES
+====================================================================================================
+
+IMMEDIATE ACTIONS (Critical - Do These First):
+
+2. 🔧 REDUCE CYCLE RETENTION on 130 short-term policies
+   - Change from 2+ cycles to 1 cycle for policies with ≤30 days retention
+   - This will allow aging to occur 7-14 days faster
+   - Estimated Impact: 10-20% faster storage reclamation
+
+4. ♾️  REVIEW INFINITE RETENTION on 19 rules
+   - These rules will NEVER age out data
+   - Confirm if infinite retention is actually required
+   - Consider adding finite retention periods
+
+NEXT STEPS FOR DEEPER ANALYSIS:
+
+1. 📊 COLLECT JOB DATA
+   - Need to pull actual backup job history to see:
+     • Which full backups are failing (preventing cycle completion)
+     • Which clients haven't backed up recently (disabled clients)
+     • Backup success rates per plan
+
+2. 🔍 CHECK DATA AGING JOB LOGS
+   - Review aging job execution history
+   - Check for aging job failures or long run times
+   - Verify aging jobs are scheduled and running
+
+3. 📅 ANALYZE SCHEDULE CONFLICTS
+   - Check if aging jobs conflict with backup windows
+   - Verify backup schedules produce regular full backups
+   - Ensure cycles can actually complete
+
+====================================================================================================
+SECTION 7: EXECUTIVE SUMMARY
+====================================================================================================
+
+AGING ISSUE SEVERITY BREAKDOWN:
+
+  🔴 CRITICAL (Aging Disabled):              0 rules (0.0%)
+  🟠 HIGH (Inefficient Short-term):        130 rules (25.1%)
+  🟡 MEDIUM (High Cycle Requirements):       0 rules (0.0%)
+  🔵 INFO (Infinite Retention):             19 rules (3.7%)
+  🟢 OK (No Issues):                       369 rules
+
+ESTIMATED STORAGE IMPACT:
+
+
+  - 130 inefficient short-term policies
+  - Fixing these could accelerate reclamation by 7-14 days
+  - Potential impact: 10-20% improvement in storage efficiency
+
+====================================================================================================
+ANALYSIS COMPLETE
+====================================================================================================
+
+📄 Review the sections above for detailed findings
+🔧 Implement the recommendations to resolve aging issues
+📊 Re-run this analysis after making changes to verify improvements
+

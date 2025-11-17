@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUICKSTART</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: QUICKSTART.md</div>
+    <h1 id="quick-start-guide">Quick Start Guide</h1>
+<p>Get your Commvault Data Retrieval app running in 5 minutes!</p>
+<h2 id="step-1-install-dependencies">Step 1: Install Dependencies</h2>
+<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</code></pre></div>
+
+<p>This installs Flask and requests libraries.</p>
+<h2 id="step-2-configure-your-commvault-connection">Step 2: Configure Your Commvault Connection</h2>
+<p>The <a href="config.ini">config.ini</a> file is already set up with your credentials:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">[commvault]</span>
+<span class="na">base_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">http://commvaultweb01.jhb.seagatestoragecloud.co.za:81/SearchSvc/CVWebService.svc</span>
+<span class="na">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">guys@storvault.co.za</span>
+<span class="na">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">U3RyMzN0MDkhIQ==</span>
+</code></pre></div>
+
+<p>If you need to change these, edit the file or use the web interface.</p>
+<h2 id="step-3-run-the-application">Step 3: Run the Application</h2>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>app.py
+</code></pre></div>
+
+<p>You should see:</p>
+<div class="codehilite"><pre><span></span><code> <span class="k">*</span> Running on http://0.0.0.0:5000
+ <span class="k">*</span> Debug mode: on
+</code></pre></div>
+
+<h2 id="step-4-open-in-browser">Step 4: Open in Browser</h2>
+<p>Navigate to: <strong>http://localhost:5000</strong></p>
+<h2 id="step-5-fetch-data">Step 5: Fetch Data</h2>
+<ol>
+<li>The form will be pre-filled with your config settings</li>
+<li>Select which data types you want to retrieve:</li>
+<li>☑️ Clients</li>
+<li>☑️ Jobs</li>
+<li>☑️ Plans</li>
+<li>☑️ Storage</li>
+<li>Click <strong>"Fetch Data from Commvault"</strong></li>
+<li>Wait for data to be retrieved (may take a few seconds)</li>
+<li>View the results on the results page!</li>
+</ol>
+<h2 id="step-6-browse-your-data">Step 6: Browse Your Data</h2>
+<p>Use the navigation menu to view different data types:
+- <strong>View Clients</strong> - All client machines
+- <strong>View Jobs</strong> - Latest 100 backup/restore jobs
+- <strong>View Plans</strong> - Backup plans and policies
+- <strong>View Storage</strong> - Storage policy configurations</p>
+<h2 id="database-location">Database Location</h2>
+<p>All data is stored in: <code>Database/commvault.db</code></p>
+<p>You can query this SQLite database directly using tools like:
+- <a href="https://sqlitebrowser.org/">DB Browser for SQLite</a>
+- <code>sqlite3</code> command line
+- Python scripts</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p><strong>Can't connect?</strong>
+- Check the base URL is accessible from your machine
+- Verify credentials are correct
+- Ensure the Commvault server is running</p>
+<p><strong>Authentication failed?</strong>
+- The password in config is Base64-encoded: <code>U3RyMzN0MDkhIQ==</code>
+- If you need to change it, you can enter a plaintext password in the web form</p>
+<p><strong>No data showing?</strong>
+- Check that the data types exist in your CommCell
+- Look for error messages on the results page
+- Check your user has permissions to access the API</p>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li>Explore the <a href="README.md">README.md</a> for detailed documentation</li>
+<li>Modify <a href="app.py">app.py</a> to add custom data processing</li>
+<li>Query the database directly for custom reports</li>
+<li>Schedule automated data fetching with cron/Task Scheduler</li>
+</ul>
+<h2 id="api-endpoints-overview">API Endpoints Overview</h2>
+<table>
+<thead>
+<tr>
+<th>What You Click</th>
+<th>API Called</th>
+<th>What You Get</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fetch Clients</td>
+<td><code>/Client</code></td>
+<td>All backup clients</td>
+</tr>
+<tr>
+<td>Fetch Jobs</td>
+<td><code>/Job</code></td>
+<td>Backup/restore jobs</td>
+</tr>
+<tr>
+<td>Fetch Plans</td>
+<td><code>/Plan</code></td>
+<td>Backup policies</td>
+</tr>
+<tr>
+<td>Fetch Storage</td>
+<td><code>/V2/StoragePolicy</code></td>
+<td>Storage configs</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>Ready to go!</strong> Start the app and begin retrieving your Commvault data.</p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

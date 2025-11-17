@@ -1,0 +1,3495 @@
+{
+  "storagePoolList": [
+    {
+      "cloudStorageClassName": "Standard/Glacier (Combined Storage Tiers)",
+      "numberOfNodes": 13,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 16691809,
+      "totalCapacity": -1,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": 9,
+      "isArchiveStorage": 1,
+      "libraryVendorType": 15,
+      "totalFreeSpace": -1,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 2,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 151
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 481,
+        "clientGroupName": "ActiveScale_EXT"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "ActiveScale_EXT",
+        "storagePolicyId": 481,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "ActiveScale_EXT",
+        "_type_": 160,
+        "storagePoolId": 481
+      }
+    },
+    {
+      "cloudStorageClassName": "Standard/Glacier (Combined Storage Tiers)",
+      "numberOfNodes": 2,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 835808964,
+      "totalCapacity": -1,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": 9,
+      "isArchiveStorage": 1,
+      "libraryVendorType": 15,
+      "totalFreeSpace": -1,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 2,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 174
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 529,
+        "clientGroupName": "ActiveScale_GDP_Tape"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "ActiveScale_GDP_Tape",
+        "storagePolicyId": 529,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "ActiveScale_GDP_Tape",
+        "_type_": 160,
+        "storagePoolId": 529
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 1455003,
+      "totalCapacity": 5722493,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 4265199,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 17
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 131,
+        "clientGroupName": "ALS_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "ALS_Local",
+        "storagePolicyId": 131,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "ALS_Local",
+        "_type_": 160,
+        "storagePoolId": 131
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 8176331,
+      "totalCapacity": 13351405,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 5169731,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 90
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 354,
+        "clientGroupName": "Amaro Foods_GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Amaro Foods_GDP",
+        "storagePolicyId": 354,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Amaro Foods_GDP",
+        "_type_": 160,
+        "storagePoolId": 354
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 4916979,
+      "totalCapacity": 5006276,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 98821,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 74
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 298,
+        "clientGroupName": "Apex GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Apex GDP",
+        "storagePolicyId": 298,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Apex GDP",
+        "_type_": 160,
+        "storagePoolId": 298
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 205896,
+      "totalCapacity": 14845690,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 6130004,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 67
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 278,
+        "clientGroupName": "Apex-backup GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Apex-backup GDP",
+        "storagePolicyId": 278,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Apex-backup GDP",
+        "_type_": 160,
+        "storagePoolId": 278
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 2412568,
+      "totalCapacity": 8583418,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 6167294,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 18
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 133,
+        "clientGroupName": "Blue Bulls GBP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Blue Bulls GBP",
+        "storagePolicyId": 133,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Blue Bulls GBP",
+        "_type_": 160,
+        "storagePoolId": 133
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 808630,
+      "totalCapacity": 2861538,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 2051918,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 45
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 236,
+        "clientGroupName": "Cani_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Cani_Local",
+        "storagePolicyId": 236,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Cani_Local",
+        "_type_": 160,
+        "storagePoolId": 236
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 0,
+      "totalCapacity": 1715773,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 1574910,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 165
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 502,
+        "clientGroupName": "Capri Linux GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Capri Linux GDP",
+        "storagePolicyId": 502,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Capri Linux GDP",
+        "_type_": 160,
+        "storagePoolId": 502
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 7499267,
+      "totalCapacity": 8912704,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 1314463,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 44
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 225,
+        "clientGroupName": "Capri_Local_GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Capri_Local_GDP",
+        "storagePolicyId": 225,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Capri_Local_GDP",
+        "_type_": 160,
+        "storagePoolId": 225
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 500619,
+      "totalCapacity": 3813869,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 3048556,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 84
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 350,
+        "clientGroupName": "CapriChem GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "CapriChem GDP",
+        "storagePolicyId": 350,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "CapriChem GDP",
+        "_type_": 160,
+        "storagePoolId": 350
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 5457,
+      "totalCapacity": 2861053,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 2850080,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 22
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 161,
+        "clientGroupName": "CCIS_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "CCIS_Local",
+        "storagePolicyId": 161,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "CCIS_Local",
+        "_type_": 160,
+        "storagePoolId": 161
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 3625393,
+      "totalCapacity": 5722605,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 2095341,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 106
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 389,
+        "clientGroupName": "Chartered Wealth Solutions GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Chartered Wealth Solutions GDP",
+        "storagePolicyId": 389,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Chartered Wealth Solutions GDP",
+        "_type_": 160,
+        "storagePoolId": 389
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 575168,
+      "totalCapacity": 819069,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 242771,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 73
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 293,
+        "clientGroupName": "Clifftoplodge_GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Clifftoplodge_GDP",
+        "storagePolicyId": 293,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Clifftoplodge_GDP",
+        "_type_": 160,
+        "storagePoolId": 293
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 0,
+      "totalCapacity": 8912704,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 1314463,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 167
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 507,
+        "clientGroupName": "CLMAN02_Storage"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "CLMAN02_Storage",
+        "storagePolicyId": 507,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "CLMAN02_Storage",
+        "_type_": 160,
+        "storagePoolId": 507
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 14,
+      "totalCapacity": 7630205,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 7627774,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 23
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 171,
+        "clientGroupName": "ClockWorks_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "ClockWorks_Local",
+        "storagePolicyId": 171,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "ClockWorks_Local",
+        "_type_": 160,
+        "storagePoolId": 171
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 0,
+      "totalCapacity": 1715773,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 1574910,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 166
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 505,
+        "clientGroupName": "CLSVMA01 - NAS"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "CLSVMA01 - NAS",
+        "storagePolicyId": 505,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "CLSVMA01 - NAS",
+        "_type_": 160,
+        "storagePoolId": 505
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 128857,
+      "totalCapacity": 1715773,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 1574910,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 168
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 508,
+        "clientGroupName": "CLSVMA01_Storage"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "CLSVMA01_Storage",
+        "storagePolicyId": 508,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "CLSVMA01_Storage",
+        "_type_": 160,
+        "storagePoolId": 508
+      }
+    },
+    {
+      "cloudStorageClassName": "S3 Standard-Infrequent Access",
+      "numberOfNodes": 12,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 163342017,
+      "totalCapacity": -1,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": 2,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 2,
+      "totalFreeSpace": -1,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 2,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 127
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 424,
+        "clientGroupName": "DC09_Temp_Cloud"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "DC09_Temp_Cloud",
+        "storagePolicyId": 424,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "DC09_Temp_Cloud",
+        "_type_": 160,
+        "storagePoolId": 424
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 90650,
+      "totalCapacity": 5722493,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 5631249,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 117
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 407,
+        "clientGroupName": "DHF_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "DHF_Local",
+        "storagePolicyId": 407,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "DHF_Local",
+        "_type_": 160,
+        "storagePoolId": 407
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 2523134,
+      "totalCapacity": 12483567,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 7012580,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 83
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 346,
+        "clientGroupName": "Energy Partners GDPS"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Energy Partners GDPS",
+        "storagePolicyId": 346,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Energy Partners GDPS",
+        "_type_": 160,
+        "storagePoolId": 346
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 8927547,
+      "totalCapacity": 12483567,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 2366337,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 111
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 395,
+        "clientGroupName": "EnergyPartners_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "EnergyPartners_Local",
+        "storagePolicyId": 395,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "EnergyPartners_Local",
+        "_type_": 160,
+        "storagePoolId": 395
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 1859419,
+      "totalCapacity": 6371066,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 4492998,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 66
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 276,
+        "clientGroupName": "Extra_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Extra_Local",
+        "storagePolicyId": 276,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Extra_Local",
+        "_type_": 160,
+        "storagePoolId": 276
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 3639186,
+      "totalCapacity": 83933907,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 80288965,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 78
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 316,
+        "clientGroupName": "Fasken_Local_GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Fasken_Local_GDP",
+        "storagePolicyId": 316,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Fasken_Local_GDP",
+        "_type_": 160,
+        "storagePoolId": 316
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 19718,
+      "totalCapacity": 767981,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 748125,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 177
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 541,
+        "clientGroupName": "feynman GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "feynman GDP",
+        "storagePolicyId": 541,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "feynman GDP",
+        "_type_": 160,
+        "storagePoolId": 541
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 2653860,
+      "totalCapacity": 11443709,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 8787551,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 48
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 239,
+        "clientGroupName": "Finlar_CPT_GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Finlar_CPT_GDP",
+        "storagePolicyId": 239,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Finlar_CPT_GDP",
+        "_type_": 160,
+        "storagePoolId": 239
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 3242199,
+      "totalCapacity": 11330423,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 7955663,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 126
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 423,
+        "clientGroupName": "Finlar_JHB_GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Finlar_JHB_GDP",
+        "storagePolicyId": 423,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Finlar_JHB_GDP",
+        "_type_": 160,
+        "storagePoolId": 423
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 3181452,
+      "totalCapacity": 7630205,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 4329798,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 19
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 134,
+        "clientGroupName": "ForMax_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "ForMax_Local",
+        "storagePolicyId": 134,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "ForMax_Local",
+        "_type_": 160,
+        "storagePoolId": 134
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 379693,
+      "totalCapacity": 4194285,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 3813611,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 79
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 322,
+        "clientGroupName": "Front Runner_GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Front Runner_GDP",
+        "storagePolicyId": 322,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Front Runner_GDP",
+        "_type_": 160,
+        "storagePoolId": 322
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 3716716,
+      "totalCapacity": 10239981,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 1329243,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 145
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 471,
+        "clientGroupName": "GDP Railway"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "GDP Railway",
+        "storagePolicyId": 471,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "GDP Railway",
+        "_type_": 160,
+        "storagePoolId": 471
+      }
+    },
+    {
+      "cloudStorageClassName": "Standard/Glacier (Combined Storage Tiers)",
+      "numberOfNodes": 13,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 3497065041,
+      "totalCapacity": -1,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": 9,
+      "isArchiveStorage": 1,
+      "libraryVendorType": 2,
+      "totalFreeSpace": -1,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 2,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 59
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 265,
+        "clientGroupName": "GDP_Cloud3/Primary_Global"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "GDP_Cloud3/Primary_Global",
+        "storagePolicyId": 265,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "GDP_Cloud3/Primary_Global",
+        "_type_": 160,
+        "storagePoolId": 265
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 3,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 108289264,
+      "isHSXReadOnly": false,
+      "totalCapacity": 183081989,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "usedSpacePerc": 59.15,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "HSXUtilWarn": "",
+      "totalFreeSpace": 74792725,
+      "storagePoolType": 4,
+      "storageSubType": 0,
+      "isHSXWriteOpGraceAppl": false,
+      "isHSXWriteOpExt": false,
+      "storageType": 3,
+      "status": "Online",
+      "statusCode": 300,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 16
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 126,
+        "clientGroupName": "GDP_HSLocal"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "GDP_HSLocal",
+        "storagePolicyId": 126,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "GDP_HSLocal",
+        "_type_": 160,
+        "storagePoolId": 126
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 6096287,
+      "totalCapacity": 26293013,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 16226909,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 1
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 3,
+        "clientGroupName": "GDP_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "GDP_Local",
+        "storagePolicyId": 3,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "GDP_Local",
+        "_type_": 160,
+        "storagePoolId": 3
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 479269,
+      "totalCapacity": 2616522,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 2177549,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 96
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 365,
+        "clientGroupName": "GVSupreme GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "GVSupreme GDP",
+        "storagePolicyId": 365,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "GVSupreme GDP",
+        "_type_": 160,
+        "storagePoolId": 365
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 3,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 538943967,
+      "isHSXReadOnly": false,
+      "totalCapacity": 755595264,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "usedSpacePerc": 71.33,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "HSXUtilWarn": "",
+      "totalFreeSpace": 216651297,
+      "storagePoolType": 4,
+      "storageSubType": 0,
+      "isHSXWriteOpGraceAppl": false,
+      "isHSXWriteOpExt": false,
+      "storageType": 3,
+      "status": "Online",
+      "statusCode": 300,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 131
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 436,
+        "clientGroupName": "HPEHSXPOOL"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "HPEHSXPOOL",
+        "storagePolicyId": 436,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "HPEHSXPOOL",
+        "_type_": 160,
+        "storagePoolId": 436
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 6,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 345334854,
+      "isHSXReadOnly": false,
+      "totalCapacity": 563683328,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "usedSpacePerc": 61.26,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "HSXUtilWarn": "",
+      "totalFreeSpace": 218348474,
+      "storagePoolType": 4,
+      "storageSubType": 0,
+      "isHSXWriteOpGraceAppl": false,
+      "isHSXWriteOpExt": false,
+      "storageType": 3,
+      "status": "Online",
+      "statusCode": 300,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 107
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 390,
+        "clientGroupName": "HSXPOOL"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "HSXPOOL",
+        "storagePolicyId": 390,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "HSXPOOL",
+        "_type_": 160,
+        "storagePoolId": 390
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 0,
+      "totalCapacity": 37796136,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 37795680,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 172
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 513,
+        "clientGroupName": "IntergriSure_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "IntergriSure_Local",
+        "storagePolicyId": 513,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "IntergriSure_Local",
+        "_type_": 160,
+        "storagePoolId": 513
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 2473240,
+      "totalCapacity": 5722242,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 3246672,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 61
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 266,
+        "clientGroupName": "Irene_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Irene_Local",
+        "storagePolicyId": 266,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Irene_Local",
+        "_type_": 160,
+        "storagePoolId": 266
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 11470,
+      "totalCapacity": 7032701,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 5240682,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 98
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 369,
+        "clientGroupName": "Local DiskLib UmAfrika"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Local DiskLib UmAfrika",
+        "storagePolicyId": 369,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Local DiskLib UmAfrika",
+        "_type_": 160,
+        "storagePoolId": 369
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 896101,
+      "totalCapacity": 3302269,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 2191639,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 72
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 291,
+        "clientGroupName": "Mabula_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Mabula_Local",
+        "storagePolicyId": 291,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Mabula_Local",
+        "_type_": 160,
+        "storagePoolId": 291
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 7716491,
+      "totalCapacity": 11169112,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 3403390,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 64
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 271,
+        "clientGroupName": "Mentor_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Mentor_Local",
+        "storagePolicyId": 271,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Mentor_Local",
+        "_type_": 160,
+        "storagePoolId": 271
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 3763205,
+      "totalCapacity": 7630411,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 3856921,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 113
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 398,
+        "clientGroupName": "Merafe GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Merafe GDP",
+        "storagePolicyId": 398,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Merafe GDP",
+        "_type_": 160,
+        "storagePoolId": 398
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 3803822,
+      "totalCapacity": 12247021,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 8440374,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 104
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 386,
+        "clientGroupName": "Mifa_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Mifa_Local",
+        "storagePolicyId": 386,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Mifa_Local",
+        "_type_": 160,
+        "storagePoolId": 386
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 6480712,
+      "totalCapacity": 16518235,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 10052738,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 108
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 391,
+        "clientGroupName": "Mifa_Local_New"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Mifa_Local_New",
+        "storagePolicyId": 391,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Mifa_Local_New",
+        "_type_": 160,
+        "storagePoolId": 391
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 3701480,
+      "totalCapacity": 11445117,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 7738782,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 105
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 388,
+        "clientGroupName": "MIFA_New_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "MIFA_New_Local",
+        "storagePolicyId": 388,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "MIFA_New_Local",
+        "_type_": 160,
+        "storagePoolId": 388
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 42126848,
+      "totalCapacity": 80105965,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 37949021,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 35
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 205,
+        "clientGroupName": "MK_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "MK_Local",
+        "storagePolicyId": 205,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "MK_Local",
+        "_type_": 160,
+        "storagePoolId": 205
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 6713651,
+      "totalCapacity": 22890477,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 2941908,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 41
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 220,
+        "clientGroupName": "MKLM_GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "MKLM_GDP",
+        "storagePolicyId": 220,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "MKLM_GDP",
+        "_type_": 160,
+        "storagePoolId": 220
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 1631559,
+      "totalCapacity": 11444717,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 9804546,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 50
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 249,
+        "clientGroupName": "MMH_Bots_local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "MMH_Bots_local",
+        "storagePolicyId": 249,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "MMH_Bots_local",
+        "_type_": 160,
+        "storagePoolId": 249
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 13097177,
+      "totalCapacity": 28613101,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 15548410,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 51
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 250,
+        "clientGroupName": "MMH_GHA_local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "MMH_GHA_local",
+        "storagePolicyId": 250,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "MMH_GHA_local",
+        "_type_": 160,
+        "storagePoolId": 250
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 1522309,
+      "totalCapacity": 11444717,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 9920945,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 54
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 255,
+        "clientGroupName": "MMH_Les_CH_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "MMH_Les_CH_Local",
+        "storagePolicyId": 255,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "MMH_Les_CH_Local",
+        "_type_": 160,
+        "storagePoolId": 255
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 1131569,
+      "totalCapacity": 11444717,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 10304652,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 52
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 251,
+        "clientGroupName": "MMH_Les_local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "MMH_Les_local",
+        "storagePolicyId": 251,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "MMH_Les_local",
+        "_type_": 160,
+        "storagePoolId": 251
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 1733602,
+      "totalCapacity": 11444717,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 9709474,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 95
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 363,
+        "clientGroupName": "MMH_MOZ_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "MMH_MOZ_Local",
+        "storagePolicyId": 363,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "MMH_MOZ_Local",
+        "_type_": 160,
+        "storagePoolId": 363
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 10234796,
+      "totalCapacity": 83934029,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 73689348,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 53
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 252,
+        "clientGroupName": "MMH_Nam_local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "MMH_Nam_local",
+        "storagePolicyId": 252,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "MMH_Nam_local",
+        "_type_": 160,
+        "storagePoolId": 252
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 1022627,
+      "totalCapacity": 14610923,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 5141925,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 94
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 361,
+        "clientGroupName": "Moore Attorney GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Moore Attorney GDP",
+        "storagePolicyId": 361,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Moore Attorney GDP",
+        "_type_": 160,
+        "storagePoolId": 361
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 77019,
+      "totalCapacity": 6688749,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 6559769,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 88
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 353,
+        "clientGroupName": "Netsurit Noc GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Netsurit Noc GDP",
+        "storagePolicyId": 353,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Netsurit Noc GDP",
+        "_type_": 160,
+        "storagePoolId": 353
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 3313724,
+      "totalCapacity": 15259117,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 11942903,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 128
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 425,
+        "clientGroupName": "Paradigm GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Paradigm GDP",
+        "storagePolicyId": 425,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Paradigm GDP",
+        "_type_": 160,
+        "storagePoolId": 425
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 2060330,
+      "totalCapacity": 7476717,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 5414446,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 77
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 315,
+        "clientGroupName": "PureGas_GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "PureGas_GDP",
+        "storagePolicyId": 315,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "PureGas_GDP",
+        "_type_": 160,
+        "storagePoolId": 315
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 49859103,
+      "totalCapacity": 83934016,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 33603519,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 175
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 530,
+        "clientGroupName": "Reflex-Local GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Reflex-Local GDP",
+        "storagePolicyId": 530,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Reflex-Local GDP",
+        "_type_": 160,
+        "storagePoolId": 530
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 2629617,
+      "totalCapacity": 5721981,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 3081912,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 13
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 82,
+        "clientGroupName": "Salchain_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Salchain_Local",
+        "storagePolicyId": 82,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Salchain_Local",
+        "_type_": 160,
+        "storagePoolId": 82
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 24522624,
+      "totalCapacity": 28610522,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 2661647,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 92
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 355,
+        "clientGroupName": "Simera_GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Simera_GDP",
+        "storagePolicyId": 355,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Simera_GDP",
+        "_type_": 160,
+        "storagePoolId": 355
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 3250890,
+      "totalCapacity": 30521325,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 26089572,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 141
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 459,
+        "clientGroupName": "Southern_Sun_Abu_Dhabi"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Southern_Sun_Abu_Dhabi",
+        "storagePolicyId": 459,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Southern_Sun_Abu_Dhabi",
+        "_type_": 160,
+        "storagePoolId": 459
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 3315892,
+      "totalCapacity": 7273340,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 2879104,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 157
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 489,
+        "clientGroupName": "Southern_Sun_Cape_Town"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Southern_Sun_Cape_Town",
+        "storagePolicyId": 489,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Southern_Sun_Cape_Town",
+        "_type_": 160,
+        "storagePoolId": 489
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 899909,
+      "totalCapacity": 1144060,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 142712,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 142
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 464,
+        "clientGroupName": "Southern_Sun_City_Bowl"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Southern_Sun_City_Bowl",
+        "storagePolicyId": 464,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Southern_Sun_City_Bowl",
+        "_type_": 160,
+        "storagePoolId": 464
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 1615976,
+      "totalCapacity": 4095869,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 84054,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 137
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 451,
+        "clientGroupName": "Southern_Sun_Durban"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Southern_Sun_Durban",
+        "storagePolicyId": 451,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Southern_Sun_Durban",
+        "_type_": 160,
+        "storagePoolId": 451
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 4646141,
+      "totalCapacity": 38151677,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 6791411,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 136
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 447,
+        "clientGroupName": "Southern_Sun_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Southern_Sun_Local",
+        "storagePolicyId": 447,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Southern_Sun_Local",
+        "_type_": 160,
+        "storagePoolId": 447
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 25239,
+      "totalCapacity": 759676,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 480960,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 140
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 457,
+        "clientGroupName": "Southern_Sun_OR_Tambo"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Southern_Sun_OR_Tambo",
+        "storagePolicyId": 457,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Southern_Sun_OR_Tambo",
+        "_type_": 160,
+        "storagePoolId": 457
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 3632,
+      "totalCapacity": 1023999,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 928275,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 139
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 455,
+        "clientGroupName": "Southernn_Sun_HazyView_Sun"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Southernn_Sun_HazyView_Sun",
+        "storagePolicyId": 455,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Southernn_Sun_HazyView_Sun",
+        "_type_": 160,
+        "storagePoolId": 455
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 2213721,
+      "totalCapacity": 2861354,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 648151,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 49
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 244,
+        "clientGroupName": "Speedspace_GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Speedspace_GDP",
+        "storagePolicyId": 244,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Speedspace_GDP",
+        "_type_": 160,
+        "storagePoolId": 244
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 2434441,
+      "totalCapacity": 26214381,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 16967241,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 93
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 356,
+        "clientGroupName": "SPS Plant GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "SPS Plant GDP",
+        "storagePolicyId": 356,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "SPS Plant GDP",
+        "_type_": 160,
+        "storagePoolId": 356
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 2400630,
+      "totalCapacity": 5722605,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 3325134,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 173
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 525,
+        "clientGroupName": "sscptbak02_GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "sscptbak02_GDP",
+        "storagePolicyId": 525,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "sscptbak02_GDP",
+        "_type_": 160,
+        "storagePoolId": 525
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 1702345,
+      "totalCapacity": 2860925,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 1150308,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 20
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 135,
+        "clientGroupName": "Succ_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Succ_Local",
+        "storagePolicyId": 135,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Succ_Local",
+        "_type_": 160,
+        "storagePoolId": 135
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 1163229,
+      "totalCapacity": 5723092,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 4545095,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 40
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 217,
+        "clientGroupName": "Syntech_Local"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Syntech_Local",
+        "storagePolicyId": 217,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Syntech_Local",
+        "_type_": 160,
+        "storagePoolId": 217
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 958,
+      "totalCapacity": 7630755,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 7626276,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 80
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 326,
+        "clientGroupName": "Top Vending Hyper-V GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Top Vending Hyper-V GDP",
+        "storagePolicyId": 326,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Top Vending Hyper-V GDP",
+        "_type_": 160,
+        "storagePoolId": 326
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 566675,
+      "totalCapacity": 38148059,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 37433968,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 147
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 475,
+        "clientGroupName": "TrackMatic GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "TrackMatic GDP",
+        "storagePolicyId": 475,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "TrackMatic GDP",
+        "_type_": 160,
+        "storagePoolId": 475
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 1530066,
+      "totalCapacity": 7476717,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 5945286,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 144
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 470,
+        "clientGroupName": "Traficc_Local_New"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Traficc_Local_New",
+        "storagePolicyId": 470,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Traficc_Local_New",
+        "_type_": 160,
+        "storagePoolId": 470
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 0,
+      "totalCapacity": 7032701,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 5240682,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 121
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 417,
+        "clientGroupName": "uGT-BACKOFF-SRV"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "uGT-BACKOFF-SRV",
+        "storagePolicyId": 417,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "uGT-BACKOFF-SRV",
+        "_type_": 160,
+        "storagePoolId": 417
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 12024,
+      "totalCapacity": 95370108,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 0,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 12755123,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Offline (Mount path is inaccessible. Check the following.\na. Is the mount path visible to the operating system on the MediaAgent machine.\nb. Is the username/password correctly entered.\nc. Does this user have read/write privileges to this mount path.)",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 146
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 473,
+        "clientGroupName": "Universal GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Universal GDP",
+        "storagePolicyId": 473,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Universal GDP",
+        "_type_": 160,
+        "storagePoolId": 473
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 6098401,
+      "totalCapacity": 95370176,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 88756883,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 176
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 538,
+        "clientGroupName": "Universal Local GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "Universal Local GDP",
+        "storagePolicyId": 538,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "Universal Local GDP",
+        "_type_": 160,
+        "storagePoolId": 538
+      }
+    },
+    {
+      "cloudStorageClassName": "N/A",
+      "numberOfNodes": 1,
+      "poolRetentionPeriodDays": -1,
+      "sizeOnDisk": 1302360,
+      "totalCapacity": 6291392,
+      "wormStoragePoolFlag": 0,
+      "reserved1": 1,
+      "cloudStorageClassNumber": -1,
+      "isArchiveStorage": 0,
+      "libraryVendorType": 1,
+      "totalFreeSpace": 3995236,
+      "storagePoolType": 1,
+      "storageSubType": 0,
+      "storageType": 1,
+      "status": "Online",
+      "statusCode": 0,
+      "libraryList": [
+        {
+          "_type_": 9,
+          "libraryId": 99
+        }
+      ],
+      "storagePool": {
+        "_type_": 28,
+        "clientGroupId": 372,
+        "clientGroupName": "VanVyver Transport_Local GDP"
+      },
+      "storagePolicyEntity": {
+        "_type_": 17,
+        "storagePolicyName": "VanVyver Transport_Local GDP",
+        "storagePolicyId": 372,
+        "entityInfo": {
+          "companyId": 0,
+          "companyName": "Commcell",
+          "multiCommcellId": 0
+        }
+      },
+      "storagePoolEntity": {
+        "storagePoolName": "VanVyver Transport_Local GDP",
+        "_type_": 160,
+        "storagePoolId": 372
+      }
+    }
+  ]
+}

@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOB SCHEDULE RESEARCH</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: JOB_SCHEDULE_RESEARCH.md</div>
+    <h1 id="commvault-job-schedule-data-research">Commvault Job Schedule Data Research</h1>
+<p><strong>Date:</strong> 2025-11-14
+<strong>Purpose:</strong> Research how to pull job schedule data from Commvault REST API</p>
+<p><strong>⚠️ IMPORTANT: READ-ONLY PROJECT</strong>
+- This project is <strong>explicitly READ-ONLY</strong>
+- <strong>ONLY GET requests</strong> are allowed
+- <strong>NO PUT, POST, PATCH, or DELETE operations</strong>
+- Data retrieval and viewing ONLY</p>
+<hr />
+<h2 id="api-endpoints-discovered">API Endpoints Discovered</h2>
+<p>Based on Commvault REST API documentation research, the following endpoints are available for retrieving schedule data:</p>
+<h3 id="1-get-all-schedules">1. Get All Schedules</h3>
+<p><strong>Endpoint:</strong> <code>GET /Schedules</code></p>
+<p><strong>Purpose:</strong> Returns all of the schedules for a client</p>
+<p><strong>Query Parameters:</strong>
+- <code>clientId</code> (optional) - Filter by specific client
+- <code>admin</code> (optional) - Include admin/system schedules (0 or 1)
+- <code>storagepolicyId</code> (optional) - Filter by storage policy</p>
+<p><strong>Example Request:</strong></p>
+<div class="codehilite"><pre><span></span><code>GET {baseUrl}/Schedules?admin=1
+GET {baseUrl}/Schedules?storagepolicyId=3&amp;admin=1
+</code></pre></div>
+
+<p><strong>Response Structure:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;taskDetail&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;task&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;taskName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;taskType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;policyType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;associations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;subclientId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;storagePolicyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;copyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;clientId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;clientGroupId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;applicationId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;libraryId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;backupsetId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;instanceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;workflowId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;trackingPolicyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;subTasks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;subTask&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;subTaskName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;subTaskType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;operationType&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;backupOpts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;backupLevel&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">              </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="2-get-schedule-properties">2. Get Schedule Properties</h3>
+<p><strong>Endpoint:</strong> <code>GET /Schedules/{scheduleId}</code></p>
+<p><strong>Purpose:</strong> Retrieves detailed properties of a specific schedule</p>
+<p><strong>Path Parameters:</strong>
+- <code>scheduleId</code> (required) - The ID of the schedule</p>
+<p><strong>Example Request:</strong></p>
+<div class="codehilite"><pre><span></span><code>GET {baseUrl}/Schedules/121
+</code></pre></div>
+
+<p><strong>Response Contains:</strong>
+- Schedule name and ID
+- Task type and operation type
+- Schedule pattern (frequency, time, days)
+- Associated entities (client, subclient, etc.)
+- Next run time
+- Schedule status (enabled/disabled)</p>
+<h3 id="3-get-schedule-policies">3. Get Schedule Policies</h3>
+<p><strong>Endpoint:</strong> <code>GET /SchedulePolicy</code></p>
+<p><strong>Purpose:</strong> Returns a list of schedule policies (READ-ONLY)</p>
+<p><strong>Query Parameters:</strong>
+- <code>operationType</code> (optional) - Filter by operation type (backup, aux copy, etc.)
+- <code>entityType</code> (optional) - Filter by entity type
+- <code>scheduleId</code> (optional) - Get specific schedule policy</p>
+<p><strong>Example Request:</strong></p>
+<div class="codehilite"><pre><span></span><code>GET {baseUrl}/SchedulePolicy
+GET {baseUrl}/SchedulePolicy?operationType=2
+</code></pre></div>
+
+<p><strong>Note:</strong> This endpoint is for viewing schedule policies only. No modifications are supported in this read-only project.</p>
+<hr />
+<h2 id="schedule-data-fields">Schedule Data Fields</h2>
+<h3 id="task-information">Task Information</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>taskId</td>
+<td>Integer</td>
+<td>Unique identifier for the scheduled task</td>
+</tr>
+<tr>
+<td>taskName</td>
+<td>String</td>
+<td>Name of the scheduled task</td>
+</tr>
+<tr>
+<td>taskType</td>
+<td>Integer</td>
+<td>Type of task (backup, aux copy, workflow, etc.)</td>
+</tr>
+<tr>
+<td>policyType</td>
+<td>Integer</td>
+<td>Policy type code</td>
+</tr>
+</tbody>
+</table>
+<h3 id="schedule-pattern-fields">Schedule Pattern Fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>scheduleId</td>
+<td>Integer</td>
+<td>Unique schedule identifier</td>
+</tr>
+<tr>
+<td>scheduleName</td>
+<td>String</td>
+<td>Name of the schedule</td>
+</tr>
+<tr>
+<td>schedulePattern</td>
+<td>Object</td>
+<td>Contains frequency and timing information</td>
+</tr>
+<tr>
+<td>freq_type</td>
+<td>Integer</td>
+<td>Frequency type (daily, weekly, monthly)</td>
+</tr>
+<tr>
+<td>active_start_time</td>
+<td>Integer</td>
+<td>Start time of day (in seconds from midnight)</td>
+</tr>
+<tr>
+<td>active_end_time</td>
+<td>Integer</td>
+<td>End time of day</td>
+</tr>
+<tr>
+<td>freq_interval</td>
+<td>Integer</td>
+<td>Interval between occurrences</td>
+</tr>
+<tr>
+<td>freq_recurrence_factor</td>
+<td>Integer</td>
+<td>Recurrence factor</td>
+</tr>
+</tbody>
+</table>
+<h3 id="association-fields">Association Fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>clientId</td>
+<td>Integer</td>
+<td>Associated client ID</td>
+</tr>
+<tr>
+<td>clientName</td>
+<td>String</td>
+<td>Associated client name</td>
+</tr>
+<tr>
+<td>subclientId</td>
+<td>Integer</td>
+<td>Associated subclient ID</td>
+</tr>
+<tr>
+<td>subclientName</td>
+<td>String</td>
+<td>Associated subclient name</td>
+</tr>
+<tr>
+<td>backupsetId</td>
+<td>Integer</td>
+<td>Associated backup set ID</td>
+</tr>
+<tr>
+<td>instanceId</td>
+<td>Integer</td>
+<td>Associated instance ID</td>
+</tr>
+<tr>
+<td>storagePolicyId</td>
+<td>Integer</td>
+<td>Associated storage policy ID</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operation-types">Operation Types</h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Full Backup</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Incremental Backup</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Differential Backup</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Synthetic Full</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Auxiliary Copy</td>
+</tr>
+<tr>
+<td>1001</td>
+<td>Data Aging</td>
+</tr>
+<tr>
+<td>1002</td>
+<td>DDB Verification</td>
+</tr>
+</tbody>
+</table>
+<h3 id="task-types">Task Types</h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Backup</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Restore</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Auxiliary Copy</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Workflow</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Data Recovery</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Data Aging</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Report</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="common-schedule-api-patterns">Common Schedule API Patterns</h2>
+<h3 id="pattern-1-get-all-schedules-for-infrastructure">Pattern 1: Get All Schedules for Infrastructure</h3>
+<div class="codehilite"><pre><span></span><code>GET /Schedules?admin=1
+</code></pre></div>
+
+<p>Returns all schedules including system/admin schedules.</p>
+<h3 id="pattern-2-get-schedules-for-specific-client">Pattern 2: Get Schedules for Specific Client</h3>
+<div class="codehilite"><pre><span></span><code>GET /Schedules?clientId=123
+</code></pre></div>
+
+<p>Returns schedules associated with a specific client.</p>
+<h3 id="pattern-3-get-schedule-details">Pattern 3: Get Schedule Details</h3>
+<div class="codehilite"><pre><span></span><code>GET /Schedules/{scheduleId}
+</code></pre></div>
+
+<p>Gets detailed information about a specific schedule including next run time.</p>
+<h3 id="pattern-4-get-schedules-by-storage-policy">Pattern 4: Get Schedules by Storage Policy</h3>
+<div class="codehilite"><pre><span></span><code>GET /Schedules?storagepolicyId=50
+</code></pre></div>
+
+<p>Gets schedules associated with a specific storage policy.</p>
+<hr />
+<h2 id="implementation-approach">Implementation Approach</h2>
+<h3 id="option-1-collect-all-schedules">Option 1: Collect All Schedules</h3>
+<p><strong>Pros:</strong>
+- Complete picture of all scheduled jobs
+- Can correlate with clients, policies, plans</p>
+<p><strong>Cons:</strong>
+- May be large dataset
+- Includes system schedules that may not be relevant</p>
+<p><strong>Implementation:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">fetch_all_schedules</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">headers</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/Schedules?admin=1&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="option-2-collect-schedules-per-client">Option 2: Collect Schedules Per Client</h3>
+<p><strong>Pros:</strong>
+- More targeted data collection
+- Easier to associate with specific clients</p>
+<p><strong>Cons:</strong>
+- Requires iterating through all clients
+- More API calls needed</p>
+<p><strong>Implementation:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">fetch_client_schedules</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">client_id</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/Schedules?clientId=</span><span class="si">{</span><span class="n">client_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="option-3-collect-schedule-policies-recommended">Option 3: Collect Schedule Policies (Recommended)</h3>
+<p><strong>Pros:</strong>
+- Policy-based view (aligns with Plans/Policies)
+- Less granular, more manageable
+- Shows schedule configuration patterns</p>
+<p><strong>Cons:</strong>
+- May not show all individual schedule instances</p>
+<p><strong>Implementation:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">fetch_schedule_policies</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">headers</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/SchedulePolicy&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</code></pre></div>
+
+<hr />
+<h2 id="database-schema-design">Database Schema Design</h2>
+<h3 id="schedules-table">Schedules Table</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">schedules</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">scheduleId</span><span class="w">          </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">scheduleName</span><span class="w">        </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">taskId</span><span class="w">              </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">taskName</span><span class="w">            </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">taskType</span><span class="w">            </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">operationType</span><span class="w">       </span><span class="nb">INTEGER</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1">-- Association IDs</span>
+<span class="w">    </span><span class="n">clientId</span><span class="w">            </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">clientName</span><span class="w">          </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">subclientId</span><span class="w">         </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">subclientName</span><span class="w">       </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">backupsetId</span><span class="w">         </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">instanceId</span><span class="w">          </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">storagePolicyId</span><span class="w">     </span><span class="nb">INTEGER</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1">-- Schedule Pattern</span>
+<span class="w">    </span><span class="n">freqType</span><span class="w">            </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">activeStartTime</span><span class="w">     </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">activeEndTime</span><span class="w">       </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">freqInterval</span><span class="w">        </span><span class="nb">INTEGER</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1">-- Status</span>
+<span class="w">    </span><span class="n">enabled</span><span class="w">             </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">nextRunTime</span><span class="w">         </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lastRunTime</span><span class="w">         </span><span class="nb">TEXT</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1">-- Metadata</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w">       </span><span class="nb">TEXT</span><span class="p">,</span>
+
+<span class="w">    </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">clientId</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">clients</span><span class="p">(</span><span class="n">clientId</span><span class="p">),</span>
+<span class="w">    </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">storagePolicyId</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">storage_policies</span><span class="p">(</span><span class="n">storagePolicyId</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<h3 id="schedule-policies-table-alternative">Schedule Policies Table (Alternative)</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">schedule_policies</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">policyId</span><span class="w">            </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="n">AUTOINCREMENT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">scheduleName</span><span class="w">        </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">taskType</span><span class="w">            </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">operationType</span><span class="w">       </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">policyType</span><span class="w">          </span><span class="nb">INTEGER</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1">-- Pattern</span>
+<span class="w">    </span><span class="n">schedulePattern</span><span class="w">     </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">       </span><span class="c1">-- JSON string with full pattern</span>
+<span class="w">    </span><span class="n">frequency</span><span class="w">           </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">       </span><span class="c1">-- Daily/Weekly/Monthly</span>
+<span class="w">    </span><span class="n">startTime</span><span class="w">           </span><span class="nb">TEXT</span><span class="p">,</span><span class="w">       </span><span class="c1">-- HH:MM format</span>
+
+<span class="w">    </span><span class="c1">-- Associations count</span>
+<span class="w">    </span><span class="n">clientCount</span><span class="w">         </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">subclientCount</span><span class="w">      </span><span class="nb">INTEGER</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1">-- Metadata</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w">       </span><span class="nb">TEXT</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<hr />
+<h2 id="integration-with-existing-data">Integration with Existing Data</h2>
+<h3 id="link-schedules-to-plans">Link Schedules to Plans</h3>
+<p>Plans often have associated schedules. When collecting Plan data, we can extract schedule information:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># In save_plans_to_db() function</span>
+<span class="n">plan_schedule</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;schedule&quot;</span><span class="p">,</span> <span class="p">{})</span>
+<span class="k">if</span> <span class="n">plan_schedule</span><span class="p">:</span>
+    <span class="c1"># Extract schedule details</span>
+    <span class="n">schedule_pattern</span> <span class="o">=</span> <span class="n">plan_schedule</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;schedulePattern&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="c1"># Save to schedules table</span>
+</code></pre></div>
+
+<h3 id="link-schedules-to-clients">Link Schedules to Clients</h3>
+<p>Schedules are typically associated with clients/subclients:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Query to find all schedules for a client</span>
+<span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">schedules</span> <span class="n">WHERE</span> <span class="n">clientId</span> <span class="o">=</span> <span class="err">?</span>
+</code></pre></div>
+
+<h3 id="link-schedules-to-storage-policies">Link Schedules to Storage Policies</h3>
+<p>Schedules can be filtered by storage policy:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Query schedules by policy</span>
+<span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">schedules</span> <span class="n">WHERE</span> <span class="n">storagePolicyId</span> <span class="o">=</span> <span class="err">?</span>
+</code></pre></div>
+
+<hr />
+<h2 id="testing-approach">Testing Approach</h2>
+<h3 id="step-1-test-basic-endpoint">Step 1: Test Basic Endpoint</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Test if /Schedules endpoint is available</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/Schedules?admin=1&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</code></pre></div>
+
+<h3 id="step-2-test-with-filters">Step 2: Test with Filters</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Test with client filter</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/Schedules?clientId=123&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+<span class="c1"># Test with storage policy filter</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/Schedules?storagepolicyId=50&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="step-3-test-schedule-details">Step 3: Test Schedule Details</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Get specific schedule details</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/Schedules/121&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</code></pre></div>
+
+<hr />
+<h2 id="next-steps">Next Steps</h2>
+<ol>
+<li>✅ <strong>Research Complete</strong> - Documented available endpoints and data structure</li>
+<li>⏳ <strong>Test Endpoints</strong> - Test /Schedules endpoint with current Commvault setup</li>
+<li>⏳ <strong>Analyze Response</strong> - Save test response and analyze actual data structure</li>
+<li>⏳ <strong>Design Database Schema</strong> - Create appropriate tables for schedule data</li>
+<li>⏳ <strong>Implement Collection</strong> - Add schedule data collection to app.py</li>
+<li>⏳ <strong>Create UI Views</strong> - Display schedules in web interface</li>
+<li>⏳ <strong>Link to Existing Data</strong> - Associate schedules with clients, policies, plans</li>
+</ol>
+<hr />
+<h2 id="useful-resources">Useful Resources</h2>
+<ul>
+<li><strong>Commvault API Docs:</strong> https://api.commvault.com/</li>
+<li><strong>Schedule Operations:</strong> https://api.commvault.com/docs/SP38/api/cv/ScheduleandSchedulePolicyOperations/</li>
+<li><strong>REST API Reference:</strong> https://documentation.commvault.com/v11/essential/rest_api_reference.html</li>
+</ul>
+<hr />
+<h2 id="known-limitations">Known Limitations</h2>
+<ol>
+<li><strong>Version Dependency:</strong> Schedule API structure may vary by Commvault version</li>
+<li><strong>Permissions:</strong> May require specific API permissions to view schedules</li>
+<li><strong>System Schedules:</strong> admin=1 flag needed to see system-created schedules</li>
+<li><strong>Data Volume:</strong> Large environments may have thousands of schedules</li>
+</ol>
+<hr />
+<h2 id="schedule-data-use-cases">Schedule Data Use Cases</h2>
+<h3 id="1-schedule-compliance-reporting">1. Schedule Compliance Reporting</h3>
+<ul>
+<li>Identify clients without scheduled backups</li>
+<li>Find backup windows and frequencies</li>
+<li>Verify backup coverage</li>
+</ul>
+<h3 id="2-schedule-conflict-detection">2. Schedule Conflict Detection</h3>
+<ul>
+<li>Identify overlapping backup windows</li>
+<li>Find resource contention issues</li>
+<li>Optimize backup scheduling</li>
+</ul>
+<h3 id="3-schedule-analysis">3. Schedule Analysis</h3>
+<ul>
+<li>Most common backup times</li>
+<li>Schedule patterns by client type</li>
+<li>Backup frequency distribution</li>
+</ul>
+<h3 id="4-operational-monitoring">4. Operational Monitoring</h3>
+<ul>
+<li>Next scheduled jobs</li>
+<li>Overdue schedules</li>
+<li>Disabled schedules requiring attention</li>
+</ul>
+<hr />
+<p><strong>Status:</strong> Research Complete ✅
+<strong>Next Action:</strong> Test /Schedules endpoint with actual Commvault environment</p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

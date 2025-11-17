@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEW FEATURES SUMMARY</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: NEW_FEATURES_SUMMARY.md</div>
+    <h1 id="new-features-implementation-summary">New Features Implementation Summary</h1>
+<h2 id="overview">Overview</h2>
+<p>Two major features have been added to enhance API monitoring and MediaAgent management:</p>
+<ol>
+<li><strong>API GET Requests Rolling Window Card</strong> - Live view of all API requests with status codes and timing</li>
+<li><strong>Selectable MediaAgents List</strong> - Interactive MediaAgent view with detailed information panel</li>
+</ol>
+<hr />
+<h2 id="feature-1-api-get-requests-card">🚀 Feature 1: API GET Requests Card</h2>
+<h3 id="visual-design">Visual Design:</h3>
+<ul>
+<li><strong>Blue gradient background</strong> (#1e3c72 to #2a5298)</li>
+<li><strong>Positioned below Activity Log</strong> - Second card in right sidebar</li>
+<li><strong>Rolling window</strong> - Shows last 30 API requests</li>
+<li><strong>Request details displayed</strong>:</li>
+<li>HTTP Method (GET, POST)</li>
+<li>Endpoint path</li>
+<li>Status code (color-coded)</li>
+<li>Retrieved item count</li>
+<li>Request duration in milliseconds</li>
+<li>Timestamp</li>
+</ul>
+<h3 id="color-coding">Color Coding:</h3>
+<ul>
+<li>🔵 <strong>Success (200-299)</strong> - Cyan (#00d4ff)</li>
+<li>🔴 <strong>Error (400+)</strong> - Pink (#ff6b9d)</li>
+</ul>
+<h3 id="example-display">Example Display:</h3>
+<div class="codehilite"><pre><span></span><code>GET  /Client         200  Retrieved: 3,604 items | Duration: 1,245ms
+GET  /MediaAgent     200  Retrieved: 10 items | Duration: 523ms
+GET  /StoragePool    200  Retrieved: 8 items | Duration: 892ms
+POST /Login          200  Duration: 345ms
+</code></pre></div>
+
+<hr />
+<h2 id="files-modified-for-api-requests-card">📁 Files Modified for API Requests Card:</h2>
+<h3 id="1-templatesbasehtml">1. <a href="d:\Commvault_API\templates\base.html">templates/base.html</a></h3>
+<p><strong>Changes</strong>:
+- Split activity sidebar into two cards (50vh each)
+- Added <code>.api-requests-card</code> CSS styling
+- Added <code>.requests-log</code> styles for scrolling
+- Added <code>.request-entry</code> styles for log entries
+- Added <code>.request-method</code>, <code>.request-endpoint</code>, <code>.request-status</code> badges
+- Added API Requests card HTML structure below Activity Log</p>
+<p><strong>New CSS Classes</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">.</span><span class="nc">api-requests-card</span><span class="w">       </span><span class="c">/* Blue gradient card container */</span>
+<span class="p">.</span><span class="nc">requests-log</span><span class="w">            </span><span class="c">/* Scrollable request log area */</span>
+<span class="p">.</span><span class="nc">request-entry</span><span class="w">           </span><span class="c">/* Individual request entry */</span>
+<span class="p">.</span><span class="nc">request-method</span><span class="w">          </span><span class="c">/* GET/POST badge */</span>
+<span class="p">.</span><span class="nc">request-endpoint</span><span class="w">        </span><span class="c">/* Endpoint path text */</span>
+<span class="p">.</span><span class="nc">request-status</span><span class="w">          </span><span class="c">/* Status code badge (200, 404, etc.) */</span>
+<span class="p">.</span><span class="nc">request-details</span><span class="w">         </span><span class="c">/* Timestamp and metrics */</span>
+</code></pre></div>
+
+<h3 id="2-apppy">2. <a href="d:\Commvault_API\app.py">app.py</a></h3>
+<p><strong>New Function</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">log_api_request</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">status_code</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Log API GET/POST requests to session&quot;&quot;&quot;</span>
+    <span class="c1"># Stores in session[&#39;api_requests&#39;]</span>
+    <span class="c1"># Keeps last 30 entries</span>
+    <span class="c1"># Determines success/error status class</span>
+</code></pre></div>
+
+<p><strong>Request Logging Added To</strong>:
+- <code>authenticate_commvault()</code> - Logs POST /Login with duration
+- <code>fetch_data()</code> route:
+  - GET /Client - with count and duration
+  - GET /MediaAgent - with count and duration
+  - GET /StoragePool - with count and duration
+  - (Can be added to other endpoints as needed)</p>
+<p><strong>Example Usage</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/Client&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+<span class="n">duration</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+
+<span class="n">log_api_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;/Client&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">3604</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="n">duration</span><span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h2 id="feature-2-selectable-mediaagents-list">📡 Feature 2: Selectable MediaAgents List</h2>
+<h3 id="interactive-features">Interactive Features:</h3>
+<ul>
+<li><strong>Clickable rows</strong> - Click any MediaAgent to view details</li>
+<li><strong>Visual selection</strong> - Selected row highlighted with blue background</li>
+<li><strong>Detail panel</strong> - Sticky sidebar showing full MediaAgent information</li>
+<li><strong>Responsive design</strong> - Stacks vertically on mobile</li>
+<li><strong>Smooth animations</strong> - Hover effects and slide transitions</li>
+</ul>
+<h3 id="detail-panel-shows">Detail Panel Shows:</h3>
+<ul>
+<li>MediaAgent ID</li>
+<li>Status badge (Online/Offline)</li>
+<li>Host Name</li>
+<li>OS Type</li>
+<li>Available Space</li>
+<li>Total Space</li>
+<li>Last Fetch Time</li>
+<li>Description (if available)</li>
+</ul>
+<hr />
+<h2 id="files-createdmodified-for-mediaagents">📁 Files Created/Modified for MediaAgents:</h2>
+<h3 id="1-templatesmediaagentshtml-new">1. <a href="d:\Commvault_API\templates\mediaagents.html">templates/mediaagents.html</a> ✨ NEW</h3>
+<p><strong>Features</strong>:
+- Two-column layout (list + detail)
+- Selectable table rows with hover effects
+- Detail card with gradient background
+- JavaScript for row selection and detail display
+- Mobile-responsive design</p>
+<p><strong>Layout</strong>:</p>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────────────────────────────┐
+│ Navigation                                               │
+├──────────────────────────────┬──────────────────────────┤
+│ ID | Name | Host | Status    │  ┌────────────────────┐ │
+│ ─────────────────────────────│  │ MediaAgent Details │ │
+│ [2] commserve01 | Online     │  ├────────────────────┤ │
+│ [3] mediaagent02 | Online    │  │ ID: 2              │ │
+│ [4] mediaagent03 | Online    │  │ Status: Online     │ │
+│                               │  │ Host: commserve01  │ │
+│ (Click to select)             │  │ OS: Windows        │ │
+│                               │  │ Space: 500GB/2TB   │ │
+│                               │  └────────────────────┘ │
+└──────────────────────────────┴──────────────────────────┘
+</code></pre></div>
+
+<p><strong>Key Code</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">selectMediaAgent</span><span class="p">(</span><span class="nx">row</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Highlights selected row</span>
+<span class="w">    </span><span class="nx">row</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;selected&#39;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Updates detail panel with all MediaAgent info</span>
+<span class="w">    </span><span class="nx">detailCard</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`&lt;h3&gt;</span><span class="si">${</span><span class="nx">data</span><span class="p">.</span><span class="nx">mediaAgentName</span><span class="si">}</span><span class="sb">&lt;/h3&gt;...`</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="2-apppy_1">2. <a href="d:\Commvault_API\app.py">app.py</a></h3>
+<p><strong>New Route</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/mediaagents&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">view_mediaagents</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;View MediaAgents with detailed information panel&quot;&quot;&quot;</span>
+    <span class="c1"># Fetches all MediaAgent data from database</span>
+    <span class="c1"># Converts to dictionary format for JSON serialization</span>
+    <span class="c1"># Renders mediaagents.html template</span>
+</code></pre></div>
+
+<p><strong>SQL Query</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span>
+<span class="w">    </span><span class="n">mediaAgentId</span><span class="p">,</span>
+<span class="w">    </span><span class="n">mediaAgentName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">hostName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">osType</span><span class="p">,</span>
+<span class="w">    </span><span class="n">status</span><span class="p">,</span>
+<span class="w">    </span><span class="n">availableSpace</span><span class="p">,</span>
+<span class="w">    </span><span class="n">totalSpace</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lastFetchTime</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">mediaagents</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">mediaAgentName</span>
+</code></pre></div>
+
+<h3 id="3-templatesdashboardhtml">3. <a href="d:\Commvault_API\templates\dashboard.html">templates/dashboard.html</a></h3>
+<p><strong>Updated</strong>:
+- Changed MediaAgents navigation link from <code>/view/mediaagents</code> to <code>/mediaagents</code>
+- Now points to new dedicated MediaAgents page with selection feature</p>
+<hr />
+<h2 id="css-styling-highlights">🎨 CSS Styling Highlights</h2>
+<h3 id="api-requests-card">API Requests Card:</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">/* Blue gradient background */</span>
+<span class="nt">background</span><span class="o">:</span><span class="w"> </span><span class="nt">linear-gradient</span><span class="o">(</span><span class="nt">135deg</span><span class="o">,</span><span class="w"> </span><span class="p">#</span><span class="nn">1e3c72</span><span class="w"> </span><span class="nt">0</span><span class="o">%,</span><span class="w"> </span><span class="p">#</span><span class="nn">2a5298</span><span class="w"> </span><span class="nt">100</span><span class="o">%);</span>
+
+<span class="c">/* Success badge - bright cyan */</span>
+<span class="p">.</span><span class="nc">request-status</span><span class="p">.</span><span class="nc">success</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#00d4ff</span><span class="p">;</span>
+<span class="w">    </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#000</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c">/* Error badge - pink */</span>
+<span class="p">.</span><span class="nc">request-status</span><span class="p">.</span><span class="nc">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#ff6b9d</span><span class="p">;</span>
+<span class="w">    </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="mediaagent-selection">MediaAgent Selection:</h3>
+<div class="codehilite"><pre><span></span><code><span class="c">/* Hover effect on rows */</span>
+<span class="p">.</span><span class="nc">mediaagent-row</span><span class="p">:</span><span class="nd">hover</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#e3f2fd</span><span class="w"> </span><span class="cp">!important</span><span class="p">;</span>
+<span class="w">    </span><span class="k">transform</span><span class="p">:</span><span class="w"> </span><span class="nb">translateX</span><span class="p">(</span><span class="mi">5</span><span class="kt">px</span><span class="p">);</span>
+<span class="w">    </span><span class="k">transition</span><span class="p">:</span><span class="w"> </span><span class="kc">all</span><span class="w"> </span><span class="mf">0.2</span><span class="kt">s</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c">/* Selected row */</span>
+<span class="p">.</span><span class="nc">mediaagent-row</span><span class="p">.</span><span class="nc">selected</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#bbdefb</span><span class="w"> </span><span class="cp">!important</span><span class="p">;</span>
+<span class="w">    </span><span class="k">border-left</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#667eea</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c">/* Detail card gradient */</span>
+<span class="p">.</span><span class="nc">detail-card</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="nb">linear-gradient</span><span class="p">(</span><span class="mi">135</span><span class="kt">deg</span><span class="p">,</span><span class="w"> </span><span class="mh">#667eea</span><span class="w"> </span><span class="mi">0</span><span class="kt">%</span><span class="p">,</span><span class="w"> </span><span class="mh">#764ba2</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">);</span>
+<span class="w">    </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">    </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="kt">px</span><span class="p">;</span>
+<span class="w">    </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">white</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="how-to-use">🚀 How to Use</h2>
+<h3 id="api-get-requests-card">API GET Requests Card:</h3>
+<ol>
+<li>Start the Flask app: <code>python app.py</code></li>
+<li>Navigate to any page</li>
+<li>Look at the right sidebar</li>
+<li><strong>Top card</strong> - Activity Log (black)</li>
+<li><strong>Bottom card</strong> - API Requests (blue)</li>
+<li>Perform data fetch from home page</li>
+<li>Watch requests appear in real-time with:</li>
+<li>HTTP method and endpoint</li>
+<li>Status code</li>
+<li>Item count retrieved</li>
+<li>Request duration</li>
+</ol>
+<h3 id="selectable-mediaagents">Selectable MediaAgents:</h3>
+<ol>
+<li>Navigate to <strong>MediaAgents</strong> page:</li>
+<li>From Dashboard → MediaAgents link</li>
+<li>
+<p>Or directly: <code>http://localhost:5000/mediaagents</code></p>
+</li>
+<li>
+<p><strong>View all MediaAgents</strong> in table format</p>
+</li>
+<li>
+<p><strong>Click any row</strong> to view details:</p>
+</li>
+<li>Row highlights in blue</li>
+<li>Detail panel updates on right</li>
+<li>
+<p>Shows all MediaAgent information</p>
+</li>
+<li>
+<p><strong>Mobile-friendly</strong>:</p>
+</li>
+<li>Detail panel moves below table</li>
+<li>Smooth scroll to detail card</li>
+</ol>
+<hr />
+<h2 id="benefits">📊 Benefits</h2>
+<h3 id="api-requests-card_1">API Requests Card:</h3>
+<p>✅ <strong>Transparency</strong> - See every API call made
+✅ <strong>Performance Monitoring</strong> - Track request duration
+✅ <strong>Debugging</strong> - Identify slow or failing endpoints
+✅ <strong>Success Tracking</strong> - Visual status code feedback
+✅ <strong>Historical View</strong> - Last 30 requests preserved</p>
+<h3 id="selectable-mediaagents_1">Selectable MediaAgents:</h3>
+<p>✅ <strong>Better UX</strong> - Interactive, not just static table
+✅ <strong>Detailed Info</strong> - All fields in organized panel
+✅ <strong>Quick Access</strong> - One click to see all details
+✅ <strong>Visual Feedback</strong> - Clear selection highlighting
+✅ <strong>Mobile Ready</strong> - Responsive design</p>
+<hr />
+<h2 id="technical-implementation">🔧 Technical Implementation</h2>
+<h3 id="session-storage">Session Storage:</h3>
+<p><strong>API Requests</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">session</span><span class="p">[</span><span class="s1">&#39;api_requests&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;endpoint&#39;</span><span class="p">:</span> <span class="s1">&#39;/Client&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;status_code&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+        <span class="s1">&#39;status_class&#39;</span><span class="p">:</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">3604</span><span class="p">,</span>
+        <span class="s1">&#39;duration&#39;</span><span class="p">:</span> <span class="mi">1245</span><span class="p">,</span>
+        <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;10:15:26&#39;</span>
+    <span class="p">},</span>
+    <span class="o">...</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p><strong>Data Flow</strong>:
+1. API call made in <code>app.py</code>
+2. <code>log_api_request()</code> stores in session
+3. Template renders from <code>session['api_requests']</code>
+4. JavaScript updates counts (future enhancement)</p>
+<h3 id="mediaagent-selection_1">MediaAgent Selection:</h3>
+<p><strong>Data Flow</strong>:
+1. Route <code>/mediaagents</code> queries database
+2. Converts rows to dictionaries
+3. Template renders as JSON in data attributes
+4. JavaScript <code>selectMediaAgent()</code> reads data
+5. Updates detail panel with innerHTML</p>
+<hr />
+<h2 id="code-statistics">📝 Code Statistics</h2>
+<h3 id="lines-addedmodified">Lines Added/Modified:</h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Lines Added</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>base.html</td>
+<td>~120 lines</td>
+<td>API Requests card styling + HTML</td>
+</tr>
+<tr>
+<td>app.py</td>
+<td>~40 lines</td>
+<td>Request logging function + route</td>
+</tr>
+<tr>
+<td>mediaagents.html</td>
+<td>~230 lines</td>
+<td>Complete new template</td>
+</tr>
+<tr>
+<td>dashboard.html</td>
+<td>1 line</td>
+<td>Link update</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total</strong>: ~391 lines of code</p>
+<hr />
+<h2 id="next-steps-optional-enhancements">🎯 Next Steps (Optional Enhancements)</h2>
+<h3 id="api-requests-card_2">API Requests Card:</h3>
+<ol>
+<li><strong>Filter by method</strong> - Show only GET or POST</li>
+<li><strong>Filter by status</strong> - Show only errors</li>
+<li><strong>Export logs</strong> - Download request history as CSV</li>
+<li><strong>Average duration</strong> - Calculate avg response time</li>
+<li><strong>Real-time updates</strong> - WebSocket for live updates</li>
+</ol>
+<h3 id="mediaagents">MediaAgents:</h3>
+<ol>
+<li><strong>Search/Filter</strong> - Search by name or status</li>
+<li><strong>Bulk actions</strong> - Select multiple MediaAgents</li>
+<li><strong>Refresh button</strong> - Re-fetch single MediaAgent data</li>
+<li><strong>Historical trends</strong> - Show space usage over time</li>
+<li><strong>Alerts</strong> - Highlight MediaAgents with low space</li>
+</ol>
+<hr />
+<h2 id="summary">✨ Summary</h2>
+<p><strong>Features Delivered</strong>:
+- ✅ API GET Requests rolling window card
+- ✅ Selectable MediaAgents list
+- ✅ Detailed MediaAgent information panel
+- ✅ Request duration tracking
+- ✅ Status code visualization
+- ✅ Interactive row selection
+- ✅ Responsive mobile design</p>
+<p><strong>Technologies Used</strong>:
+- Flask session storage
+- Jinja2 templating
+- Vanilla JavaScript
+- CSS animations
+- Gradient designs</p>
+<p><strong>Ready to use!</strong> Both features are fully functional and integrated into the application.</p>
+<hr />
+<h2 id="visual-preview">🖼️ Visual Preview</h2>
+<h3 id="before">Before:</h3>
+<ul>
+<li>Static activity log only</li>
+<li>Basic MediaAgents table view</li>
+<li>No request tracking</li>
+</ul>
+<h3 id="after">After:</h3>
+<ul>
+<li><strong>Two monitoring cards</strong> (Activity + Requests)</li>
+<li><strong>Interactive MediaAgents</strong> with detail panel</li>
+<li><strong>Complete request logging</strong> with metrics</li>
+<li><strong>Professional UI</strong> with animations</li>
+</ul>
+<p><strong>The application now provides comprehensive visibility into API operations and infrastructure management!</strong></p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

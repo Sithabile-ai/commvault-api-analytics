@@ -1,0 +1,390 @@
+====================================================================================================
+CRITICAL STORAGE POOLS - ACTIONABLE ANALYSIS
+====================================================================================================
+Generated: 2025-11-14 15:16:50
+Total Critical Pools: 3
+
+####################################################################################################
+CRITICAL POOL #1: Apex GDP
+####################################################################################################
+
+CURRENT STATUS:
+  Pool ID: 298
+  MediaAgent: NOT SPECIFIED
+  Type: 1
+  Deduplication: No
+  Total Capacity: 0.0047 GB (5,006,276 KB)
+  Free Space: 0.0001 GB (98,821 KB)
+  Utilization: 98.03% USED
+  Free: 1.97% (CRITICAL)
+
+PRUNING CHARACTERISTICS:
+  Type: MACRO PRUNING (Non-dedup storage)
+  Process: Direct file deletion (faster)
+  Logs to Check: SIDBPrune.log, SIDBPhysicalDeletes.log
+  Advantage: Space reclaimed immediately after aging
+
+ASSOCIATED PLANS CHECK:
+  Total Plans in Environment: 20+ (sample shown)
+
+  ACTION REQUIRED:
+    1. CommCell Console > Storage > Storage Pools > Apex GDP
+    2. Right-click > Properties > View Associated Plans
+    3. For EACH associated plan, verify:
+       - Data Aging is ENABLED
+       - Aging schedule runs daily
+       - Recent aging jobs completed successfully
+
+DATA AGING ANALYSIS:
+  Rules with aging ENABLED: 518
+
+  WARNING: If any plan using this pool has aging disabled:
+    - Space will NEVER be reclaimed
+    - Pool will continue filling until failure
+    - IMMEDIATE action required to enable aging
+
+RETENTION RULE OPTIMIZATION:
+  WARNING: 130 rules in environment have inefficient retention
+  Problem: Short retention (<=30 days) + multiple cycles (2+)
+  Impact: Delays aging by 7-14 days unnecessarily
+
+  RECOMMENDATION:
+    - Change retention cycles from 2+ to 1 for rules <=30 days
+    - This will accelerate space reclamation by 7-14 days
+    - Expected improvement: 10-20% faster space reclamation
+
+  Sample rules to optimize:
+    - A.R.B Electrical Backup Plan / 02 - Cloud
+      Current: 14 days + 2 cycles
+      Change to: 14 days + 1 cycle
+    - ALS_AD / 02 - Cloud
+      Current: 14 days + 2 cycles
+      Change to: 14 days + 1 cycle
+    - ALS_SQL / 02 - Cloud
+      Current: 14 days + 2 cycles
+      Change to: 14 days + 1 cycle
+    - AMT Server Plan / 02 - Cloud
+      Current: 14 days + 2 cycles
+      Change to: 14 days + 1 cycle
+    - AS2 Server Foundation Plan / 02 - Cloud
+      Current: 14 days + 2 cycles
+      Change to: 14 days + 1 cycle
+
+IMMEDIATE ACTIONS (NEXT 4 HOURS):
+
+  PRIORITY 1 - VERIFY PRUNING STATUS:
+    [ ] Access MediaAgent: IDENTIFY MEDIAAGENT FIRST
+    [ ] Navigate to: <CommVault Install>\Log Files\
+    [ ] Open SIDBPrune.log
+    [ ] Search for: Apex GDP
+    [ ] Check last pruning timestamp (should be <24 hours)
+    [ ] Look for errors: 'Failed', 'Skipped', 'Exception'
+    [ ] Verify bytes freed entries exist
+
+  PRIORITY 2 - VERIFY DATA AGING:
+    [ ] CommCell Console > Policies and Plans
+    [ ] Find plans associated with pool: Apex GDP
+    [ ] For each plan: Properties > Retention
+    [ ] Verify 'Enable Data Aging' is CHECKED
+    [ ] Check aging schedule (should be daily)
+    [ ] Job Controller > Filter 'Aging' jobs
+    [ ] Verify recent aging jobs completed successfully
+
+  PRIORITY 3 - MANUAL PRUNING TRIGGER:
+    [ ] CommCell Console > Storage Resources > Disk Storage
+    [ ] Find pool: Apex GDP
+    [ ] Right-click > All Tasks > 'Run Auxiliary Copy Pruning'
+    [ ] Monitor job in Job Controller
+    [ ] Check if free space increases
+
+  EMERGENCY STATUS - POOL BELOW 5% FREE!
+    [ ] SUSPEND new backups targeting this pool IMMEDIATELY
+    [ ] Redirect backups to alternative storage
+    [ ] Escalate to Commvault support
+    [ ] Plan emergency capacity expansion
+
+EXPECTED OUTCOMES:
+  24 Hours: Pool should reach >12% free
+  48 Hours: Pool should reach >15% free
+  1 Week: Pool should stabilize at >20% free
+
+  If outcomes not met:
+    - Review logs for pruning failures
+    - Check for disk/mount path issues
+    - Verify aging is marking data for deletion
+    - Escalate to Commvault support
+
+
+####################################################################################################
+CRITICAL POOL #2: Southern_Sun_Durban
+####################################################################################################
+
+CURRENT STATUS:
+  Pool ID: 451
+  MediaAgent: NOT SPECIFIED
+  Type: 1
+  Deduplication: No
+  Total Capacity: 0.0038 GB (4,095,869 KB)
+  Free Space: 0.0001 GB (84,054 KB)
+  Utilization: 97.95% USED
+  Free: 2.05% (CRITICAL)
+
+PRUNING CHARACTERISTICS:
+  Type: MACRO PRUNING (Non-dedup storage)
+  Process: Direct file deletion (faster)
+  Logs to Check: SIDBPrune.log, SIDBPhysicalDeletes.log
+  Advantage: Space reclaimed immediately after aging
+
+ASSOCIATED PLANS CHECK:
+  Total Plans in Environment: 20+ (sample shown)
+
+  ACTION REQUIRED:
+    1. CommCell Console > Storage > Storage Pools > Southern_Sun_Durban
+    2. Right-click > Properties > View Associated Plans
+    3. For EACH associated plan, verify:
+       - Data Aging is ENABLED
+       - Aging schedule runs daily
+       - Recent aging jobs completed successfully
+
+DATA AGING ANALYSIS:
+  Rules with aging ENABLED: 518
+
+  WARNING: If any plan using this pool has aging disabled:
+    - Space will NEVER be reclaimed
+    - Pool will continue filling until failure
+    - IMMEDIATE action required to enable aging
+
+RETENTION RULE OPTIMIZATION:
+  WARNING: 130 rules in environment have inefficient retention
+  Problem: Short retention (<=30 days) + multiple cycles (2+)
+  Impact: Delays aging by 7-14 days unnecessarily
+
+  RECOMMENDATION:
+    - Change retention cycles from 2+ to 1 for rules <=30 days
+    - This will accelerate space reclamation by 7-14 days
+    - Expected improvement: 10-20% faster space reclamation
+
+  Sample rules to optimize:
+    - A.R.B Electrical Backup Plan / 02 - Cloud
+      Current: 14 days + 2 cycles
+      Change to: 14 days + 1 cycle
+    - ALS_AD / 02 - Cloud
+      Current: 14 days + 2 cycles
+      Change to: 14 days + 1 cycle
+    - ALS_SQL / 02 - Cloud
+      Current: 14 days + 2 cycles
+      Change to: 14 days + 1 cycle
+    - AMT Server Plan / 02 - Cloud
+      Current: 14 days + 2 cycles
+      Change to: 14 days + 1 cycle
+    - AS2 Server Foundation Plan / 02 - Cloud
+      Current: 14 days + 2 cycles
+      Change to: 14 days + 1 cycle
+
+IMMEDIATE ACTIONS (NEXT 4 HOURS):
+
+  PRIORITY 1 - VERIFY PRUNING STATUS:
+    [ ] Access MediaAgent: IDENTIFY MEDIAAGENT FIRST
+    [ ] Navigate to: <CommVault Install>\Log Files\
+    [ ] Open SIDBPrune.log
+    [ ] Search for: Southern_Sun_Durban
+    [ ] Check last pruning timestamp (should be <24 hours)
+    [ ] Look for errors: 'Failed', 'Skipped', 'Exception'
+    [ ] Verify bytes freed entries exist
+
+  PRIORITY 2 - VERIFY DATA AGING:
+    [ ] CommCell Console > Policies and Plans
+    [ ] Find plans associated with pool: Southern_Sun_Durban
+    [ ] For each plan: Properties > Retention
+    [ ] Verify 'Enable Data Aging' is CHECKED
+    [ ] Check aging schedule (should be daily)
+    [ ] Job Controller > Filter 'Aging' jobs
+    [ ] Verify recent aging jobs completed successfully
+
+  PRIORITY 3 - MANUAL PRUNING TRIGGER:
+    [ ] CommCell Console > Storage Resources > Disk Storage
+    [ ] Find pool: Southern_Sun_Durban
+    [ ] Right-click > All Tasks > 'Run Auxiliary Copy Pruning'
+    [ ] Monitor job in Job Controller
+    [ ] Check if free space increases
+
+  EMERGENCY STATUS - POOL BELOW 5% FREE!
+    [ ] SUSPEND new backups targeting this pool IMMEDIATELY
+    [ ] Redirect backups to alternative storage
+    [ ] Escalate to Commvault support
+    [ ] Plan emergency capacity expansion
+
+EXPECTED OUTCOMES:
+  24 Hours: Pool should reach >12% free
+  48 Hours: Pool should reach >15% free
+  1 Week: Pool should stabilize at >20% free
+
+  If outcomes not met:
+    - Review logs for pruning failures
+    - Check for disk/mount path issues
+    - Verify aging is marking data for deletion
+    - Escalate to Commvault support
+
+
+####################################################################################################
+CRITICAL POOL #3: Simera_GDP
+####################################################################################################
+
+CURRENT STATUS:
+  Pool ID: 355
+  MediaAgent: NOT SPECIFIED
+  Type: 1
+  Deduplication: No
+  Total Capacity: 0.0266 GB (28,610,522 KB)
+  Free Space: 0.0025 GB (2,661,647 KB)
+  Utilization: 90.70% USED
+  Free: 9.30% (CRITICAL)
+
+PRUNING CHARACTERISTICS:
+  Type: MACRO PRUNING (Non-dedup storage)
+  Process: Direct file deletion (faster)
+  Logs to Check: SIDBPrune.log, SIDBPhysicalDeletes.log
+  Advantage: Space reclaimed immediately after aging
+
+ASSOCIATED PLANS CHECK:
+  Total Plans in Environment: 20+ (sample shown)
+
+  ACTION REQUIRED:
+    1. CommCell Console > Storage > Storage Pools > Simera_GDP
+    2. Right-click > Properties > View Associated Plans
+    3. For EACH associated plan, verify:
+       - Data Aging is ENABLED
+       - Aging schedule runs daily
+       - Recent aging jobs completed successfully
+
+DATA AGING ANALYSIS:
+  Rules with aging ENABLED: 518
+
+  WARNING: If any plan using this pool has aging disabled:
+    - Space will NEVER be reclaimed
+    - Pool will continue filling until failure
+    - IMMEDIATE action required to enable aging
+
+RETENTION RULE OPTIMIZATION:
+  WARNING: 130 rules in environment have inefficient retention
+  Problem: Short retention (<=30 days) + multiple cycles (2+)
+  Impact: Delays aging by 7-14 days unnecessarily
+
+  RECOMMENDATION:
+    - Change retention cycles from 2+ to 1 for rules <=30 days
+    - This will accelerate space reclamation by 7-14 days
+    - Expected improvement: 10-20% faster space reclamation
+
+  Sample rules to optimize:
+    - A.R.B Electrical Backup Plan / 02 - Cloud
+      Current: 14 days + 2 cycles
+      Change to: 14 days + 1 cycle
+    - ALS_AD / 02 - Cloud
+      Current: 14 days + 2 cycles
+      Change to: 14 days + 1 cycle
+    - ALS_SQL / 02 - Cloud
+      Current: 14 days + 2 cycles
+      Change to: 14 days + 1 cycle
+    - AMT Server Plan / 02 - Cloud
+      Current: 14 days + 2 cycles
+      Change to: 14 days + 1 cycle
+    - AS2 Server Foundation Plan / 02 - Cloud
+      Current: 14 days + 2 cycles
+      Change to: 14 days + 1 cycle
+
+IMMEDIATE ACTIONS (NEXT 4 HOURS):
+
+  PRIORITY 1 - VERIFY PRUNING STATUS:
+    [ ] Access MediaAgent: IDENTIFY MEDIAAGENT FIRST
+    [ ] Navigate to: <CommVault Install>\Log Files\
+    [ ] Open SIDBPrune.log
+    [ ] Search for: Simera_GDP
+    [ ] Check last pruning timestamp (should be <24 hours)
+    [ ] Look for errors: 'Failed', 'Skipped', 'Exception'
+    [ ] Verify bytes freed entries exist
+
+  PRIORITY 2 - VERIFY DATA AGING:
+    [ ] CommCell Console > Policies and Plans
+    [ ] Find plans associated with pool: Simera_GDP
+    [ ] For each plan: Properties > Retention
+    [ ] Verify 'Enable Data Aging' is CHECKED
+    [ ] Check aging schedule (should be daily)
+    [ ] Job Controller > Filter 'Aging' jobs
+    [ ] Verify recent aging jobs completed successfully
+
+  PRIORITY 3 - MANUAL PRUNING TRIGGER:
+    [ ] CommCell Console > Storage Resources > Disk Storage
+    [ ] Find pool: Simera_GDP
+    [ ] Right-click > All Tasks > 'Run Auxiliary Copy Pruning'
+    [ ] Monitor job in Job Controller
+    [ ] Check if free space increases
+
+EXPECTED OUTCOMES:
+  24 Hours: Pool should reach >12% free
+  48 Hours: Pool should reach >15% free
+  1 Week: Pool should stabilize at >20% free
+
+  If outcomes not met:
+    - Review logs for pruning failures
+    - Check for disk/mount path issues
+    - Verify aging is marking data for deletion
+    - Escalate to Commvault support
+
+
+====================================================================================================
+ENVIRONMENT-WIDE ANALYSIS
+====================================================================================================
+
+Total Storage Pools: 79
+Critical Pools (<10% free): 3
+Percentage Critical: 3.8%
+
+Data Aging ENABLED: 518 retention rules
+
+Inefficient Retention Rules: 130
+  (Short retention <=30 days + 2+ cycles)
+
+====================================================================================================
+SUMMARY - IMMEDIATE ACTION PLAN
+====================================================================================================
+
+CRITICAL SITUATION:
+  - 3 storage pools are critically low on space (<10% free)
+  - Risk of backup failures if space exhausted
+  - Immediate action required to prevent service disruption
+
+ROOT CAUSES IDENTIFIED:
+  1. Pruning may not be running or failing (requires log verification)
+  2. Data aging may be disabled on some plans (prevents space reclamation)
+  3. 130 retention rules causing aging delays
+
+PRIORITY ACTIONS (EXECUTE NOW):
+
+NEXT 4 HOURS:
+  [ ] Check pruning logs on MediaAgents for all 3 critical pools
+  [ ] Verify data aging enabled for plans using critical pools
+  [ ] Manually trigger pruning for all 3 critical pools
+  [ ] Monitor space reclamation
+
+NEXT 24 HOURS:
+  [ ] Optimize 130 inefficient retention rules (reduce to 1 cycle)
+  [ ] Verify pruning schedules are configured
+  [ ] Fix any failed pruning jobs
+  [ ] Implement monitoring for pools <20% free
+
+NEXT WEEK:
+  [ ] Verify all critical pools >20% free
+  [ ] Create runbook for storage emergencies
+  [ ] Plan capacity expansion if needed
+  [ ] Schedule regular storage health reviews
+
+TOOLS AVAILABLE:
+  1. collect_pruning_logs.ps1 - Run on MediaAgents to gather logs
+  2. Storage Pool Health Dashboard - http://127.0.0.1:5000/dashboard/storage
+  3. Retention Health Dashboard - http://127.0.0.1:5000/dashboard/retention
+  4. CRITICAL_POOLS_ACTION_PLAN.txt - Detailed step-by-step guide
+
+ESCALATION:
+  - If pools drop below 5% free: SUSPEND backups immediately
+  - If pruning shows persistent failures: Contact Commvault support
+  - If no space reclaimed after 48 hours: Escalate to management

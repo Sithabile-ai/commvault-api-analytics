@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Commvault Data - Plans{% endblock %}
+
+{% block content %}
+<div class="nav-links">
+    <a href="{{ url_for('index') }}">Back to Home</a>
+    <a href="{{ url_for('view_data', data_type='clients') }}">Clients</a>
+    <a href="{{ url_for('view_data', data_type='jobs') }}">Jobs</a>
+    <a href="{{ url_for('view_data', data_type='plans') }}">Plans</a>
+    <a href="{{ url_for('view_data', data_type='storage') }}">Storage</a>
+</div>
+
+<h2 style="margin-bottom: 20px; color: #333;">Plans</h2>
+
+{% if data %}
+<div style="background: #e7f3ff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+    <p style="color: #1976D2; font-weight: 600;">
+        Total Plans: {{ data|length }}
+    </p>
+    <p style="color: #666; font-size: 14px; margin-top: 8px;">
+        Click on any plan name to view detailed information including retention rules
+    </p>
+</div>
+
+<div style="overflow-x: auto;">
+    <table>
+        <thead>
+            <tr>
+                <th>Plan ID</th>
+                <th>Plan Name</th>
+                <th>Type</th>
+                <th>Copies</th>
+                <th>Associated Entities</th>
+                <th>RPO (min)</th>
+                <th>Last Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td>{{ row.planId }}</td>
+                <td>
+                    <a href="{{ url_for('view_plan_details', plan_id=row.planId) }}"
+                       style="color: #667eea; font-weight: 600; text-decoration: none; cursor: pointer;">
+                        {{ row.planName }}
+                    </a>
+                </td>
+                <td>{{ row.type if row.type else 'N/A' }}</td>
+                <td>{{ row.numCopies if row.numCopies else '0' }}</td>
+                <td>{{ row.numAssocEntities if row.numAssocEntities else '0' }}</td>
+                <td>{{ row.rpoInMinutes if row.rpoInMinutes else 'N/A' }}</td>
+                <td>{{ row.lastFetchTime if row.lastFetchTime else 'N/A' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div style="background: #fff3cd; padding: 20px; border-radius: 8px; border-left: 4px solid #ffc107;">
+    <h3 style="color: #856404; margin-bottom: 10px;">No Data Available</h3>
+    <p style="color: #856404; line-height: 1.6;">
+        No plans data has been retrieved yet. Please go to the
+        <a href="{{ url_for('index') }}" style="color: #667eea; font-weight: 600;">home page</a>
+        to fetch data from Commvault.
+    </p>
+</div>
+{% endif %}
+{% endblock %}

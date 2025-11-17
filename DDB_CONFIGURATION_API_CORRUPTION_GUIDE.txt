@@ -1,0 +1,1382 @@
+====================================================================================================
+COMMVAULT DDB (DEDUPLICATION DATABASE) - COMPREHENSIVE GUIDE
+====================================================================================================
+Generated: 2025-11-16
+Research Focus: DDB Configuration, API Access, and Corruption Recovery
+Documentation Version: 2024E Compatible
+
+====================================================================================================
+EXECUTIVE SUMMARY
+====================================================================================================
+
+The Commvault Deduplication Database (DDB) is a critical component that tracks unique data blocks
+for deduplication storage. This guide covers:
+
+1. How to retrieve DDB configuration via REST API
+2. Understanding DDB health and performance metrics
+3. What to do when a DDB becomes corrupt
+4. Recovery procedures and best practices
+5. DDB versions (V4, V5) and their differences
+
+KEY FINDINGS:
+- DDB information IS available via REST API: GET /DDBInformation/{ddbStoreId}
+- DDBs are NOT required for restores (only for backups)
+- Automatic recovery is enabled by default
+- Corruption triggers automatic reconstruction from latest backup
+- Multiple recovery options available depending on severity
+
+====================================================================================================
+PART 1: DDB CONFIGURATION VIA REST API
+====================================================================================================
+
+1.1 PRIMARY API ENDPOINT
+----------------------------------------------------------------------------------------------------
+
+**Get DDB Store Information**
+
+Endpoint: GET <webservice>/DDBInformation/{ddbStoreId}
+
+Request Format:
+```
+GET <webservice>/DDBInformation/{ddbStoreId} HTTP/1.1
+Host: <commvault_server>
+Accept: application/json
+Authtoken: <authentication_token>
+```
+
+Example:
+```
+GET https://commvaultweb01:81/SearchSvc/CVWebService.svc/DDBInformation/60
+Accept: application/json
+Authtoken: QSDK abc123...
+```
+
+Response Format: JSON or XML (based on Accept header)
+
+Official Documentation:
+- https://api.commvault.com/docs/SP36/api/cv/Storage/get-ddb-store-info/
+- https://documentation.commvault.com/2024/essential/rest_api_get_deduplication_database_details.html
+
+1.2 RESPONSE STRUCTURE
+----------------------------------------------------------------------------------------------------
+
+The API returns detailed information about the DDB and its partitions:
+
+**Top-Level Fields:**
+- storeId: DDB Store identifier
+- storeName: DDB name (e.g., "PoolName_DDBStoreID")
+- status: Overall DDB status (1 = Online, other values indicate issues)
+- maxSIDBAverageQITime: Maximum threshold for Query & Insert time (typically 2000μs)
+- avgQITime: Current average Query & Insert time (should be < 1000μs)
+- totalCapacityMB: Total DDB capacity in megabytes
+- freeDiskSpaceMB: Available disk space
+- consumedDataMB: Space consumed by DDB
+- PrimaryEntries: Number of unique signature records
+- lastBackupTime: Timestamp of last DDB backup
+- lastBackupJobId: Job ID of last DDB backup
+- lastRecoveryTime: Timestamp of last recovery operation
+- timeTakenForRecovery: Duration of last recovery
+- lastCorruptionTime: When corruption was last detected
+- offlineReason: Reason if DDB is offline
+
+**Partition Information (subStoreList array):**
+Each partition contains:
+- subStoreId: Partition identifier
+- Path: Physical file path to DDB partition
+- MediaAgent: Associated MediaAgent name and ID
+- avgQITime: Partition-specific Query & Insert time
+- status: Partition status
+- freeDiskSpaceMB: Free space for partition
+- totalCapacityMB: Partition capacity
+- softstate: Current partition state
+- offlineReason: Reason if partition is offline
+
+1.3 FINDING THE DDB STORE ID
+----------------------------------------------------------------------------------------------------
+
+**Method 1: Via Storage Policy Query**
+
+The ddbStoreId can be retrieved by querying storage policies. When you create a storage pool
+with deduplication, the software creates a DDB with the name:
+  Format: StoragePoolName_DDBStoreID
+
+After first backup:
+  Format: StoragePoolName_SubclientDataType_DDBStoreID
+
+**Method 2: Via CommCell Console**
+
+Navigate to: Storage Resources > Deduplication Engines > storage_policy_copy
+The DDB Store ID is visible in the properties.
+
+**Method 3: Via Database Query**
+
+If you have access to the Commvault database, you can query the storage policy tables to
+retrieve the ddbStoreId associated with each storage policy copy.
+
+1.4 LISTING ALL DEDUPLICATION ENGINES
+----------------------------------------------------------------------------------------------------
+
+To get a list of all deduplication engines in your environment, you can:
+
+**Option 1: Query Storage Policies**
+Endpoint: GET /StoragePolicy
+Filter the results for policies with deduplication enabled.
+
+**Option 2: Use Deduplication Engine Reports**
+Access via: Health Reports > DDB Performance and Status
+
+**Option 3: Database Query** (if direct access available)
+Query the storage_policies table for policies with deduplication enabled.
+
+1.5 DDB-RELATED API OPERATIONS
+----------------------------------------------------------------------------------------------------
+
+**Resynchronize DDB:**
+POST /DDBResync/{ddbStoreId}
+
+**Disable DDB Activity:**
+POST /DDB/{ddbStoreId}/disable
+
+**Enable DDB Activity:**
+POST /DDB/{ddbStoreId}/enable
+
+**Mark DDB Partition for Recovery:**
+POST /DDB/{ddbStoreId}/partition/{partitionId}/recover
+
+**Move DDB Partitions:**
+POST /DDB/{ddbStoreId}/movePartitions
+
+====================================================================================================
+PART 2: DDB HEALTH AND PERFORMANCE MONITORING
+====================================================================================================
+
+2.1 KEY PERFORMANCE METRICS
+----------------------------------------------------------------------------------------------------
+
+**Query & Insert (Q&I) Time:**
+- Definition: Average time to query and insert signatures into DDB
+- Measurement: Microseconds (μs)
+- Healthy Range: < 1000μs
+- Warning Threshold: 1000-2000μs
+- Critical Threshold: > 2000μs
+- Impact: High Q&I times slow down backup operations
+
+**DDB Size Metrics:**
+- totalCapacityMB: Total allocated space
+- consumedDataMB: Space used by DDB
+- freeDiskSpaceMB: Available space
+- PrimaryEntries: Number of unique blocks tracked
+
+**Partition Health:**
+- status: 1 = Online, other values = offline/degraded
+- avgQITime: Per-partition performance
+- softstate: Current operational state
+- offlineReason: Diagnostic information
+
+2.2 HEALTH STATUS INDICATORS
+----------------------------------------------------------------------------------------------------
+
+**DDB Status Values:**
+
+Status = 1: Online and Healthy
+  - DDB is operational
+  - Backups can proceed normally
+  - No intervention needed
+
+Status != 1: Degraded or Offline
+  - Check offlineReason field
+  - Review lastCorruptionTime
+  - Examine recovery status
+
+**Common Offline Reasons:**
+- "Disk failure": Physical storage issue
+- "Unplanned shutdown": Server crash, blue screen
+- "Corruption detected": Data integrity issue
+- "Insufficient space": Out of disk space
+- "Database locked": Write lock issue
+- "Process not responding": DDB process crash
+
+2.3 MONITORING BEST PRACTICES
+----------------------------------------------------------------------------------------------------
+
+**Regular API Polling:**
+- Query GET /DDBInformation/{ddbStoreId} every 5-15 minutes
+- Track avgQITime trends over time
+- Alert on Q&I time > 1000μs
+- Alert on status changes
+
+**Capacity Monitoring:**
+- Track freeDiskSpaceMB vs totalCapacityMB
+- Alert when free space < 20%
+- Monitor growth rate to predict space exhaustion
+
+**Backup Monitoring:**
+- Verify lastBackupTime is recent (< 8 hours recommended)
+- Ensure DDB backups complete successfully
+- Track backup job failures
+
+**Partition Health:**
+- Monitor each partition independently
+- Check for partition-specific performance degradation
+- Verify all partitions are online
+
+2.4 HEALTH REPORT TILES (UI-BASED)
+----------------------------------------------------------------------------------------------------
+
+Commvault provides several built-in health report tiles:
+
+**DDB Performance and Status:**
+- Shows all DDBs with performance metrics
+- Displays avgQITime trends
+- Highlights DDBs exceeding thresholds
+
+**DDB Disk Space Utilization:**
+- Capacity consumption per DDB
+- Free space alerts
+- Growth trend analysis
+
+**DDB Backups:**
+- Last backup time for each DDB
+- Backup success/failure status
+- Backup job duration
+
+**DDB Partition Counts Per MediaAgent:**
+- Distribution of partitions across MediaAgents
+- Load balancing insights
+- Partition concentration risks
+
+Access via: CommCell Console > Reports > Health Reports
+
+====================================================================================================
+PART 3: DDB CORRUPTION - SYMPTOMS AND DETECTION
+====================================================================================================
+
+3.1 COMMON CORRUPTION SYMPTOMS
+----------------------------------------------------------------------------------------------------
+
+**Job Failures:**
+- Error: "Could not connect to the DeDuplication Database process for Store Id [X]"
+- Error: [62:2483] "Unable to run Data Verification job because one or more partitions
+  of the deduplication store is corrupted"
+- Error: [40:110] "Cache-Database and Deduplication-Database out of sync"
+
+**Event Viewer Messages:**
+- Event [32:370] "Deduplication store has been sealed"
+- Sealed Reason: "Store is Force Sealed"
+- Event indicating DDB reconstruction started automatically
+
+**DDB Status Indicators:**
+- API shows status != 1
+- offlineReason populated with corruption details
+- lastCorruptionTime shows recent timestamp
+- Partition shows as "Permanently Offline"
+
+**System-Level Issues:**
+- DDB directory locked for write
+- Cannot create folders in DDB directory
+- SIDBEngine.log shows errors
+- DDB process not running on MediaAgent
+
+**Data Verification Failures:**
+- Running data verification returns "DDB is corrupted"
+- Verification jobs fail with integrity errors
+- Restore operations may still work (DDB not needed for restore)
+
+3.2 ROOT CAUSES OF DDB CORRUPTION
+----------------------------------------------------------------------------------------------------
+
+**Infrastructure Failures:**
+- Disk failure on storage hosting DDB
+- SAN/NAS connectivity issues
+- Network interruptions to DDB partition
+
+**System Crashes:**
+- Server blue screen (BSOD)
+- Unplanned power loss
+- Operating system crash
+- MediaAgent service termination
+
+**Space Exhaustion:**
+- Out of disk space on DDB partition
+- Filesystem full
+- Quota exceeded
+
+**Software Issues:**
+- DDB compaction failure
+- Failed DDB backup causing inconsistency
+- Software bugs in DDB engine
+- Incomplete DDB write operations
+
+**Environmental Factors:**
+- Antivirus scanning DDB folders (CRITICAL - must exclude)
+- EDR/XDR tools interfering with DDB
+- Backup software conflicts
+- Filesystem corruption
+
+**Database Issues:**
+- CommServe database out of sync with DDB
+- Metadata inconsistencies
+- Failed prune operations
+- Incomplete job cleanup
+
+3.3 PROACTIVE DETECTION
+----------------------------------------------------------------------------------------------------
+
+**API-Based Monitoring:**
+
+```python
+# Example monitoring check
+ddb_status = api_get_ddb_info(ddb_store_id)
+
+if ddb_status['avgQITime'] > 1000:
+    alert("DDB Q&I time exceeds threshold")
+
+if ddb_status['status'] != 1:
+    alert(f"DDB offline: {ddb_status['offlineReason']}")
+
+if ddb_status['freeDiskSpaceMB'] / ddb_status['totalCapacityMB'] < 0.2:
+    alert("DDB low on disk space")
+
+if partition['softstate'] == 'corrupted':
+    alert(f"Partition {partition['subStoreId']} corrupted")
+```
+
+**Log Monitoring:**
+- Monitor SIDBEngine.log on MediaAgent
+- Watch for corruption warnings
+- Track Q&I time spikes in logs
+
+**Event Monitoring:**
+- Alert on Event [32:370] (sealed DDB)
+- Watch for reconstruction events
+- Track recovery job failures
+
+====================================================================================================
+PART 4: DDB CORRUPTION RECOVERY PROCEDURES
+====================================================================================================
+
+4.1 AUTOMATIC RECOVERY (DEFAULT)
+----------------------------------------------------------------------------------------------------
+
+**How Automatic Recovery Works:**
+
+Step 1: Corruption Detection
+  - DDB engine detects corruption
+  - Partition marked as offline
+  - Event logged to CommServe
+
+Step 2: Automatic Reconstruction Triggered
+  - Dedup DB Reconstruction job starts automatically
+  - Appears in Job Controller window
+  - Uses latest DDB backup as baseline
+
+Step 3: Restore from DDB Backup
+  - Latest DDB backup is restored
+  - Partition brought back to backup point-in-time
+
+Step 4: Replay Jobs Since Backup
+  - System identifies all backup jobs since last DDB backup
+  - Jobs are "replayed" to update DDB
+  - DDB brought to most current state
+
+Step 5: Validation
+  - DDB integrity verified
+  - Partition marked online
+  - Backups resume normally
+
+**Configuration:**
+- Enabled by default on all storage policy copies
+- Setting: Storage Policy Copy > Properties > DDB Recovery > Automatic recovery
+- Recommended: KEEP THIS ENABLED
+
+**Time to Recovery:**
+- Depends on: Time since last DDB backup
+- Depends on: Number of jobs to replay
+- Typical: 30 minutes to 4 hours
+- Large environments: Up to 24 hours
+
+4.2 MANUAL RECOVERY PROCESS
+----------------------------------------------------------------------------------------------------
+
+**When to Use Manual Recovery:**
+- Automatic recovery failed
+- Need to control timing of recovery
+- Testing recovery procedures
+- Recovering after partition relocation
+
+**Procedure:**
+
+Step 1: Access DDB in CommCell Browser
+  Navigate: Storage Resources > Deduplication Engines > storage_policy > deduplication_database
+
+Step 2: Mark Partition for Recovery
+  - Right-click the appropriate partition
+  - Select "Mark for Recovery"
+  - For multi-partitioned DDB, select specific partitions
+
+Step 3: Trigger Recovery
+  - Right-click deduplication_database
+  - Select All Tasks > Recover Deduplication Database
+  - Recovery job starts in Job Controller
+
+Step 4: Monitor Recovery
+  - Watch reconstruction job progress
+  - Review job details for errors
+  - Check SIDBEngine.log on MediaAgent
+
+Step 5: Verify Recovery
+  - Confirm partition status = Online
+  - Run test backup to verify functionality
+  - Check avgQITime has returned to normal
+
+**Recovery Options:**
+
+Use DDB Backup (Default):
+  - Restores from last DDB backup
+  - Replays jobs since backup
+  - Fastest method
+
+Full Reconstruction (if backup invalid):
+  - Checkbox: "Reconstruct entire DDB without using a previous recovery backup"
+  - Reads entire disk library
+  - Rebuilds DDB from scratch
+  - SLOW: Can take days for large environments
+
+Use Scalable Resource Allocation:
+  - Checkbox: "Use Scalable Resource Allocation"
+  - Enables restart from point of failure
+  - Highly recommended
+  - Prevents starting over if job fails
+
+4.3 FULL RECONSTRUCTION PROCESS
+----------------------------------------------------------------------------------------------------
+
+**When Full Reconstruction is Needed:**
+- Both DDB and DDB backup are corrupt/invalid
+- DDB backup not available
+- Restore from backup fails validation
+- After major infrastructure changes
+
+**Process:**
+
+Step 1: Select Full Reconstruction Option
+  - Recovery dialog: Check "Reconstruct entire DDB without using a previous recovery backup"
+  - This deletes existing DDB content
+
+Step 2: Disk Library Scan
+  - System scans entire disk library
+  - Reads all data blocks
+  - Extracts metadata from chunk files
+  - Rebuilds signature database
+
+Step 3: DDB Rebuild
+  - Creates new DDB structure
+  - Populates with discovered signatures
+  - Correlates with CommServe database
+
+Step 4: Validation
+  - Verifies DDB consistency
+  - Marks partition online
+  - Enables backups
+
+**Important Considerations:**
+
+Time Required:
+  - Depends on disk library size
+  - 1TB disk library: ~4-8 hours
+  - 10TB disk library: ~1-3 days
+  - 100TB disk library: ~1-2 weeks
+
+Orphaned Data Risk:
+  - Full reconstruction can orphan pending deletes
+  - Recommendation: Run DDB space reclamation afterward
+  - Reclamation identifies and removes orphaned chunks
+
+Impact on Operations:
+  - Backups to this DDB are paused during reconstruction
+  - Backups to other DDBs continue normally
+  - Restores are NOT affected (DDB not needed for restore)
+
+4.4 SEAL AND START NEW DDB (ALTERNATIVE)
+----------------------------------------------------------------------------------------------------
+
+**When to Consider Sealing:**
+- DDB repeatedly becomes corrupt
+- Reconstruction keeps failing
+- Need to minimize downtime
+- Temporary workaround for hardware issues
+
+**How It Works:**
+
+Step 1: Seal Current DDB
+  - Navigate to deduplication_database
+  - Right-click > All Tasks > Seal Deduplication Database
+  - DDB marked as sealed (read-only)
+
+Step 2: New DDB Created Automatically
+  - System creates new DDB for storage policy
+  - New backups write to new DDB
+  - Backups resume immediately
+
+Step 3: Sealed DDB Remains for Restores
+  - Old data still restorable from sealed DDB
+  - No data loss
+  - Sealed DDB can be pruned later
+
+**Important Implications:**
+
+Storage Impact:
+  - Up to DOUBLE the storage consumption
+  - New DDB cannot reference blocks in sealed DDB
+  - Deduplication starts fresh
+
+Retention Impact:
+  - Data in sealed DDB cannot be pruned until ALL jobs meet retention
+  - Every job tied to sealed DDB must expire first
+  - Can take months/years depending on retention
+
+Restore Impact:
+  - Restores from sealed DDB data: WORKS FINE
+  - DDB not needed for restore operations
+
+Performance Impact:
+  - Auxiliary copies start immediately
+  - No wait for reconstruction
+  - Minimal operational disruption
+
+**Best Practice:**
+Sealing should be a LAST RESORT. Fix corruption when possible rather than sealing.
+
+4.5 RECOVERING PERMANENTLY OFFLINE DDB PARTITIONS
+----------------------------------------------------------------------------------------------------
+
+**Scenario:**
+DDB partition location becomes permanently inaccessible (disk failure, SAN issue, etc.)
+
+**Procedure:**
+
+Prerequisites:
+  - No DDB backup or reconstruction jobs running
+  - Destination MediaAgent has > 5% free space
+  - All storage policy copies in global dedup policy active
+  - Target MediaAgent not running 32-bit Linux
+
+Steps:
+  1. Storage Resources > Deduplication Engines > storage_policy_copy
+  2. Right-click deduplication_database > Move Partitions
+  3. Click path selection, choose new MediaAgent
+  4. Enter file path for new DDB location
+  5. Check "Configuration-only modification" checkbox
+  6. Click OK, confirm prompt
+  7. Handle active jobs (suspend or wait)
+  8. For full partitions: Mark for recovery to trigger reconstruction
+
+Post-Move:
+  - Verify partition shows new location
+  - Trigger manual recovery if needed
+  - Validate backups to new location
+
+====================================================================================================
+PART 5: DDB CORRUPTION PREVENTION
+====================================================================================================
+
+5.1 INFRASTRUCTURE BEST PRACTICES
+----------------------------------------------------------------------------------------------------
+
+**Storage Requirements:**
+- Use enterprise-grade storage for DDB partitions
+- Avoid consumer-grade drives
+- RAID protection recommended
+- Monitor disk health proactively
+
+**Space Management:**
+- Maintain > 20% free space on DDB partitions
+- Alert when approaching 80% utilization
+- Plan for DDB growth (typically 2-5% of deduplicated data)
+
+**Antivirus/Security Exclusions (CRITICAL):**
+Exclude these paths from:
+  - Antivirus real-time scanning
+  - EDR/XDR monitoring
+  - File integrity monitoring
+  - Backup software
+
+Paths to exclude:
+  - <DDB_Path>\**\*
+  - <MediaAgent>\CV_Dedupe\**\*
+  - DDB process executable
+
+Failure to exclude can cause severe corruption!
+
+**Network/SAN Stability:**
+- Ensure stable connectivity to DDB storage
+- Avoid network interruptions
+- Monitor SAN path redundancy
+
+5.2 DDB BACKUP BEST PRACTICES
+----------------------------------------------------------------------------------------------------
+
+**Backup Frequency:**
+- Recommended: Every 8 hours (3x per day)
+- Minimum: Once per day
+- High-change environments: Every 4-6 hours
+
+**Backup Timing:**
+- Best time: After pruning operations complete
+- Avoid: During peak backup windows
+- Schedule during low-activity periods
+
+**Backup Verification:**
+- Monitor DDB backup job success
+- Alert on failures
+- Track backup duration trends
+
+**Retention:**
+- Keep multiple DDB backup copies
+- Recommended: 3-7 days retention
+- Balance storage cost vs recovery flexibility
+
+5.3 OPERATIONAL BEST PRACTICES
+----------------------------------------------------------------------------------------------------
+
+**Regular Maintenance:**
+- Run DDB compaction periodically
+- Schedule during maintenance windows
+- Monitor compaction success
+
+**Data Verification:**
+- Run data verification monthly
+- Tests DDB integrity
+- Identifies corruption early
+
+**Capacity Planning:**
+- Track DDB growth trends
+- Project future space needs
+- Plan partition additions proactively
+
+**Performance Monitoring:**
+- Track Q&I time trends
+- Alert on sustained high Q&I
+- Investigate spikes promptly
+
+**Documentation:**
+- Document DDB locations
+- Record partition mappings
+- Maintain recovery runbooks
+
+5.4 CONFIGURATION RECOMMENDATIONS
+----------------------------------------------------------------------------------------------------
+
+**DDB Recovery Settings:**
+
+Access: Storage Policy Copy > Properties > Storage > Deduplication Database
+
+Enable These Options:
+  [X] Automatic recovery
+  [X] Use Scalable Resource Allocation
+
+DDB Availability Options:
+  (*) Pause and recover current DDB
+  ( ) Seal and start new DDB automatically on detection of inconsistency
+
+Rationale:
+  - Automatic recovery handles most corruption scenarios
+  - Pause/recover preserves deduplication efficiency
+  - Seal/start should only be used for persistent failures
+
+**Partition Configuration:**
+- Limit partitions to 50-100 per MediaAgent
+- Size partitions based on workload
+- Balance partitions across MediaAgents
+- Avoid single points of failure
+
+**Global Deduplication:**
+- Consider global dedup carefully
+- Understand interdependencies
+- Plan for coordinated maintenance
+
+====================================================================================================
+PART 6: DDB VERSIONS - V4 vs V5
+====================================================================================================
+
+6.1 VERSION OVERVIEW
+----------------------------------------------------------------------------------------------------
+
+**DDB V4 (Traditional):**
+- Original deduplication database architecture
+- Multi-file secondary tables
+- Counter-based tracking in primary table
+- Introduced in early Commvault versions
+
+**DDB V4 Gen 2 (also called V5):**
+- Enhanced version introduced in Commvault 11.14 (SP14)
+- Improved structure and performance
+- Garbage collection enabled by default
+- Current recommended version
+
+**Naming Confusion:**
+"V5" is actually "V4 Gen 2" - same underlying V4 architecture with enhancements
+
+6.2 KEY DIFFERENCES
+----------------------------------------------------------------------------------------------------
+
+**Secondary Table Structure:**
+
+V4 Traditional:
+  - Secondary table files contain up to 16 archive files
+  - Multiple jobs share archive files
+  - Pruning requires updating shared files
+
+V4 Gen 2 (V5):
+  - Each archive file is a standalone secondary table file
+  - One secondary table file per job
+  - When job meets retention, entire file can be pruned
+  - Result: MUCH BETTER PRUNING PERFORMANCE
+
+**Primary Table Structure:**
+
+V4 Traditional:
+  - Multiple tracking fields
+  - Counter updates during backups
+  - Higher I/O overhead
+
+V4 Gen 2 (V5):
+  - Fewer fields in primary table
+  - No counter field updates needed
+  - Lower I/O impact
+  - Result: FASTER BACKUPS AND AUX COPIES
+
+**Reconstruction:**
+
+V4 Traditional:
+  - Cannot resume if interrupted
+  - Must start over from beginning
+  - Long reconstruction times
+
+V4 Gen 2 (V5):
+  - Restartability feature added
+  - Resumes from point of failure
+  - More reliable reconstruction
+
+**Memory and Threading:**
+
+V4 Traditional:
+  - Standard memory allocation per partition
+  - 2 threads for processing
+
+V4 Gen 2 (V5):
+  - Up to 8GB memory per partition
+  - 8 threads when using NVMe storage
+  - Result: BETTER PERFORMANCE ON MODERN HARDWARE
+
+6.3 PERFORMANCE IMPROVEMENTS IN V5
+----------------------------------------------------------------------------------------------------
+
+**Pruning Efficiency:**
+- Significantly faster removal of obsolete signatures
+- Reduced I/O impact during pruning
+- Smaller DDB footprint with mixed retentions
+
+**Backup/Aux Copy Performance:**
+- Less I/O on DDB host disks
+- Faster signature lookups
+- Improved scalability
+
+**Reconstruction:**
+- Optimized for partition loss scenarios
+- Faster recovery times
+- Resume capability prevents wasted time
+
+**Overall Scalability:**
+- Handles larger environments better
+- Supports more partitions efficiently
+- Better performance with high-churn data
+
+6.4 CONVERTING FROM V4 TO V5
+----------------------------------------------------------------------------------------------------
+
+**Conversion Process:**
+
+Planning:
+  - Conversion is one-way (V4 → V5 only, cannot go back)
+  - Requires DDB reconstruction
+  - Plan for downtime during conversion
+  - Document current configuration
+
+Execution:
+  1. Navigate to DDB in CommCell Console
+  2. Right-click > All Tasks > Convert to Version 5
+  3. Follow conversion wizard
+  4. System performs full reconstruction in V5 format
+  5. Validate post-conversion
+
+Duration:
+  - Same as full reconstruction
+  - Depends on disk library size
+  - Plan for extended conversion time
+
+Post-Conversion:
+  - Monitor performance improvements
+  - Verify backups functioning
+  - Run data verification
+
+**API Considerations:**
+- No special API endpoints for V4 vs V5
+- GET /DDBInformation works for both versions
+- Version is a property of the DDB, not a separate API call
+- API response structure is the same
+
+====================================================================================================
+PART 7: DDB TROUBLESHOOTING FLOWCHART
+====================================================================================================
+
+7.1 CORRUPTION DETECTED
+----------------------------------------------------------------------------------------------------
+
+START: DDB Corruption Detected
+  |
+  ├─> Check Automatic Recovery Enabled?
+  |     |
+  |     ├─> YES: Wait for automatic reconstruction job
+  |     |         |
+  |     |         ├─> Job Succeeds? → RESOLVED
+  |     |         └─> Job Fails? → Continue to Manual Recovery
+  |     |
+  |     └─> NO: Enable automatic recovery → Trigger manually
+  |
+  ├─> Manual Recovery Attempt
+  |     |
+  |     ├─> Check DDB Backup Available?
+  |     |     |
+  |     |     ├─> YES: Recover from backup
+  |     |     |         |
+  |     |     |         ├─> Success? → RESOLVED
+  |     |     |         └─> Fails validation? → Full Reconstruction
+  |     |     |
+  |     |     └─> NO: Must use Full Reconstruction
+  |     |
+  |     └─> Full Reconstruction
+  |           |
+  |           ├─> Enable Scalable Resource Allocation
+  |           ├─> Start reconstruction
+  |           ├─> Monitor progress (can take days)
+  |           |
+  |           ├─> Success? → Run DDB space reclamation → RESOLVED
+  |           └─> Repeated Failures? → Consider Seal & Start New
+  |
+  └─> Seal and Start New DDB (Last Resort)
+        |
+        ├─> Seal current DDB
+        ├─> New DDB created automatically
+        ├─> Backups resume to new DDB
+        ├─> Monitor storage consumption (will increase)
+        └─> OPERATIONAL (with caveats)
+
+7.2 HIGH Q&I TIME TROUBLESHOOTING
+----------------------------------------------------------------------------------------------------
+
+START: avgQITime > 1000μs
+  |
+  ├─> Check Disk Performance
+  |     ├─> Disk I/O saturated? → Add more spindles or use SSD
+  |     └─> Disk healthy? → Continue
+  |
+  ├─> Check DDB Size
+  |     ├─> DDB very large? → Consider adding partitions
+  |     └─> Size normal? → Continue
+  |
+  ├─> Check Memory
+  |     ├─> Memory pressure? → Add RAM to MediaAgent
+  |     └─> Memory OK? → Continue
+  |
+  ├─> Check Concurrent Jobs
+  |     ├─> Too many concurrent backups? → Throttle job concurrency
+  |     └─> Concurrency normal? → Continue
+  |
+  ├─> Check for Antivirus/EDR
+  |     ├─> DDB being scanned? → EXCLUDE IMMEDIATELY
+  |     └─> Properly excluded? → Continue
+  |
+  └─> Consider V5 Conversion
+        └─> Running V4? → Convert to V5 for better performance
+
+7.3 DDB PARTITION OFFLINE
+----------------------------------------------------------------------------------------------------
+
+START: Partition Status != Online
+  |
+  ├─> Check offlineReason field in API
+  |
+  ├─> REASON: Disk Failure
+  |     └─> Replace disk → Move partition → Trigger recovery
+  |
+  ├─> REASON: Corruption
+  |     └─> Follow corruption recovery flowchart
+  |
+  ├─> REASON: Insufficient Space
+  |     └─> Free up space → Trigger recovery
+  |
+  ├─> REASON: Process Not Responding
+  |     └─> Restart DDB process on MediaAgent → Monitor
+  |
+  └─> REASON: Unknown
+        └─> Check SIDBEngine.log → Contact Commvault Support
+
+====================================================================================================
+PART 8: API IMPLEMENTATION EXAMPLES
+====================================================================================================
+
+8.1 PYTHON EXAMPLE: GET DDB INFORMATION
+----------------------------------------------------------------------------------------------------
+
+```python
+import requests
+import base64
+
+# Configuration
+COMMVAULT_URL = "https://commvaultweb01:81/SearchSvc/CVWebService.svc"
+USERNAME = "admin"
+PASSWORD = "password"
+DDB_STORE_ID = 60
+
+# Create auth header
+auth_string = f"{USERNAME}:{PASSWORD}"
+auth_bytes = auth_string.encode('ascii')
+base64_auth = base64.b64encode(auth_bytes).decode('ascii')
+
+headers = {
+    'Authorization': f'Basic {base64_auth}',
+    'Accept': 'application/json'
+}
+
+# Get DDB information
+response = requests.get(
+    f"{COMMVAULT_URL}/DDBInformation/{DDB_STORE_ID}",
+    headers=headers,
+    verify=False
+)
+
+if response.status_code == 200:
+    ddb_info = response.json()
+
+    print(f"DDB Store ID: {ddb_info['storeId']}")
+    print(f"DDB Name: {ddb_info['storeName']}")
+    print(f"Status: {ddb_info['status']}")
+    print(f"Avg Q&I Time: {ddb_info['avgQITime']}μs")
+    print(f"Total Capacity: {ddb_info['totalCapacityMB']} MB")
+    print(f"Free Space: {ddb_info['freeDiskSpaceMB']} MB")
+    print(f"Primary Entries: {ddb_info['PrimaryEntries']}")
+
+    # Check health
+    if ddb_info['status'] != 1:
+        print(f"WARNING: DDB is offline! Reason: {ddb_info.get('offlineReason', 'Unknown')}")
+
+    if ddb_info['avgQITime'] > 1000:
+        print(f"WARNING: Q&I time exceeds healthy threshold!")
+
+    # List partitions
+    print("\nPartitions:")
+    for partition in ddb_info['subStoreList']:
+        print(f"  Partition {partition['subStoreId']}: {partition['Path']}")
+        print(f"    Status: {partition['status']}")
+        print(f"    Avg Q&I: {partition['avgQITime']}μs")
+        print(f"    Free Space: {partition['freeDiskSpaceMB']} MB")
+
+else:
+    print(f"Error: {response.status_code}")
+    print(response.text)
+```
+
+8.2 PYTHON EXAMPLE: MONITOR ALL DDBs
+----------------------------------------------------------------------------------------------------
+
+```python
+def get_all_ddb_store_ids():
+    """
+    Get all DDB store IDs from storage policies
+    Returns list of (storagePoolName, ddbStoreId) tuples
+    """
+    # Query storage pools
+    response = requests.get(
+        f"{COMMVAULT_URL}/StoragePool",
+        headers=headers,
+        verify=False
+    )
+
+    ddb_stores = []
+    if response.status_code == 200:
+        pools = response.json()
+        for pool in pools.get('storagePools', []):
+            if pool.get('dedupeEnabled'):
+                # Extract DDB Store ID from pool name
+                # Format: PoolName_DDBStoreID
+                parts = pool['storagePoolName'].split('_')
+                if len(parts) >= 2 and parts[-1].isdigit():
+                    ddb_store_id = int(parts[-1])
+                    ddb_stores.append((pool['storagePoolName'], ddb_store_id))
+
+    return ddb_stores
+
+def monitor_all_ddbs():
+    """Monitor health of all DDBs"""
+    ddb_stores = get_all_ddb_store_ids()
+
+    print(f"Monitoring {len(ddb_stores)} DDBs...")
+    print("=" * 80)
+
+    issues = []
+
+    for pool_name, ddb_id in ddb_stores:
+        response = requests.get(
+            f"{COMMVAULT_URL}/DDBInformation/{ddb_id}",
+            headers=headers,
+            verify=False
+        )
+
+        if response.status_code == 200:
+            ddb = response.json()
+
+            # Health checks
+            if ddb['status'] != 1:
+                issues.append({
+                    'pool': pool_name,
+                    'issue': 'OFFLINE',
+                    'details': ddb.get('offlineReason', 'Unknown')
+                })
+
+            if ddb['avgQITime'] > 2000:
+                issues.append({
+                    'pool': pool_name,
+                    'issue': 'CRITICAL Q&I TIME',
+                    'details': f"{ddb['avgQITime']}μs"
+                })
+            elif ddb['avgQITime'] > 1000:
+                issues.append({
+                    'pool': pool_name,
+                    'issue': 'HIGH Q&I TIME',
+                    'details': f"{ddb['avgQITime']}μs"
+                })
+
+            free_pct = (ddb['freeDiskSpaceMB'] / ddb['totalCapacityMB']) * 100
+            if free_pct < 20:
+                issues.append({
+                    'pool': pool_name,
+                    'issue': 'LOW DISK SPACE',
+                    'details': f"{free_pct:.1f}% free"
+                })
+
+            print(f"{pool_name}: {'OK' if not any(i['pool'] == pool_name for i in issues) else 'ISSUES'}")
+
+    # Report issues
+    if issues:
+        print("\n" + "=" * 80)
+        print("ISSUES DETECTED:")
+        print("=" * 80)
+        for issue in issues:
+            print(f"{issue['pool']}: {issue['issue']} - {issue['details']}")
+    else:
+        print("\nAll DDBs healthy!")
+
+# Run monitoring
+monitor_all_ddbs()
+```
+
+8.3 DATABASE STORAGE EXAMPLE
+----------------------------------------------------------------------------------------------------
+
+```python
+import sqlite3
+from datetime import datetime
+
+def store_ddb_status(ddb_info):
+    """Store DDB status in local database for trend analysis"""
+
+    conn = sqlite3.connect('Database/commvault.db')
+    cur = conn.cursor()
+
+    # Create table if not exists
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS ddb_health (
+            timestamp        TEXT,
+            ddbStoreId       INTEGER,
+            ddbStoreName     TEXT,
+            status           INTEGER,
+            avgQITime        INTEGER,
+            totalCapacityMB  INTEGER,
+            freeDiskSpaceMB  INTEGER,
+            primaryEntries   INTEGER,
+            offlineReason    TEXT,
+            lastBackupTime   TEXT,
+            PRIMARY KEY (timestamp, ddbStoreId)
+        )
+    """)
+
+    # Insert current status
+    cur.execute("""
+        INSERT INTO ddb_health VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        datetime.now().isoformat(),
+        ddb_info['storeId'],
+        ddb_info['storeName'],
+        ddb_info['status'],
+        ddb_info['avgQITime'],
+        ddb_info['totalCapacityMB'],
+        ddb_info['freeDiskSpaceMB'],
+        ddb_info['PrimaryEntries'],
+        ddb_info.get('offlineReason'),
+        ddb_info.get('lastBackupTime')
+    ))
+
+    conn.commit()
+    conn.close()
+
+    print(f"Stored health data for DDB {ddb_info['storeId']}")
+
+def get_ddb_trends(ddb_store_id, days=7):
+    """Analyze DDB trends over time"""
+
+    conn = sqlite3.connect('Database/commvault.db')
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT timestamp, avgQITime, freeDiskSpaceMB
+        FROM ddb_health
+        WHERE ddbStoreId = ?
+        AND timestamp >= datetime('now', '-' || ? || ' days')
+        ORDER BY timestamp
+    """, (ddb_store_id, days))
+
+    results = cur.fetchall()
+    conn.close()
+
+    if len(results) < 2:
+        print("Insufficient data for trend analysis")
+        return
+
+    # Analyze trends
+    qi_times = [r[1] for r in results]
+    free_space = [r[2] for r in results]
+
+    qi_trend = "increasing" if qi_times[-1] > qi_times[0] else "decreasing"
+    space_trend = "decreasing" if free_space[-1] < free_space[0] else "increasing"
+
+    print(f"DDB {ddb_store_id} - Last {days} days:")
+    print(f"  Q&I Time: {qi_times[0]}μs → {qi_times[-1]}μs ({qi_trend})")
+    print(f"  Free Space: {free_space[0]} MB → {free_space[-1]} MB ({space_trend})")
+
+    # Predict space exhaustion
+    if space_trend == "decreasing":
+        space_delta = free_space[0] - free_space[-1]
+        days_measured = len(results)
+        daily_consumption = space_delta / days_measured
+        days_until_full = free_space[-1] / daily_consumption if daily_consumption > 0 else float('inf')
+
+        print(f"  Projected days until full: {days_until_full:.1f}")
+        if days_until_full < 30:
+            print("  WARNING: DDB will be full in less than 30 days!")
+```
+
+====================================================================================================
+PART 9: RECOVERY SCENARIOS AND DECISION MATRIX
+====================================================================================================
+
+9.1 DECISION MATRIX
+----------------------------------------------------------------------------------------------------
+
+| Scenario                          | Recommended Action              | Expected Time  | Data Loss Risk |
+|-----------------------------------|--------------------------------|----------------|----------------|
+| Single partition corruption       | Automatic recovery             | 30min - 2hr    | None           |
+| DDB backup available              | Manual recovery from backup    | 1hr - 4hr      | None           |
+| DDB backup corrupted              | Full reconstruction            | Hours - Days   | None           |
+| Repeated corruption               | Fix root cause + recovery      | Varies         | None           |
+| Persistent corruption             | Seal & start new DDB           | Minutes        | None*          |
+| Disk failure                      | Move partition + recovery      | 2hr - 6hr      | None           |
+| Out of space                      | Add space + recovery           | 1hr - 3hr      | None           |
+| Performance degradation           | Check infrastructure           | Varies         | N/A            |
+| Process crash                     | Restart process + monitor      | Minutes        | None           |
+
+*Seal & start new: No data loss but increased storage consumption and dedup loss
+
+9.2 RECOVERY TIME OBJECTIVES (RTO)
+----------------------------------------------------------------------------------------------------
+
+**Automatic Recovery from Backup:**
+- Small DDB (<100GB): 15-30 minutes
+- Medium DDB (100GB-1TB): 30 minutes - 2 hours
+- Large DDB (1TB+): 2-4 hours
+
+**Full Reconstruction:**
+- Small disk library (<1TB): 4-8 hours
+- Medium disk library (1-10TB): 1-3 days
+- Large disk library (10-100TB): 3-14 days
+- Very large (100TB+): 1-4 weeks
+
+**Seal and Start New:**
+- Immediate: <5 minutes
+- Backups resume right away
+- But: Storage consumption will increase
+
+9.3 WHEN TO ESCALATE TO COMMVAULT SUPPORT
+----------------------------------------------------------------------------------------------------
+
+Escalate if:
+- Full reconstruction fails repeatedly
+- Corruption occurs immediately after recovery
+- Multiple DDBs affected simultaneously
+- Unknown offlineReason
+- Data verification shows data corruption (not just DDB)
+- Performance degradation with no clear cause
+- Need assistance with V4 to V5 conversion
+- Disaster recovery scenario
+
+Before calling support, gather:
+- DDB Store ID
+- SIDBEngine.log from MediaAgent
+- Job logs for failed recoveries
+- Output of GET /DDBInformation/{ddbStoreId}
+- Recent infrastructure changes
+- Timeline of corruption events
+
+====================================================================================================
+PART 10: SUMMARY AND QUICK REFERENCE
+====================================================================================================
+
+10.1 QUICK COMMAND REFERENCE
+----------------------------------------------------------------------------------------------------
+
+**Get DDB Information:**
+GET /DDBInformation/{ddbStoreId}
+
+**Get Storage Pools:**
+GET /StoragePool
+
+**Trigger DDB Recovery:**
+CommCell UI: Right-click DDB > All Tasks > Recover Deduplication Database
+
+**Seal DDB:**
+CommCell UI: Right-click DDB > All Tasks > Seal Deduplication Database
+
+**Run Data Verification:**
+CommCell UI: Right-click DDB > All Tasks > Run Data Verification
+
+**Move DDB Partitions:**
+CommCell UI: Right-click DDB > Move Partitions
+
+10.2 CRITICAL DO's AND DON'Ts
+----------------------------------------------------------------------------------------------------
+
+**DO:**
+✓ Keep automatic recovery enabled
+✓ Run DDB backups frequently (8-hour intervals)
+✓ Monitor Q&I time and alert on >1000μs
+✓ Exclude DDB paths from antivirus/EDR
+✓ Maintain >20% free space on DDB partitions
+✓ Use Scalable Resource Allocation for recoveries
+✓ Document DDB locations and configurations
+✓ Test recovery procedures periodically
+✓ Monitor trends and plan capacity
+✓ Consider V5 for new implementations
+
+**DON'T:**
+✗ Disable automatic recovery without good reason
+✗ Let antivirus scan DDB directories
+✗ Run out of disk space on DDB partitions
+✗ Seal DDBs as first resort
+✗ Force-stop reconstruction jobs
+✗ Ignore high Q&I time warnings
+✗ Skip DDB backups
+✗ Use consumer-grade storage for DDBs
+✗ Panic - DDB corruption doesn't mean data loss
+✗ Attempt manual DDB repair outside Commvault tools
+
+10.3 KEY TAKEAWAYS
+----------------------------------------------------------------------------------------------------
+
+1. **DDB is for BACKUP, not RESTORE**
+   - Restores work even if DDB is completely offline
+   - DDB corruption doesn't mean data loss
+
+2. **Automatic Recovery Usually Works**
+   - Default settings handle most corruption scenarios
+   - Trust the automatic process
+
+3. **DDB Backups are Critical**
+   - Recovery relies on recent DDB backups
+   - Schedule backups frequently
+
+4. **Prevention is Easier Than Recovery**
+   - Exclude from antivirus
+   - Maintain adequate free space
+   - Use quality storage infrastructure
+
+5. **Sealing is Last Resort**
+   - Doubles storage consumption
+   - Loss of deduplication efficiency
+   - Fix corruption when possible
+
+6. **Monitoring Enables Proactive Response**
+   - API provides real-time health data
+   - Trend analysis predicts issues
+   - Alert on thresholds to act early
+
+7. **V5 is Better Than V4**
+   - Better performance
+   - Improved reconstruction
+   - Use V5 for new implementations
+
+====================================================================================================
+PART 11: ADDITIONAL RESOURCES
+====================================================================================================
+
+11.1 OFFICIAL DOCUMENTATION
+----------------------------------------------------------------------------------------------------
+
+Commvault API Documentation:
+- https://api.commvault.com/
+- https://documentation.commvault.com/2024/essential/rest_api_reference.html
+
+DDB-Specific Documentation:
+- https://documentation.commvault.com/2024/essential/rest_api_get_deduplication_database_details.html
+- https://documentation.commvault.com/2024e/expert/deduplication_database_recovery.html
+- https://documentation.commvault.com/2024e/essential/deduplication_building_block_guide.html
+
+Health Reports:
+- https://documentation.commvault.com/2024e/essential/health_report_ddb_performance_and_status_tile.html
+
+11.2 COMMUNITY RESOURCES
+----------------------------------------------------------------------------------------------------
+
+Commvault Community Forums:
+- https://community.commvault.com/storage-and-deduplication-49
+- Search for: DDB corruption, reconstruction, sealing
+
+Knowledge Base Articles:
+- KB 53895: Deduplication database reaching QI time threshold
+- KB 54284: DDB maintenance/sealing recommendations
+
+11.3 SUPPORT CONTACTS
+----------------------------------------------------------------------------------------------------
+
+Commvault Support:
+- Phone: Check your support contract
+- Email: support@commvault.com
+- Portal: https://ma.commvault.com/
+
+Before calling:
+- Severity 1: DDB corruption affecting production backups
+- Severity 2: Performance degradation
+- Severity 3: Questions about best practices
+
+====================================================================================================
+END OF COMPREHENSIVE DDB GUIDE
+====================================================================================================
+
+Document Version: 1.0
+Last Updated: 2025-11-16
+Applies to: Commvault 11.20+ and 2024E
+Author: Commvault API Research Team
+
+This guide is based on official Commvault documentation, community knowledge, and API research.
+For the most current information, always refer to official Commvault documentation.
+
+====================================================================================================

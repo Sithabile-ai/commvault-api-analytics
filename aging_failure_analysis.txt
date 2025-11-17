@@ -1,0 +1,88 @@
+====================================================================================================
+COMPREHENSIVE AGING FAILURE ANALYSIS
+====================================================================================================
+
+Analyzing why backups are not aging and storage space is not being reclaimed...
+
+====================================================================================================
+SECTION 1: DATA AVAILABILITY CHECK
+====================================================================================================
+
+Available tables in database: 15
+  - alerts: 0 records
+  - clients: 0 records
+  - commcell_info: 0 records
+  - events: 0 records
+  - hypervisors: 0 records
+  - jobs: 100 records
+  - jobs_enhanced: 0 records
+  - libraries: 100 records
+  - mediaagents: 243 records
+  - plans: 278 records
+  - retention_rules: 518 records
+  - sqlite_sequence: 1 records
+  - storage_arrays: 0 records
+  - storage_policies: 226 records
+  - storage_pools: 79 records
+
+====================================================================================================
+SECTION 2: RETENTION POLICY ANALYSIS
+====================================================================================================
+
+Total Retention Rules: 518
+
+❌ CRITICAL: 0 rules have DATA AGING DISABLED
+
+⚠️  WARNING: 19 rules have INFINITE RETENTION
+   Plans/Policies with infinite retention (data will never age):
+      - Fasken Backup Plan / 03 - Monthy_Yearly_ActiveScale (Days: -1, Cycles: -1)
+      - Google Drive Plan / 02 - Cloud (Days: -1, Cycles: -1)
+      - Google Drive Plan / 02 ActiveScale (Days: -1, Cycles: -1)
+      - Google Mail Plan / 02 - Cloud (Days: -1, Cycles: -1)
+      - Google Mail Plan / 02 ActiveScale (Days: -1, Cycles: -1)
+      - Komati Server Plan / 02 - Cloud (Days: -1, Cycles: -1)
+      - Komati Server Plan / 03 - ActviceScale (Days: -1, Cycles: -1)
+      - Office365 Exchange / 02 - Cloud (Days: -1, Cycles: -1)
+      - Office365 OneDrive / 02 - Cloud (Days: -1, Cycles: -1)
+      - Office365 SharePoint / 02 - Cloud (Days: -1, Cycles: -1)
+      ... and 9 more
+
+⚠️  ISSUE: 0 rules require 3+ CYCLES (very slow aging)
+
+🔴 HIGH PRIORITY: 130 rules have SHORT RETENTION + HIGH CYCLES
+   (These are preventing storage reclamation on short-term data)
+   Inefficient short-term policies (recommend reducing cycles to 1):
+      - A.R.B Electrical Backup Plan             02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - ALS_AD                                   02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - ALS_SQL                                  02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - AMT Server Plan                          02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - AS2 Server Foundation Plan               02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - Allan Gray Backup Plan                   02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - Apex Backup Plan                         02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - Apex Plan                                02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - BallStraathof_AD                         02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - BallStraathof_FS                         02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - BallStraathof_Oracle                     02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - BallStraathof_SQL                        02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - BallStraathof_VM                         02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - Blue Turtle Plan V1                      02 - Cloud           |  14d + 2c → ~7 day aging delay
+      - Blue Turtle Plan v2                      02 - Cloud           |  14d + 2c → ~7 day aging delay
+      ... and 115 more
+
+====================================================================================================
+SECTION 3: PLAN ANALYSIS
+====================================================================================================
+
+Total Plans in Database: 278
+Traceback (most recent call last):
+  File "d:\Commvault_API\analyze_aging_failures.py", line 145, in <module>
+    cur.execute("""
+    ~~~~~~~~~~~^^^^
+        SELECT
+        ^^^^^^
+    ...<4 lines>...
+        ORDER BY planName
+        ^^^^^^^^^^^^^^^^^
+    """)
+    ^^^^
+sqlite3.OperationalError: no such column: planType

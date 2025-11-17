@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %}Plan Details - {{ plan.planName }}{% endblock %}
+
+{% block content %}
+<div class="nav-links">
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('view_data', data_type='plans') }}">Back to Plans List</a>
+</div>
+
+<h2 style="margin-bottom: 20px; color: #333;">Plan Details: {{ plan.planName }}</h2>
+
+<!-- Plan Information Section -->
+<div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px;">
+    <h3 style="color: #667eea; border-bottom: 2px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">Plan Information</h3>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+        <div>
+            <strong style="color: #666;">Plan ID:</strong>
+            <div style="margin-top: 5px; color: #333;">{{ plan.planId }}</div>
+        </div>
+
+        <div>
+            <strong style="color: #666;">Plan Name:</strong>
+            <div style="margin-top: 5px; color: #333;">{{ plan.planName }}</div>
+        </div>
+
+        <div>
+            <strong style="color: #666;">Description:</strong>
+            <div style="margin-top: 5px; color: #333;">{{ plan.description if plan.description else 'N/A' }}</div>
+        </div>
+
+        <div>
+            <strong style="color: #666;">Type:</strong>
+            <div style="margin-top: 5px; color: #333;">{{ plan.type if plan.type else 'N/A' }}</div>
+        </div>
+
+        <div>
+            <strong style="color: #666;">Subtype:</strong>
+            <div style="margin-top: 5px; color: #333;">{{ plan.subtype if plan.subtype else 'N/A' }}</div>
+        </div>
+
+        <div>
+            <strong style="color: #666;">Number of Copies:</strong>
+            <div style="margin-top: 5px; color: #333;">{{ plan.numCopies if plan.numCopies else '0' }}</div>
+        </div>
+
+        <div>
+            <strong style="color: #666;">Associated Entities:</strong>
+            <div style="margin-top: 5px; color: #333;">{{ plan.numAssocEntities if plan.numAssocEntities else '0' }}</div>
+        </div>
+
+        <div>
+            <strong style="color: #666;">RPO (Minutes):</strong>
+            <div style="margin-top: 5px; color: #333;">{{ plan.rpoInMinutes if plan.rpoInMinutes else 'N/A' }}</div>
+        </div>
+
+        <div>
+            <strong style="color: #666;">Storage Target:</strong>
+            <div style="margin-top: 5px; color: #333;">{{ plan.storageTarget if plan.storageTarget else 'N/A' }}</div>
+        </div>
+
+        <div>
+            <strong style="color: #666;">Storage Policy:</strong>
+            <div style="margin-top: 5px; color: #333;">
+                {% if storage_policy_name %}
+                    {{ storage_policy_name }} (ID: {{ plan.storagePolicyId }})
+                {% else %}
+                    {{ 'ID: ' + plan.storagePolicyId|string if plan.storagePolicyId else 'N/A' }}
+                {% endif %}
+            </div>
+        </div>
+
+        <div>
+            <strong style="color: #666;">Elastic Plan:</strong>
+            <div style="margin-top: 5px; color: #333;">{{ 'Yes' if plan.isElastic == 1 else 'No' }}</div>
+        </div>
+
+        <div>
+            <strong style="color: #666;">Status Flag:</strong>
+            <div style="margin-top: 5px; color: #333;">{{ plan.statusFlag if plan.statusFlag else 'N/A' }}</div>
+        </div>
+
+        <div>
+            <strong style="color: #666;">Last Updated:</strong>
+            <div style="margin-top: 5px; color: #333;">{{ plan.lastFetchTime if plan.lastFetchTime else 'N/A' }}</div>
+        </div>
+    </div>
+</div>
+
+<!-- Retention Rules Section -->
+<div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <h3 style="color: #667eea; border-bottom: 2px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">
+        Retention Rules
+        {% if retention_rules %}
+            <span style="color: #666; font-size: 14px; font-weight: normal;">({{ retention_rules|length }} rule{{ 's' if retention_rules|length != 1 else '' }})</span>
+        {% endif %}
+    </h3>
+
+    {% if retention_rules %}
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Copy Name</th>
+                        <th>Retention Days</th>
+                        <th>Retention Cycles</th>
+                        <th>Archiver Days</th>
+                        <th>Data Aging</th>
+                        <th>Job Based</th>
+                        <th>Extended Retention 1</th>
+                        <th>Extended Retention 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rule in retention_rules %}
+                    <tr>
+                        <td><strong>{{ rule.entityName }}</strong></td>
+                        <td>{{ rule.retainBackupDataForDays if rule.retainBackupDataForDays is not none else 'N/A' }}</td>
+                        <td>{{ rule.retainBackupDataForCycles if rule.retainBackupDataForCycles is not none else 'N/A' }}</td>
+                        <td>{{ rule.retainArchiverDataForDays if rule.retainArchiverDataForDays is not none else 'N/A' }}</td>
+                        <td>
+                            <span style="color: {{ '#28a745' if rule.enableDataAging == 1 else '#dc3545' }}; font-weight: 600;">
+                                {{ 'Enabled' if rule.enableDataAging == 1 else 'Disabled' }}
+                            </span>
+                        </td>
+                        <td>{{ 'Yes' if rule.jobBasedRetention == 1 else 'No' }}</td>
+                        <td>
+                            {% if rule.firstExtendedRetentionDays or rule.firstExtendedRetentionCycles %}
+                                {{ rule.firstExtendedRetentionDays if rule.firstExtendedRetentionDays is not none else 'N/A' }}d /
+                                {{ rule.firstExtendedRetentionCycles if rule.firstExtendedRetentionCycles is not none else 'N/A' }}c
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if rule.secondExtendedRetentionDays or rule.secondExtendedRetentionCycles %}
+                                {{ rule.secondExtendedRetentionDays if rule.secondExtendedRetentionDays is not none else 'N/A' }}d /
+                                {{ rule.secondExtendedRetentionCycles if rule.secondExtendedRetentionCycles is not none else 'N/A' }}c
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Retention Analysis Section -->
+        <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 6px; border-left: 4px solid #667eea;">
+            <h4 style="color: #333; margin-bottom: 10px;">Retention Analysis</h4>
+            {% set has_issues = false %}
+            {% for rule in retention_rules %}
+                {% if rule.enableDataAging == 0 %}
+                    {% set has_issues = true %}
+                    <div style="margin-bottom: 8px; color: #dc3545;">
+                        <strong>⚠️ WARNING:</strong> Copy "{{ rule.entityName }}" has aging DISABLED - data will never age
+                    </div>
+                {% endif %}
+                {% if rule.retainBackupDataForDays == -1 or rule.retainBackupDataForCycles == -1 %}
+                    {% set has_issues = true %}
+                    <div style="margin-bottom: 8px; color: #fd7e14;">
+                        <strong>ℹ️ INFO:</strong> Copy "{{ rule.entityName }}" has infinite retention
+                    </div>
+                {% endif %}
+                {% if rule.retainBackupDataForDays and rule.retainBackupDataForCycles and rule.retainBackupDataForDays <= 30 and rule.retainBackupDataForCycles >= 2 %}
+                    {% set has_issues = true %}
+                    <div style="margin-bottom: 8px; color: #ffc107;">
+                        <strong>🔧 OPTIMIZATION:</strong> Copy "{{ rule.entityName }}" has short retention ({{ rule.retainBackupDataForDays }} days) + {{ rule.retainBackupDataForCycles }} cycles - consider reducing to 1 cycle for faster aging
+                    </div>
+                {% endif %}
+            {% endfor %}
+            {% if not has_issues %}
+                <div style="color: #28a745;">
+                    <strong>✅ All retention rules look optimal</strong>
+                </div>
+            {% endif %}
+        </div>
+    {% else %}
+        <div style="background: #fff3cd; padding: 20px; border-radius: 8px; border-left: 4px solid #ffc107;">
+            <p style="color: #856404; margin: 0;">No retention rules found for this plan.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

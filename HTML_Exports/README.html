@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>README</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: README.md</div>
+    <h1 id="commvault-data-retrieval-web-application">Commvault Data Retrieval Web Application</h1>
+<p>A Flask-based web application that connects to the Commvault REST API and stores retrieved data in an SQLite database. This self-contained tool provides a simple web interface for configuring API connections and fetching various types of Commvault data.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li><strong>Configurable Connection</strong>: Enter Commvault Web Service URL, username, and password via web form or configuration file</li>
+<li><strong>Token-Based Authentication</strong>: Securely authenticates with Commvault API using Base64-encoded credentials</li>
+<li><strong>Multiple Data Types</strong>: Retrieve Clients, Jobs, Plans (Policies), and Storage Policies</li>
+<li><strong>Infrastructure Visibility</strong>: NEW! View MediaAgents, Storage Pools, Libraries, Hypervisors, and Storage Arrays</li>
+<li><strong>Interactive Dashboard</strong>: NEW! Visual infrastructure overview with health status and capacity monitoring</li>
+<li><strong>SQLite Storage</strong>: All data is stored locally in a structured SQLite database</li>
+<li><strong>Web Interface</strong>: Clean, modern UI for easy data retrieval and viewing</li>
+<li><strong>Data Preview</strong>: View retrieved data directly in the browser</li>
+<li><strong>Database Viewer</strong>: Browse stored data organized by type</li>
+</ul>
+<h2 id="project-structure">Project Structure</h2>
+<div class="codehilite"><pre><span></span><code>Commvault_API/
+│
+├── app.py                  # Main Flask application
+├── config.ini             # Configuration file (API credentials)
+├── requirements.txt       # Python dependencies
+├── README.md             # This file
+│
+├── Database/
+│   └── commvault.db      # SQLite database (created on first run)
+│
+└── templates/
+    ├── base.html         # Base template with styling
+    ├── index.html        # Home page with configuration form
+    ├── results.html      # Data retrieval results page
+    └── view.html         # Database viewer page
+</code></pre></div>
+
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Python 3.7 or higher</li>
+<li>Network access to Commvault Web Server</li>
+<li>Valid Commvault credentials</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<ol>
+<li>
+<p><strong>Clone or download this project</strong></p>
+</li>
+<li>
+<p><strong>Install dependencies</strong>
+   <code>bash
+   pip install -r requirements.txt</code></p>
+</li>
+<li>
+<p><strong>Configure connection settings</strong> (optional)</p>
+</li>
+</ol>
+<p>Edit <code>config.ini</code> with your Commvault details:
+   ```ini
+   [commvault]
+   base_url = http://your-server:81/SearchSvc/CVWebService.svc
+   username = your_username@domain.com
+   password = Base64EncodedPassword==</p>
+<p>[database]
+   db_path = Database/commvault.db
+   ```</p>
+<p>Note: Password can be plaintext (will be Base64-encoded automatically) or pre-encoded.</p>
+<h2 id="usage">Usage</h2>
+<h3 id="starting-the-application">Starting the Application</h3>
+<p>Run the Flask development server:</p>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>app.py
+</code></pre></div>
+
+<p>The application will start on <code>http://localhost:5000</code></p>
+<h3 id="using-the-web-interface">Using the Web Interface</h3>
+<ol>
+<li>
+<p><strong>Open your browser</strong> and navigate to <code>http://localhost:5000</code></p>
+</li>
+<li>
+<p><strong>Enter connection details</strong>:</p>
+</li>
+<li>Commvault Base URL (e.g., <code>http://commvaultweb01.jhb.seagatestoragecloud.co.za:81/SearchSvc/CVWebService.svc</code>)</li>
+<li>Username (e.g., <code>guys@storvault.co.za</code>)</li>
+<li>
+<p>Password (plaintext or Base64-encoded)</p>
+</li>
+<li>
+<p><strong>Select data types</strong> to retrieve:</p>
+</li>
+</ol>
+<p><strong>Basic Data:</strong>
+   - <strong>Clients</strong>: All client machines in the CommCell
+   - <strong>Jobs</strong>: Backup and restore jobs
+   - <strong>Plans</strong>: Backup plans and policies
+   - <strong>Storage</strong>: Storage policy configurations</p>
+<p><strong>Infrastructure &amp; Hardware (NEW!):</strong>
+   - <strong>MediaAgents</strong>: Backup infrastructure servers with capacity info
+   - <strong>Storage Pools</strong>: Disk/tape storage pools with deduplication status
+   - <strong>Libraries</strong>: Tape and disk libraries
+   - <strong>Hypervisors</strong>: VM infrastructure (VMware, Hyper-V, etc.)
+   - <strong>Storage Arrays</strong>: Physical storage hardware</p>
+<ol>
+<li>
+<p><strong>Click "Fetch Data"</strong> to retrieve and store the data</p>
+</li>
+<li>
+<p><strong>View results</strong> in the browser or navigate to view pages:</p>
+</li>
+<li><strong>Infrastructure Dashboard</strong>: Visual overview of all infrastructure components</li>
+<li>View Clients</li>
+<li>View Jobs (latest 100)</li>
+<li>View MediaAgents</li>
+<li>View Storage Pools</li>
+<li>View Libraries</li>
+<li>View Hypervisors</li>
+</ol>
+<h2 id="commvault-api-integration">Commvault API Integration</h2>
+<h3 id="api-endpoints-used">API Endpoints Used</h3>
+<p>The application connects to the following Commvault REST API endpoints:</p>
+<table>
+<thead>
+<tr>
+<th>Data Type</th>
+<th>Endpoint</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authentication</td>
+<td><code>POST /Login</code></td>
+<td>Authenticates and retrieves auth token</td>
+</tr>
+<tr>
+<td>Clients</td>
+<td><code>GET /Client</code></td>
+<td>Lists all clients in CommCell</td>
+</tr>
+<tr>
+<td>Jobs</td>
+<td><code>GET /Job</code></td>
+<td>Lists backup/restore jobs</td>
+</tr>
+<tr>
+<td>Plans</td>
+<td><code>GET /Plan</code></td>
+<td>Lists all plans/policies</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td><code>GET /V2/StoragePolicy</code></td>
+<td>Lists storage policies</td>
+</tr>
+</tbody>
+</table>
+<h3 id="authentication-flow">Authentication Flow</h3>
+<ol>
+<li>Password is Base64-encoded (if not already)</li>
+<li>POST request to <code>/Login</code> with credentials</li>
+<li>Token extracted from response</li>
+<li>Token used in <code>Authtoken</code> header for subsequent requests</li>
+</ol>
+<h3 id="example-api-call">Example API Call</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Login</span>
+<span class="n">POST</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">server</span><span class="p">:</span><span class="mi">81</span><span class="o">/</span><span class="n">SearchSvc</span><span class="o">/</span><span class="n">CVWebService</span><span class="o">.</span><span class="n">svc</span><span class="o">/</span><span class="n">Login</span>
+<span class="p">{</span>
+    <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;user@domain.com&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;Base64EncodedPassword&quot;</span>
+<span class="p">}</span>
+
+<span class="c1"># Get Clients</span>
+<span class="n">GET</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">server</span><span class="p">:</span><span class="mi">81</span><span class="o">/</span><span class="n">SearchSvc</span><span class="o">/</span><span class="n">CVWebService</span><span class="o">.</span><span class="n">svc</span><span class="o">/</span><span class="n">Client</span>
+<span class="n">Headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Authtoken&quot;</span><span class="p">:</span> <span class="s2">&quot;retrieved_token&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="database-schema">Database Schema</h2>
+<p>The SQLite database contains four main tables:</p>
+<h3 id="clients">clients</h3>
+<ul>
+<li><code>clientId</code> (INTEGER PRIMARY KEY)</li>
+<li><code>clientName</code> (TEXT)</li>
+<li><code>hostName</code> (TEXT)</li>
+<li><code>clientGUID</code> (TEXT)</li>
+<li><code>lastFetchTime</code> (TEXT)</li>
+</ul>
+<h3 id="jobs">jobs</h3>
+<ul>
+<li><code>jobId</code> (INTEGER PRIMARY KEY)</li>
+<li><code>clientId</code> (INTEGER)</li>
+<li><code>clientName</code> (TEXT)</li>
+<li><code>jobType</code> (TEXT)</li>
+<li><code>status</code> (TEXT)</li>
+<li><code>startTime</code> (TEXT)</li>
+<li><code>endTime</code> (TEXT)</li>
+<li><code>backupSetName</code> (TEXT)</li>
+<li><code>lastFetchTime</code> (TEXT)</li>
+</ul>
+<h3 id="plans">plans</h3>
+<ul>
+<li><code>planId</code> (INTEGER PRIMARY KEY)</li>
+<li><code>planName</code> (TEXT)</li>
+<li><code>planType</code> (TEXT)</li>
+<li><code>lastFetchTime</code> (TEXT)</li>
+</ul>
+<h3 id="storage_policies">storage_policies</h3>
+<ul>
+<li><code>storagePolicyId</code> (INTEGER PRIMARY KEY)</li>
+<li><code>storagePolicyName</code> (TEXT)</li>
+<li><code>lastFetchTime</code> (TEXT)</li>
+</ul>
+<h2 id="application-routes">Application Routes</h2>
+<table>
+<thead>
+<tr>
+<th>Route</th>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/</code></td>
+<td>GET</td>
+<td>Home page with configuration form</td>
+</tr>
+<tr>
+<td><code>/fetch</code></td>
+<td>POST</td>
+<td>Fetch data from Commvault API</td>
+</tr>
+<tr>
+<td><code>/view/&lt;data_type&gt;</code></td>
+<td>GET</td>
+<td>View stored data by type</td>
+</tr>
+</tbody>
+</table>
+<h2 id="features-in-detail">Features in Detail</h2>
+<h3 id="error-handling">Error Handling</h3>
+<ul>
+<li>Connection errors are caught and displayed to the user</li>
+<li>Authentication failures show clear error messages</li>
+<li>API timeout after 30 seconds</li>
+<li>Database errors are handled gracefully</li>
+</ul>
+<h3 id="data-management">Data Management</h3>
+<ul>
+<li>Uses <code>REPLACE INTO</code> for upserts (prevents duplicates)</li>
+<li>Tracks last fetch time for each record</li>
+<li>Automatic database creation on first run</li>
+<li>Database connection pooling via Flask's <code>g</code> object</li>
+</ul>
+<h3 id="security-considerations">Security Considerations</h3>
+<ul>
+<li>Password can be stored as Base64 in config (not plaintext)</li>
+<li>Secret key should be changed in production</li>
+<li>Consider using environment variables for sensitive data</li>
+<li>Do not commit <code>config.ini</code> with real credentials to version control</li>
+</ul>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="common-issues">Common Issues</h3>
+<p><strong>1. Authentication Failed</strong>
+- Verify the base URL is correct and accessible
+- Check username and password are valid
+- Ensure network connectivity to Commvault server</p>
+<p><strong>2. No Data Retrieved</strong>
+- Confirm the selected data types exist in your CommCell
+- Check API permissions for your user account
+- Review error messages in the browser</p>
+<p><strong>3. Database Errors</strong>
+- Ensure write permissions for <code>Database/</code> directory
+- Delete <code>commvault.db</code> to reset database
+- Check disk space availability</p>
+<h2 id="development">Development</h2>
+<h3 id="running-in-debug-mode">Running in Debug Mode</h3>
+<p>The application runs in debug mode by default when using <code>python app.py</code>. For production, use a WSGI server:</p>
+<div class="codehilite"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>gunicorn
+gunicorn<span class="w"> </span>-w<span class="w"> </span><span class="m">4</span><span class="w"> </span>-b<span class="w"> </span><span class="m">0</span>.0.0.0:5000<span class="w"> </span>app:app
+</code></pre></div>
+
+<h3 id="modifying-the-schema">Modifying the Schema</h3>
+<p>If you need to add fields to the database:</p>
+<ol>
+<li>Update the <code>init_db()</code> function in <code>app.py</code></li>
+<li>Modify the corresponding <code>save_*_to_db()</code> function</li>
+<li>Delete the existing database or use SQL ALTER statements</li>
+</ol>
+<h2 id="api-documentation-references">API Documentation References</h2>
+<ul>
+<li><a href="https://documentation.commvault.com/">Commvault REST API Documentation</a></li>
+<li><a href="https://documentation.commvault.com/2024e/essential/rest_api_available_web_services.html">Available Web Services</a></li>
+<li><a href="https://documentation.commvault.com/2024e/essential/rest_api_authentication.html">REST API Authentication</a></li>
+<li><a href="https://documentation.commvault.com/2024e/essential/rest_api_get_client.html">GET Client API</a></li>
+<li><a href="https://documentation.commvault.com/2024e/essential/rest_api_get_job.html">GET Job API</a></li>
+</ul>
+<h2 id="license">License</h2>
+<p>This project is provided as-is for educational and development purposes.</p>
+<h2 id="support">Support</h2>
+<p>For issues related to:
+- <strong>Commvault API</strong>: Consult Commvault documentation or support
+- <strong>This Application</strong>: Review error messages and check configuration</p>
+<h2 id="author">Author</h2>
+<p>Created as a self-contained tool for Commvault data retrieval and analysis.</p>
+<hr />
+<p><strong>Note</strong>: This application is designed for local development and testing. For production use, implement additional security measures, proper authentication, HTTPS, and production-ready database solutions.</p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

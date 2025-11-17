@@ -1,0 +1,15 @@
+[commvault]
+# Commvault Web Service Base URL
+# Example: http://commvaultweb01.jhb.seagatestoragecloud.co.za:81/SearchSvc/CVWebService.svc
+base_url = http://your-server:81/SearchSvc/CVWebService.svc
+
+# Username for Commvault authentication
+username = your_username@domain.com
+
+# Password (can be plaintext or Base64-encoded)
+# If plaintext, it will be Base64-encoded automatically
+password = your_password_or_base64_encoded_password
+
+[database]
+# Path to SQLite database file
+db_path = Database/commvault.db

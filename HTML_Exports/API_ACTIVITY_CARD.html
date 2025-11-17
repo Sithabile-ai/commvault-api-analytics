@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API ACTIVITY CARD</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: API_ACTIVITY_CARD.md</div>
+    <h1 id="api-activity-card-implementation-summary">API Activity Card - Implementation Summary</h1>
+<h2 id="overview">Overview</h2>
+<p>A real-time rolling text card has been added to the right side of every page, displaying live API activity logs with visual feedback and statistics.</p>
+<hr />
+<h2 id="visual-design">🎨 Visual Design</h2>
+<h3 id="card-features">Card Features:</h3>
+<ul>
+<li><strong>Dark terminal theme</strong> - Black gradient background with green accent colors</li>
+<li><strong>Sticky positioning</strong> - Stays visible while scrolling</li>
+<li><strong>Rolling log display</strong> - Shows latest 50 API activities</li>
+<li><strong>Activity statistics</strong> - Success/Error/Total counters</li>
+<li><strong>Animated entries</strong> - Slide-in animation for new logs</li>
+<li><strong>Pulse indicator</strong> - Animated green dot showing active status</li>
+<li><strong>Responsive design</strong> - Hides on screens &lt; 1200px width</li>
+</ul>
+<h3 id="color-coding">Color Coding:</h3>
+<ul>
+<li>🟢 <strong>Success</strong> - Green (#00ff88) - API calls that succeeded</li>
+<li>🔴 <strong>Error</strong> - Red (#ff4757) - Failed API calls</li>
+<li>🔵 <strong>Info</strong> - Blue (#3498db) - General information</li>
+<li>🟡 <strong>Warning</strong> - Orange (#ffa502) - Warnings and notices</li>
+</ul>
+<hr />
+<h2 id="files-modified">📁 Files Modified</h2>
+<h3 id="1-templatesbasehtml">1. <a href="d:\Commvault_API\templates\base.html">templates/base.html</a></h3>
+<h4 id="layout-changes">Layout Changes:</h4>
+<ul>
+<li>Added two-column layout with flex display</li>
+<li>Main content area (flex: 1)</li>
+<li>Activity sidebar (fixed 350px width)</li>
+</ul>
+<h4 id="new-css-classes">New CSS Classes:</h4>
+<div class="codehilite"><pre><span></span><code><span class="p">.</span><span class="nc">main-layout</span><span class="w">          </span><span class="c">/* Flex container */</span>
+<span class="p">.</span><span class="nc">main-content</span><span class="w">         </span><span class="c">/* Left column - main content */</span>
+<span class="p">.</span><span class="nc">activity-sidebar</span><span class="w">     </span><span class="c">/* Right column - activity card */</span>
+<span class="p">.</span><span class="nc">api-activity-card</span><span class="w">    </span><span class="c">/* Dark card container */</span>
+<span class="p">.</span><span class="nc">api-activity-header</span><span class="w">  </span><span class="c">/* Card header with pulse indicator */</span>
+<span class="p">.</span><span class="nc">activity-log</span><span class="w">         </span><span class="c">/* Scrollable log container */</span>
+<span class="p">.</span><span class="nc">log-entry</span><span class="w">           </span><span class="c">/* Individual log entry */</span>
+<span class="p">.</span><span class="nc">log-timestamp</span><span class="w">       </span><span class="c">/* Time of log entry */</span>
+<span class="p">.</span><span class="nc">log-type</span><span class="w">            </span><span class="c">/* Badge showing log type */</span>
+<span class="p">.</span><span class="nc">log-message</span><span class="w">         </span><span class="c">/* Log message text */</span>
+<span class="p">.</span><span class="nc">activity-stats</span><span class="w">      </span><span class="c">/* Statistics grid at bottom */</span>
+<span class="p">.</span><span class="nc">stat-item</span><span class="w">           </span><span class="c">/* Individual stat */</span>
+</code></pre></div>
+
+<h4 id="activity-card-html-structure">Activity Card HTML Structure:</h4>
+<div class="codehilite"><pre><span></span><code><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;activity-sidebar&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;api-activity-card&quot;</span><span class="p">&gt;</span>
+        <span class="cm">&lt;!-- Header with pulse indicator --&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;api-activity-header&quot;</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;status-indicator&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>API Activity Log<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+        <span class="cm">&lt;!-- Scrollable log area --&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;activity-log&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;activityLog&quot;</span><span class="p">&gt;</span>
+            <span class="cm">&lt;!-- Logs populated from session --&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+        <span class="cm">&lt;!-- Statistics --&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;activity-stats&quot;</span><span class="p">&gt;</span>
+            <span class="cm">&lt;!-- Success/Error/Total counters --&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<h4 id="javascript-added">JavaScript Added:</h4>
+<ul>
+<li>Form submission monitoring</li>
+<li>Log entry management (keeps last 50)</li>
+<li>Auto-scroll to latest entries</li>
+<li>Session storage persistence</li>
+<li>Dynamic stat updates</li>
+</ul>
+<hr />
+<h3 id="2-apppy">2. <a href="d:\Commvault_API\app.py">app.py</a></h3>
+<h4 id="new-function">New Function:</h4>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">log_api_activity</span><span class="p">(</span><span class="n">activity_type</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Log API activity to session for display in frontend&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;api_activity&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">session</span><span class="p">:</span>
+        <span class="n">session</span><span class="p">[</span><span class="s1">&#39;api_activity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">session</span><span class="p">[</span><span class="s1">&#39;api_activity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">activity_type</span><span class="p">,</span>      <span class="c1"># &#39;success&#39;, &#39;error&#39;, &#39;info&#39;, &#39;warning&#39;</span>
+        <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="n">message</span><span class="p">,</span>          <span class="c1"># Description of activity</span>
+        <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">)</span>
+    <span class="p">})</span>
+
+    <span class="c1"># Keep only last 50 entries</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;api_activity&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">:</span>
+        <span class="n">session</span><span class="p">[</span><span class="s1">&#39;api_activity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">session</span><span class="p">[</span><span class="s1">&#39;api_activity&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">50</span><span class="p">:]</span>
+
+    <span class="n">session</span><span class="o">.</span><span class="n">modified</span> <span class="o">=</span> <span class="kc">True</span>
+</code></pre></div>
+
+<h4 id="activity-logging-added-to">Activity Logging Added To:</h4>
+<p><strong>Authentication Phase:</strong>
+- <code>log_api_activity('info', 'Starting data fetch for X data types')</code>
+- <code>log_api_activity('info', 'Authenticating with Commvault API...')</code>
+- <code>log_api_activity('success', 'Authenticated as: username')</code>
+- <code>log_api_activity('error', 'Authentication failed - invalid credentials')</code></p>
+<p><strong>Data Fetching Phase:</strong>
+- <code>log_api_activity('info', 'Fetching Clients data...')</code>
+- <code>log_api_activity('success', 'Retrieved 3,604 clients')</code>
+- <code>log_api_activity('info', 'Fetching Jobs (last 24h)...')</code>
+- <code>log_api_activity('success', 'Retrieved 120 jobs')</code>
+- <code>log_api_activity('info', 'Fetching MediaAgents...')</code>
+- <code>log_api_activity('success', 'Retrieved 10 MediaAgents')</code>
+- <code>log_api_activity('info', 'Fetching Storage Pools...')</code>
+- <code>log_api_activity('success', 'Retrieved 8 storage pools')</code>
+- <code>log_api_activity('error', 'Clients fetch failed: HTTP 404')</code></p>
+<hr />
+<h2 id="features">🎯 Features</h2>
+<h3 id="1-real-time-activity-logging">1. Real-Time Activity Logging</h3>
+<ul>
+<li>Every API call is logged with timestamp</li>
+<li>Shows what's being fetched</li>
+<li>Displays success/failure status</li>
+<li>Shows count of items retrieved</li>
+</ul>
+<h3 id="2-visual-feedback">2. Visual Feedback</h3>
+<ul>
+<li>Color-coded log entries by type</li>
+<li>Animated slide-in for new entries</li>
+<li>Pulsing status indicator</li>
+<li>Border colors match log type</li>
+</ul>
+<h3 id="3-statistics-dashboard">3. Statistics Dashboard</h3>
+<ul>
+<li><strong>Success Count</strong> - Total successful API calls</li>
+<li><strong>Error Count</strong> - Total failed API calls</li>
+<li><strong>Total Count</strong> - All API activities logged</li>
+</ul>
+<h3 id="4-session-persistence">4. Session Persistence</h3>
+<ul>
+<li>Logs stored in Flask session</li>
+<li>Persists across page navigation</li>
+<li>Automatically cleared when session ends</li>
+<li>Shows historical activity</li>
+</ul>
+<h3 id="5-auto-scrolling">5. Auto-Scrolling</h3>
+<ul>
+<li>Latest entries appear at top</li>
+<li>Auto-scrolls to show new activity</li>
+<li>Scrollbar for viewing older entries</li>
+<li>Keeps last 50 entries</li>
+</ul>
+<hr />
+<h2 id="example-activity-flow">📊 Example Activity Flow</h2>
+<h3 id="typical-data-fetch-session">Typical Data Fetch Session:</h3>
+<div class="codehilite"><pre><span></span><code><span class="mi">10</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mi">23</span><span class="w"> </span><span class="n">INFO</span><span class="w">    </span><span class="n">Starting</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">fetch</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">types</span>
+<span class="mi">10</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mi">23</span><span class="w"> </span><span class="n">INFO</span><span class="w">    </span><span class="n">Target</span><span class="o">:</span><span class="w"> </span><span class="n">commvaultweb01</span><span class="o">.</span><span class="na">jhb</span><span class="o">.</span><span class="na">seagatestoragecloud</span><span class="o">.</span><span class="na">co</span><span class="o">.</span><span class="na">za</span>
+<span class="mi">10</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mi">23</span><span class="w"> </span><span class="n">INFO</span><span class="w">    </span><span class="n">Authenticating</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">Commvault</span><span class="w"> </span><span class="n">API</span><span class="o">...</span>
+<span class="mi">10</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mi">24</span><span class="w"> </span><span class="n">SUCCESS</span><span class="w"> </span><span class="n">Authenticated</span><span class="w"> </span><span class="k">as</span><span class="o">:</span><span class="w"> </span><span class="n">guys</span><span class="err">@</span><span class="n">storvault</span><span class="o">.</span><span class="na">co</span><span class="o">.</span><span class="na">za</span>
+<span class="mi">10</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mi">24</span><span class="w"> </span><span class="n">INFO</span><span class="w">    </span><span class="n">Fetching</span><span class="w"> </span><span class="n">Clients</span><span class="w"> </span><span class="n">data</span><span class="o">...</span>
+<span class="mi">10</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mi">26</span><span class="w"> </span><span class="n">SUCCESS</span><span class="w"> </span><span class="n">Retrieved</span><span class="w"> </span><span class="mi">3</span><span class="o">,</span><span class="mi">604</span><span class="w"> </span><span class="n">clients</span>
+<span class="mi">10</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mi">26</span><span class="w"> </span><span class="n">INFO</span><span class="w">    </span><span class="n">Fetching</span><span class="w"> </span><span class="n">Jobs</span><span class="w"> </span><span class="o">(</span><span class="n">last</span><span class="w"> </span><span class="mi">24</span><span class="n">h</span><span class="o">)...</span>
+<span class="mi">10</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mi">27</span><span class="w"> </span><span class="n">SUCCESS</span><span class="w"> </span><span class="n">Retrieved</span><span class="w"> </span><span class="mi">120</span><span class="w"> </span><span class="n">jobs</span>
+<span class="mi">10</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mi">27</span><span class="w"> </span><span class="n">INFO</span><span class="w">    </span><span class="n">Fetching</span><span class="w"> </span><span class="n">MediaAgents</span><span class="o">...</span>
+<span class="mi">10</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mi">28</span><span class="w"> </span><span class="n">SUCCESS</span><span class="w"> </span><span class="n">Retrieved</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">MediaAgents</span>
+<span class="mi">10</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mi">28</span><span class="w"> </span><span class="n">INFO</span><span class="w">    </span><span class="n">Fetching</span><span class="w"> </span><span class="n">Storage</span><span class="w"> </span><span class="n">Pools</span><span class="o">...</span>
+<span class="mi">10</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mi">29</span><span class="w"> </span><span class="n">SUCCESS</span><span class="w"> </span><span class="n">Retrieved</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="n">storage</span><span class="w"> </span><span class="n">pools</span>
+</code></pre></div>
+
+<p><strong>Statistics:</strong>
+- Success: 5
+- Errors: 0
+- Total: 9</p>
+<hr />
+<h2 id="usage">🔧 Usage</h2>
+<h3 id="for-users">For Users:</h3>
+<ol>
+<li>Navigate to any page (Home, Dashboard, etc.)</li>
+<li>Look at the right sidebar</li>
+<li>Watch logs appear as you fetch data</li>
+<li>Monitor success/error rates</li>
+<li>Review recent API activity</li>
+</ol>
+<h3 id="for-developers">For Developers:</h3>
+<p><strong>Add activity logs anywhere in app.py:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Success</span>
+<span class="n">log_api_activity</span><span class="p">(</span><span class="s1">&#39;success&#39;</span><span class="p">,</span> <span class="s1">&#39;Operation completed successfully&#39;</span><span class="p">)</span>
+
+<span class="c1"># Error</span>
+<span class="n">log_api_activity</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Failed with HTTP </span><span class="si">{</span><span class="n">status_code</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Info</span>
+<span class="n">log_api_activity</span><span class="p">(</span><span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="s1">&#39;Processing data...&#39;</span><span class="p">)</span>
+
+<span class="c1"># Warning</span>
+<span class="n">log_api_activity</span><span class="p">(</span><span class="s1">&#39;warning&#39;</span><span class="p">,</span> <span class="s1">&#39;Deprecated endpoint used&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<hr />
+<h2 id="customization">🎨 Customization</h2>
+<h3 id="change-colors">Change Colors:</h3>
+<p>Edit in <a href="d:\Commvault_API\templates\base.html">templates/base.html</a> CSS:</p>
+<div class="codehilite"><pre><span></span><code><span class="c">/* Success color */</span>
+<span class="p">.</span><span class="nc">log-entry</span><span class="p">.</span><span class="nc">success</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">border-left-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#00ff88</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">log-type</span><span class="p">.</span><span class="nc">success</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#00ff88</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c">/* Error color */</span>
+<span class="p">.</span><span class="nc">log-entry</span><span class="p">.</span><span class="nc">error</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">border-left-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#ff4757</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">log-type</span><span class="p">.</span><span class="nc">error</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#ff4757</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c">/* Info color */</span>
+<span class="p">.</span><span class="nc">log-entry</span><span class="p">.</span><span class="nc">info</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">border-left-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#3498db</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">log-type</span><span class="p">.</span><span class="nc">info</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#3498db</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c">/* Warning color */</span>
+<span class="p">.</span><span class="nc">log-entry</span><span class="p">.</span><span class="nc">warning</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">border-left-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#ffa502</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">.</span><span class="nc">log-type</span><span class="p">.</span><span class="nc">warning</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#ffa502</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<h3 id="change-card-size">Change Card Size:</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">.</span><span class="nc">activity-sidebar</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">350</span><span class="kt">px</span><span class="p">;</span><span class="w">  </span><span class="c">/* Change width */</span>
+<span class="p">}</span>
+
+<span class="p">.</span><span class="nc">api-activity-card</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">height</span><span class="p">:</span><span class="w"> </span><span class="nb">calc</span><span class="p">(</span><span class="mi">100</span><span class="kt">vh</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">200</span><span class="kt">px</span><span class="p">);</span><span class="w">  </span><span class="c">/* Change height */</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="change-log-limit">Change Log Limit:</h3>
+<p>In <a href="d:\Commvault_API\app.py">app.py</a>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Keep last 50 entries (change to any number)</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;api_activity&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">:</span>
+    <span class="n">session</span><span class="p">[</span><span class="s1">&#39;api_activity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">session</span><span class="p">[</span><span class="s1">&#39;api_activity&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">50</span><span class="p">:]</span>
+</code></pre></div>
+
+<hr />
+<h2 id="responsive-behavior">📱 Responsive Behavior</h2>
+<h3 id="desktop-1200px">Desktop (&gt; 1200px):</h3>
+<ul>
+<li>Activity card visible on right side</li>
+<li>Two-column layout</li>
+<li>Sticky positioning</li>
+</ul>
+<h3 id="tabletmobile-1200px">Tablet/Mobile (&lt; 1200px):</h3>
+<ul>
+<li>Activity card hidden</li>
+<li>Full-width main content</li>
+<li>Better mobile experience</li>
+</ul>
+<hr />
+<h2 id="benefits">🎯 Benefits</h2>
+<h3 id="for-users_1">For Users:</h3>
+<p>✅ <strong>Transparency</strong> - See exactly what's happening
+✅ <strong>Debugging</strong> - Identify failed API calls immediately
+✅ <strong>Monitoring</strong> - Track success rates in real-time
+✅ <strong>History</strong> - Review recent activity</p>
+<h3 id="for-developers_1">For Developers:</h3>
+<p>✅ <strong>Easy logging</strong> - Simple function call
+✅ <strong>Persistent</strong> - Session-based storage
+✅ <strong>Visual</strong> - Beautiful terminal-style display
+✅ <strong>Flexible</strong> - Easy to extend</p>
+<hr />
+<h2 id="technical-details">🔍 Technical Details</h2>
+<h3 id="session-storage">Session Storage:</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">session</span><span class="p">[</span><span class="s1">&#39;api_activity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;Retrieved 3,604 clients&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;10:15:26&#39;</span>
+    <span class="p">},</span>
+    <span class="o">...</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<h3 id="frontend-rendering">Frontend Rendering:</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span><span class="c1">% for activity in session.get(&#39;api_activity&#39;)[::-1] %}</span>
+<span class="o">&lt;div</span> <span class="s s-Atom">class=</span><span class="s2">&quot;log-entry {{ activity.type }}&quot;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="s s-Atom">span</span> <span class="s s-Atom">class=</span><span class="s2">&quot;log-timestamp&quot;</span><span class="s s-Atom">&gt;</span><span class="p">{{</span> <span class="s s-Atom">activity</span><span class="p">.</span><span class="s s-Atom">timestamp</span> <span class="p">}}</span><span class="s s-Atom">&lt;/span</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="s s-Atom">span</span> <span class="s s-Atom">class=</span><span class="s2">&quot;log-type {{ activity.type }}&quot;</span><span class="o">&gt;</span>
+        <span class="p">{{</span> <span class="s s-Atom">activity</span><span class="p">.</span><span class="s s-Atom">type</span><span class="p">.</span><span class="nf">upper</span><span class="p">()</span> <span class="p">}}</span>
+    <span class="s s-Atom">&lt;/span</span><span class="o">&gt;</span>
+    <span class="o">&lt;div</span> <span class="s s-Atom">class=</span><span class="s2">&quot;log-message&quot;</span><span class="s s-Atom">&gt;</span><span class="p">{{</span> <span class="s s-Atom">activity</span><span class="p">.</span><span class="s s-Atom">message</span> <span class="p">}}</span><span class="s s-Atom">&lt;/</span><span class="o">div&gt;</span>
+<span class="s s-Atom">&lt;/</span><span class="o">div&gt;</span>
+<span class="p">{</span><span class="c1">% endfor %}</span>
+</code></pre></div>
+
+<h3 id="statistics-calculation">Statistics Calculation:</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span><span class="o">%</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="nx">success_count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">session</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">&#39;</span><span class="nx">api_activity</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">[])</span>
+<span class="w">    </span><span class="o">|</span><span class="nx">selectattr</span><span class="p">(</span><span class="err">&#39;</span><span class="k">type</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">equalto</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">success</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="o">|</span><span class="nx">list</span><span class="o">|</span><span class="nx">length</span><span class="w"> </span><span class="o">%</span><span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="future-enhancements">✨ Future Enhancements</h2>
+<p>Potential improvements:</p>
+<ol>
+<li><strong>Export Logs</strong> - Download activity log as CSV</li>
+<li><strong>Filter by Type</strong> - Show only success/error/info/warning</li>
+<li><strong>Search</strong> - Search through log messages</li>
+<li><strong>Time Range</strong> - Filter by time range</li>
+<li><strong>Clear Logs</strong> - Button to clear current session logs</li>
+<li><strong>Real-time Updates</strong> - WebSocket for live updates</li>
+<li><strong>Notification Badges</strong> - Show error count in nav</li>
+<li><strong>Sound Alerts</strong> - Audio notification for errors</li>
+</ol>
+<hr />
+<h2 id="summary">📝 Summary</h2>
+<p><strong>Files Modified</strong>: 2
+- <a href="d:\Commvault_API\templates\base.html">templates/base.html</a> (~200 lines added)
+- <a href="d:\Commvault_API\app.py">app.py</a> (~30 lines added)</p>
+<p><strong>Features Added</strong>:
+- ✅ Rolling activity log display
+- ✅ Real-time statistics
+- ✅ Color-coded log types
+- ✅ Session persistence
+- ✅ Auto-scrolling
+- ✅ Animated entries
+- ✅ Responsive design</p>
+<p><strong>Ready to use!</strong> Start the Flask app and watch the activity log in action as you fetch data from Commvault.</p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

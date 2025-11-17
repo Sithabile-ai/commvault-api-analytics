@@ -1,0 +1,595 @@
+====================================================================================================
+EVENTS & ALERTS ANALYSIS - CRITICAL POOLS
+====================================================================================================
+Generated: 2025-11-14
+Analysis Period: Current State
+
+====================================================================================================
+EXECUTIVE SUMMARY
+====================================================================================================
+
+CRITICAL FINDING: No Events or Alerts Data Available
+
+Current Status:
+  - Events Table: EMPTY (0 records)
+  - Alerts Table: EMPTY (0 records)
+  - Critical Pools: 3 pools in EMERGENCY status (<10% free)
+  - Monitoring Status: NO PROACTIVE MONITORING CONFIGURED
+
+Impact:
+  - No automated notifications when pools reach critical levels
+  - No historical event tracking for troubleshooting
+  - Storage failures may occur without warning
+  - Team is operating reactively instead of proactively
+
+====================================================================================================
+CRITICAL POOLS WITHOUT MONITORING
+====================================================================================================
+
+1. Apex GDP (Pool ID: 298)
+   Status: EMERGENCY - 1.97% free (98.03% used)
+   No Alerts Configured: Pool can fill completely without notification
+
+2. Southern_Sun_Durban (Pool ID: 451)
+   Status: EMERGENCY - 2.05% free (97.95% used)
+   No Alerts Configured: Pool can fill completely without notification
+
+3. Simera_GDP (Pool ID: 355)
+   Status: EMERGENCY - 9.30% free (90.70% used)
+   No Alerts Configured: Pool can fill completely without notification
+
+====================================================================================================
+ROOT CAUSE ANALYSIS
+====================================================================================================
+
+Why No Events/Alerts in Database:
+
+1. API Data Not Fetched
+   - Events and alerts tables exist but are empty
+   - Data retrieval from Commvault API may not have been executed
+   - Possible connectivity issues to Commvault server
+
+2. No Alert Policies Configured in Commvault
+   - Alert definitions may not exist in CommCell Console
+   - Storage capacity thresholds not configured
+   - Notification recipients not set up
+
+3. Events Not Being Generated
+   - Commvault may not be generating events for storage issues
+   - Event logging may be disabled
+   - Retention period for events may be too short
+
+====================================================================================================
+RECOMMENDED ALERT THRESHOLDS (INDUSTRY BEST PRACTICES)
+====================================================================================================
+
+Storage Pool Capacity Alerts:
+
+Level 1 - WARNING:
+  Threshold: <30% free space
+  Action: Email notification to storage team
+  Frequency: Daily digest
+  Purpose: Advance notice to plan capacity expansion
+
+Level 2 - CRITICAL:
+  Threshold: <20% free space
+  Action: Email + SMS to storage team lead
+  Frequency: Immediate (real-time)
+  Purpose: Urgent attention required, capacity planning needed
+
+Level 3 - EMERGENCY:
+  Threshold: <10% free space
+  Action: Email + SMS + Page to on-call engineer
+  Frequency: Immediate + hourly reminder
+  Purpose: Imminent failure, immediate intervention required
+
+Level 4 - FAILURE IMMINENT:
+  Threshold: <5% free space
+  Action: All of above + escalate to management
+  Frequency: Immediate + 15-minute reminder
+  Purpose: Service disruption likely, emergency procedures activated
+
+====================================================================================================
+IMMEDIATE ACTIONS REQUIRED
+====================================================================================================
+
+ACTION 1: CONFIGURE STORAGE POOL CAPACITY ALERTS
+====================================================================================================
+
+Step 1: Access Alert Configuration
+  [ ] CommCell Console > Control Panel
+  [ ] Navigate to: Event Management > Alert Definitions
+  [ ] Click "Add" to create new alert
+
+Step 2: Create "Storage Pool Critical - Below 10%" Alert
+  [ ] Alert Name: "Storage Pool Critical - Below 10%"
+  [ ] Alert Type: Storage
+  [ ] Severity: Critical
+
+  [ ] Criteria Configuration:
+      Entity Type: Storage Pool
+      Condition: Free Space Percentage
+      Operator: Less Than
+      Value: 10
+      Duration: Immediate
+
+  [ ] Notification Configuration:
+      Email Recipients: storage-team@company.com
+      SMS Recipients: +1-xxx-xxx-xxxx (on-call)
+      Subject: "CRITICAL: Storage Pool {{PoolName}} at {{FreeSpace}}% free"
+      Body Template:
+        "Storage Pool: {{PoolName}}
+         Current Free Space: {{FreeSpace}}%
+         Used Space: {{UsedSpace}}%
+         Total Capacity: {{TotalCapacity}} TB
+
+         ACTION REQUIRED IMMEDIATELY:
+         1. Check pruning logs
+         2. Verify data aging is running
+         3. Manually trigger pruning
+         4. Suspend backups if needed
+
+         Pools affected:
+         {{PoolDetails}}"
+
+  [ ] Actions:
+      - Send email notification
+      - Create incident ticket (if ITSM integration available)
+      - Run script: check_pruning_status.ps1
+
+  [ ] Click OK to save
+
+Step 3: Create "Storage Pool Warning - Below 20%" Alert
+  [ ] Follow same steps as above
+  [ ] Change threshold to 20%
+  [ ] Set severity to Warning
+  [ ] Email only (no SMS)
+
+Step 4: Create "Storage Pool Info - Below 30%" Alert
+  [ ] Follow same steps as above
+  [ ] Change threshold to 30%
+  [ ] Set severity to Information
+  [ ] Daily digest email
+
+Step 5: Enable Alerts
+  [ ] Right-click each alert
+  [ ] Select "Enable Alert"
+  [ ] Verify status shows "Enabled"
+
+====================================================================================================
+ACTION 2: CONFIGURE PRUNING FAILURE ALERTS
+====================================================================================================
+
+Step 1: Create "Pruning Job Failed" Alert
+  [ ] Alert Name: "Auxiliary Copy Pruning Failed"
+  [ ] Alert Type: Job
+  [ ] Severity: Critical
+
+  [ ] Criteria:
+      Job Type: Auxiliary Copy
+      Job Status: Failed
+      Job Phase: Contains "Prune"
+
+  [ ] Notification:
+      Email: storage-team@company.com
+      Subject: "Pruning Job Failed - Space Reclamation Stopped"
+      Body:
+        "Pruning job has failed for storage pool.
+
+         Job ID: {{JobId}}
+         Pool: {{StoragePool}}
+         Error: {{ErrorMessage}}
+         Time: {{FailureTime}}
+
+         Impact: Space will not be reclaimed until resolved.
+
+         Action Required:
+         1. Review job details in Job Controller
+         2. Check MediaAgent logs (SIDBPrune.log)
+         3. Verify mount path accessibility
+         4. Manually retry pruning operation"
+
+Step 2: Create "Aging Job Failed" Alert
+  [ ] Alert Name: "Data Aging Failed"
+  [ ] Criteria: Job Type = Data Aging, Status = Failed
+  [ ] Notification: Email to backup team
+  [ ] Include action steps to investigate
+
+====================================================================================================
+ACTION 3: CONFIGURE EVENT LOGGING
+====================================================================================================
+
+Step 1: Verify Event Logging Enabled
+  [ ] CommCell Console > Control Panel
+  [ ] Event Management > Event Configuration
+  [ ] Ensure these events are enabled:
+      - Storage pool capacity warnings
+      - Pruning job start/stop
+      - Aging job completion
+      - Mount path errors
+      - Disk space warnings
+
+Step 2: Set Event Retention
+  [ ] Event Retention Period: 90 days (minimum)
+  [ ] Recommended: 180 days for trend analysis
+  [ ] Configure automatic purging of old events
+
+Step 3: Configure Event Forwarding (Optional)
+  [ ] If using SIEM/monitoring tools:
+      - Configure syslog forwarding
+      - Set up webhook integration
+      - Enable SNMP traps
+
+====================================================================================================
+ACTION 4: VERIFY ALERT NOTIFICATION DELIVERY
+====================================================================================================
+
+Step 1: Test Email Delivery
+  [ ] CommCell Console > Control Panel > Email Configuration
+  [ ] SMTP Server: Configured
+  [ ] Test email delivery to alert recipients
+  [ ] Verify emails not blocked by spam filters
+
+Step 2: Test SMS Delivery (if configured)
+  [ ] Verify SMS gateway configuration
+  [ ] Send test SMS to on-call numbers
+  [ ] Confirm delivery and format
+
+Step 3: Configure Alert Console
+  [ ] CommCell Console > Alert Console
+  [ ] Configure dashboard to show active alerts
+  [ ] Set up alert acknowledgment workflow
+
+====================================================================================================
+ACTION 5: FETCH HISTORICAL EVENTS VIA API
+====================================================================================================
+
+Since API connectivity may be limited, here are alternative approaches:
+
+Option A: Use Flask Web App
+  [ ] Access web app: http://127.0.0.1:5000
+  [ ] Navigate to: Fetch Data page
+  [ ] Select "Events" from dropdown
+  [ ] Click "Fetch Data"
+  [ ] Select "Alerts" from dropdown
+  [ ] Click "Fetch Data"
+  [ ] Refresh page to see results
+
+Option B: Run Fetch Script (if API accessible)
+  [ ] Open PowerShell/Terminal
+  [ ] Navigate to: D:\Commvault_API
+  [ ] Run: python fetch_events_alerts.py
+  [ ] Review output for any errors
+  [ ] Check database: python check_events_alerts.py
+
+Option C: Manual Export from CommCell Console
+  [ ] CommCell Console > Tools > Event Viewer
+  [ ] Filter events:
+      - Date Range: Last 30 days
+      - Severity: Critical, Error, Warning
+      - Category: Storage, Jobs
+  [ ] Export to CSV
+  [ ] Review for storage-related issues
+
+====================================================================================================
+SPECIFIC ALERTS TO CONFIGURE FOR CRITICAL POOLS
+====================================================================================================
+
+For Each Critical Pool (Apex GDP, Southern_Sun_Durban, Simera_GDP):
+
+Alert 1: "{{PoolName}} - Critical Capacity"
+  Threshold: Current + 1% (to trigger immediately)
+  Action: Immediate notification
+  Purpose: Alert on current critical state
+
+Alert 2: "{{PoolName}} - Pruning Monitor"
+  Check: Pruning jobs for this pool
+  Frequency: Daily
+  Alert if: No successful pruning in last 24 hours
+
+Alert 3: "{{PoolName}} - Space Trend"
+  Monitor: Free space trend over 7 days
+  Alert if: Decreasing trend >5% per day
+  Purpose: Predict when pool will fill
+
+====================================================================================================
+ALERT NOTIFICATION TEMPLATES
+====================================================================================================
+
+CRITICAL ALERT TEMPLATE:
+----------------------------
+Subject: CRITICAL: Storage Pool {{PoolName}} at {{FreeSpace}}% Free
+
+Pool: {{PoolName}}
+Status: CRITICAL
+Free Space: {{FreeSpace}}%
+Capacity: {{TotalCapacity}} GB
+Trend: {{Trend}}
+
+IMMEDIATE ACTIONS REQUIRED:
+1. Check pruning status on MediaAgent
+2. Verify data aging is enabled
+3. Manually trigger pruning if needed
+4. Consider suspending backups temporarily
+
+For detailed diagnostics:
+- Log into MediaAgent: {{MediaAgentName}}
+- Review: SIDBPrune.log
+- Run: powershell collect_pruning_logs.ps1 -PoolName "{{PoolName}}"
+
+Escalation: If space not reclaimed in 4 hours, contact Commvault support
+----------------------------
+
+WARNING ALERT TEMPLATE:
+----------------------------
+Subject: WARNING: Storage Pool {{PoolName}} Below 20% Free
+
+Pool: {{PoolName}}
+Status: WARNING
+Free Space: {{FreeSpace}}%
+
+RECOMMENDED ACTIONS:
+1. Review retention policies for optimization
+2. Plan capacity expansion
+3. Monitor daily for declining trend
+
+Dashboard: http://127.0.0.1:5000/dashboard/storage
+----------------------------
+
+====================================================================================================
+MONITORING DASHBOARD CONFIGURATION
+====================================================================================================
+
+Configure Real-Time Monitoring:
+
+1. Storage Pool Health Dashboard
+   URL: http://127.0.0.1:5000/dashboard/storage
+   Features:
+   - Real-time capacity visualization
+   - Critical pools highlighted
+   - Trend analysis
+   - Top 10 fullest pools
+
+2. Scheduled Reports
+   [ ] Daily: Storage pool status report
+   [ ] Weekly: Capacity trend analysis
+   [ ] Monthly: Retention rule optimization report
+
+3. Automated Checks
+   [ ] Cron job (Linux) / Task Scheduler (Windows)
+   [ ] Run: python analyze_critical_pools.py
+   [ ] Frequency: Every 6 hours
+   [ ] Email results to team
+
+====================================================================================================
+COMMVAULT CONSOLE MANUAL CHECKS
+====================================================================================================
+
+Since API/automated monitoring is not fully functional, perform manual checks:
+
+DAILY CHECKS:
+  [ ] CommCell Console > Storage Resources > Storage Pools
+  [ ] Sort by: Free Space % (ascending)
+  [ ] Review pools <20% free
+  [ ] Check Job Controller for failed pruning jobs
+
+WEEKLY CHECKS:
+  [ ] Review Event Viewer for storage events
+  [ ] Verify aging jobs completing successfully
+  [ ] Check retention rule efficiency
+  [ ] Review capacity trends
+
+====================================================================================================
+ALTERNATIVE MONITORING SOLUTIONS
+====================================================================================================
+
+If Commvault alerts cannot be configured immediately:
+
+Option 1: Windows Task Scheduler + PowerShell
+  Script: check_storage_pools.ps1
+  Frequency: Every 4 hours
+  Action: Email if critical pools found
+
+Option 2: Python Monitoring Script
+  Script: monitor_pools.py (create continuous monitoring)
+  Runs: As Windows service
+  Alerts: Email/SMS via external service
+
+Option 3: External Monitoring Tool
+  - Integrate with Nagios/Zabbix/PRTG
+  - Use Commvault REST API
+  - Create custom health checks
+
+====================================================================================================
+TESTING & VALIDATION
+====================================================================================================
+
+After Configuring Alerts:
+
+Test 1: Trigger Test Alert
+  [ ] CommCell Console > Alert Definitions
+  [ ] Right-click alert > "Test Alert"
+  [ ] Verify email/SMS received
+  [ ] Check alert console shows alert
+
+Test 2: Simulate Threshold Breach
+  [ ] Temporarily adjust threshold to current value
+  [ ] Wait for alert evaluation cycle
+  [ ] Verify alert triggers
+  [ ] Reset threshold to proper value
+
+Test 3: Verify Alert Suppression
+  [ ] Check that alerts don't spam
+  [ ] Verify re-notification intervals work
+  [ ] Test alert acknowledgment workflow
+
+====================================================================================================
+EXPECTED OUTCOMES
+====================================================================================================
+
+After Implementing Alert Configuration:
+
+Immediate (24 hours):
+  - Alerts configured for all storage pools
+  - Email notifications tested and working
+  - Team receives immediate notification of critical pools
+
+Short-term (1 week):
+  - Event history being captured
+  - Trend analysis possible
+  - Proactive capacity planning enabled
+
+Long-term (1 month):
+  - Zero surprise storage failures
+  - Predictive capacity management
+  - Reduced emergency interventions
+  - Improved service reliability
+
+====================================================================================================
+ESCALATION PROCEDURES
+====================================================================================================
+
+Alert Escalation Matrix:
+
+Level 1 (Warning - <30% free):
+  Response Time: 4 hours
+  Owner: Storage Administrator
+  Action: Review and plan
+
+Level 2 (Critical - <20% free):
+  Response Time: 2 hours
+  Owner: Storage Team Lead
+  Action: Investigate and remediate
+
+Level 3 (Emergency - <10% free):
+  Response Time: 30 minutes
+  Owner: On-call Engineer
+  Action: Immediate intervention
+  Escalate to: Senior Engineer (if not resolved in 2 hours)
+
+Level 4 (Failure - <5% free):
+  Response Time: Immediate
+  Owner: On-call Engineer + Manager
+  Action: Emergency procedures
+  Escalate to: Commvault Support + IT Management
+
+====================================================================================================
+COMPLIANCE & DOCUMENTATION
+====================================================================================================
+
+Required Documentation:
+
+1. Alert Response Runbook
+   - Step-by-step procedures for each alert type
+   - Decision trees for troubleshooting
+   - Escalation contacts
+
+2. Alert Configuration Documentation
+   - List of all configured alerts
+   - Threshold justifications
+   - Notification recipients
+
+3. Incident Response Log
+   - Track all alert occurrences
+   - Document actions taken
+   - Record time to resolution
+
+====================================================================================================
+COMMVAULT KB ARTICLES & REFERENCES
+====================================================================================================
+
+Recommended Reading:
+
+1. Configuring Alert Definitions
+   https://documentation.commvault.com/alerts
+
+2. Storage Pool Best Practices
+   https://documentation.commvault.com/storage-pools
+
+3. Event Management
+   https://documentation.commvault.com/events
+
+4. Monitoring and Reporting
+   https://documentation.commvault.com/monitoring
+
+====================================================================================================
+CONTACT INFORMATION & SUPPORT
+====================================================================================================
+
+Commvault Support:
+  Web: support.commvault.com
+  Phone: [Your support number]
+  Case Priority: P1 (Critical) for storage pool failures
+
+Internal Escalation:
+  Storage Team: [Email/Phone]
+  Backup Team Lead: [Email/Phone]
+  IT Management: [Email/Phone]
+  On-Call Engineer: [Email/Phone]
+
+====================================================================================================
+SUMMARY OF FINDINGS
+====================================================================================================
+
+Current State:
+  - 3 critical storage pools with NO automated monitoring
+  - No events or alerts configured
+  - Team operating reactively
+  - High risk of service disruption
+
+Immediate Risk:
+  - Pools could fill completely without warning
+  - Backup failures likely
+  - No historical data for troubleshooting
+
+Recommended Actions (Priority Order):
+  1. Configure storage pool capacity alerts (TODAY)
+  2. Set up email notifications (TODAY)
+  3. Test alert delivery (TODAY)
+  4. Configure pruning/aging job alerts (THIS WEEK)
+  5. Enable event logging and retention (THIS WEEK)
+  6. Create monitoring dashboard (THIS WEEK)
+  7. Establish escalation procedures (THIS WEEK)
+  8. Document alert response runbook (THIS MONTH)
+
+Expected Benefit:
+  - Proactive monitoring instead of reactive firefighting
+  - Early warning before failures occur
+  - Reduced downtime and service disruptions
+  - Better capacity planning
+  - Improved team efficiency
+
+====================================================================================================
+NEXT STEPS
+====================================================================================================
+
+Priority 1 (IMMEDIATE - Next 4 Hours):
+  [ ] Configure critical pool capacity alerts (Apex GDP, Southern_Sun_Durban, Simera_GDP)
+  [ ] Test email delivery
+  [ ] Document alert recipients
+
+Priority 2 (TODAY):
+  [ ] Configure general storage pool capacity alerts (<10%, <20%, <30%)
+  [ ] Configure pruning failure alerts
+  [ ] Configure aging failure alerts
+
+Priority 3 (THIS WEEK):
+  [ ] Enable comprehensive event logging
+  [ ] Create alert response runbook
+  [ ] Train team on alert procedures
+  [ ] Establish escalation matrix
+
+Priority 4 (THIS MONTH):
+  [ ] Review and refine alert thresholds based on experience
+  [ ] Integrate with ITSM for ticket creation
+  [ ] Set up automated reporting
+  [ ] Conduct alert drill/test
+
+====================================================================================================
+END OF EVENTS & ALERTS ANALYSIS
+====================================================================================================
+
+Document Generated: 2025-11-14
+Report ID: EVENTS_ALERTS_001
+Status: URGENT ACTION REQUIRED
+Review Date: 2025-11-15 (24 hours)

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API TEST RESULTS</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: API_TEST_RESULTS.md</div>
+    <h1 id="commvault-api-test-results">Commvault API Test Results</h1>
+<h2 id="test-summary">Test Summary</h2>
+<p><strong>Date:</strong> 2025-11-13
+<strong>Success Rate:</strong> 7/14 endpoints (50%)</p>
+<h2 id="working-endpoints">✅ Working Endpoints</h2>
+<h3 id="1-clients-client">1. Clients - <code>/Client</code></h3>
+<ul>
+<li><strong>Status:</strong> ✅ WORKING</li>
+<li><strong>Data Retrieved:</strong> 3,604 clients</li>
+<li><strong>Structure:</strong> <code>{ "clientProperties": [ { "client": {...}, "clientProps": {...} } ] }</code></li>
+<li><strong>Notes:</strong> Works perfectly, large dataset</li>
+</ul>
+<h3 id="2-plans-plan">2. Plans - <code>/Plan</code></h3>
+<ul>
+<li><strong>Status:</strong> ✅ WORKING</li>
+<li><strong>Data Retrieved:</strong> 278 plans</li>
+<li><strong>Structure:</strong> <code>{ "plans": [ {...} ] }</code></li>
+<li><strong>Notes:</strong> Good data, backup plans/policies available</li>
+</ul>
+<h3 id="3-storage-policies-v2storagepolicy">3. Storage Policies - <code>/V2/StoragePolicy</code></h3>
+<ul>
+<li><strong>Status:</strong> ✅ WORKING</li>
+<li><strong>Data Retrieved:</strong> 226 storage policies</li>
+<li><strong>Structure:</strong> <code>{ "policies": [ { "storagePolicy": {...} } ] }</code></li>
+<li><strong>Notes:</strong> Works with V2 API</li>
+</ul>
+<h3 id="4-mediaagents-mediaagent">4. MediaAgents - <code>/MediaAgent</code></h3>
+<ul>
+<li><strong>Status:</strong> ✅ WORKING (Structure Different Than Expected)</li>
+<li><strong>Data Retrieved:</strong> 10+ MediaAgents</li>
+<li><strong>Actual Structure:</strong> <code>{ "response": [ { "entityInfo": { "name": "...", "id": ... } } ] }</code></li>
+<li><strong>Expected Structure:</strong> <code>{ "mediaAgentList": [...] }</code></li>
+<li><strong>⚠️ Code Update Needed:</strong> Parser expects different JSON structure</li>
+</ul>
+<h3 id="5-libraries-library">5. Libraries - <code>/Library</code></h3>
+<ul>
+<li><strong>Status:</strong> ✅ WORKING (Structure Different Than Expected)</li>
+<li><strong>Data Retrieved:</strong> Available</li>
+<li><strong>Actual Structure:</strong> <code>{ "response": [...] }</code></li>
+<li><strong>Expected Structure:</strong> <code>{ "libraryList": [...] }</code></li>
+<li><strong>⚠️ Code Update Needed:</strong> Parser expects different JSON structure</li>
+</ul>
+<h3 id="6-storage-pools-storagepool-alternative">6. Storage Pools - <code>/StoragePool</code> (Alternative)</h3>
+<ul>
+<li><strong>Status:</strong> ✅ WORKING</li>
+<li><strong>Data Retrieved:</strong> Multiple storage pools</li>
+<li><strong>Actual Structure:</strong> <code>{ "storagePoolList": [ { "storagePool": {...}, "status": "...", "totalCapacity": ..., "totalFreeSpace": ... } ] }</code></li>
+<li><strong>Notes:</strong> Use <code>/StoragePool</code> instead of <code>/V4/StoragePool</code></li>
+<li><strong>✅ Has Capacity Data:</strong> <code>totalCapacity</code>, <code>totalFreeSpace</code>, <code>sizeOnDisk</code></li>
+</ul>
+<h3 id="7-alerts-alert">7. Alerts - <code>/Alert</code></h3>
+<ul>
+<li><strong>Status:</strong> ✅ WORKING (Empty Response)</li>
+<li><strong>Data Retrieved:</strong> <code>{}</code>  (empty dict)</li>
+<li><strong>Notes:</strong> Endpoint works but no alerts currently active</li>
+</ul>
+<h2 id="failednot-available-endpoints">❌ Failed/Not Available Endpoints</h2>
+<h3 id="1-jobs-job">1. Jobs - <code>/Job</code></h3>
+<ul>
+<li><strong>Status:</strong> ❌ TIMEOUT</li>
+<li><strong>Issue:</strong> Request timed out after 30 seconds</li>
+<li><strong>Reason:</strong> Likely too much data (trying to retrieve all jobs)</li>
+<li><strong>Recommendation:</strong> Add filters like <code>?clientId=X</code> or <code>?completedJobLookupTime=last24hours</code></li>
+</ul>
+<h3 id="2-storage-pools-v4-v4storagepool">2. Storage Pools (V4) - <code>/V4/StoragePool</code></h3>
+<ul>
+<li><strong>Status:</strong> ❌ HTTP 404</li>
+<li><strong>Issue:</strong> V4 API not available</li>
+<li><strong>Solution:</strong> ✅ Use <code>/StoragePool</code> instead (tested and works)</li>
+</ul>
+<h3 id="3-hypervisors-instance">3. Hypervisors - <code>/Instance</code></h3>
+<ul>
+<li><strong>Status:</strong> ❌ HTTP 400</li>
+<li><strong>Issue:</strong> Bad request - endpoint may require parameters</li>
+<li><strong>Recommendation:</strong> Try <code>/V2/Virtualization/hypervisors</code> or <code>/VSA</code></li>
+</ul>
+<h3 id="4-storage-arrays-v4storagearray">4. Storage Arrays - <code>/V4/Storage/Array</code></h3>
+<ul>
+<li><strong>Status:</strong> ❌ HTTP 404</li>
+<li><strong>Issue:</strong> V4 API not available or no arrays configured</li>
+<li><strong>Recommendation:</strong> May not be available in this Commvault version</li>
+</ul>
+<h3 id="5-events-event">5. Events - <code>/Event</code></h3>
+<ul>
+<li><strong>Status:</strong> ❌ HTTP 404</li>
+<li><strong>Issue:</strong> Endpoint not available</li>
+<li><strong>Recommendation:</strong> Events API may not be exposed in this version</li>
+</ul>
+<h3 id="6-events-critical-eventlevelcritical">6. Events (Critical) - <code>/Event?level=Critical</code></h3>
+<ul>
+<li><strong>Status:</strong> ❌ HTTP 404</li>
+<li><strong>Issue:</strong> Same as above</li>
+</ul>
+<h3 id="7-commcell-info-commcell">7. CommCell Info - <code>/Commcell</code></h3>
+<ul>
+<li><strong>Status:</strong> ❌ HTTP 404</li>
+<li><strong>Issue:</strong> Endpoint not available</li>
+<li><strong>Recommendation:</strong> Try <code>/CommCell</code> (capital C) or check version compatibility</li>
+</ul>
+<h2 id="required-code-updates">Required Code Updates</h2>
+<h3 id="1-fix-mediaagents-parser">1. Fix MediaAgents Parser</h3>
+<p><strong>Current Code Expects:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">ma_list</span> <span class="o">=</span> <span class="n">mediaagents_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mediaAgentList&quot;</span><span class="p">,</span> <span class="p">[])</span>
+</code></pre></div>
+
+<p><strong>Actual Structure:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;response&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;entityInfo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;commserve01&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Required Change:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">ma_list</span> <span class="o">=</span> <span class="n">mediaagents_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;response&quot;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="k">for</span> <span class="n">ma_entry</span> <span class="ow">in</span> <span class="n">ma_list</span><span class="p">:</span>
+    <span class="n">entity_info</span> <span class="o">=</span> <span class="n">ma_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entityInfo&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">ma_id</span> <span class="o">=</span> <span class="n">entity_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">entity_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="2-fix-libraries-parser">2. Fix Libraries Parser</h3>
+<p><strong>Similar issue</strong> - use <code>response</code> key instead of <code>libraryList</code></p>
+<h3 id="3-fix-storage-pools-parser">3. Fix Storage Pools Parser</h3>
+<p><strong>Current Code:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">pools_list</span> <span class="o">=</span> <span class="n">storage_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePools&quot;</span><span class="p">,</span> <span class="p">[])</span>
+</code></pre></div>
+
+<p><strong>Actual Structure:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">pools_list</span> <span class="o">=</span> <span class="n">storage_json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePoolList&quot;</span><span class="p">,</span> <span class="p">[])</span>
+</code></pre></div>
+
+<p><strong>Also Update Endpoint:</strong>
+- Change from <code>/V4/StoragePool</code> to <code>/StoragePool</code></p>
+<h3 id="4-fix-jobs-timeout">4. Fix Jobs Timeout</h3>
+<p><strong>Add Filters:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Instead of: /Job</span>
+<span class="c1"># Use: /Job?clientId=X  or</span>
+<span class="c1">#      /Job?completedJobLookupTime=last24hours</span>
+</code></pre></div>
+
+<h3 id="5-remove-non-working-endpoints">5. Remove Non-Working Endpoints</h3>
+<p>Disable or comment out:
+- Events endpoints
+- CommCell Info endpoint (until we find correct path)
+- Hypervisors (needs investigation)
+- Storage Arrays (may not be configured)</p>
+<h2 id="data-available-for-dashboard">Data Available for Dashboard</h2>
+<h3 id="working-infrastructure-data">✅ Working Infrastructure Data:</h3>
+<ol>
+<li><strong>Clients</strong> - 3,604 machines ✅</li>
+<li><strong>MediaAgents</strong> - 10+ servers ✅</li>
+<li><strong>Storage Pools</strong> - Multiple pools with capacity info ✅</li>
+<li><strong>Libraries</strong> - Available ✅</li>
+<li><strong>Plans</strong> - 278 backup plans ✅</li>
+<li><strong>Storage Policies</strong> - 226 policies ✅</li>
+</ol>
+<h3 id="capacity-monitoring-available">✅ Capacity Monitoring Available:</h3>
+<p>Storage Pools provide:
+- <code>totalCapacity</code> - Total storage capacity
+- <code>totalFreeSpace</code> - Available free space
+- <code>sizeOnDisk</code> - Used space
+- <code>status</code> - "Online" / "Offline"
+- <code>storagePoolType</code> - Type of storage</p>
+<p>This is PERFECT for capacity monitoring!</p>
+<h3 id="not-available-yet">❌ Not Available (Yet):</h3>
+<ol>
+<li><strong>Jobs</strong> - Need to add filters to prevent timeout</li>
+<li><strong>Events/Alerts</strong> - API not available in this version</li>
+<li><strong>Hypervisors</strong> - Need different endpoint</li>
+<li><strong>CommCell Health</strong> - Need correct endpoint</li>
+</ol>
+<h2 id="recommendations">Recommendations</h2>
+<h3 id="immediate-actions">Immediate Actions:</h3>
+<ol>
+<li><strong>Update MediaAgents parser</strong> to use <code>response</code> key</li>
+<li><strong>Update Libraries parser</strong> to use <code>response</code> key</li>
+<li><strong>Update Storage Pools</strong> to use <code>/StoragePool</code> endpoint</li>
+<li><strong>Update Storage Pools parser</strong> to use <code>storagePoolList</code> key</li>
+<li><strong>Add job filters</strong> to prevent timeout</li>
+</ol>
+<h3 id="alternative-approaches">Alternative Approaches:</h3>
+<h4 id="for-jobs">For Jobs:</h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Filter by recent jobs only</span>
+<span class="o">/</span><span class="n">Job</span><span class="err">?</span><span class="n">completedJobLookupTime</span><span class="o">=</span><span class="n">last24hours</span>
+<span class="c1"># Or filter by client</span>
+<span class="o">/</span><span class="n">Job</span><span class="err">?</span><span class="n">clientId</span><span class="o">=</span><span class="mi">123</span>
+<span class="c1"># Or limit results</span>
+<span class="o">/</span><span class="n">Job</span><span class="err">?</span><span class="n">pageSize</span><span class="o">=</span><span class="mi">100</span>
+</code></pre></div>
+
+<h4 id="for-hypervisors">For Hypervisors:</h4>
+<p>Try these alternatives:
+- <code>/V2/Virtualization/hypervisors</code>
+- <code>/VSA</code> (Virtual Server Agent)
+- <code>/V2/vsa/vm</code></p>
+<h4 id="for-commcell-info">For CommCell Info:</h4>
+<p>Try these alternatives:
+- <code>/CommCell</code> (capital C)
+- <code>/GetId</code> (gets CommServe ID)
+- <code>/Ping</code> (health check)</p>
+<h3 id="what-works-great">What Works Great:</h3>
+<ol>
+<li><strong>Storage Capacity Monitoring</strong> ✅</li>
+<li>All data available in Storage Pools</li>
+<li>Can track capacity, free space, usage</li>
+<li>
+<p>Perfect for dashboard</p>
+</li>
+<li>
+<p><strong>Infrastructure Inventory</strong> ✅</p>
+</li>
+<li>MediaAgents list</li>
+<li>Libraries list</li>
+<li>3,600+ clients</li>
+<li>
+<p>278 plans</p>
+</li>
+<li>
+<p><strong>Storage Policies</strong> ✅</p>
+</li>
+<li>226 policies available</li>
+<li>Can track configurations</li>
+</ol>
+<h2 id="updated-endpoint-list">Updated Endpoint List</h2>
+<h3 id="use-these-endpoints">Use These Endpoints:</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Endpoint</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clients</td>
+<td><code>/Client</code></td>
+<td>✅ Working</td>
+</tr>
+<tr>
+<td>Plans</td>
+<td><code>/Plan</code></td>
+<td>✅ Working</td>
+</tr>
+<tr>
+<td>Storage Policies</td>
+<td><code>/V2/StoragePolicy</code></td>
+<td>✅ Working</td>
+</tr>
+<tr>
+<td>MediaAgents</td>
+<td><code>/MediaAgent</code></td>
+<td>✅ Working (update parser)</td>
+</tr>
+<tr>
+<td>Libraries</td>
+<td><code>/Library</code></td>
+<td>✅ Working (update parser)</td>
+</tr>
+<tr>
+<td>Storage Pools</td>
+<td><code>/StoragePool</code></td>
+<td>✅ Working (update parser &amp; endpoint)</td>
+</tr>
+<tr>
+<td>Jobs</td>
+<td><code>/Job?completedJobLookupTime=last24hours</code></td>
+<td>⚠️ Needs filter</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dont-use-not-available">Don't Use (Not Available):</h3>
+<ul>
+<li><code>/V4/StoragePool</code> - Use <code>/StoragePool</code> instead</li>
+<li><code>/Event</code> - Not available</li>
+<li><code>/Commcell</code> - Not available (try alternatives)</li>
+<li><code>/Instance</code> - Not working (try alternatives)</li>
+<li><code>/V4/Storage/Array</code> - Not available</li>
+</ul>
+<h2 id="next-steps">Next Steps</h2>
+<ol>
+<li>Update <a href="app.py">app.py</a> with corrected parsers</li>
+<li>Change Storage Pools endpoint from V4 to standard</li>
+<li>Add job filters to prevent timeout</li>
+<li>Test alternative endpoints for Hypervisors</li>
+<li>Remove/disable non-working monitoring features</li>
+<li>Update documentation with actual working endpoints</li>
+</ol>
+<h2 id="test-files-generated">Test Files Generated</h2>
+<p>All API responses saved to:
+- <code>test_output_Clients.json</code> - 3,604 clients
+- <code>test_output_Plans.json</code> - 278 plans
+- <code>test_output_Storage_Policies.json</code> - 226 policies
+- <code>test_output_MediaAgents.json</code> - MediaAgents list
+- <code>test_output_Libraries.json</code> - Libraries list
+- <code>test_output_Storage_Pools_(Alt).json</code> - Storage pools with capacity
+- <code>test_output_Alerts.json</code> - Empty (no active alerts)</p>
+<p>Review these files to see exact JSON structures.</p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

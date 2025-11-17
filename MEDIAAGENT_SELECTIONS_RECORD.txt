@@ -1,0 +1,111 @@
+====================================================================================================
+MEDIAAGENT SELECTIONS - ENVIRONMENT ASSESSMENT
+====================================================================================================
+Generated: 2025-11-16 09:47:35
+Total Selected: 14
+
+====================================================================================================
+SELECTED MEDIAAGENTS
+====================================================================================================
+
+1. CVHSMAN01.JHB.SEAGATESTORAGECLOUD.CO.ZA
+   ID: 551
+   Hostname: N/A
+   OS Type: Unknown
+   Selected Date: 2025-11-16
+   Notes: Selected for monitoring
+
+2. CVHSMAN02.JHB.SEAGATESTORAGECLOUD.CO.ZA
+   ID: 552
+   Hostname: N/A
+   OS Type: Unknown
+   Selected Date: 2025-11-16
+   Notes: Selected for monitoring
+
+3. CVHSMAN03.JHB.SEAGATESTORAGECLOUD.CO.ZA
+   ID: 553
+   Hostname: N/A
+   OS Type: Unknown
+   Selected Date: 2025-11-16
+   Notes: Selected for monitoring
+
+4. MediaAgent3
+   ID: 10956
+   Hostname: N/A
+   OS Type: Unknown
+   Selected Date: 2025-11-16
+   Notes: Selected for monitoring
+
+5. MediaAgent4
+   ID: 10962
+   Hostname: N/A
+   OS Type: Unknown
+   Selected Date: 2025-11-16
+   Notes: Selected for monitoring
+
+6. cvhsxman01.jhb.seagatestoragecloud.co.za
+   ID: 1982
+   Hostname: N/A
+   OS Type: Unknown
+   Selected Date: 2025-11-16
+   Notes: Selected for monitoring
+
+7. cvhsxman02.jhb.seagatestoragecloud.co.za
+   ID: 1984
+   Hostname: N/A
+   OS Type: Unknown
+   Selected Date: 2025-11-16
+   Notes: Selected for monitoring
+
+8. cvhsxman03.jhb.seagatestoragecloud.co.za
+   ID: 1983
+   Hostname: N/A
+   OS Type: Unknown
+   Selected Date: 2025-11-16
+   Notes: Selected for monitoring
+
+9. cvhsxman04.jhb.seagatestoragecloud.co.za
+   ID: 5507
+   Hostname: N/A
+   OS Type: Unknown
+   Selected Date: 2025-11-16
+   Notes: Selected for monitoring
+
+10. cvhsxman05.jhb.seagatestoragecloud.co.za
+   ID: 5506
+   Hostname: N/A
+   OS Type: Unknown
+   Selected Date: 2025-11-16
+   Notes: Selected for monitoring
+
+11. cvhsxman06.jhb.seagatestoragecloud.co.za
+   ID: 5505
+   Hostname: N/A
+   OS Type: Unknown
+   Selected Date: 2025-11-16
+   Notes: Selected for monitoring
+
+12. hpehsxman01.jhb.seagatestoragecloud.co.za
+   ID: 8096
+   Hostname: N/A
+   OS Type: Unknown
+   Selected Date: 2025-11-16
+   Notes: Selected for monitoring
+
+13. hpehsxman02.jhb.seagatestoragecloud.co.za
+   ID: 8097
+   Hostname: N/A
+   OS Type: Unknown
+   Selected Date: 2025-11-16
+   Notes: Selected for monitoring
+
+14. hpehsxman03.jhb.seagatestoragecloud.co.za
+   ID: 8098
+   Hostname: N/A
+   OS Type: Unknown
+   Selected Date: 2025-11-16
+   Notes: Selected for monitoring
+
+====================================================================================================
+END OF RECORD
+====================================================================================================

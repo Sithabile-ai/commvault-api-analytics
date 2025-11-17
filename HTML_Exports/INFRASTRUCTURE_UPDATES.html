@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFRASTRUCTURE UPDATES</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: INFRASTRUCTURE_UPDATES.md</div>
+    <h1 id="infrastructure-visibility-updates-summary">Infrastructure Visibility Updates - Summary</h1>
+<h2 id="whats-new">What's New</h2>
+<p>Your Commvault Data Retrieval application has been <strong>significantly enhanced</strong> with comprehensive infrastructure visibility features. You now have complete visibility into hardware, storage pools, hyperscale environments, and physical storage arrays.</p>
+<h2 id="new-features-added">New Features Added</h2>
+<h3 id="1-infrastructure-data-types-5-new-categories">1. Infrastructure Data Types (5 New Categories)</h3>
+<h4 id="mediaagents">MediaAgents 📡</h4>
+<ul>
+<li>View all backup infrastructure servers</li>
+<li>Monitor online/offline status</li>
+<li>Track storage capacity (available/total space)</li>
+<li>See OS type and hostname</li>
+</ul>
+<h4 id="storage-pools">Storage Pools 💾</h4>
+<ul>
+<li>View all disk and tape storage pools</li>
+<li>Monitor capacity and free space</li>
+<li>Check deduplication status</li>
+<li>Track storage pool types (Disk, Tape, Dedupe, Cloud)</li>
+</ul>
+<h4 id="libraries">Libraries 📚</h4>
+<ul>
+<li>List all tape and disk libraries</li>
+<li>See which MediaAgent serves each library</li>
+<li>Monitor library status</li>
+<li>Track library types</li>
+</ul>
+<h4 id="hypervisors">Hypervisors ☁️</h4>
+<ul>
+<li>Inventory VM infrastructure (VMware, Hyper-V, Nutanix)</li>
+<li>View hypervisor types and vendors</li>
+<li>Monitor connection status</li>
+<li>Track all virtualization platforms</li>
+</ul>
+<h4 id="storage-arrays">Storage Arrays 🗄️</h4>
+<ul>
+<li>List physical storage hardware</li>
+<li>View vendor and model information</li>
+<li>Track total and used capacity</li>
+<li>Inventory SAN/NAS arrays</li>
+</ul>
+<h3 id="2-interactive-infrastructure-dashboard">2. Interactive Infrastructure Dashboard</h3>
+<p><strong>New Route:</strong> <code>/dashboard</code></p>
+<p>A comprehensive visual dashboard showing:</p>
+<ul>
+<li><strong>Summary Cards</strong>: Quick counts of all infrastructure components</li>
+<li><strong>MediaAgents Status Table</strong>: Real-time status with capacity info</li>
+<li><strong>Storage Pools Table</strong>: Capacity monitoring with dedupe status</li>
+<li><strong>Libraries Table</strong>: Library health and MediaAgent assignments</li>
+<li><strong>Hypervisors Table</strong>: VM infrastructure overview</li>
+<li><strong>Jobs Summary</strong>: Success rates and job statistics</li>
+</ul>
+<h3 id="3-enhanced-database-schema">3. Enhanced Database Schema</h3>
+<p>Five new tables added to SQLite database:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">-</span><span class="w"> </span><span class="n">mediaagents</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">columns</span><span class="p">)</span>
+<span class="o">-</span><span class="w"> </span><span class="n">storage_pools</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">columns</span><span class="p">)</span>
+<span class="o">-</span><span class="w"> </span><span class="n">libraries</span><span class="w"> </span><span class="p">(</span><span class="mi">6</span><span class="w"> </span><span class="n">columns</span><span class="p">)</span>
+<span class="o">-</span><span class="w"> </span><span class="n">hypervisors</span><span class="w"> </span><span class="p">(</span><span class="mi">7</span><span class="w"> </span><span class="n">columns</span><span class="p">)</span>
+<span class="o">-</span><span class="w"> </span><span class="n">storage_arrays</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="n">columns</span><span class="p">)</span>
+</code></pre></div>
+
+<p>All tables include <code>lastFetchTime</code> for tracking data freshness.</p>
+<h3 id="4-updated-user-interface">4. Updated User Interface</h3>
+<h4 id="home-page-improvements">Home Page Improvements</h4>
+<ul>
+<li>Organized checkboxes into two sections:</li>
+<li>📊 <strong>Basic Data</strong> (Clients, Jobs, Plans, Storage Policies)</li>
+<li>🏗️ <strong>Infrastructure &amp; Hardware</strong> (5 new options)</li>
+<li>Color-coded sections for better UX</li>
+<li>Enhanced descriptions for each data type</li>
+</ul>
+<h4 id="new-navigation">New Navigation</h4>
+<ul>
+<li>Added "🏗️ Infrastructure Dashboard" link</li>
+<li>Quick access to all infrastructure data views</li>
+<li>Consolidated navigation across all pages</li>
+</ul>
+<h4 id="results-page-enhancements">Results Page Enhancements</h4>
+<ul>
+<li>Color-coded summary cards for infrastructure data</li>
+<li>Preview tables for each infrastructure type</li>
+<li>Direct links to detailed views</li>
+</ul>
+<h2 id="technical-implementation">Technical Implementation</h2>
+<h3 id="new-api-endpoints-integrated">New API Endpoints Integrated</h3>
+<table>
+<thead>
+<tr>
+<th>Data Type</th>
+<th>API Endpoint</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MediaAgents</td>
+<td><code>/MediaAgent</code></td>
+<td>Standard</td>
+</tr>
+<tr>
+<td>Libraries</td>
+<td><code>/Library</code></td>
+<td>Standard</td>
+</tr>
+<tr>
+<td>Storage Pools</td>
+<td><code>/V4/StoragePool</code></td>
+<td>V4 API</td>
+</tr>
+<tr>
+<td>Hypervisors</td>
+<td><code>/Instance</code></td>
+<td>Standard</td>
+</tr>
+<tr>
+<td>Storage Arrays</td>
+<td><code>/V4/Storage/Array</code></td>
+<td>V4 API</td>
+</tr>
+</tbody>
+</table>
+<h3 id="new-functions-in-apppy">New Functions in app.py</h3>
+<ul>
+<li><code>save_mediaagents_to_db()</code> - Parse and store MediaAgent data</li>
+<li><code>save_libraries_to_db()</code> - Parse and store Library data</li>
+<li><code>save_storage_pools_to_db()</code> - Parse and store Storage Pool data</li>
+<li><code>save_hypervisors_to_db()</code> - Parse and store Hypervisor data</li>
+<li><code>save_storage_arrays_to_db()</code> - Parse and store Storage Array data</li>
+<li><code>infrastructure_dashboard()</code> - Dashboard route handler</li>
+</ul>
+<h3 id="new-templates">New Templates</h3>
+<ul>
+<li><code>templates/dashboard.html</code> - Interactive infrastructure dashboard</li>
+<li>Updated <code>templates/index.html</code> - Infrastructure data selection</li>
+<li>Updated <code>templates/results.html</code> - Infrastructure summary cards</li>
+</ul>
+<h2 id="files-modified">Files Modified</h2>
+<h3 id="core-application">Core Application</h3>
+<ul>
+<li>✏️ <strong><a href="app.py">app.py</a></strong> - Added 5 new database tables, 5 save functions, infrastructure endpoints, dashboard route</li>
+<li><strong>Lines Added:</strong> ~300+</li>
+<li><strong>New Routes:</strong> <code>/dashboard</code></li>
+<li><strong>New Functions:</strong> 6</li>
+</ul>
+<h3 id="templates">Templates</h3>
+<ul>
+<li>✏️ <strong><a href="templates/index.html">templates/index.html</a></strong> - Infrastructure checkboxes, navigation updates</li>
+<li>✏️ <strong><a href="templates/results.html">templates/results.html</a></strong> - Infrastructure summary cards</li>
+<li>✏️ <strong><a href="templates/view.html">templates/view.html</a></strong> - Support for new data types</li>
+<li>✨ <strong><a href="templates/dashboard.html">templates/dashboard.html</a></strong> - NEW! Infrastructure dashboard</li>
+</ul>
+<h3 id="documentation">Documentation</h3>
+<ul>
+<li>✏️ <strong><a href="README.md">README.md</a></strong> - Updated features and usage sections</li>
+<li>✨ <strong><a href="INFRASTRUCTURE_GUIDE.md">INFRASTRUCTURE_GUIDE.md</a></strong> - NEW! Complete infrastructure guide</li>
+<li>✨ <strong><a href="INFRASTRUCTURE_UPDATES.md">INFRASTRUCTURE_UPDATES.md</a></strong> - NEW! This file</li>
+</ul>
+<h2 id="how-to-use-the-new-features">How to Use the New Features</h2>
+<h3 id="quick-start">Quick Start</h3>
+<ol>
+<li>
+<p><strong>Start the application:</strong>
+   <code>bash
+   python app.py</code></p>
+</li>
+<li>
+<p><strong>Open browser:</strong> <code>http://localhost:5000</code></p>
+</li>
+<li>
+<p><strong>Select infrastructure data types:</strong></p>
+</li>
+<li>Check boxes under "🏗️ Infrastructure &amp; Hardware"</li>
+<li>
+<p>Select: MediaAgents, Storage Pools, Libraries, Hypervisors, Storage Arrays</p>
+</li>
+<li>
+<p><strong>Fetch data</strong> - Click "Fetch Data from Commvault"</p>
+</li>
+<li>
+<p><strong>View Infrastructure Dashboard</strong> - Click "🏗️ Infrastructure Dashboard" in navigation</p>
+</li>
+</ol>
+<h3 id="dashboard-features">Dashboard Features</h3>
+<p><strong>Summary Section:</strong>
+- Total counts for all infrastructure components
+- Color-coded cards for visual distinction</p>
+<p><strong>MediaAgents Section:</strong>
+- Real-time status (Online/Offline)
+- Storage capacity monitoring
+- Identify capacity issues</p>
+<p><strong>Storage Pools Section:</strong>
+- Capacity and free space
+- Deduplication status
+- Pool type information</p>
+<p><strong>Libraries Section:</strong>
+- Library health status
+- MediaAgent assignments
+- Library type tracking</p>
+<p><strong>Hypervisors Section:</strong>
+- VM infrastructure inventory
+- Vendor and type information
+- Connection status</p>
+<p><strong>Jobs Summary:</strong>
+- Success rate calculation
+- Failed jobs count
+- Completed jobs count</p>
+<h2 id="use-cases">Use Cases</h2>
+<h3 id="1-capacity-planning">1. Capacity Planning</h3>
+<p>Monitor storage pool capacity and plan expansions before space runs out.</p>
+<h3 id="2-infrastructure-health">2. Infrastructure Health</h3>
+<p>Check MediaAgent and library status at a glance. Identify offline components immediately.</p>
+<h3 id="3-hyperscale-audit">3. Hyperscale Audit</h3>
+<p>Inventory all hypervisor platforms (VMware, Hyper-V, Nutanix) in your environment.</p>
+<h3 id="4-hardware-inventory">4. Hardware Inventory</h3>
+<p>Track all physical storage arrays, vendors, models, and capacities.</p>
+<h3 id="5-load-distribution">5. Load Distribution</h3>
+<p>See which MediaAgents serve which storage pools and libraries.</p>
+<h2 id="example-queries">Example Queries</h2>
+<h3 id="find-storage-pools-running-low-on-space">Find Storage Pools Running Low on Space</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">storagePoolName</span><span class="p">,</span><span class="w"> </span><span class="n">totalCapacity</span><span class="p">,</span><span class="w"> </span><span class="n">freeSpace</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">storage_pools</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">CAST</span><span class="p">(</span><span class="n">freeSpace</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="nb">REAL</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="k">CAST</span><span class="p">(</span><span class="n">totalCapacity</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="nb">REAL</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">2</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">freeSpace</span><span class="w"> </span><span class="k">ASC</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="list-all-offline-mediaagents">List All Offline MediaAgents</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">mediaAgentName</span><span class="p">,</span><span class="w"> </span><span class="n">hostName</span><span class="p">,</span><span class="w"> </span><span class="n">status</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">mediaagents</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;Online&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;1&#39;</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="count-hypervisors-by-vendor">Count Hypervisors by Vendor</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">vendor</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">count</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">hypervisors</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">vendor</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">count</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="storage-pool-deduplication-summary">Storage Pool Deduplication Summary</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span>
+<span class="w">    </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">dedupeEnabled</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;Yes&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;True&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;1&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Enabled&#39;</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Disabled&#39;</span><span class="w"> </span><span class="k">END</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">dedupe_status</span><span class="p">,</span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">count</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CAST</span><span class="p">(</span><span class="n">totalCapacity</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="nb">REAL</span><span class="p">))</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">total_capacity</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">storage_pools</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">dedupe_status</span><span class="p">;</span>
+</code></pre></div>
+
+<h2 id="benefits">Benefits</h2>
+<p>✅ <strong>Complete Visibility</strong> - See your entire Commvault infrastructure in one place</p>
+<p>✅ <strong>Proactive Monitoring</strong> - Identify issues before they impact backups</p>
+<p>✅ <strong>Capacity Planning</strong> - Track storage usage and plan expansions</p>
+<p>✅ <strong>Audit Compliance</strong> - Document all infrastructure components</p>
+<p>✅ <strong>Troubleshooting</strong> - Quickly identify offline or problematic components</p>
+<p>✅ <strong>Reporting</strong> - Generate infrastructure reports for management</p>
+<p>✅ <strong>Cost Optimization</strong> - Identify underutilized resources</p>
+<h2 id="whats-in-the-database">What's in the Database</h2>
+<p>After fetching infrastructure data, your SQLite database will contain:</p>
+<ul>
+<li><strong>mediaagents</strong> table - All MediaAgent servers</li>
+<li><strong>storage_pools</strong> table - All storage pools with capacity</li>
+<li><strong>libraries</strong> table - All tape/disk libraries</li>
+<li><strong>hypervisors</strong> table - All VM infrastructure instances</li>
+<li><strong>storage_arrays</strong> table - All physical storage arrays</li>
+</ul>
+<p>Plus the original tables:
+- clients
+- jobs
+- plans
+- storage_policies</p>
+<h2 id="next-steps">Next Steps</h2>
+<ol>
+<li><strong>Fetch Your Infrastructure Data</strong></li>
+<li>Go to home page</li>
+<li>Select all infrastructure checkboxes</li>
+<li>
+<p>Click "Fetch Data"</p>
+</li>
+<li>
+<p><strong>Explore the Dashboard</strong></p>
+</li>
+<li>Click "🏗️ Infrastructure Dashboard"</li>
+<li>Review all sections</li>
+<li>
+<p>Identify any issues</p>
+</li>
+<li>
+<p><strong>Set Up Regular Fetching</strong></p>
+</li>
+<li>Schedule weekly or daily fetches</li>
+<li>
+<p>Track infrastructure changes over time</p>
+</li>
+<li>
+<p><strong>Create Custom Reports</strong></p>
+</li>
+<li>Query the database for specific insights</li>
+<li>
+<p>Export to CSV for executive reporting</p>
+</li>
+<li>
+<p><strong>Monitor Capacity</strong></p>
+</li>
+<li>Watch storage pool free space</li>
+<li>Alert when pools drop below 20%</li>
+</ol>
+<h2 id="documentation_1">Documentation</h2>
+<ul>
+<li><strong><a href="INFRASTRUCTURE_GUIDE.md">INFRASTRUCTURE_GUIDE.md</a></strong> - Complete guide to infrastructure features</li>
+<li><strong><a href="README.md">README.md</a></strong> - General application documentation</li>
+<li><strong><a href="QUICKSTART.md">QUICKSTART.md</a></strong> - Quick setup guide</li>
+</ul>
+<h2 id="api-compatibility">API Compatibility</h2>
+<p>The infrastructure features use Commvault API v11.24+ endpoints. If you're using an older version:</p>
+<ul>
+<li>MediaAgents, Libraries: Available in v11+</li>
+<li>Storage Pools, Storage Arrays: Require V4 API (v11.24+)</li>
+<li>Hypervisors: Standard Instance endpoint</li>
+</ul>
+<p>Some endpoints may return 404 on older versions. The app handles these gracefully.</p>
+<h2 id="summary-of-changes">Summary of Changes</h2>
+<p><strong>📊 Statistics:</strong>
+- <strong>5</strong> new data types
+- <strong>5</strong> new database tables
+- <strong>6</strong> new functions
+- <strong>1</strong> new route (/dashboard)
+- <strong>1</strong> new template (dashboard.html)
+- <strong>~400</strong> lines of code added
+- <strong>3</strong> templates updated
+- <strong>2</strong> new documentation files</p>
+<p><strong>🎯 Result:</strong>
+A comprehensive infrastructure monitoring and visibility solution integrated into your existing Commvault data retrieval application!</p>
+<hr />
+<p><strong>Ready to explore your infrastructure?</strong> Start the app and click "🏗️ Infrastructure Dashboard"!</p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMPLEMENTATION SUMMARY</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 20px; }
+            .no-print { display: none; }
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Calibri', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            color: #333;
+            background: #fff;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2.2em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        blockquote {
+            border-left: 4px solid #667eea;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 30px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
+
+        em {
+            color: #555;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .filename {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #495057;
+            margin-bottom: 20px;
+        }
+
+        @page {
+            margin: 2cm;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+    <div class="filename no-print">Source: IMPLEMENTATION_SUMMARY.md</div>
+    <h1 id="implementation-summary-storage-pools-aging-policy">Implementation Summary - Storage Pools &amp; Aging Policy</h1>
+<h2 id="overview">Overview</h2>
+<p>This document summarizes the implementation completed for:
+1. <strong>Storage Pools Display Fix</strong> - Corrected parser to display storage pool data
+2. <strong>Aging Policy Research</strong> - Comprehensive research on Commvault aging/retention policies
+3. <strong>Plans Collection</strong> - Implemented complete Plans data collection with retention rules extraction</p>
+<hr />
+<h2 id="part-1-storage-pools-display-fix-completed">Part 1: Storage Pools Display Fix ✅ COMPLETED</h2>
+<h3 id="problem-identified">Problem Identified</h3>
+<p>Storage pools data was being pulled from the API but <strong>NOT being saved to the database</strong> because the parser was looking in the wrong JSON path.</p>
+<h3 id="root-cause">Root Cause</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;storagePoolEntity&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;storagePoolId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">481</span><span class="p">,</span><span class="w">      </span><span class="err">←</span><span class="w"> </span><span class="err">ID</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">HERE</span>
+<span class="w">    </span><span class="nt">&quot;storagePoolName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ActiveScale_EXT&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;storagePool&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;clientGroupId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">481</span><span class="p">,</span><span class="w">      </span><span class="err">←</span><span class="w"> </span><span class="err">Old</span><span class="w"> </span><span class="err">code</span><span class="w"> </span><span class="err">was</span><span class="w"> </span><span class="err">looki</span><span class="kc">n</span><span class="err">g</span><span class="w"> </span><span class="err">HERE</span><span class="w"> </span><span class="err">(wro</span><span class="kc">n</span><span class="err">g!)</span>
+<span class="w">    </span><span class="nt">&quot;clientGroupName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ActiveScale_EXT&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The old code was trying to get <code>storagePoolId</code> from <code>storagePool</code> object, but it only contains <code>clientGroupId</code>. The actual ID is in <code>storagePoolEntity</code>.</p>
+<h3 id="solution-implemented">Solution Implemented</h3>
+<p><strong>File</strong>: <a href="d:\Commvault_API\app.py#L531-L556">app.py:531-556</a></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># BEFORE (Wrong):</span>
+<span class="n">pool_info</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePool&quot;</span><span class="p">,</span> <span class="p">{})</span>
+<span class="n">pool_id</span> <span class="o">=</span> <span class="n">pool_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePoolId&quot;</span><span class="p">)</span>  <span class="c1"># Returns None!</span>
+
+<span class="c1"># AFTER (Fixed):</span>
+<span class="n">pool_entity</span> <span class="o">=</span> <span class="n">pool_entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePoolEntity&quot;</span><span class="p">,</span> <span class="p">{})</span>
+<span class="n">pool_id</span> <span class="o">=</span> <span class="n">pool_entity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storagePoolId&quot;</span><span class="p">)</span>  <span class="c1"># ✅ Works!</span>
+</code></pre></div>
+
+<h3 id="result">Result</h3>
+<ul>
+<li>✅ Storage pool data now saves correctly to database</li>
+<li>✅ Storage pools appear on dashboard (<a href="d:\Commvault_API\templates\dashboard.html#L167-L199">dashboard.html:167-199</a>)</li>
+<li>✅ Storage pools viewable at <code>/view/storage_pools</code></li>
+</ul>
+<hr />
+<h2 id="part-2-aging-policy-research-completed">Part 2: Aging Policy Research ✅ COMPLETED</h2>
+<h3 id="key-finding">Key Finding</h3>
+<p><strong>Aging policies are NOT standalone entities in Commvault!</strong></p>
+<p>They exist as <strong>retention rules</strong> embedded within:
+1. <strong>Storage Policy Copies</strong> - Each copy has its own retention configuration
+2. <strong>Plans</strong> - Modern Commvault approach with retention at copy level</p>
+<h3 id="no-separate-endpoint">No Separate Endpoint</h3>
+<p>There is <strong>NO</strong> <code>/AgingPolicy</code> endpoint. Aging data must be extracted from:
+- <code>GET /StoragePolicy/{id}</code> → Returns copies with retention rules
+- <code>GET /Plan</code> or <code>GET /Plan/{id}</code> → Returns plan copies with retention rules</p>
+<h3 id="retention-rules-structure">Retention Rules Structure</h3>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;retentionRules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;retainBackupDataForDays&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;retainBackupDataForCycles&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;retainArchiverDataForDays&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;retentionFlags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;enableDataAging&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;jobBasedRetention&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="research-documents-created">Research Documents Created</h3>
+<ol>
+<li><strong><a href="d:\Commvault_API\POLICY_AND_POOL_RESEARCH.md">POLICY_AND_POOL_RESEARCH.md</a></strong> - Comprehensive research on policies and pools</li>
+<li><strong><a href="d:\Commvault_API\AGING_POLICY_RESEARCH.md">AGING_POLICY_RESEARCH.md</a></strong> - Detailed aging policy documentation</li>
+</ol>
+<hr />
+<h2 id="part-3-plans-implementation-completed">Part 3: Plans Implementation ✅ COMPLETED</h2>
+<h3 id="database-schema-added">Database Schema Added</h3>
+<h4 id="plans-table">Plans Table</h4>
+<p><strong>File</strong>: <a href="d:\Commvault_API\app.py#L212-L229">app.py:212-229</a></p>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">plans</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">planId</span><span class="w">            </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">planName</span><span class="w">          </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">description</span><span class="w">       </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="k">type</span><span class="w">              </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">subtype</span><span class="w">           </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">numCopies</span><span class="w">         </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">numAssocEntities</span><span class="w">  </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">      </span><span class="c1">-- How many clients use this plan</span>
+<span class="w">    </span><span class="n">rpoInMinutes</span><span class="w">      </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">      </span><span class="c1">-- Recovery Point Objective</span>
+<span class="w">    </span><span class="n">storageTarget</span><span class="w">     </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">storagePolicyId</span><span class="w">   </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">isElastic</span><span class="w">         </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">statusFlag</span><span class="w">        </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w">     </span><span class="nb">TEXT</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<h4 id="retention-rules-table">Retention Rules Table</h4>
+<p><strong>File</strong>: <a href="d:\Commvault_API\app.py#L231-L252">app.py:231-252</a></p>
+<div class="codehilite"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">retention_rules</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">ruleId</span><span class="w">                          </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="n">AUTOINCREMENT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">entityType</span><span class="w">                      </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span><span class="w">        </span><span class="c1">-- &#39;plan_copy&#39; or &#39;policy_copy&#39;</span>
+<span class="w">    </span><span class="n">entityId</span><span class="w">                        </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">entityName</span><span class="w">                      </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">parentId</span><span class="w">                        </span><span class="nb">INTEGER</span><span class="p">,</span><span class="w">              </span><span class="c1">-- Plan ID or Policy ID</span>
+<span class="w">    </span><span class="n">parentName</span><span class="w">                      </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForDays</span><span class="w">         </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForCycles</span><span class="w">       </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainArchiverDataForDays</span><span class="w">       </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">enableDataAging</span><span class="w">                 </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">jobBasedRetention</span><span class="w">               </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">firstExtendedRetentionDays</span><span class="w">      </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">firstExtendedRetentionCycles</span><span class="w">    </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">secondExtendedRetentionDays</span><span class="w">     </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">secondExtendedRetentionCycles</span><span class="w">   </span><span class="nb">INTEGER</span><span class="p">,</span>
+<span class="w">    </span><span class="n">lastFetchTime</span><span class="w">                   </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="w">    </span><span class="k">UNIQUE</span><span class="p">(</span><span class="n">entityType</span><span class="p">,</span><span class="w"> </span><span class="n">entityId</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<h3 id="data-collection-function">Data Collection Function</h3>
+<p><strong>File</strong>: <a href="d:\Commvault_API\app.py#L666-L757">app.py:666-757</a></p>
+<p>The <code>save_plans_to_db()</code> function:
+1. ✅ Extracts plan basic info (ID, name, description, type, etc.)
+2. ✅ Saves plan to <code>plans</code> table
+3. ✅ Iterates through each storage copy in the plan
+4. ✅ Extracts retention rules from each copy
+5. ✅ Saves retention rules to <code>retention_rules</code> table
+6. ✅ Handles extended retention rules (first and second)</p>
+<h3 id="api-endpoint-integration">API Endpoint Integration</h3>
+<p><strong>File</strong>: <a href="d:\Commvault_API\app.py#L986-L1000">app.py:986-1000</a></p>
+<div class="codehilite"><pre><span></span><code><span class="k">elif</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;plans&quot;</span><span class="p">:</span>
+    <span class="n">log_api_activity</span><span class="p">(</span><span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="s1">&#39;Fetching Plans (with retention rules)...&#39;</span><span class="p">)</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/Plan&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">duration</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;plans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="n">counts</span><span class="p">[</span><span class="s2">&quot;plans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">save_plans_to_db</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>  <span class="c1"># Saves both plans AND retention rules!</span>
+        <span class="n">log_api_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;/Plan&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">counts</span><span class="p">[</span><span class="s2">&quot;plans&quot;</span><span class="p">],</span> <span class="n">duration</span><span class="o">=</span><span class="n">duration</span><span class="p">)</span>
+        <span class="n">log_api_activity</span><span class="p">(</span><span class="s1">&#39;success&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Retrieved </span><span class="si">{</span><span class="n">counts</span><span class="p">[</span><span class="s2">&quot;plans&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1"> plans with retention rules&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="ui-integration">UI Integration</h3>
+<p><strong>File</strong>: <a href="d:\Commvault_API\templates\index.html#L67-L68">templates/index.html:67-68</a></p>
+<p>Added checkbox to fetch Plans:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;data_type&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;plans&quot;</span><span class="p">&gt;</span>
+    Plans - Modern backup plans with retention/aging rules ⭐
+<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<hr />
+<h2 id="what-data-is-now-collected">What Data is Now Collected</h2>
+<h3 id="from-plans-endpoint">From Plans Endpoint</h3>
+<p><strong>Plan Basic Info</strong>:
+- Plan ID and Name
+- Description
+- Plan type and subtype codes
+- Number of backup copies configured
+- Number of entities (clients) using this plan
+- RPO (Recovery Point Objective) in minutes
+- Storage target name
+- Associated storage policy ID
+- Elastic capability flag</p>
+<p><strong>Retention Rules Per Copy</strong>:
+- Days to retain backup data
+- Cycles to retain backup data
+- Days to retain archived data
+- Data aging enabled/disabled flag
+- Job-based vs time-based retention flag
+- Extended retention rules (first and second periods)</p>
+<h3 id="example-data-flow">Example Data Flow</h3>
+<ol>
+<li>User selects "Plans" checkbox on home page</li>
+<li>System calls <code>GET /Plan</code> endpoint</li>
+<li>Response contains all plans with their storage configurations</li>
+<li><code>save_plans_to_db()</code> extracts:</li>
+<li>Plan metadata → saves to <code>plans</code> table</li>
+<li>Retention rules from each copy → saves to <code>retention_rules</code> table</li>
+<li>Data now available for queries and display</li>
+</ol>
+<hr />
+<h2 id="current-system-capabilities">Current System Capabilities</h2>
+<h3 id="fully-implemented">✅ Fully Implemented</h3>
+<ol>
+<li><strong>Storage Pools</strong> - Collect, save, and display</li>
+<li><strong>Plans</strong> - Collect plans with full retention rule extraction</li>
+<li><strong>Retention Rules</strong> - Extract and store aging/retention policies</li>
+<li><strong>API Request Logging</strong> - Track all API calls with timing</li>
+<li><strong>Activity Logging</strong> - Monitor system operations</li>
+</ol>
+<h3 id="partially-implemented">⚠️ Partially Implemented</h3>
+<ol>
+<li><strong>Storage Policies</strong> - Basic info only (ID and name)</li>
+<li>Missing: Detailed policy configuration</li>
+<li>Missing: Copy-level retention rules</li>
+</ol>
+<h3 id="not-yet-implemented-ui">❌ Not Yet Implemented (UI)</h3>
+<ol>
+<li><strong>Plans View Page</strong> - Dedicated page to view plans</li>
+<li><strong>Retention Rules View</strong> - Display aging/retention policies</li>
+<li><strong>Retention Summary Dashboard</strong> - Aging statistics and compliance</li>
+</ol>
+<hr />
+<h2 id="next-steps-recommended">Next Steps (Recommended)</h2>
+<h3 id="priority-1-create-plans-view-ui">Priority 1: Create Plans View UI</h3>
+<p><strong>File to create</strong>: <code>templates/plans.html</code></p>
+<p>Features needed:
+- List all plans in card layout
+- Show plan type, RPO, entity count
+- Display retention rules for each copy
+- Click to expand full plan details</p>
+<h3 id="priority-2-create-retention-summary-view">Priority 2: Create Retention Summary View</h3>
+<p><strong>File to create</strong>: <code>templates/retention_summary.html</code></p>
+<p>Features needed:
+- Summary statistics (avg retention, aging enabled count)
+- Table of all retention rules
+- Filter by plan/policy
+- Visual indicators for retention periods
+- Export to CSV for compliance reports</p>
+<h3 id="priority-3-add-dashboard-widgets">Priority 3: Add Dashboard Widgets</h3>
+<p><strong>File to modify</strong>: <code>templates/dashboard.html</code></p>
+<p>Add to infrastructure dashboard:
+- Plans summary card (total plans, most used plan)
+- Retention summary card (avg retention days, aging enabled %)
+- Quick links to plans and retention views</p>
+<h3 id="priority-4-enhance-storage-policy-collection">Priority 4: Enhance Storage Policy Collection</h3>
+<p><strong>File to modify</strong>: <code>app.py</code> - <code>save_storage_to_db()</code> function</p>
+<p>Enhancement needed:
+- Fetch detailed policy info: <code>GET /StoragePolicy/{id}</code>
+- Extract retention rules from each policy copy
+- Save to <code>retention_rules</code> table with <code>entityType='policy_copy'</code></p>
+<hr />
+<h2 id="technical-details">Technical Details</h2>
+<h3 id="retention-logic">Retention Logic</h3>
+<p>Commvault uses <strong>AND logic</strong> for retention:</p>
+<div class="codehilite"><pre><span></span><code>Effective Retention = MAX(retainBackupDataForDays, retainBackupDataForCycles * AvgCycleDuration)
+</code></pre></div>
+
+<p><strong>Example</strong>:
+- Days = 30
+- Cycles = 5
+- Avg cycle duration = 7 days
+- Effective = MAX(30, 5×7) = MAX(30, 35) = <strong>35 days</strong></p>
+<h3 id="special-values">Special Values</h3>
+<ul>
+<li><code>-1</code> = Infinite retention (never ages)</li>
+<li><code>0</code> = Immediate aging (rare)</li>
+<li><code>NULL</code> = Not applicable</li>
+</ul>
+<h3 id="data-aging-flags">Data Aging Flags</h3>
+<ul>
+<li><code>enableDataAging = 1</code> → Aging is enabled</li>
+<li><code>enableDataAging = 0</code> → Aging is disabled (data kept indefinitely)</li>
+<li><code>jobBasedRetention = 1</code> → Retention based on job count</li>
+<li><code>jobBasedRetention = 0</code> → Retention based on time</li>
+</ul>
+<hr />
+<h2 id="files-modifiedcreated">Files Modified/Created</h2>
+<h3 id="modified-files">Modified Files</h3>
+<ol>
+<li><strong>app.py</strong> - Added database schema, save functions, API endpoint</li>
+<li><strong>templates/index.html</strong> - Added Plans checkbox</li>
+</ol>
+<h3 id="created-files">Created Files</h3>
+<ol>
+<li><strong>POLICY_AND_POOL_RESEARCH.md</strong> - Policy/pool research</li>
+<li><strong>AGING_POLICY_RESEARCH.md</strong> - Aging policy research</li>
+<li><strong>IMPLEMENTATION_SUMMARY.md</strong> - This document</li>
+</ol>
+<h3 id="files-not-modified-future-enhancement-targets">Files NOT Modified (Future Enhancement Targets)</h3>
+<ol>
+<li><strong>templates/dashboard.html</strong> - Add plans/retention widgets</li>
+<li><strong>templates/view.html</strong> - Could be extended for plans view</li>
+<li><strong>NEW: templates/plans.html</strong> - Dedicated plans view (to be created)</li>
+<li><strong>NEW: templates/retention_summary.html</strong> - Retention view (to be created)</li>
+</ol>
+<hr />
+<h2 id="testing-instructions">Testing Instructions</h2>
+<h3 id="test-storage-pools-fix">Test Storage Pools Fix</h3>
+<ol>
+<li>Start Flask app: <code>python app.py</code></li>
+<li>Navigate to home page</li>
+<li>Enter Commvault credentials</li>
+<li>Select "Storage Pools" checkbox</li>
+<li>Click "Fetch Data"</li>
+<li>Navigate to "Infrastructure Dashboard"</li>
+<li>✅ Verify storage pools appear in table</li>
+<li>Navigate to <code>/view/storage_pools</code></li>
+<li>✅ Verify pool details display correctly</li>
+</ol>
+<h3 id="test-plans-collection">Test Plans Collection</h3>
+<ol>
+<li>Start Flask app (if not already running)</li>
+<li>Navigate to home page</li>
+<li>Enter Commvault credentials</li>
+<li>Select "Plans" checkbox (with ⭐)</li>
+<li>Click "Fetch Data"</li>
+<li>Check Activity Log → Should see "Retrieved X plans with retention rules"</li>
+<li>Check API Requests card → Should see <code>GET /Plan 200</code></li>
+<li>Check database:
+   <code>sql
+   SELECT COUNT(*) FROM plans;
+   SELECT COUNT(*) FROM retention_rules WHERE entityType='plan_copy';</code></li>
+<li>✅ Verify data exists in both tables</li>
+</ol>
+<h3 id="verify-retention-rules-extraction">Verify Retention Rules Extraction</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- View all retention rules</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">parentName</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">PlanName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">entityName</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">CopyName</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForDays</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Days</span><span class="p">,</span>
+<span class="w">    </span><span class="n">retainBackupDataForCycles</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Cycles</span><span class="p">,</span>
+<span class="w">    </span><span class="k">CASE</span><span class="w"> </span><span class="n">enableDataAging</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Enabled&#39;</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Disabled&#39;</span><span class="w"> </span><span class="k">END</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">AgingStatus</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">retention_rules</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">entityType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;plan_copy&#39;</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">parentName</span><span class="p">,</span><span class="w"> </span><span class="n">entityName</span><span class="p">;</span>
+</code></pre></div>
+
+<hr />
+<h2 id="performance-considerations">Performance Considerations</h2>
+<h3 id="api-call-timing">API Call Timing</h3>
+<ul>
+<li><strong>Storage Pools</strong>: ~500-2000ms (depends on pool count)</li>
+<li><strong>Plans</strong>: ~1000-3000ms (includes retention rule processing)</li>
+<li><strong>Combined</strong>: Parallel fetching recommended</li>
+</ul>
+<h3 id="database-impact">Database Impact</h3>
+<ul>
+<li><strong>Plans table</strong>: ~100-500 rows (typical environment)</li>
+<li><strong>Retention rules table</strong>: ~200-1000 rows (2-3 copies per plan average)</li>
+<li><strong>Total size</strong>: &lt;5MB for typical environment</li>
+</ul>
+<h3 id="optimization-opportunities">Optimization Opportunities</h3>
+<ol>
+<li>Cache plans data (refresh daily)</li>
+<li>Index retention_rules table on parentId</li>
+<li>Batch insert for retention rules</li>
+</ol>
+<hr />
+<h2 id="known-limitations">Known Limitations</h2>
+<h3 id="current-implementation">Current Implementation</h3>
+<ol>
+<li><strong>No Plans UI</strong> - Data collected but no dedicated view page</li>
+<li><strong>No Retention Summary</strong> - Rules stored but not visualized</li>
+<li><strong>Storage Policies</strong> - Only basic info, not detailed retention</li>
+<li><strong>No Historical Tracking</strong> - Current retention only, no history</li>
+</ol>
+<h3 id="api-limitations">API Limitations</h3>
+<ol>
+<li><strong>No Aging Job History</strong> - Would need separate <code>/Job</code> endpoint queries</li>
+<li><strong>No Aging Statistics</strong> - Commvault doesn't expose aging metrics via API</li>
+<li><strong>Extended Retention</strong> - Only first two extended periods captured</li>
+</ol>
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="storage-pools-not-appearing">Storage Pools Not Appearing</h3>
+<p><strong>Symptom</strong>: Dashboard shows 0 storage pools
+<strong>Check</strong>: Run <code>SELECT COUNT(*) FROM storage_pools;</code>
+<strong>Fix</strong>: Re-fetch data with "Storage Pools" checkbox selected</p>
+<h3 id="plans-not-saving">Plans Not Saving</h3>
+<p><strong>Symptom</strong>: API call succeeds but no data in database
+<strong>Check</strong>: Review error logs in Activity Log card
+<strong>Common causes</strong>:
+- Plan endpoint not available in your Commvault version
+- Insufficient API permissions
+- JSON structure different (version mismatch)</p>
+<h3 id="retention-rules-missing">Retention Rules Missing</h3>
+<p><strong>Symptom</strong>: Plans saved but retention_rules table empty
+<strong>Check</strong>: Inspect raw JSON response in <code>test_output_Plans.json</code>
+<strong>Debug</strong>: Add logging in <code>save_plans_to_db()</code> function</p>
+<hr />
+<h2 id="version-compatibility">Version Compatibility</h2>
+<h3 id="tested-with">Tested With</h3>
+<ul>
+<li>Commvault version: 11.x</li>
+<li>API version: V2/V4</li>
+<li>Python: 3.7+</li>
+<li>Flask: 2.0+</li>
+</ul>
+<h3 id="known-compatible-endpoints">Known Compatible Endpoints</h3>
+<ul>
+<li>✅ <code>GET /Plan</code> - Returns plans with retention</li>
+<li>✅ <code>GET /StoragePool</code> - Returns pools (fixed path)</li>
+<li>✅ <code>GET /MediaAgent</code> - Returns MediaAgents</li>
+<li>✅ <code>POST /Login</code> - Authentication</li>
+</ul>
+<hr />
+<h2 id="security-considerations">Security Considerations</h2>
+<h3 id="database">Database</h3>
+<ul>
+<li>Retention rules may contain sensitive compliance data</li>
+<li>Implement appropriate access controls</li>
+<li>Consider encryption for compliance requirements</li>
+</ul>
+<h3 id="api-credentials">API Credentials</h3>
+<ul>
+<li>Credentials stored in session (not persistent)</li>
+<li>Use environment variables for production</li>
+<li>Implement credential encryption</li>
+</ul>
+<hr />
+<h2 id="conclusion">Conclusion</h2>
+<p>Successfully implemented:
+1. ✅ <strong>Storage Pools Fix</strong> - Parser corrected, data now displays
+2. ✅ <strong>Comprehensive Research</strong> - Two detailed research documents created
+3. ✅ <strong>Plans Collection</strong> - Full implementation with retention rule extraction
+4. ✅ <strong>Database Schema</strong> - Two new tables for plans and retention rules
+5. ✅ <strong>API Integration</strong> - Plans endpoint added to fetch workflow</p>
+<p>Next Phase:
+1. 🔨 Create Plans view UI
+2. 🔨 Create Retention summary UI
+3. 🔨 Enhance Storage Policy collection
+4. 🔨 Add dashboard widgets</p>
+<p><strong>The foundation for aging policy management is now in place!</strong></p>
+    <script>
+        // Add target="_blank" to external links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+    </script>
+</body>
+</html>

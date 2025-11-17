@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Commvault Data - View {{ data_type|capitalize }}{% endblock %}
+
+{% block content %}
+<div class="nav-links">
+    <a href="{{ url_for('index') }}">Back to Home</a>
+    <a href="{{ url_for('view_data', data_type='clients') }}">Clients</a>
+    <a href="{{ url_for('view_data', data_type='jobs') }}">Jobs</a>
+    <a href="{{ url_for('view_data', data_type='plans') }}">Plans</a>
+    <a href="{{ url_for('view_data', data_type='storage') }}">Storage</a>
+</div>
+
+<h2 style="margin-bottom: 20px; color: #333;">Viewing: {{ data_type|capitalize }}</h2>
+
+{% if data %}
+<div style="background: #e7f3ff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+    <p style="color: #1976D2; font-weight: 600;">
+        Total Records: {{ data|length }}
+        {% if data_type == 'jobs' %}
+        (Showing latest 100 jobs)
+        {% endif %}
+    </p>
+</div>
+
+<div style="overflow-x: auto;">
+    <table>
+        <thead>
+            <tr>
+                {% for column in columns %}
+                <th>{{ column }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                {% for key in row.keys() %}
+                <td>{{ row[key] if row[key] else 'N/A' }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div style="background: #fff3cd; padding: 20px; border-radius: 8px; border-left: 4px solid #ffc107;">
+    <h3 style="color: #856404; margin-bottom: 10px;">No Data Available</h3>
+    <p style="color: #856404; line-height: 1.6;">
+        No {{ data_type }} data has been retrieved yet. Please go to the
+        <a href="{{ url_for('index') }}" style="color: #667eea; font-weight: 600;">home page</a>
+        to fetch data from Commvault.
+    </p>
+</div>
+{% endif %}
+{% endblock %}
