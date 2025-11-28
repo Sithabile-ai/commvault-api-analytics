@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aging & Pruning Logs - Commvault Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #764ba2;
+        }
+
+        /* Flash Messages */
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+
+        .flash {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .flash.success {
+            background: #10b981;
+        }
+
+        .flash.error {
+            background: #ef4444;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 32px;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .stat-card.error h3 {
+            color: #ef4444;
+        }
+
+        .stat-card.success h3 {
+            color: #10b981;
+        }
+
+        /* Tabs */
+        .tabs {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-button.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th {
+            background: #f3f4f6;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            color: #4b5563;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-partial {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 15px;
+        }
+
+        .bar-chart {
+            margin-top: 10px;
+        }
+
+        .bar-row {
+            margin-bottom: 15px;
+        }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        .bar-container {
+            background: #e5e7eb;
+            border-radius: 5px;
+            overflow: hidden;
+            height: 25px;
+        }
+
+        .bar-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+            transition: width 0.5s ease;
+        }
+
+        .error-message {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            background: #fee2e2;
+            padding: 10px;
+            border-radius: 5px;
+            color: #991b1b;
+            max-width: 600px;
+            overflow: auto;
+        }
+
+        /* Progress Popup */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .popup-content h2 {
+            margin: 0 0 20px 0;
+            color: #333;
+        }
+
+        .progress-container {
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e5e7eb;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .progress-percent {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .progress-status {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            font-weight: 500;
+        }
+
+        .progress-log {
+            max-height: 200px;
+            overflow-y: auto;
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .progress-log-entry {
+            padding: 4px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .progress-log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .status-success {
+            color: #10b981;
+        }
+
+        .status-warning {
+            color: #f59e0b;
+        }
+
+        .status-error {
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Aging & Pruning Logs Analysis</h1>
+            <p>MediaAgent log collection and analysis for data aging and pruning operations</p>
+
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('infrastructure_dashboard') }}">Infrastructure</a>
+                <a href="{{ url_for('storage_estate_dashboard') }}">Storage Estate</a>
+                <a href="{{ url_for('view_retention_policies') }}">Retention Policies</a>
+                <a href="{{ url_for('logs_dashboard') }}" style="background: #f0f0f0; color: #667eea;">Logs</a>
+            </div>
+        </div>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Progress Popup -->
+        <div id="progressPopup" class="popup-overlay" style="display: none;">
+            <div class="popup-content">
+                <h2>Collecting Logs from MediaAgent</h2>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progressBar" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div id="progressPercent" class="progress-percent">0%</div>
+                </div>
+                <div id="progressStatus" class="progress-status">Initializing...</div>
+                <div id="progressLog" class="progress-log"></div>
+                <button id="closePopup" class="btn btn-primary" style="display: none; margin-top: 20px;">Close & Refresh</button>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button id="collectLogsBtn" type="button" class="btn btn-primary" onclick="startLogCollection()">Collect Logs from MediaAgent (UNC)</button>
+            <form action="{{ url_for('parse_logs') }}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-success">Parse Collected Logs</button>
+            </form>
+            <a href="{{ url_for('aging_report') }}" class="btn" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">View Aging Report (API)</a>
+        </div>
+
+        <!-- Overall Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>{{ "{:,}".format(overall_stats.totalPruned) }}</h3>
+                <p>Total Signatures Pruned</p>
+            </div>
+            <div class="stat-card">
+                <h3>{{ "{:,}".format(overall_stats.totalPhysical) }}</h3>
+                <p>Total Physical Deletes</p>
+            </div>
+            <div class="stat-card success">
+                <h3>{{ "%.2f TB"|format(overall_stats.totalTB) }}</h3>
+                <p>Total Space Reclaimed</p>
+            </div>
+            <div class="stat-card {% if overall_stats.errorCount > 0 %}error{% endif %}">
+                <h3>{{ "{:,}".format(overall_stats.errorCount) }}</h3>
+                <p>Errors Found</p>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="switchTab('pruning')">Pruning Summary</button>
+                <button class="tab-button" onclick="switchTab('ddb')">DDB Statistics</button>
+                <button class="tab-button" onclick="switchTab('marksweep')">Mark & Sweep</button>
+                <button class="tab-button" onclick="switchTab('errors')">Errors</button>
+                <button class="tab-button" onclick="switchTab('collection')">Collection History</button>
+            </div>
+
+            <!-- Pruning Summary Tab -->
+            <div id="pruning" class="tab-content active">
+                <h3 class="chart-title">Daily Pruning Activity (Last 30 Days)</h3>
+
+                {% if pruning_summary %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Signatures Pruned</th>
+                                <th>Physical Deletes</th>
+                                <th>Space Reclaimed</th>
+                                <th>Errors</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for day in pruning_summary %}
+                            <tr>
+                                <td>{{ day.date }}</td>
+                                <td>{{ "{:,}".format(day.totalPruned) }}</td>
+                                <td>{{ "{:,}".format(day.totalPhysical) }}</td>
+                                <td>{{ "%.2f GB"|format(day.totalGB) }}</td>
+                                <td>
+                                    {% if day.errorCount > 0 %}
+                                        <span class="status-badge status-error">{{ day.errorCount }} errors</span>
+                                    {% else %}
+                                        <span class="status-badge status-success">None</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="no-data">No pruning data available. Collect and parse logs to see data.</div>
+                {% endif %}
+            </div>
+
+            <!-- DDB Statistics Tab -->
+            <div id="ddb" class="tab-content">
+                <h3 class="chart-title">DDB Pruning Statistics</h3>
+
+                {% if ddb_stats %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>DDB Store ID</th>
+                                <th>Total Pruned</th>
+                                <th>Operation Count</th>
+                                <th>Last Pruning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ddb in ddb_stats %}
+                            <tr>
+                                <td><strong>{{ ddb.ddbStoreId }}</strong></td>
+                                <td>{{ "{:,}".format(ddb.totalPruned) }}</td>
+                                <td>{{ "{:,}".format(ddb.operationCount) }}</td>
+                                <td>{{ ddb.lastPruning }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="no-data">No DDB statistics available.</div>
+                {% endif %}
+            </div>
+
+            <!-- Mark & Sweep Tab -->
+            <div id="marksweep" class="tab-content">
+                <h3 class="chart-title">Mark and Sweep Operations (Last 30 Days)</h3>
+
+                {% if mark_sweep %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Operations</th>
+                                <th>Total Signatures Marked</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ms in mark_sweep %}
+                            <tr>
+                                <td>{{ ms.date }}</td>
+                                <td>{{ ms.operations }}</td>
+                                <td>{{ "{:,}".format(ms.totalMarked) if ms.totalMarked else 'N/A' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="no-data">No Mark and Sweep data available.</div>
+                {% endif %}
+            </div>
+
+            <!-- Errors Tab -->
+            <div id="errors" class="tab-content">
+                <h3 class="chart-title">Recent Errors (Last 50)</h3>
+
+                {% if errors %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date/Time</th>
+                                <th>MediaAgent</th>
+                                <th>Log Type</th>
+                                <th>Operation</th>
+                                <th>Error Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for error in errors %}
+                            <tr>
+                                <td>{{ error.logDate }} {{ error.logTime }}</td>
+                                <td>{{ error.mediaAgentName }}</td>
+                                <td>{{ error.logType }}</td>
+                                <td>{{ error.operation }}</td>
+                                <td><div class="error-message">{{ error.errorMessage[:200] }}...</div></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="no-data">No errors found. Everything is working smoothly!</div>
+                {% endif %}
+            </div>
+
+            <!-- Collection History Tab -->
+            <div id="collection" class="tab-content">
+                <h3 class="chart-title">Log Collection History</h3>
+
+                {% if collection_history %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Collection Time</th>
+                                <th>MediaAgent</th>
+                                <th>Logs Collected</th>
+                                <th>Total Size</th>
+                                <th>Status</th>
+                                <th>Errors</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for coll in collection_history %}
+                            <tr>
+                                <td>{{ coll.collectionTime }}</td>
+                                <td>{{ coll.mediaAgentName }}</td>
+                                <td>{{ coll.logsCollected }}</td>
+                                <td>{{ "%.2f MB"|format(coll.totalSize / 1024 / 1024) if coll.totalSize else 'N/A' }}</td>
+                                <td>
+                                    <span class="status-badge status-{{ coll.status.lower() }}">
+                                        {{ coll.status }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if coll.errorCount > 0 %}
+                                        {{ coll.errorCount }} ({{ coll.errorDetails[:50] }}...)
+                                    {% else %}
+                                        None
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="no-data">No collection history available. Click "Collect Logs" to start.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Deactivate all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Activate clicked button
+            event.target.classList.add('active');
+        }
+
+        function startLogCollection() {
+            // Show popup
+            const popup = document.getElementById('progressPopup');
+            popup.style.display = 'flex';
+
+            // Reset progress
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('progressPercent').textContent = '0%';
+            document.getElementById('progressStatus').textContent = 'Initializing...';
+            document.getElementById('progressLog').innerHTML = '';
+            document.getElementById('closePopup').style.display = 'none';
+
+            // Disable collect button
+            document.getElementById('collectLogsBtn').disabled = true;
+
+            // Start Server-Sent Events stream
+            const eventSource = new EventSource("{{ url_for('collect_logs_stream') }}");
+
+            eventSource.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+
+                // Update progress bar
+                if (data.percent) {
+                    document.getElementById('progressBar').style.width = data.percent + '%';
+                    document.getElementById('progressPercent').textContent = data.percent + '%';
+                }
+
+                // Update status message
+                if (data.message) {
+                    document.getElementById('progressStatus').textContent = data.message;
+
+                    // Add to log
+                    const logDiv = document.getElementById('progressLog');
+                    const logEntry = document.createElement('div');
+                    logEntry.className = 'progress-log-entry';
+
+                    let statusClass = '';
+                    if (data.status === 'complete') statusClass = 'status-success';
+                    else if (data.status === 'warning') statusClass = 'status-warning';
+                    else if (data.status === 'error') statusClass = 'status-error';
+
+                    const time = new Date().toLocaleTimeString();
+                    logEntry.innerHTML = `<span class="${statusClass}">[${time}]</span> ${data.message}`;
+                    logDiv.appendChild(logEntry);
+
+                    // Auto-scroll to bottom
+                    logDiv.scrollTop = logDiv.scrollHeight;
+                }
+
+                // Handle completion
+                if (data.status === 'complete') {
+                    eventSource.close();
+                    document.getElementById('closePopup').style.display = 'block';
+                    document.getElementById('collectLogsBtn').disabled = false;
+
+                    // Update status border color to green
+                    document.getElementById('progressStatus').style.borderLeftColor = '#10b981';
+                }
+
+                // Handle errors
+                if (data.status === 'error') {
+                    eventSource.close();
+                    document.getElementById('closePopup').style.display = 'block';
+                    document.getElementById('collectLogsBtn').disabled = false;
+
+                    // Update status border color to red
+                    document.getElementById('progressStatus').style.borderLeftColor = '#ef4444';
+                }
+            };
+
+            eventSource.onerror = function(error) {
+                console.error('EventSource failed:', error);
+                eventSource.close();
+                document.getElementById('progressStatus').textContent = 'Connection error occurred';
+                document.getElementById('progressStatus').style.borderLeftColor = '#ef4444';
+                document.getElementById('closePopup').style.display = 'block';
+                document.getElementById('collectLogsBtn').disabled = false;
+            };
+
+            // Close popup handler
+            document.getElementById('closePopup').onclick = function() {
+                popup.style.display = 'none';
+                // Refresh page to show new data
+                location.reload();
+            };
+        }
+    </script>
+</body>
+</html>

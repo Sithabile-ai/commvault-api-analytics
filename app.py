@@ -3,7 +3,7 @@ Commvault Data Retrieval Web Application
 Flask-based web app to connect to Commvault REST API and store data in SQLite
 """
 
-from flask import Flask, render_template, request, g, flash, redirect, url_for, session
+from flask import Flask, render_template, request, g, flash, redirect, url_for, session, Response
 import sqlite3
 import requests
 import base64
@@ -37,27 +37,31 @@ def log_api_activity(activity_type, message):
 # API Request Logger
 def log_api_request(method, endpoint, status_code, count=None, duration=None):
     """Log API GET requests to session for display in frontend"""
-    if 'api_requests' not in session:
-        session['api_requests'] = []
+    try:
+        if 'api_requests' not in session:
+            session['api_requests'] = []
 
-    # Determine status class
-    status_class = 'success' if 200 <= status_code < 300 else 'error'
+        # Determine status class
+        status_class = 'success' if 200 <= status_code < 300 else 'error'
 
-    session['api_requests'].append({
-        'method': method,
-        'endpoint': endpoint,
-        'status_code': status_code,
-        'status_class': status_class,
-        'count': count,
-        'duration': duration,
-        'timestamp': datetime.now().strftime('%H:%M:%S')
-    })
+        session['api_requests'].append({
+            'method': method,
+            'endpoint': endpoint,
+            'status_code': status_code,
+            'status_class': status_class,
+            'count': count,
+            'duration': duration,
+            'timestamp': datetime.now().strftime('%H:%M:%S')
+        })
 
-    # Keep only last 30 entries
-    if len(session['api_requests']) > 30:
-        session['api_requests'] = session['api_requests'][-30:]
+        # Keep only last 30 entries
+        if len(session['api_requests']) > 30:
+            session['api_requests'] = session['api_requests'][-30:]
 
-    session.modified = True
+        session.modified = True
+    except RuntimeError:
+        # Working outside of request context - skip session logging
+        pass
 
 # Configuration
 CONFIG_FILE = 'config.ini'
@@ -335,7 +339,7 @@ def authenticate_commvault(base_url, username, password):
 
     Args:
         base_url: Commvault API base URL
-        username: Username for authentication
+        username: Username for authentication (can include @ for email format)
         password: Password (can be plaintext or Base64-encoded)
 
     Returns:
@@ -346,8 +350,13 @@ def authenticate_commvault(base_url, username, password):
         # If not, encode it
         try:
             # Try to decode to check if it's valid base64
-            base64.b64decode(password)
-            encoded_password = password
+            decoded = base64.b64decode(password).decode('utf-8')
+            # Check if decoded value is reasonable (not binary gibberish)
+            if len(decoded) > 0 and all(c.isprintable() or c.isspace() for c in decoded):
+                encoded_password = password
+            else:
+                # Looks like binary data, encode the original
+                encoded_password = base64.b64encode(password.encode('utf-8')).decode('utf-8')
         except:
             # Not valid base64, encode it
             encoded_password = base64.b64encode(password.encode('utf-8')).decode('utf-8')
@@ -368,7 +377,8 @@ def authenticate_commvault(base_url, username, password):
             f"{base_url}/Login",
             json=login_payload,
             headers=headers,
-            timeout=30
+            timeout=30,
+            verify=False  # Disable SSL verification for self-signed certs
         )
         duration = int((time.time() - start_time) * 1000)  # Convert to milliseconds
 
@@ -383,13 +393,42 @@ def authenticate_commvault(base_url, username, password):
             if token.startswith("QSDK "):
                 token = token[5:]
 
+            print(f"Authentication successful for user: {username}")
             return token
         else:
-            print(f"Login failed with status {response.status_code}: {response.text}")
+            print(f"Login failed with status {response.status_code}: {response.text[:200]}")
             return None
 
+    except requests.exceptions.Timeout as e:
+        error_msg = f"Connection timeout after 30 seconds"
+        print(f"Authentication error (TIMEOUT): {error_msg}")
+        print(f"  URL: {base_url}/Login")
+        print(f"  User: {username}")
+        print(f"  This typically indicates port {base_url.split(':')[1].split('/')[0] if ':' in base_url else '80'} is not accessible")
+        log_api_activity('error', f'Authentication timeout for {username}')
+        return None
+    except requests.exceptions.ConnectionError as e:
+        error_msg = str(e)
+        print(f"Authentication error (CONNECTION): {error_msg[:200]}")
+        print(f"  URL: {base_url}/Login")
+        print(f"  User: {username}")
+        print(f"  Cannot reach server - check network connectivity")
+        log_api_activity('error', f'Connection error for {username}: {error_msg[:100]}')
+        return None
+    except requests.exceptions.RequestException as e:
+        error_msg = str(e)
+        print(f"Authentication error (REQUEST): {error_msg[:200]}")
+        print(f"  URL: {base_url}/Login")
+        print(f"  User: {username}")
+        log_api_activity('error', f'Request error for {username}: {error_msg[:100]}')
+        return None
     except Exception as e:
-        print(f"Authentication error: {str(e)}")
+        error_msg = str(e)
+        error_type = type(e).__name__
+        print(f"Authentication error ({error_type}): {error_msg[:200]}")
+        print(f"  URL: {base_url}/Login")
+        print(f"  User: {username}")
+        log_api_activity('error', f'{error_type} for {username}: {error_msg[:100]}')
         return None
 
 def save_clients_to_db(db, clients_json):
@@ -2243,6 +2282,592 @@ def storage_estate_dashboard():
                          pools=pools,
                          pool_library_map=pool_library_map,
                          write_patterns=write_patterns)
+
+@app.route("/dashboard/logs")
+def logs_dashboard():
+    """Display aging and pruning log analysis"""
+
+    db = get_db()
+    cur = db.cursor()
+
+    # Get collection history
+    cur.execute("""
+        SELECT collectionId, mediaAgentName, collectionTime, logsCollected,
+               totalSize, status, errorCount, errorDetails
+        FROM log_collection_history
+        ORDER BY collectionTime DESC
+        LIMIT 10
+    """)
+
+    collection_history = []
+    for row in cur.fetchall():
+        collection_history.append({
+            'collectionId': row[0],
+            'mediaAgentName': row[1],
+            'collectionTime': row[2],
+            'logsCollected': row[3],
+            'totalSize': row[4],
+            'status': row[5],
+            'errorCount': row[6],
+            'errorDetails': row[7]
+        })
+
+    # Get pruning summary by date
+    cur.execute("""
+        SELECT
+            DATE(logDate) as date,
+            SUM(CASE WHEN operation = 'Pruning' THEN recordsProcessed ELSE 0 END) as totalPruned,
+            SUM(CASE WHEN operation = 'PhysicalDelete' THEN recordsProcessed ELSE 0 END) as totalPhysical,
+            SUM(CASE WHEN bytesReclaimed IS NOT NULL THEN bytesReclaimed ELSE 0 END) as totalBytes,
+            COUNT(CASE WHEN status = 'Error' THEN 1 END) as errorCount
+        FROM aging_pruning_logs
+        WHERE logDate >= date('now', '-30 days')
+        GROUP BY DATE(logDate)
+        ORDER BY date DESC
+    """)
+
+    pruning_summary = []
+    for row in cur.fetchall():
+        pruning_summary.append({
+            'date': row[0],
+            'totalPruned': row[1] or 0,
+            'totalPhysical': row[2] or 0,
+            'totalBytes': row[3] or 0,
+            'totalGB': (row[3] or 0) / (1024**3),
+            'errorCount': row[4]
+        })
+
+    # Get recent errors
+    cur.execute("""
+        SELECT
+            logDate,
+            logTime,
+            mediaAgentName,
+            logType,
+            operation,
+            errorMessage
+        FROM aging_pruning_logs
+        WHERE status = 'Error'
+        ORDER BY logDate DESC, logTime DESC
+        LIMIT 50
+    """)
+
+    errors = []
+    for row in cur.fetchall():
+        errors.append({
+            'logDate': row[0],
+            'logTime': row[1],
+            'mediaAgentName': row[2],
+            'logType': row[3],
+            'operation': row[4],
+            'errorMessage': row[5]
+        })
+
+    # Get DDB-specific statistics
+    cur.execute("""
+        SELECT
+            ddbStoreId,
+            SUM(recordsProcessed) as totalPruned,
+            MAX(logDate || ' ' || logTime) as lastPruning,
+            COUNT(*) as operationCount
+        FROM aging_pruning_logs
+        WHERE operation = 'Pruning'
+        AND ddbStoreId IS NOT NULL
+        GROUP BY ddbStoreId
+        ORDER BY totalPruned DESC
+    """)
+
+    ddb_stats = []
+    for row in cur.fetchall():
+        ddb_stats.append({
+            'ddbStoreId': row[0],
+            'totalPruned': row[1] or 0,
+            'lastPruning': row[2],
+            'operationCount': row[3]
+        })
+
+    # Get overall statistics
+    cur.execute("""
+        SELECT
+            COUNT(*) as totalEntries,
+            SUM(CASE WHEN operation = 'Pruning' THEN recordsProcessed ELSE 0 END) as totalPruned,
+            SUM(CASE WHEN operation = 'PhysicalDelete' THEN recordsProcessed ELSE 0 END) as totalPhysical,
+            SUM(bytesReclaimed) as totalBytes,
+            COUNT(CASE WHEN status = 'Error' THEN 1 END) as errorCount
+        FROM aging_pruning_logs
+    """)
+
+    row = cur.fetchone()
+    overall_stats = {
+        'totalEntries': row[0] or 0,
+        'totalPruned': row[1] or 0,
+        'totalPhysical': row[2] or 0,
+        'totalBytes': row[3] or 0,
+        'totalGB': (row[3] or 0) / (1024**3) if row[3] else 0,
+        'totalTB': (row[3] or 0) / (1024**4) if row[3] else 0,
+        'errorCount': row[4] or 0
+    }
+
+    # Get Mark and Sweep operations
+    cur.execute("""
+        SELECT
+            DATE(logDate) as date,
+            COUNT(*) as operations,
+            SUM(recordsProcessed) as totalMarked
+        FROM aging_pruning_logs
+        WHERE operation = 'MarkAndSweep'
+        AND logDate >= date('now', '-30 days')
+        GROUP BY DATE(logDate)
+        ORDER BY date DESC
+    """)
+
+    mark_sweep = []
+    for row in cur.fetchall():
+        mark_sweep.append({
+            'date': row[0],
+            'operations': row[1],
+            'totalMarked': row[2] or 0
+        })
+
+    return render_template("logs_dashboard.html",
+                         collection_history=collection_history,
+                         pruning_summary=pruning_summary,
+                         errors=errors,
+                         ddb_stats=ddb_stats,
+                         overall_stats=overall_stats,
+                         mark_sweep=mark_sweep)
+
+
+@app.route("/logs/collect", methods=['POST'])
+def collect_logs():
+    """Trigger log collection from MediaAgent via API"""
+    # Redirect to the logs dashboard - collection happens via SSE
+    return redirect(url_for('logs_dashboard'))
+
+
+@app.route("/logs/collect/stream")
+def collect_logs_stream():
+    """Server-Sent Events stream for real-time log collection progress"""
+
+    def generate():
+        import configparser
+
+        try:
+            # Send initial status
+            yield f"data: {json.dumps({'status': 'starting', 'message': 'Initializing log collection...'})}\n\n"
+
+            # Load configuration
+            config = configparser.ConfigParser()
+
+            # Check if config.ini exists
+            if not os.path.exists('config.ini'):
+                yield f"data: {json.dumps({'status': 'error', 'message': 'config.ini not found. Please create config.ini from config.ini.example with your Commvault API credentials.'})}\n\n"
+                return
+
+            config.read('config.ini')
+
+            # Validate required settings
+            if not config.has_section('commvault'):
+                yield f"data: {json.dumps({'status': 'error', 'message': 'config.ini missing [commvault] section. Please check config.ini.example for correct format.'})}\n\n"
+                return
+
+            media_agent = config.get('commvault', 'media_agent', fallback='cvhsxman01.jhb.seagatestoragecloud.co.za')
+
+            # Get UNC path from config
+            if not config.has_section('collection'):
+                yield f"data: {json.dumps({'status': 'error', 'message': 'config.ini missing [collection] section'})}\n\n"
+                return
+
+            unc_path = config.get('collection', 'unc_path', fallback=f'\\\\{media_agent}\\C$\\Program Files\\Commvault\\ContentStore\\Log Files')
+
+            yield f"data: {json.dumps({'status': 'progress', 'message': f'Connecting to {media_agent}...', 'percent': 10})}\n\n"
+
+            # Define log files to collect
+            log_files = [
+                "SIDBPrune.log",
+                "SIDBEngine.log",
+                "SIDBPhysicalDeletes.log",
+                "DataAging.log",
+                "MediaManagerPrune.log",
+                "CVMA.log",
+                "cvd.log",
+                "clBackup.log"
+            ]
+
+            total_files = len(log_files)
+            collected = []
+            errors = []
+
+            # Ensure Logs directory exists
+            os.makedirs('Logs', exist_ok=True)
+
+            # Use UNC path to copy files directly
+            import shutil
+            from datetime import datetime
+
+            for i, log_file in enumerate(log_files):
+                percent = 10 + int((i / total_files) * 85)
+                yield f"data: {json.dumps({'status': 'progress', 'message': f'Copying {log_file}...', 'percent': percent, 'current': i+1, 'total': total_files})}\n\n"
+
+                source_path = os.path.join(unc_path, log_file)
+                local_path = os.path.join('Logs', log_file)
+
+                try:
+                    if os.path.exists(source_path):
+                        shutil.copy2(source_path, local_path)
+                        size = os.path.getsize(local_path)
+                        collected.append({'file': log_file, 'size': size})
+                        yield f"data: {json.dumps({'status': 'progress', 'message': f'Copied {log_file} ({size:,} bytes)', 'percent': percent})}\n\n"
+                    else:
+                        errors.append({'file': log_file, 'error': 'File not found'})
+                        yield f"data: {json.dumps({'status': 'warning', 'message': f'Skipped {log_file} (not found)'})}\n\n"
+
+                except PermissionError as e:
+                    errors.append({'file': log_file, 'error': f'Permission denied: {e}'})
+                    yield f"data: {json.dumps({'status': 'warning', 'message': f'Permission denied: {log_file}'})}\n\n"
+                except Exception as e:
+                    errors.append({'file': log_file, 'error': str(e)})
+                    yield f"data: {json.dumps({'status': 'warning', 'message': f'Failed to copy {log_file}: {str(e)}'})}\n\n"
+
+            # Finalizing
+            yield f"data: {json.dumps({'status': 'progress', 'message': 'Finalizing...', 'percent': 95})}\n\n"
+
+            # Store collection history in database if logs were collected
+            if len(collected) > 0:
+                import sqlite3
+                try:
+                    db = sqlite3.connect(config.get('database', 'path', fallback='Database/commvault.db'))
+                    cur = db.cursor()
+
+                    timestamp = datetime.now().isoformat()
+                    for log_info in collected:
+                        cur.execute("""
+                            INSERT INTO collectionHistory (timestamp, fileName, fileSize, collectionMethod)
+                            VALUES (?, ?, ?, 'UNC')
+                        """, (timestamp, log_info['file'], log_info['size']))
+
+                    db.commit()
+                    db.close()
+                except Exception as e:
+                    yield f"data: {json.dumps({'status': 'warning', 'message': f'Warning: Failed to store collection history: {str(e)}'})}\n\n"
+
+            # Complete
+            if len(collected) > 0:
+                yield f"data: {json.dumps({'status': 'complete', 'message': f'Successfully collected {len(collected)} of {total_files} logs', 'collected': len(collected), 'errors': len(errors), 'percent': 100})}\n\n"
+            else:
+                yield f"data: {json.dumps({'status': 'error', 'message': f'Failed to collect logs. {len(errors)} errors occurred.', 'errors': len(errors)})}\n\n"
+
+        except Exception as e:
+            yield f"data: {json.dumps({'status': 'error', 'message': f'Error: {str(e)}'})}\n\n"
+
+    return Response(generate(), mimetype='text/event-stream')
+
+
+@app.route("/logs/parse", methods=['POST'])
+def parse_logs():
+    """Trigger log parsing"""
+
+    import subprocess
+
+    try:
+        # Run log parsing script
+        result = subprocess.run(
+            ['python', 'parse_aging_logs.py'],
+            capture_output=True,
+            text=True,
+            timeout=300
+        )
+
+        if result.returncode == 0:
+            flash('Log parsing completed successfully', 'success')
+        else:
+            flash(f'Log parsing failed: {result.stderr}', 'error')
+
+    except subprocess.TimeoutExpired:
+        flash('Log parsing timed out', 'error')
+    except Exception as e:
+        flash(f'Error parsing logs: {e}', 'error')
+
+    return redirect(url_for('logs_dashboard'))
+
+
+@app.route("/aging/report")
+def aging_report():
+    """Display aging and pruning report"""
+    from aging_tracker import AgingPruningTracker
+    import configparser
+
+    try:
+        # Load config directly
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+
+        base_url = config.get('commvault', 'webservice_url')
+        username = config.get('commvault', 'username')
+        password = config.get('commvault', 'password')
+
+        if not all([base_url, username, password]):
+            flash('Please configure Commvault credentials in config.ini', 'error')
+            return redirect(url_for('index'))
+
+        # Authenticate
+        token = authenticate_commvault(base_url, username, password)
+
+        if not token:
+            flash('Authentication failed', 'error')
+            return redirect(url_for('index'))
+
+        # Get aging status
+        tracker = AgingPruningTracker(base_url, token)
+        status = tracker.get_aging_status(days_back=7)
+        trending = tracker.get_aging_trending_data(days_back=30)
+
+        return render_template('aging_report.html',
+                             status=status,
+                             trending=trending)
+
+    except Exception as e:
+        flash(f'Error generating aging report: {str(e)}', 'error')
+        return redirect(url_for('logs_dashboard'))
+
+
+@app.route("/aging/check/stream")
+def aging_check_stream():
+    """Server-Sent Events stream for real-time aging status check"""
+
+    def generate():
+        import configparser
+        from aging_tracker import AgingPruningTracker
+
+        try:
+            yield f"data: {json.dumps({'status': 'starting', 'message': 'Checking aging status...', 'percent': 0})}\n\n"
+
+            # Load config
+            config = configparser.ConfigParser()
+            config.read('config.ini')
+
+            base_url = config.get('commvault', 'webservice_url')
+            username = config.get('commvault', 'username')
+            password = config.get('commvault', 'password')
+
+            yield f"data: {json.dumps({'status': 'progress', 'message': 'Authenticating...', 'percent': 10})}\n\n"
+
+            token = authenticate_commvault(base_url, username, password)
+
+            if not token:
+                yield f"data: {json.dumps({'status': 'error', 'message': 'Authentication failed'})}\n\n"
+                return
+
+            yield f"data: {json.dumps({'status': 'progress', 'message': 'Fetching retention policies...', 'percent': 30})}\n\n"
+
+            tracker = AgingPruningTracker(base_url, token)
+            status = tracker.get_aging_status(days_back=7)
+
+            yield f"data: {json.dumps({'status': 'progress', 'message': 'Analyzing job history...', 'percent': 60})}\n\n"
+
+            # Send results
+            summary = status['summary']
+
+            msg1 = f'Found {summary["total_ddbs"]} DDB stores'
+            msg2 = f'Found {summary["total_aux_copy_jobs"]} aux copy jobs'
+
+            yield f"data: {json.dumps({'status': 'progress', 'message': msg1, 'percent': 80})}\n\n"
+            yield f"data: {json.dumps({'status': 'progress', 'message': msg2, 'percent': 90})}\n\n"
+
+            yield f"data: {json.dumps({'status': 'complete', 'message': 'Aging check complete', 'percent': 100, 'summary': summary})}\n\n"
+
+        except Exception as e:
+            error_msg = f'Error: {str(e)}'
+            yield f"data: {json.dumps({'status': 'error', 'message': error_msg})}\n\n"
+
+    return Response(generate(), mimetype='text/event-stream')
+
+
+@app.route("/api/config")
+def api_config():
+    """API Configuration and Endpoint Status Page"""
+    try:
+        # Load configuration
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+
+        base_url = config.get('commvault', 'webservice_url')
+        username = config.get('commvault', 'username')
+        password = config.get('commvault', 'password')
+        media_agent = config.get('commvault', 'media_agent', fallback='Not configured')
+        verify_ssl = config.get('api', 'verify_ssl', fallback='false').lower() == 'true'
+        timeout = config.get('api', 'timeout', fallback='300')
+
+        # Mask password for display
+        password_masked = password[:10] + '...' if len(password) > 10 else '***'
+
+        # Test authentication
+        auth_status = {
+            'success': False,
+            'error': None,
+            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        }
+
+        token = None
+        try:
+            response = requests.post(
+                f'{base_url}/Login',
+                json={'username': username, 'password': password},
+                headers={'Accept': 'application/json', 'Content-Type': 'application/json'},
+                timeout=30,
+                verify=verify_ssl
+            )
+
+            if response.status_code == 200:
+                data = response.json()
+                if 'token' in data and data['token']:
+                    token = data['token']
+                    if token.startswith('QSDK '):
+                        token = token[5:]
+                    auth_status['success'] = True
+                else:
+                    auth_status['error'] = 'No token received'
+                    if 'errList' in data:
+                        auth_status['error'] = data['errList'][0].get('errLogMessage', 'Unknown error')
+            else:
+                auth_status['error'] = f'HTTP {response.status_code}'
+        except Exception as e:
+            auth_status['error'] = str(e)[:100]
+
+        # Define endpoints to test
+        endpoint_list = [
+            '/Client',
+            '/StoragePolicy',
+            '/MediaAgent',
+            '/StoragePool',
+            '/Job',
+            '/Subclient',
+            '/Agent',
+            '/BackupSet',
+            '/Instance',
+            '/Schedule',
+            '/Library',
+            '/CommCell',
+            '/AlertRule',
+            '/V2/Client',
+            '/V2/StoragePolicy',
+            '/V2/MediaAgent',
+            '/V2/StoragePool',
+            '/V4/ServerInfo',
+            '/DDB',
+            '/Retention',
+        ]
+
+        # Test each endpoint
+        endpoints = []
+        for endpoint_path in endpoint_list:
+            endpoint_info = {
+                'path': endpoint_path,
+                'status': None,
+                'message': '',
+                'has_data': False,
+                'count': 0,
+                'sample_data': None
+            }
+
+            if not token:
+                endpoint_info['status'] = 'N/A'
+                endpoint_info['message'] = 'No authentication token'
+                endpoints.append(endpoint_info)
+                continue
+
+            try:
+                headers = {'Authtoken': f'QSDK {token}', 'Accept': 'application/json'}
+                r = requests.get(
+                    f'{base_url}{endpoint_path}',
+                    headers=headers,
+                    timeout=10,
+                    verify=verify_ssl
+                )
+
+                endpoint_info['status'] = r.status_code
+
+                if r.status_code == 200:
+                    try:
+                        data = r.json()
+
+                        # Check if data is available
+                        if isinstance(data, list):
+                            endpoint_info['has_data'] = len(data) > 0
+                            endpoint_info['count'] = len(data)
+                            endpoint_info['message'] = f'List with {len(data)} items'
+                            if len(data) > 0:
+                                endpoint_info['sample_data'] = json.dumps(data[0], indent=2)[:500]
+                        elif isinstance(data, dict):
+                            # Check common data keys
+                            data_keys = ['clients', 'policies', 'mediaAgents', 'jobs', 'storagePools']
+                            for key in data_keys:
+                                if key in data:
+                                    count = len(data[key]) if isinstance(data[key], list) else 1
+                                    endpoint_info['has_data'] = count > 0
+                                    endpoint_info['count'] = count
+                                    endpoint_info['message'] = f'Dict with {count} {key}'
+                                    if count > 0:
+                                        sample = data[key][0] if isinstance(data[key], list) else data[key]
+                                        endpoint_info['sample_data'] = json.dumps(sample, indent=2)[:500]
+                                    break
+
+                            if not endpoint_info['has_data']:
+                                endpoint_info['message'] = f'Dict with keys: {", ".join(list(data.keys())[:5])}'
+                                endpoint_info['sample_data'] = json.dumps(data, indent=2)[:500]
+                        else:
+                            endpoint_info['message'] = f'Response type: {type(data).__name__}'
+                    except:
+                        endpoint_info['message'] = f'Non-JSON response ({len(r.text)} bytes)'
+                elif r.status_code == 401:
+                    endpoint_info['message'] = 'Unauthorized - Check permissions'
+                elif r.status_code == 404:
+                    endpoint_info['message'] = 'Endpoint not found'
+                else:
+                    endpoint_info['message'] = r.text[:100]
+
+            except requests.exceptions.Timeout:
+                endpoint_info['status'] = 'Timeout'
+                endpoint_info['message'] = 'Request timed out (10s)'
+            except Exception as e:
+                endpoint_info['status'] = 'Error'
+                endpoint_info['message'] = str(e)[:100]
+
+            endpoints.append(endpoint_info)
+
+        # Calculate summary statistics
+        success_count = sum(1 for e in endpoints if e['status'] == 200)
+        failed_count = sum(1 for e in endpoints if e['status'] and e['status'] not in [200, 'N/A'])
+        data_count = sum(1 for e in endpoints if e['has_data'])
+
+        summary = {
+            'success_count': success_count,
+            'failed_count': failed_count,
+            'data_count': data_count
+        }
+
+        # Prepare template data
+        config_data = {
+            'base_url': base_url,
+            'username': username,
+            'password_masked': password_masked,
+            'media_agent': media_agent,
+            'verify_ssl': verify_ssl,
+            'timeout': timeout
+        }
+
+        return render_template(
+            'api_config.html',
+            config=config_data,
+            auth_status=auth_status,
+            endpoints=endpoints,
+            summary=summary,
+            test_timestamp=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        )
+
+    except Exception as e:
+        return f"Error loading API configuration: {str(e)}", 500
+
 
 if __name__ == "__main__":
     # Initialize database on first run
